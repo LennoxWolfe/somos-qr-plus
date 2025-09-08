@@ -549,7 +549,7 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
         context.go('/reports');
         break;
       case 'resources':
-        // TODO: Navigate to resources page
+        context.go('/resources');
         break;
       case 'settings':
         context.go('/settings');

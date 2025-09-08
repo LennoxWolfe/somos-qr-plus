@@ -1502,7 +1502,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         context.go('/reports');
         break;
       case 'resources':
-        // TODO: Navigate to resources page
+        context.go('/resources');
         break;
       case 'settings':
         context.go('/settings');

@@ -259,7 +259,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      constraints: const BoxConstraints(minWidth: 600),
+                      width: MediaQuery.of(context).size.width,
                       child: Column(
                         children: [
                           // Table Header
@@ -271,11 +271,11 @@ class _PatientsScreenState extends State<PatientsScreen> {
                             ),
                             child: const Row(
                               children: [
-                                SizedBox(width: 150, child: Text('Full Name', style: TextStyle(fontWeight: FontWeight.w600))),
-                                SizedBox(width: 100, child: Text('DOB', style: TextStyle(fontWeight: FontWeight.w600))),
-                                SizedBox(width: 150, child: Text('MCO', style: TextStyle(fontWeight: FontWeight.w600))),
-                                SizedBox(width: 80, child: Text('GIC', style: TextStyle(fontWeight: FontWeight.w600))),
-                                SizedBox(width: 80, child: Text('RA', style: TextStyle(fontWeight: FontWeight.w600))),
+                                Expanded(flex: 3, child: Text('Full Name', style: TextStyle(fontWeight: FontWeight.w600))),
+                                Expanded(flex: 2, child: Text('DOB', style: TextStyle(fontWeight: FontWeight.w600))),
+                                Expanded(flex: 3, child: Text('MCO', style: TextStyle(fontWeight: FontWeight.w600))),
+                                Expanded(flex: 1, child: Text('GIC', style: TextStyle(fontWeight: FontWeight.w600))),
+                                Expanded(flex: 1, child: Text('RA', style: TextStyle(fontWeight: FontWeight.w600))),
                               ],
                             ),
                           ),
@@ -289,11 +289,11 @@ class _PatientsScreenState extends State<PatientsScreen> {
                               ),
                               child: Row(
                                 children: [
-                                  SizedBox(width: 150, child: Text(patient.fullName)),
-                                  SizedBox(width: 100, child: Text(patient.dob)),
-                                  SizedBox(width: 150, child: Text(patient.mco)),
-                                  SizedBox(width: 80, child: Text(patient.gic.toString())),
-                                  SizedBox(width: 80, child: Text(patient.ra.toString())),
+                                  Expanded(flex: 3, child: Text(patient.fullName, overflow: TextOverflow.ellipsis)),
+                                  Expanded(flex: 2, child: Text(patient.dob, overflow: TextOverflow.ellipsis)),
+                                  Expanded(flex: 3, child: Text(patient.mco, overflow: TextOverflow.ellipsis)),
+                                  Expanded(flex: 1, child: Text(patient.gic.toString(), overflow: TextOverflow.ellipsis)),
+                                  Expanded(flex: 1, child: Text(patient.ra.toString(), overflow: TextOverflow.ellipsis)),
                                 ],
                               ),
                             ),
@@ -413,7 +413,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
         context.go('/reports');
         break;
       case 'resources':
-        // TODO: Navigate to resources page
+        context.go('/resources');
         break;
       case 'settings':
         context.go('/settings');

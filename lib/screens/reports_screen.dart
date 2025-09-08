@@ -204,7 +204,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
         // Already on reports page
         break;
       case 'resources':
-        // TODO: Navigate to resources page
+        context.go('/resources');
         break;
       case 'settings':
         context.go('/settings');
