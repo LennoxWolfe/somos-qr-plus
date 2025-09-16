@@ -109,16 +109,16 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
 
   Widget _buildCreateAccountCard() {
     return Container(
-      constraints: const BoxConstraints(maxWidth: 500),
+      constraints: const BoxConstraints(maxWidth: 800), // Increased for tablet
       child: Card(
         elevation: 20,
         shadowColor: Colors.black.withOpacity(0.15),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20), // Slightly larger radius for tablet
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
             gradient: const LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -129,16 +129,16 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(32),
+            padding: const EdgeInsets.all(48), // Increased padding for tablet
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildLogoSection(),
-                const SizedBox(height: 8),
+                const SizedBox(height: 16), // Increased spacing
                 _buildFormHeader(),
-                const SizedBox(height: 16),
+                const SizedBox(height: 32), // Increased spacing
                 _buildCreateAccountForm(),
-                const SizedBox(height: 24),
+                const SizedBox(height: 32), // Increased spacing
                 _buildFooter(),
               ],
             ),
@@ -153,17 +153,17 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
       children: [
         Image.asset(
           'assets/images/SOMOS QR.png',
-          width: 200,
-          height: 200,
+          width: 250, // Increased for tablet
+          height: 250, // Increased for tablet
           fit: BoxFit.contain,
           errorBuilder: (context, error, stackTrace) {
             return Container(
-              width: 200,
-              height: 200,
+              width: 250,
+              height: 250,
               color: Colors.grey[100],
               child: const Icon(
                 Icons.medical_services,
-                size: 80,
+                size: 100, // Increased icon size for tablet
                 color: Color(0xFF1976D2),
               ),
             );
@@ -179,16 +179,16 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
         Text(
           'Create Account',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 32, // Increased for tablet
             fontWeight: FontWeight.w600,
             color: Colors.grey[800],
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 8), // Increased spacing
         Text(
           'Join SOMOS QR+ to get started',
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 18, // Increased for tablet
             fontWeight: FontWeight.w400,
             color: Colors.grey[600],
           ),
@@ -203,19 +203,19 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
       child: Column(
         children: [
           _buildFirstNameField(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildLastNameField(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildEmailField(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildPracticeField(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildPasswordField(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildConfirmPasswordField(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildTermsCheckbox(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildCreateAccountButton(),
         ],
       ),
@@ -229,12 +229,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
         Text(
           'First Name',
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 16, // Increased for tablet
             fontWeight: FontWeight.w500,
             color: Colors.grey[800],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12), // Increased spacing
         TextFormField(
           controller: _firstNameController,
           textInputAction: TextInputAction.next,
@@ -244,7 +244,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
             prefixIcon: Icon(
               Icons.person_outline,
               color: Colors.grey[600],
-              size: 20,
+              size: 24, // Increased for tablet
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -263,8 +263,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
               borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+              horizontal: 20, // Increased for tablet
+              vertical: 16, // Increased for tablet
             ),
           ),
           validator: (value) {
@@ -300,7 +300,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
             prefixIcon: Icon(
               Icons.person_outline,
               color: Colors.grey[600],
-              size: 20,
+              size: 24, // Increased for tablet
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -319,8 +319,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
               borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+              horizontal: 20, // Increased for tablet
+              vertical: 16, // Increased for tablet
             ),
           ),
           validator: (value) {
@@ -357,7 +357,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
             prefixIcon: Icon(
               Icons.email_outlined,
               color: Colors.grey[600],
-              size: 20,
+              size: 24, // Increased for tablet
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -376,8 +376,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
               borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+              horizontal: 20, // Increased for tablet
+              vertical: 16, // Increased for tablet
             ),
           ),
           validator: (value) {
@@ -415,7 +415,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
             prefixIcon: Icon(
               Icons.business_outlined,
               color: Colors.grey[600],
-              size: 20,
+              size: 24, // Increased for tablet
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -434,8 +434,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
               borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+              horizontal: 20, // Increased for tablet
+              vertical: 16, // Increased for tablet
             ),
           ),
           items: _practices.map((String practice) {
@@ -483,13 +483,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
             prefixIcon: Icon(
               Icons.lock_outline,
               color: Colors.grey[600],
-              size: 20,
+              size: 24, // Increased for tablet
             ),
             suffixIcon: IconButton(
               icon: Icon(
                 _obscurePassword ? Icons.visibility : Icons.visibility_off,
                 color: Colors.grey[600],
-                size: 20,
+                size: 24, // Increased for tablet
               ),
               onPressed: () {
                 setState(() {
@@ -514,8 +514,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
               borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+              horizontal: 20, // Increased for tablet
+              vertical: 16, // Increased for tablet
             ),
           ),
           validator: (value) {
@@ -555,13 +555,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
             prefixIcon: Icon(
               Icons.lock_outline,
               color: Colors.grey[600],
-              size: 20,
+              size: 24, // Increased for tablet
             ),
             suffixIcon: IconButton(
               icon: Icon(
                 _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
                 color: Colors.grey[600],
-                size: 20,
+                size: 24, // Increased for tablet
               ),
               onPressed: () {
                 setState(() {
@@ -586,8 +586,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
               borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+              horizontal: 20, // Increased for tablet
+              vertical: 16, // Increased for tablet
             ),
           ),
           validator: (value) {
@@ -676,9 +676,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF1976D2),
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 14),
+          padding: const EdgeInsets.symmetric(vertical: 18), // Increased for tablet
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(12), // Increased radius for tablet
           ),
           elevation: 0,
         ),
@@ -694,7 +694,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
             : Text(
                 'Create Account',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18, // Increased for tablet
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -709,7 +709,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
           TextSpan(
             text: 'Already have an account? ',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 16, // Increased for tablet
               fontWeight: FontWeight.w400,
               color: Colors.grey[600],
             ),
@@ -722,7 +722,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
                   child: Text(
                     'Sign in',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 16, // Increased for tablet
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF1976D2),
                     ),
@@ -745,7 +745,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
               Text(
                 'Powered by',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 14, // Increased for tablet
                   fontWeight: FontWeight.w400,
                   color: Colors.grey[600],
                   letterSpacing: 0.5,
@@ -754,13 +754,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
               const SizedBox(height: 8),
               Image.asset(
                 'assets/images/SOMOS IPA logo.png',
-                width: 120,
-                height: 40,
+                width: 150, // Increased for tablet
+                height: 50, // Increased for tablet
                 fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
-                    width: 120,
-                    height: 40,
+                    width: 150,
+                    height: 50,
                     decoration: BoxDecoration(
                       color: Colors.grey[100],
                       borderRadius: BorderRadius.circular(8),
@@ -769,7 +769,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
                       child: Text(
                         'SOMOS IPA',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 16, // Increased for tablet
                           fontWeight: FontWeight.w600,
                           color: Color(0xFF1976D2),
                         ),

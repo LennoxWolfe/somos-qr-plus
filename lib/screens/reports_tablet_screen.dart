@@ -7,20 +7,19 @@ import '../widgets/appt_table_widget.dart';
 import '../widgets/mwov_table_widget.dart';
 import '../widgets/siip_table_widget.dart';
 import '../widgets/staff_login_table_widget.dart';
-import '../widgets/app_header_widget.dart';
-import '../widgets/app_drawer_widget.dart';
+import '../widgets/tablet_app_header_widget.dart';
+import '../widgets/tablet_layout_widget.dart';
 import '../widgets/provider_dropdown_widget.dart';
 import '../core/constants/providers.dart';
 
-class ReportsScreen extends StatefulWidget {
-  const ReportsScreen({super.key});
+class ReportsTabletScreen extends StatefulWidget {
+  const ReportsTabletScreen({super.key});
 
   @override
-  State<ReportsScreen> createState() => _ReportsScreenState();
+  State<ReportsTabletScreen> createState() => _ReportsTabletScreenState();
 }
 
-class _ReportsScreenState extends State<ReportsScreen> {
-  bool _isDrawerOpen = false;
+class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
   bool _showLogoutDialog = false;
   String _selectedProvider = 'All';
 
@@ -103,80 +102,54 @@ class _ReportsScreenState extends State<ReportsScreen> {
       backgroundColor: const Color(0xFFF5F5F5),
       body: Stack(
         children: [
-          // Main Content
-          Column(
-            children: [
-              AppHeaderWidget(
-                onMenuPressed: () {
-                  setState(() {
-                    _isDrawerOpen = true;
-                  });
-                },
-                onProfileAction: (action) {
-                  _handleProfileAction(action);
-                },
-              ),
-              
-              // Provider Dropdown
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+          TabletLayoutWidget(
+            activeRoute: 'reports',
+            onNavigation: _handleNavigation,
+            header: Column(
+              children: [
+                TabletAppHeaderWidget(
+                  onProfileAction: _handleProfileAction,
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ProviderDropdownWidget(
-                        selectedProvider: _selectedProvider,
-                        providers: AppProviders.providers,
-                        onProviderChanged: (provider) {
-                          setState(() {
-                            _selectedProvider = provider;
-                          });
-                          _showSuccessMessage('Reports updated for $provider');
-                        },
-                        maxWidth: 300,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(), // Smooth scrolling for mobile
-                  padding: EdgeInsets.all(MediaQuery.of(context).size.width < 600 ? 12 : 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                
+                // Provider Dropdown
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+                  ),
+                  child: Row(
                     children: [
-                      _buildPageHeader(),
-                      SizedBox(height: MediaQuery.of(context).size.width < 600 ? 20 : 32),
-                      _buildKPIGrid(),
+                      Expanded(
+                        child: ProviderDropdownWidget(
+                          selectedProvider: _selectedProvider,
+                          providers: AppProviders.providers,
+                          onProviderChanged: (provider) {
+                            setState(() {
+                              _selectedProvider = provider;
+                            });
+                            _showSuccessMessage('Reports updated for $provider');
+                          },
+                          maxWidth: 300,
+                        ),
+                      ),
                     ],
                   ),
                 ),
+              ],
+            ),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildPageHeader(),
+                  const SizedBox(height: 32),
+                  _buildKPIGrid(),
+                ],
               ),
-            ],
-          ),
-          
-
-          
-          // Navigation Drawer
-          AppDrawerWidget(
-            isOpen: _isDrawerOpen,
-            onClose: () {
-              setState(() {
-                _isDrawerOpen = false;
-              });
-            },
-            onNavigation: (route) {
-              setState(() {
-                _isDrawerOpen = false;
-              });
-              _handleNavigation(route);
-            },
-            activeRoute: 'reports',
+            ),
           ),
           
           // Logout Dialog
@@ -235,30 +208,18 @@ class _ReportsScreenState extends State<ReportsScreen> {
 
 
   Widget _buildPageHeader() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        // Responsive font sizing
-        double fontSize = 32; // Default desktop
-        if (constraints.maxWidth < 600) {
-          fontSize = 24; // Mobile
-        } else if (constraints.maxWidth < 900) {
-          fontSize = 28; // Tablet
-        }
-        
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Reports',
-              style: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xFF333333),
-              ),
-            ),
-          ],
-        );
-      },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Reports',
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF333333),
+          ),
+        ),
+      ],
     );
   }
 
@@ -709,25 +670,22 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Widget _buildKPIGrid() {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Responsive grid based on screen width
+        // Responsive grid based on available width (not screen size)
         int crossAxisCount;
         double childAspectRatio;
         double spacing;
         
-        if (constraints.maxWidth < 600) {
-          // Mobile phones - 1 column
-          crossAxisCount = 1;
-          childAspectRatio = 1.2; // Taller cards for mobile to show button
-          spacing = 12; // Reduced spacing for mobile
-        } else if (constraints.maxWidth < 900) {
-          // Tablets - 2 columns
+        double availableWidth = constraints.maxWidth;
+        
+        if (availableWidth < 800) {
+          // When sidebar is expanded, use 2 columns
           crossAxisCount = 2;
-          childAspectRatio = 1.0; // Taller cards for tablets to show button
+          childAspectRatio = 1.0;
           spacing = 16;
         } else {
-          // Desktop - 3 columns
+          // When sidebar is collapsed, use 3 columns
           crossAxisCount = 3;
-          childAspectRatio = 0.9; // Taller cards for desktop to show button
+          childAspectRatio = 0.9;
           spacing = 20;
         }
         
@@ -1086,14 +1044,12 @@ class _ReportsScreenState extends State<ReportsScreen> {
   }) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Responsive padding based on card width
+        // Responsive padding based on available width
         double padding;
         if (constraints.maxWidth < 300) {
-          padding = 12; // Mobile
-        } else if (constraints.maxWidth < 500) {
-          padding = 16; // Tablet
+          padding = 16; // Smaller cards when sidebar is expanded
         } else {
-          padding = 20; // Desktop
+          padding = 20; // Normal padding when sidebar is collapsed
         }
         
         return Container(
@@ -1126,10 +1082,6 @@ class _ReportsScreenState extends State<ReportsScreen> {
         // Responsive font sizes based on available width
         double titleSize, timeframeSize, dateSize;
         if (constraints.maxWidth < 300) {
-          titleSize = 14;
-          timeframeSize = 10;
-          dateSize = 10;
-        } else if (constraints.maxWidth < 500) {
           titleSize = 16;
           timeframeSize = 11;
           dateSize = 11;

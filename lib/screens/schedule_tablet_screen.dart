@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../widgets/app_header_widget.dart';
-import '../widgets/app_drawer_widget.dart';
+import '../widgets/tablet_layout_widget.dart';
+import '../widgets/tablet_app_header_widget.dart';
 import '../widgets/provider_dropdown_widget.dart';
 import '../widgets/patient_filter_modal.dart';
 import '../core/constants/providers.dart';
 import '../models/patient.dart';
 
-class ScheduleScreen extends StatefulWidget {
-  const ScheduleScreen({super.key});
+class ScheduleTabletScreen extends StatefulWidget {
+  const ScheduleTabletScreen({super.key});
 
   @override
-  State<ScheduleScreen> createState() => _ScheduleScreenState();
+  State<ScheduleTabletScreen> createState() => _ScheduleTabletScreenState();
 }
 
-class _ScheduleScreenState extends State<ScheduleScreen> {
-  bool _isDrawerOpen = false;
+class _ScheduleTabletScreenState extends State<ScheduleTabletScreen> {
   String _selectedProvider = 'All';
   String _selectedView = 'Day'; // Day, Week, Month
   DateTime _selectedDate = DateTime.now();
@@ -234,85 +233,75 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       backgroundColor: const Color(0xFFF5F5F5),
       body: Stack(
         children: [
-          // Main Content
-          Column(
-            children: [
-              // Header
-              AppHeaderWidget(
-                onMenuPressed: () {
-                  setState(() {
-                    _isDrawerOpen = true;
-                  });
-                },
-                onProfileAction: (action) {
-                  _handleProfileAction(action);
-                },
-              ),
-              
-              // Provider Dropdown
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+          TabletLayoutWidget(
+            activeRoute: 'schedule',
+            onNavigation: _handleNavigation,
+            header: Column(
+              children: [
+                TabletAppHeaderWidget(
+                  onProfileAction: (action) {
+                    _handleProfileAction(action);
+                  },
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ProviderDropdownWidget(
-                        selectedProvider: _selectedProvider,
-                        providers: AppProviders.providers,
-                        onProviderChanged: (provider) {
-                          setState(() {
-                            _selectedProvider = provider;
-                          });
-                          _showSuccessMessage('Showing schedule for ${provider == 'All' ? 'All providers' : provider}');
-                        },
-                        maxWidth: 300,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              
-              // Schedule Controls
-              _buildScheduleControls(),
-              
-              // Schedule Filters
-              if (_showScheduleFilters) _buildScheduleFilters(),
-              
-              // Schedule Content
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                
+                // Provider Dropdown
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+                  ),
+                  child: Row(
                     children: [
-                      _buildScheduleHeader(),
-                      const SizedBox(height: 16),
-                      _buildScheduleGrid(),
+                      Expanded(
+                        child: ProviderDropdownWidget(
+                          selectedProvider: _selectedProvider,
+                          providers: AppProviders.providers,
+                          onProviderChanged: (provider) {
+                            setState(() {
+                              _selectedProvider = provider;
+                            });
+                            _showSuccessMessage('Showing schedule for ${provider == 'All' ? 'All providers' : provider}');
+                          },
+                          maxWidth: 300,
+                        ),
+                      ),
                     ],
                   ),
                 ),
+              ],
+            ),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Page Title (outside the card)
+                  const Text(
+                    'My Schedule',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF333333),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  
+                  // Schedule Controls
+                  _buildScheduleControls(),
+                  
+                  // Schedule Filters
+                  if (_showScheduleFilters) _buildScheduleFilters(),
+                  
+                  const SizedBox(height: 16),
+                  
+                  // Schedule Content
+                  _buildScheduleHeader(),
+                  const SizedBox(height: 16),
+                  _buildScheduleGrid(),
+                ],
               ),
-            ],
-          ),
-          
-          // Navigation Drawer
-          AppDrawerWidget(
-            isOpen: _isDrawerOpen,
-            onClose: () {
-              setState(() {
-                _isDrawerOpen = false;
-              });
-            },
-            onNavigation: (route) {
-              setState(() {
-                _isDrawerOpen = false;
-              });
-              _handleNavigation(route);
-            },
-            activeRoute: 'schedule',
+            ),
           ),
           
           // New Appointment Modal
@@ -324,187 +313,159 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   Widget _buildScheduleControls() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade300),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 3,
+            offset: const Offset(0, 1),
+          ),
+        ],
       ),
       child: Column(
         children: [
-          // Page Title
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'My Schedule',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w500,
-                color: Color(0xFF333333),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          
           // View Toggle and Date Navigation
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final isMobile = constraints.maxWidth < 600;
-              return Row(
-                children: [
-                  // View Toggle
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: ['Day', 'Week', 'Month'].map((view) {
-                        final isSelected = _selectedView == view;
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectedView = view;
-                            });
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: isMobile ? 12 : 16, 
-                              vertical: 8
-                            ),
-                            decoration: BoxDecoration(
-                              color: isSelected ? const Color(0xFF1976D2) : Colors.transparent,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              view,
-                              style: TextStyle(
-                                color: isSelected ? Colors.white : Colors.grey.shade700,
-                                fontWeight: FontWeight.w500,
-                                fontSize: isMobile ? 12 : 14,
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  
-                  const Spacer(),
-                  
-                  // Date Navigation
-                  Expanded(
-                    flex: 2,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (_selectedView == 'Day') {
-                                _selectedDate = _selectedDate.subtract(const Duration(days: 1));
-                              } else if (_selectedView == 'Week') {
-                                _selectedDate = _selectedDate.subtract(const Duration(days: 7));
-                              } else {
-                                _selectedDate = DateTime(_selectedDate.year, _selectedDate.month - 1, _selectedDate.day);
-                              }
-                            });
-                          },
-                          icon: const Icon(Icons.chevron_left),
-                          iconSize: isMobile ? 20 : 24,
-                        ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: _showDatePicker,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: isMobile ? 12 : 20, 
-                                vertical: 8
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey.shade300),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                _getDateDisplayText(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFF333333),
-                                  fontSize: isMobile ? 12 : 14,
-                                ),
-                                textAlign: TextAlign.center,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (_selectedView == 'Day') {
-                                _selectedDate = _selectedDate.add(const Duration(days: 1));
-                              } else if (_selectedView == 'Week') {
-                                _selectedDate = _selectedDate.add(const Duration(days: 7));
-                              } else {
-                                _selectedDate = DateTime(_selectedDate.year, _selectedDate.month + 1, _selectedDate.day);
-                              }
-                            });
-                          },
-                          icon: const Icon(Icons.chevron_right),
-                          iconSize: isMobile ? 20 : 24,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-          
-          const SizedBox(height: 16),
-          
-          // Action Buttons
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final isMobile = constraints.maxWidth < 600;
-              return Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () {
+          Row(
+            children: [
+              // View Toggle
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: ['Day', 'Week', 'Month'].map((view) {
+                    final isSelected = _selectedView == view;
+                    return GestureDetector(
+                      onTap: () {
                         setState(() {
-                          _showNewAppointmentModal = true;
+                          _selectedView = view;
                         });
                       },
-                      icon: const Icon(Icons.add, size: 18),
-                      label: Text(isMobile ? 'New' : 'New Appointment'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1976D2),
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isMobile ? 12 : 16, 
-                          vertical: 12
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: isSelected ? const Color(0xFF1976D2) : Colors.transparent,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          view,
+                          style: TextStyle(
+                            color: isSelected ? Colors.white : Colors.grey.shade700,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+              
+              const Spacer(),
+              
+              // Date Navigation
+              Expanded(
+                flex: 2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          if (_selectedView == 'Day') {
+                            _selectedDate = _selectedDate.subtract(const Duration(days: 1));
+                          } else if (_selectedView == 'Week') {
+                            _selectedDate = _selectedDate.subtract(const Duration(days: 7));
+                          } else {
+                            _selectedDate = DateTime(_selectedDate.year, _selectedDate.month - 1, _selectedDate.day);
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.chevron_left),
+                      iconSize: 28,
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: _showDatePicker,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            _getDateDisplayText(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF333333),
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: _showFilters,
-                      icon: const Icon(Icons.filter_list, size: 18),
-                      label: const Text('Filters'),
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isMobile ? 12 : 16, 
-                          vertical: 12
-                        ),
-                      ),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          if (_selectedView == 'Day') {
+                            _selectedDate = _selectedDate.add(const Duration(days: 1));
+                          } else if (_selectedView == 'Week') {
+                            _selectedDate = _selectedDate.add(const Duration(days: 7));
+                          } else {
+                            _selectedDate = DateTime(_selectedDate.year, _selectedDate.month + 1, _selectedDate.day);
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.chevron_right),
+                      iconSize: 28,
                     ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          
+          const SizedBox(height: 24),
+          
+          // Action Buttons
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      _showNewAppointmentModal = true;
+                    });
+                  },
+                  icon: const Icon(Icons.add, size: 20),
+                  label: const Text('New Appointment'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1976D2),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                   ),
-                ],
-              );
-            },
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: _showFilters,
+                  icon: const Icon(Icons.filter_list, size: 20),
+                  label: const Text('Filters'),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -513,16 +474,17 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   Widget _buildScheduleFilters() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade300),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 3,
+            offset: const Offset(0, 1),
           ),
         ],
       ),
@@ -535,16 +497,16 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               const Text(
                 'Filter by Status:',
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF333333),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 20),
               Expanded(
                 child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: 12,
+                  runSpacing: 12,
                   children: [
                     _buildStatusFilterButton('all', 'All', Colors.grey),
                     _buildStatusFilterButton('pending', 'Pending', Colors.orange),
@@ -557,7 +519,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
           
           // Provider Filter
           Row(
@@ -565,27 +527,27 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               const Text(
                 'Filter by Provider:',
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF333333),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 20),
               Expanded(
                 child: Container(
-                  constraints: const BoxConstraints(maxWidth: 300),
+                  constraints: const BoxConstraints(maxWidth: 400),
                   child: DropdownButtonFormField<String>(
                     value: _selectedScheduleProviderFilter,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(color: Colors.grey.shade300),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(color: Colors.grey.shade300),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     ),
                     items: [
                       'all',
@@ -632,30 +594,30 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         });
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xFF1976D2) : Colors.white,
           border: Border.all(
             color: isSelected ? const Color(0xFF1976D2) : Colors.grey.shade300,
           ),
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 8,
-              height: 8,
+              width: 10,
+              height: 10,
               decoration: BoxDecoration(
                 color: isSelected ? Colors.white : color,
                 shape: BoxShape.circle,
               ),
             ),
-            const SizedBox(width: 6),
+            const SizedBox(width: 8),
             Text(
               label,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: isSelected ? Colors.white : Colors.grey.shade600,
               ),
@@ -673,7 +635,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         Text(
           '${_appointments.length} appointments',
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 16,
             color: Colors.grey.shade600,
           ),
         ),
@@ -709,7 +671,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         children: [
           // Time slots header
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Colors.grey.shade50,
               borderRadius: const BorderRadius.only(
@@ -720,12 +682,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             child: Row(
               children: [
                 SizedBox(
-                  width: 80,
+                  width: 100,
                   child: Text(
                     'Time',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Colors.grey.shade700,
+                      fontSize: 16,
                     ),
                   ),
                 ),
@@ -735,6 +698,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Colors.grey.shade700,
+                      fontSize: 16,
                     ),
                   ),
                 ),
@@ -754,7 +718,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             }).toList();
             
             return Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(color: Colors.grey.shade200),
@@ -764,12 +728,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 80,
+                    width: 100,
                     child: Text(
                       timeSlot,
                       style: TextStyle(
                         color: Colors.grey.shade600,
-                        fontSize: 14,
+                        fontSize: 16,
                       ),
                     ),
                   ),
@@ -812,7 +776,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         children: [
           // Week header
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Colors.grey.shade50,
               borderRadius: const BorderRadius.only(
@@ -822,7 +786,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ),
             child: Row(
               children: [
-                const SizedBox(width: 60), // Time column
+                const SizedBox(width: 80), // Time column
                 ...weekDays.map((day) => Expanded(
                   child: Text(
                     day,
@@ -830,7 +794,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Colors.grey.shade700,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                 )),
@@ -844,7 +808,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             final timeSlot = '${hour.toString().padLeft(2, '0')}:00';
             
             return Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(color: Colors.grey.shade200),
@@ -854,12 +818,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 60,
+                    width: 80,
                     child: Text(
                       timeSlot,
                       style: TextStyle(
                         color: Colors.grey.shade600,
-                        fontSize: 12,
+                        fontSize: 14,
                       ),
                     ),
                   ),
@@ -874,11 +838,11 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     
                     return Expanded(
                       child: Container(
-                        height: 80,
-                        margin: const EdgeInsets.symmetric(horizontal: 1),
+                        height: 100,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey.shade200),
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(6),
                         ),
                         child: appointmentsInSlot.isEmpty
                             ? const SizedBox.shrink()
@@ -918,7 +882,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         children: [
           // Month header
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Colors.grey.shade50,
               borderRadius: const BorderRadius.only(
@@ -931,7 +895,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 Text(
                   '${_getMonthName(_selectedDate.month)} ${_selectedDate.year}',
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF333333),
                   ),
@@ -942,7 +906,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           
           // Days of week header
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 12),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
               color: Colors.grey.shade100,
             ),
@@ -955,6 +919,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Colors.grey.shade700,
+                      fontSize: 14,
                     ),
                   ),
                 ),
@@ -965,7 +930,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           // Calendar grid
           ...List.generate(6, (weekIndex) {
             return Container(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: const EdgeInsets.symmetric(vertical: 12),
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(color: Colors.grey.shade200),
@@ -982,14 +947,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   
                   return Expanded(
                     child: Container(
-                      height: 80,
-                      margin: const EdgeInsets.all(2),
+                      height: 100,
+                      margin: const EdgeInsets.all(3),
                       decoration: BoxDecoration(
                         color: isToday ? const Color(0xFF1976D2).withOpacity(0.1) : Colors.transparent,
                         border: Border.all(
                           color: isToday ? const Color(0xFF1976D2) : Colors.grey.shade200,
                         ),
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(6),
                       ),
                       child: Column(
                         children: [
@@ -998,21 +963,22 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                             style: TextStyle(
                               fontWeight: isToday ? FontWeight.w600 : FontWeight.normal,
                               color: isToday ? const Color(0xFF1976D2) : Colors.grey.shade700,
+                              fontSize: 16,
                             ),
                           ),
                           if (isCurrentMonth && dayNumber <= 5) // Show sample appointments
                             Expanded(
                               child: Container(
-                                margin: const EdgeInsets.all(2),
-                                padding: const EdgeInsets.all(4),
+                                margin: const EdgeInsets.all(4),
+                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFF4CAF50).withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(2),
+                                  borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: const Text(
                                   '2 apts',
                                   style: TextStyle(
-                                    fontSize: 10,
+                                    fontSize: 12,
                                     color: Color(0xFF2E7D32),
                                   ),
                                 ),
@@ -1049,12 +1015,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
     if (isCompact) {
       return Container(
-        margin: const EdgeInsets.all(2),
-        padding: const EdgeInsets.all(4),
+        margin: const EdgeInsets.all(3),
+        padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
           color: statusColor.withOpacity(0.1),
           border: Border.all(color: statusColor.withOpacity(0.3)),
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(6),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -1065,17 +1031,17 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: statusColor,
-                fontSize: 10,
+                fontSize: 12,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: 3),
             Text(
               appointment['type'],
               style: TextStyle(
                 color: statusColor,
-                fontSize: 8,
+                fontSize: 10,
                 fontWeight: FontWeight.w500,
               ),
               maxLines: 1,
@@ -1087,12 +1053,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: statusColor.withOpacity(0.1),
         border: Border.all(color: statusColor.withOpacity(0.3)),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1102,23 +1068,23 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             style: TextStyle(
               fontWeight: FontWeight.w600,
               color: statusColor,
-              fontSize: 14,
+              fontSize: 16,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           Text(
             appointment['time'],
             style: TextStyle(
               color: Colors.grey.shade600,
-              fontSize: 12,
+              fontSize: 14,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           Text(
             appointment['type'],
             style: TextStyle(
               color: Colors.grey.shade700,
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -1134,7 +1100,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         child: Container(
           margin: const EdgeInsets.all(20),
           width: double.infinity,
-          constraints: const BoxConstraints(maxWidth: 500),
+          constraints: const BoxConstraints(maxWidth: 600),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
@@ -1434,24 +1400,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   }
 
   String _getDateDisplayText() {
-    final isMobile = MediaQuery.of(context).size.width < 600;
-    
     if (_selectedView == 'Day') {
-      if (isMobile) {
-        return '${_selectedDate.month}/${_selectedDate.day}/${_selectedDate.year.toString().substring(2)}';
-      }
       return '${_getMonthName(_selectedDate.month)} ${_selectedDate.day}, ${_selectedDate.year}';
     } else if (_selectedView == 'Week') {
       final startOfWeek = _selectedDate.subtract(Duration(days: _selectedDate.weekday - 1));
       final endOfWeek = startOfWeek.add(const Duration(days: 6));
-      if (isMobile) {
-        return '${startOfWeek.month}/${startOfWeek.day}-${endOfWeek.month}/${endOfWeek.day}';
-      }
       return '${startOfWeek.month}/${startOfWeek.day} - ${endOfWeek.month}/${endOfWeek.day}';
     } else {
-      if (isMobile) {
-        return '${_selectedDate.month}/${_selectedDate.year}';
-      }
       return '${_getMonthName(_selectedDate.month)} ${_selectedDate.year}';
     }
   }

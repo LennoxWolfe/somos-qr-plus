@@ -122,16 +122,16 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
 
   Widget _buildResetPasswordCard() {
     return Container(
-      constraints: const BoxConstraints(maxWidth: 450),
+      constraints: const BoxConstraints(maxWidth: 800), // Increased for tablet
       child: Card(
         elevation: 20,
         shadowColor: Colors.black.withOpacity(0.15),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20), // Slightly larger radius for tablet
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
             gradient: const LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -142,12 +142,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(48), // Increased padding for tablet
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildLogoSection(),
-                const SizedBox(height: 20),
+                const SizedBox(height: 32), // Increased spacing
                 _buildResetPasswordForm(),
               ],
             ),
@@ -162,17 +162,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
       children: [
         Image.asset(
           'assets/images/SOMOS QR.png',
-          width: 150,
-          height: 150,
+          width: 250, // Increased for tablet
+          height: 250, // Increased for tablet
           fit: BoxFit.contain,
           errorBuilder: (context, error, stackTrace) {
             return Container(
-              width: 150,
-              height: 150,
+              width: 250,
+              height: 250,
               color: Colors.grey[100],
               child: const Icon(
                 Icons.medical_services,
-                size: 60,
+                size: 100, // Increased icon size for tablet
                 color: Color(0xFF1976D2),
               ),
             );
@@ -188,17 +188,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
       child: Column(
         children: [
           _buildFormHeader(),
-          const SizedBox(height: 20),
+          const SizedBox(height: 32), // Increased spacing for tablet
           _buildOtpField(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildNewPasswordField(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildConfirmPasswordField(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildPasswordRequirements(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildResetButton(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildBackToLoginButton(),
         ],
       ),
@@ -211,17 +211,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
         Text(
           'Reset Password',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 32, // Increased for tablet
             fontWeight: FontWeight.w600,
             color: Colors.grey[800],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12), // Increased spacing
         Text(
           'Enter your new password below',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 18, // Increased for tablet
             fontWeight: FontWeight.w400,
             color: Colors.grey[600],
             height: 1.5,
@@ -238,17 +238,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
         Text(
           'Verification Code',
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 16, // Increased for tablet
             fontWeight: FontWeight.w500,
             color: Colors.grey[800],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12), // Increased spacing
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(6, (index) {
             return SizedBox(
-              width: 45,
+              width: 55, // Increased for tablet
               child: TextFormField(
                 controller: _otpControllers[index],
                 focusNode: _otpFocusNodes[index],
@@ -276,7 +276,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                     borderRadius: BorderRadius.circular(8),
                     borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16), // Increased for tablet
                 ),
                 onChanged: (value) {
                   if (value.isNotEmpty && index < 5) {
@@ -304,12 +304,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
         Text(
           'New Password',
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 16, // Increased for tablet
             fontWeight: FontWeight.w500,
             color: Colors.grey[800],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12), // Increased spacing
         TextFormField(
           controller: _newPasswordController,
           obscureText: _obscureNewPassword,
@@ -320,13 +320,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
             prefixIcon: Icon(
               Icons.lock_outline,
               color: Colors.grey[600],
-              size: 20,
+              size: 24, // Increased for tablet
             ),
             suffixIcon: IconButton(
               icon: Icon(
                 _obscureNewPassword ? Icons.visibility : Icons.visibility_off,
                 color: Colors.grey[600],
-                size: 20,
+                size: 24, // Increased for tablet
               ),
               onPressed: () {
                 setState(() {
@@ -351,8 +351,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
               borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+              horizontal: 20, // Increased for tablet
+              vertical: 16, // Increased for tablet
             ),
           ),
           validator: (value) {
@@ -399,7 +399,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
         Text(
           _strengthText,
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 14, // Increased for tablet
             color: _strengthColor,
             fontWeight: FontWeight.w500,
           ),
@@ -415,12 +415,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
         Text(
           'Confirm Password',
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 16, // Increased for tablet
             fontWeight: FontWeight.w500,
             color: Colors.grey[800],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12), // Increased spacing
         TextFormField(
           controller: _confirmPasswordController,
           obscureText: _obscureConfirmPassword,
@@ -431,13 +431,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
             prefixIcon: Icon(
               Icons.lock_outline,
               color: Colors.grey[600],
-              size: 20,
+              size: 24, // Increased for tablet
             ),
             suffixIcon: IconButton(
               icon: Icon(
                 _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
                 color: Colors.grey[600],
-                size: 20,
+                size: 24, // Increased for tablet
               ),
               onPressed: () {
                 setState(() {
@@ -462,8 +462,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
               borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+              horizontal: 20, // Increased for tablet
+              vertical: 16, // Increased for tablet
             ),
           ),
           validator: (value) {
@@ -482,10 +482,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
 
   Widget _buildPasswordRequirements() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20), // Increased for tablet
       decoration: BoxDecoration(
         color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(12), // Increased radius for tablet
         border: Border.all(color: Colors.grey[200]!),
       ),
       child: Column(
@@ -494,12 +494,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
           Text(
             'Password Requirements:',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 16, // Increased for tablet
               fontWeight: FontWeight.w600,
               color: Colors.grey[800],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16), // Increased spacing
           _buildRequirementItem('At least 8 characters', _hasLength),
           _buildRequirementItem('One uppercase letter', _hasUppercase),
           _buildRequirementItem('One lowercase letter', _hasLowercase),
@@ -512,19 +512,19 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
 
   Widget _buildRequirementItem(String text, bool isMet) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 12), // Increased for tablet
       child: Row(
         children: [
           Icon(
             isMet ? Icons.check_circle : Icons.radio_button_unchecked,
-            size: 16,
+            size: 20, // Increased for tablet
             color: isMet ? Colors.green : Colors.grey[400],
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 12), // Increased spacing
           Text(
             text,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 14, // Increased for tablet
               color: isMet ? Colors.grey[800] : Colors.grey[600],
               fontWeight: isMet ? FontWeight.w500 : FontWeight.w400,
             ),
@@ -542,9 +542,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF1976D2),
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 14),
+          padding: const EdgeInsets.symmetric(vertical: 18), // Increased for tablet
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(12), // Increased radius for tablet
           ),
           elevation: 0,
         ),
@@ -560,7 +560,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
             : Text(
                 'Reset Password',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18, // Increased for tablet
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -583,7 +583,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
       child: Text(
         'Back to Login',
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 16, // Increased for tablet
           fontWeight: FontWeight.w500,
         ),
       ),

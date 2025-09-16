@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../widgets/app_header_widget.dart';
-import '../widgets/app_drawer_widget.dart';
+import '../widgets/tablet_app_header_widget.dart';
+import '../widgets/tablet_layout_widget.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -13,7 +13,6 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _twoFactorEnabled = false;
   bool _darkModeEnabled = false;
-  bool _isDrawerOpen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +20,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
       children: [
         Scaffold(
           backgroundColor: const Color(0xFFF8F9FA),
-          body: Column(
+          body: TabletLayoutWidget(
+            activeRoute: 'settings',
+            onNavigation: _handleNavigation,
+            child: Column(
         children: [
           // Navigation Header
-          AppHeaderWidget(
-            onMenuPressed: () {
-              setState(() {
-                _isDrawerOpen = true;
-              });
-            },
+          TabletAppHeaderWidget(
             onProfileAction: (value) {
               switch (value) {
                 case 'language':
@@ -78,23 +75,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ],
       ),
         ),
-        
-        // Navigation Drawer
-        AppDrawerWidget(
-          isOpen: _isDrawerOpen,
-          onClose: () {
-            setState(() {
-              _isDrawerOpen = false;
-            });
-          },
-          onNavigation: (route) {
-            setState(() {
-              _isDrawerOpen = false;
-            });
-            _handleNavigation(route);
-          },
-          activeRoute: 'settings',
         ),
+        
       ],
     );
   }

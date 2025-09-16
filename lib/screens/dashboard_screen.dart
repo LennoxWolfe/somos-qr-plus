@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import '../widgets/app_header_widget.dart';
-import '../widgets/app_drawer_widget.dart';
+import '../widgets/tablet_app_header_widget.dart';
+import '../widgets/tablet_layout_widget.dart';
 import '../widgets/provider_dropdown_widget.dart';
 import '../core/constants/providers.dart';
 
@@ -15,7 +15,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  bool _isDrawerOpen = false;
   bool _isScheduleExpanded = true;
   String _selectedIncentiveProvider = 'All';
   bool _showLogoutDialog = false;
@@ -55,84 +54,62 @@ class _DashboardScreenState extends State<DashboardScreen> {
       backgroundColor: const Color(0xFFF5F5F5),
       body: Stack(
         children: [
-          // Main Content
-          Column(
-            children: [
-                                            AppHeaderWidget(
-                onMenuPressed: () {
-                  setState(() {
-                    _isDrawerOpen = true;
-                  });
-                },
-                onProfileAction: (action) {
-                  _handleProfileAction(action);
-                },
-              ),
-              
-              // Provider Dropdown
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+          TabletLayoutWidget(
+            activeRoute: 'dashboard',
+            onNavigation: _handleNavigation,
+            header: Column(
+              children: [
+                TabletAppHeaderWidget(
+                  onProfileAction: (action) {
+                    _handleProfileAction(action);
+                  },
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                                                                    child: ProviderDropdownWidget(
-                        selectedProvider: _selectedIncentiveProvider,
-                        providers: AppProviders.providers,
-                        onProviderChanged: (provider) {
-                          setState(() {
-                            _selectedIncentiveProvider = provider;
-                          });
-                          _showSuccessMessage('Showing data for ${provider == 'All' ? 'All providers' : provider}');
-                        },
-                        maxWidth: 300,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              
-              Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                
+                // Provider Dropdown
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+                  ),
+                  child: Row(
                     children: [
-                      _buildWelcomeSection(),
-                      const SizedBox(height: 32),
-                      _buildStatisticsGrid(),
-                      const SizedBox(height: 32),
-                      _buildPanelChart(),
-                      const SizedBox(height: 32),
-                      _buildIncentiveChart(),
-                      const SizedBox(height: 32),
-                      _buildScheduleCard(),
+                      Expanded(
+                        child: ProviderDropdownWidget(
+                          selectedProvider: _selectedIncentiveProvider,
+                          providers: AppProviders.providers,
+                          onProviderChanged: (provider) {
+                            setState(() {
+                              _selectedIncentiveProvider = provider;
+                            });
+                            _showSuccessMessage('Showing data for ${provider == 'All' ? 'All providers' : provider}');
+                          },
+                          maxWidth: 300,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ),
-            ],
-          ),
-          
-                      // Navigation Drawer
-            AppDrawerWidget(
-              isOpen: _isDrawerOpen,
-              onClose: () {
-                setState(() {
-                  _isDrawerOpen = false;
-                });
-              },
-              onNavigation: (route) {
-                setState(() {
-                  _isDrawerOpen = false;
-                });
-                _handleNavigation(route);
-              },
-              activeRoute: 'dashboard',
+              ],
             ),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildWelcomeSection(),
+                  const SizedBox(height: 32),
+                  _buildStatisticsGrid(),
+                  const SizedBox(height: 32),
+                  _buildPanelChart(),
+                  const SizedBox(height: 32),
+                  _buildIncentiveChart(),
+                  const SizedBox(height: 32),
+                  _buildScheduleCard(),
+                ],
+              ),
+            ),
+          ),
           
           // Logout Dialog
           if (_showLogoutDialog) _buildLogoutDialog(),
@@ -214,16 +191,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildStatisticsGrid() {
+    // Dedicated tablet layout - responsive columns based on available space
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isMobile = constraints.maxWidth < 600;
+        // Calculate available width (accounting for sidebar)
+        final availableWidth = constraints.maxWidth;
+        final isNarrowLayout = availableWidth < 800;
+        
         return GridView.count(
-          crossAxisCount: isMobile ? 1 : 3,
+          crossAxisCount: isNarrowLayout ? 2 : 3,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          crossAxisSpacing: isMobile ? 16 : 24,
-          mainAxisSpacing: isMobile ? 16 : 24,
-          childAspectRatio: isMobile ? 2.5 : 1.2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+          childAspectRatio: isNarrowLayout ? 1.8 : 2.0, // More height for content
           children: [
             _buildKPICard('Total Open GIC', '1,250 / 2,100'),
             _buildKPICard('Total Members RA', '1,950 / 2,400'),
@@ -235,27 +216,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildKPICard(String title, String value) {
+    // Dedicated tablet styling - optimized for tablet viewing
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey.shade300),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 3,
-            offset: const Offset(0, 1),
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             title,
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: 14,
               fontWeight: FontWeight.w500,
               color: Color(0xFF666666),
             ),
@@ -264,7 +247,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Text(
             value,
             style: const TextStyle(
-              fontSize: 27,
+              fontSize: 24,
               fontWeight: FontWeight.w900,
               color: Colors.black,
             ),
@@ -281,7 +264,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             )),
           ),
           const SizedBox(height: 4),
-          // Add rating text like in HTML version
           const Text(
             '4.5/5',
             style: TextStyle(
@@ -415,20 +397,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
           const SizedBox(height: 24),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final isMobile = constraints.maxWidth < 600;
-              return Wrap(
-                alignment: WrapAlignment.center,
-                spacing: isMobile ? 16 : 24,
-                runSpacing: 8,
-                children: [
-                  _buildLegendItem(const Color(0xFF1976D2), 'EP'),
-                  _buildLegendItem(const Color(0xFF4CAF50), 'MCD'),
-                  _buildLegendItem(const Color(0xFF4DD0E1), 'MCR'),
-                ],
-              );
-            },
+          // Dedicated tablet legend layout
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 24,
+            runSpacing: 8,
+            children: [
+              _buildLegendItem(const Color(0xFF1976D2), 'EP'),
+              _buildLegendItem(const Color(0xFF4CAF50), 'MCD'),
+              _buildLegendItem(const Color(0xFF4DD0E1), 'MCR'),
+            ],
           ),
         ],
       ),
@@ -709,20 +687,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           const SizedBox(height: 24),
           
-          // Legend
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final isMobile = constraints.maxWidth < 600;
-              return Wrap(
-                alignment: WrapAlignment.center,
-                spacing: isMobile ? 16 : 24,
-                runSpacing: 8,
-                children: [
-                  _buildLegendItem(const Color(0xFF388E3C), 'Earnings'),
-                  _buildLegendItem(const Color(0xFFA5D6A7), 'Potential'),
-                ],
-              );
-            },
+          // Dedicated tablet legend layout
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 24,
+            runSpacing: 8,
+            children: [
+              _buildLegendItem(const Color(0xFF388E3C), 'Earnings'),
+              _buildLegendItem(const Color(0xFFA5D6A7), 'Potential'),
+            ],
           ),
         ],
       ),

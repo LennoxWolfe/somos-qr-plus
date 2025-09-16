@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import '../widgets/app_header_widget.dart';
-import '../widgets/app_drawer_widget.dart';
+import '../widgets/tablet_app_header_widget.dart';
+import '../widgets/tablet_layout_widget.dart';
 import '../core/constants/providers.dart';
 
 class ResourcesScreen extends StatefulWidget {
@@ -13,7 +13,6 @@ class ResourcesScreen extends StatefulWidget {
 }
 
 class _ResourcesScreenState extends State<ResourcesScreen> {
-  bool _isDrawerOpen = false;
   bool _showLogoutDialog = false;
   
   // Quality card state
@@ -1665,16 +1664,13 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
       backgroundColor: const Color(0xFFF5F5F5),
       body: Stack(
         children: [
-          // Main content
-          Column(
+          TabletLayoutWidget(
+            activeRoute: 'resources',
+            onNavigation: _handleNavigation,
+            child: Column(
             children: [
               // Header
-              AppHeaderWidget(
-                onMenuPressed: () {
-                  setState(() {
-                    _isDrawerOpen = !_isDrawerOpen;
-                  });
-                },
+              TabletAppHeaderWidget(
                 onProfileAction: (action) {
                   // Handle profile action
                 },
@@ -1687,6 +1683,29 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                   child: Column(
                     children: [
                       // Page title
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Resources',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF333333),
+                          ),
+                        ),
+                      ),
+                      
+                      const SizedBox(height: 16),
+                      
+                      // Divider line
+                      Container(
+                        height: 1,
+                        color: Colors.grey.shade300,
+                      ),
+                      
+                      const SizedBox(height: 24),
+                      
+                      // Pocket Guides title
                       const Text(
                         'Pocket Guides',
                         style: TextStyle(
@@ -1751,22 +1770,6 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
               ),
             ],
           ),
-          
-          // Navigation drawer
-          AppDrawerWidget(
-            isOpen: _isDrawerOpen,
-            onClose: () {
-              setState(() {
-                _isDrawerOpen = false;
-              });
-            },
-            onNavigation: (route) {
-              setState(() {
-                _isDrawerOpen = false;
-              });
-              _handleNavigation(route);
-            },
-            activeRoute: 'resources',
           ),
           
           // Logout dialog

@@ -125,16 +125,16 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
 
   Widget _buildTwoFactorCard() {
     return Container(
-      constraints: const BoxConstraints(maxWidth: 400),
+      constraints: const BoxConstraints(maxWidth: 800), // Increased for tablet
       child: Card(
         elevation: 20,
         shadowColor: Colors.black.withOpacity(0.15),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20), // Slightly larger radius for tablet
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
             gradient: const LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -145,12 +145,12 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(48), // Increased padding for tablet
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildLogoSection(),
-                const SizedBox(height: 20),
+                const SizedBox(height: 32), // Increased spacing
                 _buildTwoFactorForm(),
               ],
             ),
@@ -165,17 +165,17 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
       children: [
         Image.asset(
           'assets/images/SOMOS QR.png',
-          width: 150,
-          height: 150,
+          width: 250, // Increased for tablet
+          height: 250, // Increased for tablet
           fit: BoxFit.contain,
           errorBuilder: (context, error, stackTrace) {
             return Container(
-              width: 150,
-              height: 150,
+              width: 250,
+              height: 250,
               color: Colors.grey[100],
               child: const Icon(
                 Icons.medical_services,
-                size: 60,
+                size: 100, // Increased icon size for tablet
                 color: Color(0xFF1976D2),
               ),
             );
@@ -191,13 +191,13 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
       child: Column(
         children: [
           _buildFormHeader(),
-          const SizedBox(height: 20),
+          const SizedBox(height: 32), // Increased spacing for tablet
           _buildCodeInputs(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildVerifyButton(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildResendButton(),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16), // Increased spacing for tablet
           _buildBackToLoginButton(),
         ],
       ),
@@ -210,17 +210,17 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
         Text(
           'Two-Factor Authentication',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 32, // Increased for tablet
             fontWeight: FontWeight.w600,
             color: Colors.grey[800],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12), // Increased spacing
         Text(
           'Enter the 6-digit code sent to your device',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 18, // Increased for tablet
             fontWeight: FontWeight.w400,
             color: Colors.grey[600],
             height: 1.5,
@@ -237,7 +237,7 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(6, (index) {
             return SizedBox(
-              width: 45,
+              width: 60, // Increased for tablet
               child: TextFormField(
                 controller: _codeControllers[index],
                 focusNode: _codeFocusNodes[index],
@@ -245,7 +245,7 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
                 textAlign: TextAlign.center,
                 maxLength: 1,
                 style: const TextStyle(
-                  fontSize: 20,
+                  fontSize: 24, // Increased for tablet
                   fontWeight: FontWeight.w600,
                 ),
                 inputFormatters: [
@@ -269,7 +269,7 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 20), // Increased for tablet
                   fillColor: _codeControllers[index].text.isNotEmpty 
                       ? const Color(0xFF1976D2).withOpacity(0.1) 
                       : Colors.grey[50],
@@ -297,15 +297,15 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
             );
           }),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12), // Increased spacing
         // Error message area
         Container(
-          height: 20,
+          height: 24, // Increased for tablet
           alignment: Alignment.center,
           child: Text(
             '', // Error messages will go here
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 14, // Increased for tablet
               color: Colors.red[600],
             ),
           ),
@@ -322,7 +322,7 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF1976D2),
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 18), // Increased for tablet
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -340,7 +340,7 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
             : Text(
                 'Verify Code',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18, // Increased for tablet
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -362,14 +362,14 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
           ? Text(
               'Resend Code',
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 16, // Increased for tablet
                 fontWeight: FontWeight.w500,
               ),
             )
           : Text(
               'Resend Code (${_countdown}s)',
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 16, // Increased for tablet
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -391,7 +391,7 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
       child: Text(
         'Back to Login',
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 16, // Increased for tablet
           fontWeight: FontWeight.w500,
         ),
       ),

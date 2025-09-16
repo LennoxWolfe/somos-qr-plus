@@ -89,16 +89,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
 
   Widget _buildForgotPasswordCard() {
     return Container(
-      constraints: const BoxConstraints(maxWidth: 400),
+      constraints: const BoxConstraints(maxWidth: 800), // Increased for tablet
       child: Card(
         elevation: 20,
         shadowColor: Colors.black.withOpacity(0.15),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20), // Slightly larger radius for tablet
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
             gradient: const LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -109,12 +109,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(48), // Increased padding for tablet
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildLogoSection(),
-                const SizedBox(height: 20),
+                const SizedBox(height: 32), // Increased spacing
                 _showSuccessMessage 
                     ? _buildSuccessMessage()
                     : _buildForgotPasswordForm(),
@@ -131,17 +131,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
       children: [
         Image.asset(
           'assets/images/SOMOS QR.png',
-          width: 150,
-          height: 150,
+          width: 250, // Increased for tablet
+          height: 250, // Increased for tablet
           fit: BoxFit.contain,
           errorBuilder: (context, error, stackTrace) {
             return Container(
-              width: 150,
-              height: 150,
+              width: 250,
+              height: 250,
               color: Colors.grey[100],
               child: const Icon(
                 Icons.medical_services,
-                size: 60,
+                size: 100, // Increased icon size for tablet
                 color: Color(0xFF1976D2),
               ),
             );
@@ -157,11 +157,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
       child: Column(
         children: [
           _buildFormHeader(),
-          const SizedBox(height: 20),
+          const SizedBox(height: 32), // Increased spacing for tablet
           _buildEmailField(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildSendButton(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildBackToLoginButton(),
         ],
       ),
@@ -174,17 +174,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
         Text(
           'Forgot Password',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 32, // Increased for tablet
             fontWeight: FontWeight.w600,
             color: Colors.grey[800],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12), // Increased spacing
         Text(
           'Enter your email address and we\'ll send you a link to reset your password',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 18, // Increased for tablet
             fontWeight: FontWeight.w400,
             color: Colors.grey[600],
             height: 1.5,
@@ -201,12 +201,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
         Text(
           'Email Address',
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 16, // Increased for tablet
             fontWeight: FontWeight.w500,
             color: Colors.grey[800],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12), // Increased spacing
         TextFormField(
           controller: _emailController,
           keyboardType: TextInputType.emailAddress,
@@ -217,7 +217,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
             prefixIcon: Icon(
               Icons.email_outlined,
               color: Colors.grey[600],
-              size: 20,
+              size: 24, // Increased for tablet
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -236,8 +236,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
               borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+              horizontal: 20, // Increased for tablet
+              vertical: 16, // Increased for tablet
             ),
           ),
           validator: (value) {
@@ -262,9 +262,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF1976D2),
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 14),
+          padding: const EdgeInsets.symmetric(vertical: 18), // Increased for tablet
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(12), // Increased radius for tablet
           ),
           elevation: 0,
         ),
@@ -280,7 +280,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
             : Text(
                 'Send Reset Link',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18, // Increased for tablet
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -303,7 +303,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
       child: Text(
         'Back to Login',
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 16, // Increased for tablet
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -314,23 +314,23 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
     return Column(
       children: [
         Container(
-          width: 48,
-          height: 48,
+          width: 64, // Increased for tablet
+          height: 64, // Increased for tablet
           decoration: BoxDecoration(
             color: const Color(0xFF4CAF50),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(32), // Increased radius
           ),
           child: const Icon(
             Icons.check,
             color: Colors.white,
-            size: 24,
+            size: 32, // Increased for tablet
           ),
         ),
         const SizedBox(height: 16),
         Text(
           'Check Your Email',
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 28, // Increased for tablet
             fontWeight: FontWeight.w600,
             color: Colors.grey[800],
           ),
@@ -340,7 +340,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
           TextSpan(
             text: 'We\'ve sent a password reset link to ',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 16, // Increased for tablet
               fontWeight: FontWeight.w400,
               color: Colors.grey[600],
               height: 1.5,
@@ -362,7 +362,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
           'If you don\'t see the email, check your spam folder or try again.',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 14, // Increased for tablet
             fontWeight: FontWeight.w400,
             color: Colors.grey[500],
             height: 1.5,
@@ -374,9 +374,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
           style: OutlinedButton.styleFrom(
             foregroundColor: const Color(0xFF1976D2),
             side: const BorderSide(color: Color(0xFF1976D2)),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14), // Increased for tablet
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: BorderRadius.circular(8), // Increased radius for tablet
             ),
           ),
           child: _isLoading
@@ -391,7 +391,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
               : Text(
                   'Resend Email',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 16, // Increased for tablet
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -414,7 +414,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
           child: Text(
             'Back to Login',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 16, // Increased for tablet
               fontWeight: FontWeight.w500,
             ),
           ),
