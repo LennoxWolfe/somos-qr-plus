@@ -180,7 +180,7 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
                             child: const Text(
                               'Quality Score Cards',
                               style: TextStyle(
-                                fontSize: 32,
+                                fontSize: 26,
                                 fontWeight: FontWeight.w500,
                                 color: Color(0xFF333333),
                               ),

@@ -5,6 +5,8 @@ import '../../screens/auth/forgot_password_screen.dart';
 import '../../screens/auth/reset_password_screen.dart';
 import '../../screens/auth/two_factor_screen.dart';
 import '../../screens/settings_screen.dart';
+import '../../screens/user_management_screen.dart';
+import '../../screens/invitation_screen.dart';
 import '../../screens/quality_scorecards_screen.dart';
 import '../../screens/dashboard_screen.dart';
 import '../../screens/reports_screen.dart';
@@ -48,6 +50,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: '/user-management',
+      builder: (context, state) => const UserManagementScreen(),
+    ),
+    GoRoute(
+      path: '/invitation',
+      builder: (context, state) => const InvitationScreen(),
     ),
     GoRoute(
       path: '/quality-scorecards',

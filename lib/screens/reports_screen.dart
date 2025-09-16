@@ -238,11 +238,11 @@ class _ReportsScreenState extends State<ReportsScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         // Responsive font sizing
-        double fontSize = 32; // Default desktop
+        double fontSize = 26; // Default desktop
         if (constraints.maxWidth < 600) {
-          fontSize = 24; // Mobile
+          fontSize = 18; // Mobile
         } else if (constraints.maxWidth < 900) {
-          fontSize = 28; // Tablet
+          fontSize = 22; // Tablet
         }
         
         return Column(

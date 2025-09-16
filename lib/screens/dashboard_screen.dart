@@ -102,7 +102,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildWelcomeSection(),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 16),
                       _buildStatisticsGrid(),
                       const SizedBox(height: 32),
                       _buildPanelChart(),
@@ -204,7 +204,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Text(
           'Welcome back!',
           style: TextStyle(
-            fontSize: 32,
+            fontSize: 26,
             fontWeight: FontWeight.w500,
             color: Color(0xFF333333),
           ),

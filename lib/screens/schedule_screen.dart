@@ -337,7 +337,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             child: Text(
               'My Schedule',
               style: TextStyle(
-                fontSize: 32,
+                fontSize: 26,
                 fontWeight: FontWeight.w500,
                 color: Color(0xFF333333),
               ),

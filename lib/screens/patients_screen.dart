@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/patient_profile_modal.dart';
 import '../widgets/patient_filter_modal.dart';
+import '../widgets/patient_invitation_dialog.dart';
 import '../widgets/app_header_widget.dart';
 import '../widgets/app_drawer_widget.dart';
 import '../widgets/provider_dropdown_widget.dart';
@@ -101,6 +102,13 @@ class _PatientsScreenState extends State<PatientsScreen> {
     );
   }
 
+  void _showInvitationDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const PatientInvitationDialog(),
+    );
+  }
+
   List<Patient> get _paginatedPatients {
     final startIndex = (_currentPage - 1) * _rowsPerPage;
     final endIndex = startIndex + _rowsPerPage;
@@ -159,15 +167,23 @@ class _PatientsScreenState extends State<PatientsScreen> {
               // Page Title
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
                       'My Patients',
                       style: TextStyle(
-                        fontSize: 32,
+                        fontSize: 26,
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF333333),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: _showInvitationDialog,
+                      child: Icon(
+                        Icons.mail_outline,
+                        size: 28,
+                        color: Colors.grey.shade600,
                       ),
                     ),
                   ],
