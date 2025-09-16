@@ -344,7 +344,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ),
                 ),
-                borderData: FlBorderData(show: false),
+                borderData: FlBorderData(
+                  show: true,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey.shade600,
+                      width: 2,
+                    ),
+                  ),
+                ),
                                   barGroups: [
                     BarChartGroupData(x: 0, barRods: [
                       BarChartRodData(toY: 238, color: const Color(0xFF1976D2), width: 7),
@@ -569,7 +577,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       ),
                     ),
-                    borderData: FlBorderData(show: false),
+                    borderData: FlBorderData(
+                      show: true,
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey.shade600,
+                          width: 2,
+                        ),
+                      ),
+                    ),
                                          barGroups: List.generate(7, (index) {
                        final earnings = [1764, 1596, 2142, 1218, 1428, 1932, 1344][index];
                        final potential = [1960, 2240, 1680, 2870, 2520, 1540, 2660][index];
@@ -647,7 +663,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       ),
                     ),
-                    borderData: FlBorderData(show: false),
+                    borderData: FlBorderData(
+                      show: true,
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey.shade600,
+                          width: 2,
+                        ),
+                      ),
+                    ),
                                          barGroups: List.generate(7, (index) {
                        final earnings = [2016, 1638, 1848, 1512, 2184, 1722, 1554][index];
                        final potential = [1400, 2170, 1820, 2380, 1260, 2030, 2310][index];
