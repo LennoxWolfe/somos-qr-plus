@@ -568,9 +568,7 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
         );
         break;
       case 'invitations':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Invitations clicked')),
-        );
+        context.go('/invitation');
         break;
       case 'logout':
         ScaffoldMessenger.of(context).showSnackBar(

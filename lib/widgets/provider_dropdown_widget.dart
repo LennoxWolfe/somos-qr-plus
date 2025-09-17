@@ -74,10 +74,11 @@ class _ProviderDropdownWidgetState extends State<ProviderDropdownWidget> {
                 children: [
                   Expanded(
                     child: Text(
-                      widget.selectedProvider,
-                      style: const TextStyle(
+                      widget.selectedProvider == 'All' ? (widget.hintText ?? 'Select Provider') : widget.selectedProvider,
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
+                        color: widget.selectedProvider == 'All' ? Colors.grey.shade600 : Colors.black87,
                       ),
                     ),
                   ),

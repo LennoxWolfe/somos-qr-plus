@@ -124,21 +124,77 @@ class _InvitationScreenState extends State<InvitationScreen> with TickerProvider
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Page Title
-                    const Padding(
-                      padding: EdgeInsets.all(16),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Invitations',
-                            style: TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF333333),
-                            ),
+                          Row(
+                            children: [
+                              const Expanded(
+                                child: Text(
+                                  'Invitations',
+                                  style: TextStyle(
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xFF333333),
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: _navigateToMyInvitations,
+                                child: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF1976D2),
+                                    borderRadius: BorderRadius.circular(100),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.15),
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      const Icon(
+                                        Icons.mail_outline,
+                                        color: Colors.white,
+                                        size: 28,
+                                      ),
+                                      Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(4),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.red,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          constraints: const BoxConstraints(
+                                            minWidth: 20,
+                                            minHeight: 20,
+                                          ),
+                                          child: Text(
+                                            '$_pendingInvitationsCount',
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 8),
-                          Text(
+                          const SizedBox(height: 8),
+                          const Text(
                             'Manage user invitations',
                             style: TextStyle(
                               fontSize: 16,
@@ -1008,6 +1064,17 @@ class _InvitationScreenState extends State<InvitationScreen> with TickerProvider
         // Handle logout logic
         break;
     }
+  }
+
+  int get _pendingInvitationsCount {
+    // This matches the pending invitations count from the My Invitations screen
+    // Based on the dummy data: Dr. Sarah Wilson and Dr. Lisa Rodriguez are pending
+    // Dr. Michael Chen is accepted, so we have 2 pending invitations
+    return 2;
+  }
+
+  void _navigateToMyInvitations() {
+    context.go('/my-invitations');
   }
 
   void _handleProfileAction(String action) {

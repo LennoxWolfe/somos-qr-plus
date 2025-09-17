@@ -480,7 +480,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
         // Handle language change
         break;
       case 'invitations':
-        // Handle invitations
+        context.go('/invitation');
         break;
       case 'logout':
         // Handle logout logic

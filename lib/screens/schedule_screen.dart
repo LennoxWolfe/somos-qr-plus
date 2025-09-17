@@ -4,6 +4,7 @@ import '../widgets/app_header_widget.dart';
 import '../widgets/app_drawer_widget.dart';
 import '../widgets/provider_dropdown_widget.dart';
 import '../widgets/patient_filter_modal.dart';
+import '../widgets/patient_profile_modal.dart';
 import '../core/constants/providers.dart';
 import '../models/patient.dart';
 
@@ -29,6 +30,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   // Schedule filters
   String _selectedStatusFilter = 'all';
   String _selectedScheduleProviderFilter = 'all';
+  String _selectedMCOFilter = 'all';
+  DateTime? _selectedDOBFilter;
   bool _showScheduleFilters = false;
   
   // Patient search functionality
@@ -81,6 +84,21 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       _patientSearchController.text = patient.fullName;
       _filteredPatients = [];
     });
+  }
+
+  void _showPatientProfile(String patientName) {
+    // Find the patient in the list
+    final patient = _allPatients.firstWhere(
+      (p) => p.fullName == patientName,
+      orElse: () => Patient(patientName, 'N/A', 'N/A', 0, 0),
+    );
+    
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PatientProfileModal(patient: patient),
+      ),
+    );
   }
 
   void _showFilterModal() {
@@ -394,7 +412,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   
                   // Date Navigation
                   Expanded(
-                    flex: 2,
+                    flex: 4,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -414,12 +432,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                           iconSize: isMobile ? 20 : 24,
                         ),
                         Expanded(
+                          flex: 5,
                           child: GestureDetector(
                             onTap: _showDatePicker,
                             child: Container(
                               padding: EdgeInsets.symmetric(
-                                horizontal: isMobile ? 12 : 20, 
-                                vertical: 8
+                                horizontal: isMobile ? 20 : 32, 
+                                vertical: 12
                               ),
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.grey.shade300),
@@ -430,10 +449,11 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xFF333333),
-                                  fontSize: isMobile ? 12 : 14,
+                                  fontSize: isMobile ? 14 : 16,
                                 ),
                                 textAlign: TextAlign.center,
-                                overflow: TextOverflow.ellipsis,
+                                overflow: TextOverflow.visible,
+                                maxLines: 1,
                               ),
                             ),
                           ),
@@ -530,7 +550,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Status Filter
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
                 'Filter by Status:',
@@ -540,19 +561,48 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   color: Color(0xFF333333),
                 ),
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    _buildStatusFilterButton('all', 'All', Colors.grey),
-                    _buildStatusFilterButton('pending', 'Pending', Colors.orange),
-                    _buildStatusFilterButton('confirmed', 'Confirmed', Colors.blue),
-                    _buildStatusFilterButton('completed', 'Completed', Colors.green),
-                    _buildStatusFilterButton('no-show', 'No Show', Colors.purple),
-                    _buildStatusFilterButton('cancelled', 'Cancelled', Colors.red),
-                  ],
+              const SizedBox(height: 8),
+              Container(
+                width: double.infinity,
+                constraints: const BoxConstraints(maxWidth: 400),
+                child: DropdownButtonFormField<String>(
+                  value: _selectedStatusFilter,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  ),
+                  items: [
+                    'all',
+                    'pending',
+                    'confirmed',
+                    'completed',
+                    'no-show',
+                    'cancelled',
+                  ].map((status) {
+                    String displayName = status == 'all' ? 'All Statuses' : 
+                      status == 'pending' ? 'Pending' :
+                      status == 'confirmed' ? 'Confirmed' :
+                      status == 'completed' ? 'Completed' :
+                      status == 'no-show' ? 'No Show' :
+                      status == 'cancelled' ? 'Cancelled' : status;
+                    
+                    return DropdownMenuItem(
+                      value: status,
+                      child: Text(displayName),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedStatusFilter = value!;
+                    });
+                  },
                 ),
               ),
             ],
@@ -560,7 +610,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           const SizedBox(height: 20),
           
           // Provider Filter
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
                 'Filter by Provider:',
@@ -570,48 +621,160 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   color: Color(0xFF333333),
                 ),
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 300),
-                  child: DropdownButtonFormField<String>(
-                    value: _selectedScheduleProviderFilter,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              const SizedBox(height: 8),
+              Container(
+                width: double.infinity,
+                constraints: const BoxConstraints(maxWidth: 400),
+                child: DropdownButtonFormField<String>(
+                  value: _selectedScheduleProviderFilter,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
                     ),
-                    items: [
-                      'all',
-                      'dr-smith',
-                      'dr-johnson', 
-                      'dr-williams',
-                      'dr-brown',
-                      'dr-davis',
-                    ].map((provider) {
-                      String displayName = provider == 'all' ? 'All Providers' : 
-                        provider == 'dr-smith' ? 'Dr. Sarah Smith' :
-                        provider == 'dr-johnson' ? 'Dr. Michael Johnson' :
-                        provider == 'dr-williams' ? 'Dr. Emily Williams' :
-                        provider == 'dr-brown' ? 'Dr. David Brown' :
-                        provider == 'dr-davis' ? 'Dr. Lisa Davis' : provider;
-                      
-                      return DropdownMenuItem(
-                        value: provider,
-                        child: Text(displayName),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedScheduleProviderFilter = value!;
-                      });
-                    },
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  ),
+                  items: [
+                    'all',
+                    'dr-smith',
+                    'dr-johnson', 
+                    'dr-williams',
+                    'dr-brown',
+                    'dr-davis',
+                  ].map((provider) {
+                    String displayName = provider == 'all' ? 'All Providers' : 
+                      provider == 'dr-smith' ? 'Dr. Sarah Smith' :
+                      provider == 'dr-johnson' ? 'Dr. Michael Johnson' :
+                      provider == 'dr-williams' ? 'Dr. Emily Williams' :
+                      provider == 'dr-brown' ? 'Dr. David Brown' :
+                      provider == 'dr-davis' ? 'Dr. Lisa Davis' : provider;
+                    
+                    return DropdownMenuItem(
+                      value: provider,
+                      child: Text(displayName),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedScheduleProviderFilter = value!;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          
+          // MCO Filter
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Filter by MCO:',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF333333),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                width: double.infinity,
+                constraints: const BoxConstraints(maxWidth: 400),
+                child: DropdownButtonFormField<String>(
+                  value: _selectedMCOFilter,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  ),
+                  items: [
+                    'all',
+                    'healthfirst',
+                    'metroplus',
+                    'fidelis-care',
+                    'empire-bluecross',
+                    'unitedhealthcare',
+                  ].map((mco) {
+                    String displayName = mco == 'all' ? 'All MCOs' : 
+                      mco == 'healthfirst' ? 'HealthFirst' :
+                      mco == 'metroplus' ? 'MetroPlus' :
+                      mco == 'fidelis-care' ? 'Fidelis Care' :
+                      mco == 'empire-bluecross' ? 'Empire BlueCross BlueShield' :
+                      mco == 'unitedhealthcare' ? 'UnitedHealthcare Community Plan' : mco;
+                    
+                    return DropdownMenuItem(
+                      value: mco,
+                      child: Text(displayName),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedMCOFilter = value!;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          
+          // DOB Filter
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Filter by DOB:',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF333333),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                width: double.infinity,
+                constraints: const BoxConstraints(maxWidth: 400),
+                child: GestureDetector(
+                  onTap: _showDOBPicker,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade300),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            _selectedDOBFilter != null 
+                              ? '${_selectedDOBFilter!.month}/${_selectedDOBFilter!.day}/${_selectedDOBFilter!.year}'
+                              : 'Select Date of Birth',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: _selectedDOBFilter != null 
+                                ? Colors.black87 
+                                : Colors.grey.shade600,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.calendar_today,
+                          size: 16,
+                          color: Colors.grey.shade600,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -622,49 +785,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     );
   }
 
-  Widget _buildStatusFilterButton(String status, String label, Color color) {
-    final isSelected = _selectedStatusFilter == status;
-    
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedStatusFilter = status;
-        });
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF1976D2) : Colors.white,
-          border: Border.all(
-            color: isSelected ? const Color(0xFF1976D2) : Colors.grey.shade300,
-          ),
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 8,
-              height: 8,
-              decoration: BoxDecoration(
-                color: isSelected ? Colors.white : color,
-                shape: BoxShape.circle,
-              ),
-            ),
-            const SizedBox(width: 6),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: isSelected ? Colors.white : Colors.grey.shade600,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   Widget _buildScheduleHeader() {
     return Row(
@@ -1048,16 +1168,58 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     }
 
     if (isCompact) {
-      return Container(
-        margin: const EdgeInsets.all(2),
-        padding: const EdgeInsets.all(4),
+      return GestureDetector(
+        onTap: () => _showPatientProfile(appointment['patientName']),
+        child: Container(
+          margin: const EdgeInsets.all(2),
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            color: statusColor.withOpacity(0.1),
+            border: Border.all(color: statusColor.withOpacity(0.3)),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                appointment['patientName'],
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: statusColor,
+                  fontSize: 10,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 2),
+              Text(
+                appointment['type'],
+                style: TextStyle(
+                  color: statusColor,
+                  fontSize: 8,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return GestureDetector(
+      onTap: () => _showPatientProfile(appointment['patientName']),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: statusColor.withOpacity(0.1),
           border: Border.all(color: statusColor.withOpacity(0.3)),
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(6),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -1065,64 +1227,28 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: statusColor,
-                fontSize: 10,
+                fontSize: 14,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: 4),
+            Text(
+              appointment['time'],
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontSize: 12,
+              ),
+            ),
+            const SizedBox(height: 4),
             Text(
               appointment['type'],
               style: TextStyle(
-                color: statusColor,
-                fontSize: 8,
+                color: Colors.grey.shade700,
+                fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
-      );
-    }
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: statusColor.withOpacity(0.1),
-        border: Border.all(color: statusColor.withOpacity(0.3)),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            appointment['patientName'],
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: statusColor,
-              fontSize: 14,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            appointment['time'],
-            style: TextStyle(
-              color: Colors.grey.shade600,
-              fontSize: 12,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            appointment['type'],
-            style: TextStyle(
-              color: Colors.grey.shade700,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -1227,7 +1353,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       child: ElevatedButton.icon(
                         onPressed: _showFilterModal,
                         icon: const Icon(Icons.filter_list, size: 18),
-                        label: const Text('Filter Patients'),
+                        label: const Text('Filter'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue.shade50,
                           foregroundColor: Colors.blue.shade700,
@@ -1246,6 +1372,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     ProviderDropdownWidget(
                       selectedProvider: _selectedProvider,
                       providers: AppProviders.providers,
+                      hintText: 'Select Provider',
                       onProviderChanged: (provider) {
                         setState(() {
                           _selectedProvider = provider;
@@ -1254,117 +1381,165 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     ),
                     const SizedBox(height: 16),
                     
-                    // Patient Selection
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextField(
-                          controller: _patientSearchController,
-                          decoration: const InputDecoration(
-                            labelText: 'Search Patient',
-                            border: OutlineInputBorder(),
-                            prefixIcon: Icon(Icons.person),
-                            suffixIcon: Icon(Icons.search),
-                          ),
-                          onTap: () {
-                            if (_selectedPatient != null) {
-                              _patientSearchController.clear();
-                              setState(() {
-                                _selectedPatient = null;
-                                _filteredPatients = _allPatients;
-                              });
-                            }
-                          },
+                    // Patient Selection - Only show after provider is selected
+                    if (_selectedProvider != 'All') ...[
+                      TextField(
+                        controller: _patientSearchController,
+                        decoration: const InputDecoration(
+                          labelText: 'Search Patient',
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.person),
+                          suffixIcon: Icon(Icons.search),
                         ),
-                        if (_filteredPatients.isNotEmpty && _selectedPatient == null && _patientSearchController.text.isNotEmpty)
-                          Container(
-                            margin: const EdgeInsets.only(top: 4),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.grey.shade300),
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
+                        onTap: () {
+                          if (_selectedPatient != null) {
+                            _patientSearchController.clear();
+                            setState(() {
+                              _selectedPatient = null;
+                              _filteredPatients = _allPatients;
+                            });
+                          }
+                        },
+                      ),
+                      if (_filteredPatients.isNotEmpty && _selectedPatient == null && _patientSearchController.text.isNotEmpty)
+                        Container(
+                          margin: const EdgeInsets.only(top: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          constraints: const BoxConstraints(maxHeight: 200),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: _filteredPatients.length > 5 ? 5 : _filteredPatients.length,
+                            itemBuilder: (context, index) {
+                              final patient = _filteredPatients[index];
+                              return ListTile(
+                                dense: true,
+                                title: Text(
+                                  patient.fullName,
+                                  style: const TextStyle(fontSize: 14),
                                 ),
-                              ],
-                            ),
-                            constraints: const BoxConstraints(maxHeight: 200),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: _filteredPatients.length > 5 ? 5 : _filteredPatients.length,
-                              itemBuilder: (context, index) {
-                                final patient = _filteredPatients[index];
-                                return ListTile(
-                                  dense: true,
-                                  title: Text(
-                                    patient.fullName,
-                                    style: const TextStyle(fontSize: 14),
+                                subtitle: Text(
+                                  '${patient.mco} • DOB: ${patient.dob}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey.shade600,
                                   ),
-                                  subtitle: Text(
-                                    '${patient.mco} • DOB: ${patient.dob}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey.shade600,
+                                ),
+                                onTap: () => _selectPatient(patient),
+                              );
+                            },
+                          ),
+                        ),
+                      if (_selectedPatient != null)
+                        Container(
+                          margin: const EdgeInsets.only(top: 8),
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
+                            border: Border.all(color: Colors.blue.shade200),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.check_circle, color: Colors.blue.shade600, size: 20),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      _selectedPatient!.fullName,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                      ),
                                     ),
-                                  ),
-                                  onTap: () => _selectPatient(patient),
+                                    Text(
+                                      '${_selectedPatient!.mco} • DOB: ${_selectedPatient!.dob}',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey.shade600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.close, size: 18),
+                                onPressed: () {
+                                  setState(() {
+                                    _selectedPatient = null;
+                                    _patientSearchController.clear();
+                                    _filteredPatients = _allPatients;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                    const SizedBox(height: 16),
+                    
+                    // Available Slots - Only show after provider is selected
+                    if (_selectedProvider != 'All') ...[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Available Slots',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF333333),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            width: double.infinity,
+                            constraints: const BoxConstraints(maxWidth: 400),
+                            child: DropdownButtonFormField<String>(
+                              value: null, // No default selection
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  borderSide: BorderSide(color: Colors.grey.shade300),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  borderSide: BorderSide(color: Colors.grey.shade300),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                hintText: 'Select Time Slot',
+                                hintStyle: TextStyle(color: Colors.grey.shade600),
+                              ),
+                              items: _getAvailableSlots().map((slot) {
+                                return DropdownMenuItem(
+                                  value: slot,
+                                  child: Text(slot),
                                 );
+                              }).toList(),
+                              onChanged: (value) {
+                                // Handle slot selection
+                                setState(() {
+                                  // Store selected slot if needed
+                                });
                               },
                             ),
                           ),
-                        if (_selectedPatient != null)
-                          Container(
-                            margin: const EdgeInsets.only(top: 8),
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Colors.blue.shade50,
-                              border: Border.all(color: Colors.blue.shade200),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(Icons.check_circle, color: Colors.blue.shade600, size: 20),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        _selectedPatient!.fullName,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${_selectedPatient!.mco} • DOB: ${_selectedPatient!.dob}',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey.shade600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.close, size: 18),
-                                  onPressed: () {
-                                    setState(() {
-                                      _selectedPatient = null;
-                                      _patientSearchController.clear();
-                                      _filteredPatients = _allPatients;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                    ],
                     
                     // Appointment Type (Fixed to Walk-In)
                     TextField(
@@ -1484,6 +1659,61 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     });
   }
 
+  void _showDOBPicker() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDOBFilter ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF1976D2),
+              onPrimary: Colors.white,
+              surface: Colors.white,
+              onSurface: Colors.black,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    
+    if (picked != null && picked != _selectedDOBFilter) {
+      setState(() {
+        _selectedDOBFilter = picked;
+      });
+    }
+  }
+
+  List<String> _getAvailableSlots() {
+    // Generate available time slots based on selected provider
+    // This is a simplified version - in a real app, this would come from the backend
+    final List<String> slots = [];
+    
+    // Generate slots from 9 AM to 5 PM with 30-minute intervals
+    for (int hour = 9; hour <= 17; hour++) {
+      for (int minute = 0; minute < 60; minute += 30) {
+        if (hour == 17 && minute > 0) break; // Stop at 5:00 PM
+        
+        final time = '${hour > 12 ? hour - 12 : hour}:${minute.toString().padLeft(2, '0')} ${hour >= 12 ? 'PM' : 'AM'}';
+        slots.add(time);
+      }
+    }
+    
+    // Filter out some slots to simulate availability
+    // In a real app, this would be based on actual provider schedule
+    final availableSlots = slots.where((slot) {
+      // Simulate some slots being unavailable
+      return !slot.contains('12:30 PM') && 
+             !slot.contains('1:00 PM') && 
+             !slot.contains('3:30 PM');
+    }).toList();
+    
+    return availableSlots;
+  }
+
   void _handleNavigation(String route) {
     switch (route) {
       case 'dashboard':
@@ -1519,7 +1749,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         // Handle language change
         break;
       case 'invitations':
-        // Handle invitations
+        context.go('/invitation');
         break;
       case 'logout':
         // TODO: Handle logout

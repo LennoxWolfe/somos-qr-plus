@@ -13,6 +13,7 @@ import '../../screens/reports_screen.dart';
 import '../../screens/patients_screen.dart';
 import '../../screens/schedule_screen.dart';
 import '../../screens/resources_screen.dart';
+import '../../screens/my_invitations_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/login',
@@ -58,6 +59,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/invitation',
       builder: (context, state) => const InvitationScreen(),
+    ),
+    GoRoute(
+      path: '/my-invitations',
+      builder: (context, state) => const MyInvitationsScreen(),
     ),
     GoRoute(
       path: '/quality-scorecards',

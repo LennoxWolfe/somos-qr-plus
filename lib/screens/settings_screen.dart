@@ -39,9 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   );
                   break;
                 case 'invitations':
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Invitations clicked')),
-                  );
+                  context.go('/invitation');
                   break;
                 case 'logout':
                   ScaffoldMessenger.of(context).showSnackBar(

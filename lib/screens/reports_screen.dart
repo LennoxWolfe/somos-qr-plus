@@ -223,7 +223,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
         // Handle language change
         break;
       case 'invitations':
-        // Handle invitations
+        context.go('/invitation');
         break;
       case 'logout':
         setState(() {
