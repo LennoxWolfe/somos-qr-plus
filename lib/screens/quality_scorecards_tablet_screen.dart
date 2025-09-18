@@ -462,9 +462,7 @@ class _QualityScorecardsTabletScreenState extends State<QualityScorecardsTabletS
         );
         break;
       case 'invitations':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Invitations clicked')),
-        );
+        context.go('/invitations');
         break;
       case 'logout':
         ScaffoldMessenger.of(context).showSnackBar(

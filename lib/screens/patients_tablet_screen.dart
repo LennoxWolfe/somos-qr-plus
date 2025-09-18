@@ -9,7 +9,9 @@ import '../core/constants/providers.dart';
 import '../models/patient.dart';
 
 class PatientsTabletScreen extends StatefulWidget {
-  const PatientsTabletScreen({super.key});
+  final String? patientName;
+  
+  const PatientsTabletScreen({super.key, this.patientName});
 
   @override
   State<PatientsTabletScreen> createState() => _PatientsTabletScreenState();
@@ -31,6 +33,29 @@ class _PatientsTabletScreenState extends State<PatientsTabletScreen> {
     super.initState();
     _initializePatients();
     _filteredPatients = _patients;
+    
+    // If a patient name is provided, automatically open their profile
+    if (widget.patientName != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _openPatientProfileFromName(widget.patientName!);
+      });
+    }
+  }
+
+  void _openPatientProfileFromName(String patientName) {
+    // Find the patient by name
+    final patient = _patients.firstWhere(
+      (p) => p.fullName.toLowerCase() == patientName.toLowerCase(),
+      orElse: () => _patients.first, // fallback to first patient if not found
+    );
+    
+    // Open the patient profile modal
+    showDialog(
+      context: context,
+      builder: (context) => PatientProfileTabletModal(
+        patient: patient,
+      ),
+    );
   }
 
   void _initializePatients() {
@@ -432,7 +457,7 @@ class _PatientsTabletScreenState extends State<PatientsTabletScreen> {
         // Handle language change
         break;
       case 'invitations':
-        // Handle invitations
+        context.go('/invitations');
         break;
       case 'logout':
         // Handle logout logic

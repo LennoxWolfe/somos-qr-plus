@@ -41,37 +41,44 @@ class _TabletSidebarWidgetState extends State<TabletSidebarWidget> {
           // Sidebar Header - SIMPLE AND WORKING
           Container(
             width: double.infinity,
-            height: 80,
+            height: 120,
             decoration: const BoxDecoration(
               color: Color(0xFF1976D2),
             ),
             child: Stack(
               children: [
-                // Avatar - only when expanded
+                // Logo - only when expanded
                 if (!_isCollapsed)
                   Positioned(
                     left: 24,
                     top: 16,
                     child: Container(
-                      width: 48,
-                      height: 48,
+                      width: 90,
+                      height: 90,
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFF667eea), Color(0xFF764ba2)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(color: const Color(0xFF4CAF50), width: 2),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.white, width: 2),
                       ),
-                      child: const Center(
-                        child: Text(
-                          'JC',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(13),
+                        child: Image.asset(
+                          'assets/images/SOMOS QR.png',
+                          width: 86,
+                          height: 86,
+                          fit: BoxFit.contain,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              width: 86,
+                              height: 86,
+                              color: Colors.grey[100],
+                              child: const Icon(
+                                Icons.medical_services,
+                                size: 45,
+                                color: Color(0xFF1976D2),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),

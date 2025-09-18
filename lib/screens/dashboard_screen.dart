@@ -155,7 +155,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         // Handle language change
         break;
       case 'invitations':
-        // Handle invitations
+        context.go('/invitations');
         break;
       case 'logout':
         setState(() {

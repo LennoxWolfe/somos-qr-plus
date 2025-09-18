@@ -12,6 +12,9 @@ import '../../screens/reports_tablet_screen.dart';
 import '../../screens/patients_tablet_screen.dart';
 import '../../screens/schedule_tablet_screen.dart';
 import '../../screens/resources_screen.dart';
+import '../../screens/invitation_screen.dart';
+import '../../screens/my_invitations_screen.dart';
+import '../../screens/two_factor_setup_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/login',
@@ -96,16 +99,19 @@ final appRouter = GoRouter(
           ),
     GoRoute(
       path: '/patients',
-      pageBuilder: (context, state) => CustomTransitionPage(
-        key: state.pageKey,
-        child: const PatientsTabletScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        },
-      ),
+      pageBuilder: (context, state) {
+        final patientName = state.uri.queryParameters['patientName'];
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: PatientsTabletScreen(patientName: patientName),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
     ),
     GoRoute(
       path: '/schedule',
@@ -125,6 +131,45 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
         child: const ResourcesScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/invitations',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const InvitationScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/my-invitations',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const MyInvitationsScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/two-factor-setup',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const TwoFactorSetupScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,

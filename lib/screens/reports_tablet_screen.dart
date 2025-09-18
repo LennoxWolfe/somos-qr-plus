@@ -196,7 +196,7 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
         // Handle language change
         break;
       case 'invitations':
-        // Handle invitations
+        context.go('/invitations');
         break;
       case 'logout':
         setState(() {

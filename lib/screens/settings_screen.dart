@@ -35,9 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   );
                   break;
                 case 'invitations':
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Invitations clicked')),
-                  );
+                  context.go('/invitations');
                   break;
                 case 'logout':
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -124,16 +122,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
           icon: Icons.security,
           title: '2-Step Verification',
           description: 'Add an extra layer of security',
-          action: _buildToggleSwitch(
-            value: _twoFactorEnabled,
-            onChanged: (value) {
-              setState(() {
-                _twoFactorEnabled = value;
-              });
-              if (value) {
-                _showTwoFactorSetup();
-              }
-            },
+          action: IconButton(
+            onPressed: _showTwoFactorSetup,
+            icon: const Icon(Icons.arrow_forward_ios, color: Color(0xFF666666)),
+            style: IconButton.styleFrom(
+              backgroundColor: Colors.grey.shade100,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
           ),
         ),
         const SizedBox(height: 16),
@@ -293,10 +290,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showInviteModal() {
-    showDialog(
-      context: context,
-      builder: (context) => _buildInviteDialog(),
-    );
+    context.go('/invitations');
   }
 
   void _showAccountsModal() {
@@ -307,12 +301,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showTwoFactorSetup() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('2-Step Verification enabled! You will be redirected to setup.'),
-        backgroundColor: Colors.green,
-      ),
-    );
+    context.go('/two-factor-setup');
   }
 
   void _showDarkModeMessage(bool enabled) {

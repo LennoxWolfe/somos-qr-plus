@@ -209,6 +209,10 @@ class _LoginScreenState extends State<LoginScreen>
           const SizedBox(height: 24), // Increased spacing for tablet
           _buildLoginButton(),
           const SizedBox(height: 24), // Increased spacing for tablet
+          _buildDivider(),
+          const SizedBox(height: 24), // Increased spacing for tablet
+          _buildCreateAccountLabel(),
+          const SizedBox(height: 24), // Increased spacing for tablet
           _buildSecondEmailField(),
         ],
       ),
@@ -403,6 +407,31 @@ class _LoginScreenState extends State<LoginScreen>
             return null;
           },
         ),
+        const SizedBox(height: 16),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: () {
+              context.go('/create-account');
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey[400],
+              foregroundColor: Colors.black,
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 0,
+            ),
+            child: Text(
+              'Sign Up with email',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -482,6 +511,49 @@ class _LoginScreenState extends State<LoginScreen>
                   fontWeight: FontWeight.w600,
                 ),
               ),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 1,
+            color: Colors.grey[300],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'Or',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey[600],
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            height: 1,
+            color: Colors.grey[300],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCreateAccountLabel() {
+    return Center(
+      child: Text(
+        'Create Account',
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: Colors.grey[600],
+        ),
       ),
     );
   }
