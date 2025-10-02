@@ -4,6 +4,7 @@ import '../../screens/auth/create_account_screen.dart';
 import '../../screens/auth/forgot_password_screen.dart';
 import '../../screens/auth/reset_password_screen.dart';
 import '../../screens/auth/two_factor_screen.dart';
+import '../../screens/auth/authenticator_screen.dart';
 import '../../screens/settings_screen.dart';
 import '../../screens/user_management_screen.dart';
 import '../../screens/invitation_screen.dart';
@@ -42,6 +43,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/two-factor',
       builder: (context, state) => const TwoFactorScreen(),
+    ),
+    GoRoute(
+      path: '/authenticator',
+      builder: (context, state) => const AuthenticatorScreen(),
     ),
     // Main app routes
     GoRoute(

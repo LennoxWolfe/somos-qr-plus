@@ -368,12 +368,12 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'Quality Score Cards',
-                                  style: TextStyle(
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF333333),
-                                  ),
+                              'Quality Score Cards',
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF333333),
+                              ),
                                 ),
                                 _buildClearAllButton(),
                               ],
@@ -558,7 +558,7 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        Container(
+          Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
@@ -619,7 +619,7 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        Container(
+          Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
@@ -674,7 +674,7 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        Container(
+          Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
@@ -738,7 +738,7 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        Container(
+          Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(

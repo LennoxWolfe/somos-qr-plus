@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/providers/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,9 +18,12 @@ class _LoginScreenState extends State<LoginScreen>
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _secondEmailController = TextEditingController();
+  final LocalAuthentication _localAuth = LocalAuthentication();
   bool _obscurePassword = true;
   bool _rememberMe = false;
   bool _isLoading = false;
+  bool _isBiometricAvailable = false;
+  bool _isBiometricEnabled = false;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
@@ -49,6 +54,10 @@ class _LoginScreenState extends State<LoginScreen>
     Future.delayed(const Duration(milliseconds: 100), () {
       _animationController.forward();
     });
+
+    // Check biometric availability and settings
+    _checkBiometricAvailability();
+    _loadBiometricSettings();
   }
 
   @override
@@ -208,6 +217,8 @@ class _LoginScreenState extends State<LoginScreen>
           _buildFormOptions(),
           const SizedBox(height: 16),
           _buildLoginButton(),
+          const SizedBox(height: 16),
+          _buildBiometricButton(),
           const SizedBox(height: 24),
           _buildOrDivider(),
           const SizedBox(height: 24),
@@ -694,6 +705,9 @@ class _LoginScreenState extends State<LoginScreen>
       );
 
       if (mounted) {
+        // Save credentials if "Remember me" is checked
+        await _saveCredentials();
+        
         // Navigate to dashboard
         context.go('/provider/dashboard');
       }
@@ -738,6 +752,163 @@ class _LoginScreenState extends State<LoginScreen>
 
     // Navigate to create account page with pre-filled email
     context.go('/create-account?email=${Uri.encodeComponent(_secondEmailController.text)}');
+  }
+
+  // Biometric Authentication Methods
+  Future<void> _checkBiometricAvailability() async {
+    try {
+      final isAvailable = await _localAuth.canCheckBiometrics;
+      final isDeviceSupported = await _localAuth.isDeviceSupported();
+      
+      setState(() {
+        _isBiometricAvailable = isAvailable && isDeviceSupported;
+      });
+    } catch (e) {
+      setState(() {
+        _isBiometricAvailable = false;
+      });
+    }
+  }
+
+  Future<void> _loadBiometricSettings() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      setState(() {
+        _isBiometricEnabled = prefs.getBool('biometric_enabled') ?? false;
+      });
+    } catch (e) {
+      setState(() {
+        _isBiometricEnabled = false;
+      });
+    }
+  }
+
+  Future<void> _saveBiometricSettings(bool enabled) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('biometric_enabled', enabled);
+      setState(() {
+        _isBiometricEnabled = enabled;
+      });
+    } catch (e) {
+      // Handle error silently
+    }
+  }
+
+  Future<void> _authenticateWithBiometrics() async {
+    // Check if biometrics are available
+    if (!_isBiometricAvailable) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Biometric authentication is not available on this device.'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    try {
+      final isAuthenticated = await _localAuth.authenticate(
+        localizedReason: 'Please authenticate to sign in to SOMOS QR+',
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+          stickyAuth: true,
+        ),
+      );
+
+      if (isAuthenticated) {
+        // Get saved credentials
+        final prefs = await SharedPreferences.getInstance();
+        final savedEmail = prefs.getString('saved_email');
+        final savedPassword = prefs.getString('saved_password');
+
+        if (savedEmail != null && savedPassword != null) {
+          // Auto-fill the form
+          _emailController.text = savedEmail;
+          _passwordController.text = savedPassword;
+
+          // Automatically sign in
+          await _handleLogin();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('No saved credentials found. Please sign in manually first and check "Remember me".'),
+              backgroundColor: Colors.orange,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Biometric authentication failed: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Widget _buildBiometricButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: _authenticateWithBiometrics,
+        icon: Icon(
+          _getBiometricIcon(),
+          color: const Color(0xFF1976D2),
+          size: 20,
+        ),
+        label: Text(
+          _getBiometricText(),
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF1976D2),
+          ),
+        ),
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          side: const BorderSide(color: Color(0xFF1976D2), width: 1.5),
+        ),
+      ),
+    );
+  }
+
+  IconData _getBiometricIcon() {
+    try {
+      // This is a simplified approach - in a real app you'd check the actual biometric type
+      return Icons.fingerprint;
+    } catch (e) {
+      return Icons.security;
+    }
+  }
+
+  String _getBiometricText() {
+    try {
+      // This is a simplified approach - in a real app you'd check the actual biometric type
+      return 'Sign in with Biometrics';
+    } catch (e) {
+      return 'Sign in with Biometrics';
+    }
+  }
+
+  Future<void> _saveCredentials() async {
+    if (_rememberMe) {
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('saved_email', _emailController.text.trim());
+        await prefs.setString('saved_password', _passwordController.text);
+        await prefs.setBool('biometric_enabled', true);
+        setState(() {
+          _isBiometricEnabled = true;
+        });
+      } catch (e) {
+        // Handle error silently
+      }
+    }
   }
 }
 
