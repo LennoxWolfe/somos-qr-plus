@@ -264,6 +264,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize searchable dropdown
     initializeSearchableDropdown();
     
+    // Initialize practice name dropdown
+    initializePracticeNameDropdown();
+    
+    // Initialize MCO dropdown
+    initializeMCODropdown();
+    
+    // Initialize LOB dropdown
+    initializeLOBDropdown();
+    
+    // Initialize Product dropdown
+    initializeProductDropdown();
+    
+    // Initialize Measure dropdown
+    initializeMeasureDropdown();
+    
+    // Initialize table sorting
+    initializeTableSorting();
+    
+    // Initialize clear all button
+    initializeClearAllButton();
+    
 });
 
 // Logout function
@@ -540,6 +561,354 @@ function showLogoutDialog() {
     if (dialog) {
         dialog.classList.add('show');
     }
+}
+
+// Practice Name Dropdown Functionality
+function initializePracticeNameDropdown() {
+    const practiceNameSelect = document.getElementById('practiceNameSelect');
+    
+    if (practiceNameSelect) {
+        practiceNameSelect.addEventListener('change', function() {
+            const selectedValue = this.value;
+            const selectedText = this.options[this.selectedIndex].text;
+            
+            console.log('Practice name changed to:', selectedText);
+            
+            // Update the quality scorecards data based on selected practice
+            updatePracticeData(selectedValue, selectedText);
+            
+            // Show success message
+            showSuccess(`Quality scorecards updated for ${selectedText}`);
+        });
+    }
+}
+
+// Update Practice Data (placeholder function)
+function updatePracticeData(practiceValue, practiceText) {
+    // This function would typically:
+    // 1. Make API calls to fetch new data for the selected practice
+    // 2. Update the quality scorecards table
+    // 3. Update the KPI metrics
+    // 4. Update any charts or visualizations
+    
+    console.log('Updating practice data for:', practiceText);
+    
+    // For demo purposes, we'll just log the change
+    // In a real application, this would make API calls to get new data
+    console.log('Practice data would be updated here with new quality scorecards');
+}
+
+// MCO Dropdown Functionality
+function initializeMCODropdown() {
+    const mcoSelect = document.getElementById('mcoSelect');
+    
+    if (mcoSelect) {
+        mcoSelect.addEventListener('change', function() {
+            const selectedValue = this.value;
+            const selectedText = this.options[this.selectedIndex].text;
+            
+            console.log('MCO changed to:', selectedText);
+            
+            // Update the quality scorecards data based on selected MCO
+            updateMCOData(selectedValue, selectedText);
+            
+            // Show success message
+            showSuccess(`Quality scorecards updated for ${selectedText}`);
+        });
+    }
+}
+
+// Update MCO Data (placeholder function)
+function updateMCOData(mcoValue, mcoText) {
+    // This function would typically:
+    // 1. Make API calls to fetch new data for the selected MCO
+    // 2. Update the quality scorecards table
+    // 3. Update the KPI metrics
+    // 4. Update any charts or visualizations
+    
+    console.log('Updating MCO data for:', mcoText);
+    
+    // For demo purposes, we'll just log the change
+    // In a real application, this would make API calls to get new data
+    console.log('MCO data would be updated here with new quality scorecards');
+}
+
+// LOB Dropdown Functionality
+function initializeLOBDropdown() {
+    const lobSelect = document.getElementById('lobSelect');
+    
+    if (lobSelect) {
+        lobSelect.addEventListener('change', function() {
+            const selectedValue = this.value;
+            const selectedText = this.options[this.selectedIndex].text;
+            
+            console.log('LOB changed to:', selectedText);
+            
+            // Update the quality scorecards data based on selected LOB
+            updateLOBData(selectedValue, selectedText);
+            
+            // Show success message
+            showSuccess(`Quality scorecards updated for ${selectedText}`);
+        });
+    }
+}
+
+// Update LOB Data (placeholder function)
+function updateLOBData(lobValue, lobText) {
+    // This function would typically:
+    // 1. Make API calls to fetch new data for the selected LOB
+    // 2. Update the quality scorecards table
+    // 3. Update the KPI metrics
+    // 4. Update any charts or visualizations
+    
+    console.log('Updating LOB data for:', lobText);
+    
+    // For demo purposes, we'll just log the change
+    // In a real application, this would make API calls to get new data
+    console.log('LOB data would be updated here with new quality scorecards');
+}
+
+// Product Dropdown Functionality
+function initializeProductDropdown() {
+    const productSelect = document.getElementById('productSelect');
+    
+    if (productSelect) {
+        productSelect.addEventListener('change', function() {
+            const selectedValue = this.value;
+            const selectedText = this.options[this.selectedIndex].text;
+            
+            console.log('Product changed to:', selectedText);
+            
+            // Update the quality scorecards data based on selected Product
+            updateProductData(selectedValue, selectedText);
+            
+            // Show success message
+            showSuccess(`Quality scorecards updated for ${selectedText}`);
+        });
+    }
+}
+
+// Update Product Data (placeholder function)
+function updateProductData(productValue, productText) {
+    // This function would typically:
+    // 1. Make API calls to fetch new data for the selected Product
+    // 2. Update the quality scorecards table
+    // 3. Update the KPI metrics
+    // 4. Update any charts or visualizations
+    
+    console.log('Updating Product data for:', productText);
+    
+    // For demo purposes, we'll just log the change
+    // In a real application, this would make API calls to get new data
+    console.log('Product data would be updated here with new quality scorecards');
+}
+
+// Measure Dropdown Functionality
+function initializeMeasureDropdown() {
+    const measureSelect = document.getElementById('measureSelect');
+    
+    if (measureSelect) {
+        measureSelect.addEventListener('change', function() {
+            const selectedValue = this.value;
+            const selectedText = this.options[this.selectedIndex].text;
+            
+            console.log('Measure changed to:', selectedText);
+            
+            // Update the quality scorecards data based on selected Measure
+            updateMeasureData(selectedValue, selectedText);
+            
+            // Show success message
+            showSuccess(`Quality scorecards updated for ${selectedText}`);
+        });
+    }
+}
+
+// Update Measure Data (placeholder function)
+function updateMeasureData(measureValue, measureText) {
+    // This function would typically:
+    // 1. Make API calls to fetch new data for the selected Measure
+    // 2. Update the quality scorecards table
+    // 3. Update the KPI metrics
+    // 4. Update any charts or visualizations
+    
+    console.log('Updating Measure data for:', measureText);
+    
+    // For demo purposes, we'll just log the change
+    // In a real application, this would make API calls to get new data
+    console.log('Measure data would be updated here with new quality scorecards');
+}
+
+// Table Sorting Functionality
+function initializeTableSorting() {
+    const sortableHeaders = document.querySelectorAll('.sortable');
+    let currentSort = { column: null, direction: 'asc' };
+    
+    sortableHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            const column = this.getAttribute('data-column');
+            const tbody = document.querySelector('.scorecards-table tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            // Determine sort direction
+            let direction = 'asc';
+            if (currentSort.column === column && currentSort.direction === 'asc') {
+                direction = 'desc';
+            }
+            
+            // Remove previous sort indicators
+            sortableHeaders.forEach(h => {
+                h.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            // Add current sort indicator
+            this.classList.add(direction === 'asc' ? 'sort-asc' : 'sort-desc');
+            
+            // Sort the rows
+            rows.sort((a, b) => {
+                const aValue = getCellValue(a, column);
+                const bValue = getCellValue(b, column);
+                
+                if (direction === 'asc') {
+                    return compareValues(aValue, bValue);
+                } else {
+                    return compareValues(bValue, aValue);
+                }
+            });
+            
+            // Reorder the rows in the table
+            rows.forEach(row => tbody.appendChild(row));
+            
+            // Update current sort
+            currentSort = { column, direction };
+            
+            // Show success message
+            showSuccess(`Table sorted by ${getColumnDisplayName(column)} (${direction.toUpperCase()})`);
+        });
+    });
+}
+
+// Helper function to get cell value for sorting
+function getCellValue(row, column) {
+    const cellIndex = getColumnIndex(column);
+    const cell = row.cells[cellIndex];
+    
+    if (!cell) return '';
+    
+    const text = cell.textContent.trim();
+    
+    // Handle numeric values
+    if (column === 'open' || column === 'numerator' || column === 'denominator' || 
+        column === 'hits-target' || column === 'weight' || column === 'achieved') {
+        const num = parseFloat(text);
+        return isNaN(num) ? 0 : num;
+    }
+    
+    // Handle text values
+    return text.toLowerCase();
+}
+
+// Helper function to get column index
+function getColumnIndex(column) {
+    const columnMap = {
+        'measure-code': 0,
+        'measure-name': 1,
+        'open': 2,
+        'numerator': 3,
+        'denominator': 4,
+        'hits-target': 11,
+        'weight': 12,
+        'achieved': 13
+    };
+    return columnMap[column] || 0;
+}
+
+// Helper function to compare values for sorting
+function compareValues(a, b) {
+    if (typeof a === 'number' && typeof b === 'number') {
+        return a - b;
+    }
+    return a.localeCompare(b);
+}
+
+// Helper function to get column display name
+function getColumnDisplayName(column) {
+    const displayNames = {
+        'measure-code': 'Measure Code',
+        'measure-name': 'Measure Name',
+        'open': 'Open',
+        'numerator': 'Numerator',
+        'denominator': 'Denominator',
+        'hits-target': 'Hits to Next Target',
+        'weight': 'Weight',
+        'achieved': 'Achieved'
+    };
+    return displayNames[column] || column;
+}
+
+// Clear All Button Functionality
+function initializeClearAllButton() {
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    
+    if (clearAllBtn) {
+        clearAllBtn.addEventListener('click', function() {
+            // Reset all dropdowns to their default values
+            resetAllDropdowns();
+            
+            // Clear any table sorting
+            clearTableSorting();
+            
+            // Show success message
+            showSuccess('All filters cleared successfully');
+        });
+    }
+}
+
+// Reset all dropdowns to default values
+function resetAllDropdowns() {
+    // Reset Practice Name dropdown
+    const practiceSelect = document.getElementById('practiceNameSelect');
+    if (practiceSelect) {
+        practiceSelect.value = 'delmont';
+    }
+    
+    // Reset MCO dropdown
+    const mcoSelect = document.getElementById('mcoSelect');
+    if (mcoSelect) {
+        mcoSelect.value = 'anthem';
+    }
+    
+    // Reset LOB dropdown
+    const lobSelect = document.getElementById('lobSelect');
+    if (lobSelect) {
+        lobSelect.value = 'mcd';
+    }
+    
+    // Reset Product dropdown
+    const productSelect = document.getElementById('productSelect');
+    if (productSelect) {
+        productSelect.value = 'medicaid_chp';
+    }
+    
+    // Reset Measure dropdown
+    const measureSelect = document.getElementById('measureSelect');
+    if (measureSelect) {
+        measureSelect.value = 'all';
+    }
+    
+    console.log('All dropdowns reset to default values');
+}
+
+// Clear table sorting
+function clearTableSorting() {
+    // Remove sort indicators from all headers
+    const sortableHeaders = document.querySelectorAll('.sortable');
+    sortableHeaders.forEach(header => {
+        header.classList.remove('sort-asc', 'sort-desc');
+    });
+    
+    // Reset table to original order (if needed)
+    // This would typically involve re-fetching data or restoring original order
+    console.log('Table sorting cleared');
 }
 
 // Add CSS for animations

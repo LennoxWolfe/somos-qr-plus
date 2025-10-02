@@ -231,25 +231,85 @@
                 <div class="practice-info-grid">
                     <div class="practice-info-item">
                         <div class="info-label">PRACTICE NAME:</div>
-                        <div class="info-value">Delmont Medical, PC</div>
+                        <div class="practice-name-dropdown">
+                            <select class="practice-name-select" id="practiceNameSelect">
+                                <option value="delmont" selected>Delmont Medical, PC</option>
+                                <option value="provider2">Provider 2</option>
+                                <option value="provider3">Provider 3</option>
+                                <option value="provider4">Provider 4</option>
+                                <option value="provider5">Provider 5</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="practice-info-item">
                         <div class="info-label">MCO:</div>
-                        <div class="info-value">ANTHEM</div>
+                        <div class="mco-dropdown">
+                            <select class="mco-select" id="mcoSelect">
+                                <option value="anthem" selected>ANTHEM</option>
+                                <option value="aetna">AETNA</option>
+                                <option value="cigna">CIGNA</option>
+                                <option value="humana">HUMANA</option>
+                                <option value="unitedhealth">UNITEDHEALTH</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="practice-info-item">
                         <div class="info-label">LOB:</div>
-                        <div class="info-value">MEDICAID</div>
+                        <div class="lob-dropdown">
+                            <select class="lob-select" id="lobSelect">
+                                <option value="mcd" selected>MCD</option>
+                                <option value="mcr">MCR</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="practice-info-item">
                         <div class="info-label">Product:</div>
-                        <div class="info-value">-</div>
+                        <div class="product-dropdown">
+                            <select class="product-select" id="productSelect">
+                                <option value="epp">EPP</option>
+                                <option value="medicaid_chp" selected>Medicaid/CHP</option>
+                                <option value="harp">HARP</option>
+                                <option value="all">All</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="practice-info-item">
                         <div class="info-label">Measure:</div>
-                        <div class="info-value">HEDIS MEASURE</div>
+                        <div class="measure-dropdown">
+                            <select class="measure-select" id="measureSelect">
+                                <option value="all" selected>All Measures</option>
+                                <option value="coa-pa">Care for Older Adults: Pain Assessment</option>
+                                <option value="ccs">Cervical Cancer Screening</option>
+                                <option value="caw">Child and Adolescent Well-Care Visits</option>
+                                <option value="cis-3">Childhood Immunization Status: Combination 3</option>
+                                <option value="crc">Colorectal Cancer Screening</option>
+                                <option value="cdc-ee">Comprehensive Diabetes Care: Eye Exams</option>
+                                <option value="cdc-hba1c">Comprehensive Diabetes Care: HbA1c Control (8.0% or 9.0%)</option>
+                                <option value="chbp">Controlling High Blood Pressure</option>
+                                <option value="fua-7">Follow-Up After ED Visit for Alcohol and Other Drug Abuse: Within 7 Days Post-Discharge</option>
+                                <option value="mac">Medication Adherence for Cholesterol</option>
+                                <option value="mah">Medication Adherence for Hypertension</option>
+                                <option value="mad">Medication Adherence for Oral Diabetes Medications</option>
+                                <option value="omf">Osteoporosis Management in Women Who Had a Fracture</option>
+                                <option value="ppc-pp">Prenatal and Postpartum Care: Postpartum Care</option>
+                                <option value="st-dm">Statin Therapy for Patients with Diabetes- Received Statin Therapy</option>
+                                <option value="toc-mr">Transitions of Care: Medication Reconciliation</option>
+                                <option value="toc-pe">Transitions of Care: Patient Engagement after Inpatient Discharge</option>
+                                <option value="vls">Viral Load Suppression</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Clear All Button -->
+            <div class="clear-all-container">
+                <button class="clear-all-btn" id="clearAllBtn" title="Clear all filters">
+                    <svg class="clear-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6"/>
+                    </svg>
+                    <span class="clear-text">Clear All</span>
+                </button>
             </div>
 
             <!-- Score Cards Table Container -->
@@ -258,16 +318,56 @@
                     <table class="scorecards-table">
                         <thead>
                             <tr class="header-row-1">
-                                <th class="measure-code-header">Measure Code</th>
-                                <th class="measure-name-header">Measure Name</th>
-                                <th class="open-header">Open</th>
-                                <th class="numerator-header">Numerator</th>
-                                <th class="denominator-header">Denominator</th>
+                                <th class="measure-code-header sortable" data-column="measure-code">
+                                    <div class="sort-header">
+                                        <span>Measure Code</span>
+                                        <span class="sort-indicator">↕</span>
+                                    </div>
+                                </th>
+                                <th class="measure-name-header sortable" data-column="measure-name">
+                                    <div class="sort-header">
+                                        <span>Measure Name</span>
+                                        <span class="sort-indicator">↕</span>
+                                    </div>
+                                </th>
+                                <th class="open-header sortable" data-column="open">
+                                    <div class="sort-header">
+                                        <span>Open</span>
+                                        <span class="sort-indicator">↕</span>
+                                    </div>
+                                </th>
+                                <th class="numerator-header sortable" data-column="numerator">
+                                    <div class="sort-header">
+                                        <span>Numerator</span>
+                                        <span class="sort-indicator">↕</span>
+                                    </div>
+                                </th>
+                                <th class="denominator-header sortable" data-column="denominator">
+                                    <div class="sort-header">
+                                        <span>Denominator</span>
+                                        <span class="sort-indicator">↕</span>
+                                    </div>
+                                </th>
                                 <th class="closed-header" colspan="4">CLOSED</th>
                                 <th class="benchmarks-header" colspan="3">BENCHMARKS</th>
-                                <th class="hits-target-header">Hits to Next Target</th>
-                                <th class="weight-header">Weight</th>
-                                <th class="achieved-header">Achieved</th>
+                                <th class="hits-target-header sortable" data-column="hits-target">
+                                    <div class="sort-header">
+                                        <span>Hits to Next Target</span>
+                                        <span class="sort-indicator">↕</span>
+                                    </div>
+                                </th>
+                                <th class="weight-header sortable" data-column="weight">
+                                    <div class="sort-header">
+                                        <span>Weight</span>
+                                        <span class="sort-indicator">↕</span>
+                                    </div>
+                                </th>
+                                <th class="achieved-header sortable" data-column="achieved">
+                                    <div class="sort-header">
+                                        <span>Achieved</span>
+                                        <span class="sort-indicator">↕</span>
+                                    </div>
+                                </th>
                             </tr>
                             <tr class="header-row-2">
                                 <th></th>
