@@ -4,6 +4,7 @@ import '../widgets/tablet_layout_widget.dart';
 import '../widgets/tablet_app_header_widget.dart';
 import '../widgets/provider_dropdown_widget.dart';
 import '../core/constants/providers.dart';
+import '../widgets/perfect_table_widget.dart';
 
 class QualityScorecardsTabletScreen extends StatefulWidget {
   const QualityScorecardsTabletScreen({super.key});
@@ -14,105 +15,318 @@ class QualityScorecardsTabletScreen extends StatefulWidget {
 
 class _QualityScorecardsTabletScreenState extends State<QualityScorecardsTabletScreen> {
   String _selectedProvider = 'All';
-  int _currentPage = 0;
-  int _rowsPerPage = 20;
+  String _selectedMCO = 'ANTHEM';
+  String _selectedLOB = 'MCD';
+  String _selectedProduct = 'All';
+  String _selectedMeasure = 'All';
+  
   
   final List<Map<String, dynamic>> _qualityMetrics = [
     {
-      'measure': 'COA-PA',
-      'closed': ['123', '456', '789'],
-      'benchmarks': ['50%', '75%', '90%'],
-      'hitsNeeded': ['10', '20', '30'],
+      'measureCode': 'COA-PA',
+      'measureName': 'Care for Older Adults: Pain Assessment',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'CCS',
-      'closed': ['234', '567', '890'],
-      'benchmarks': ['55%', '80%', '95%'],
-      'hitsNeeded': ['15', '25', '35'],
+      'measureCode': 'CCS',
+      'measureName': 'Cervical Cancer Screening',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'CAW',
-      'closed': ['345', '678', '901'],
-      'benchmarks': ['60%', '85%', '92%'],
-      'hitsNeeded': ['12', '22', '32'],
+      'measureCode': 'CAW',
+      'measureName': 'Child and Adolescent Well-Care Visits',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'CIS-3',
-      'closed': ['456', '789', '012'],
-      'benchmarks': ['65%', '88%', '94%'],
-      'hitsNeeded': ['18', '28', '38'],
+      'measureCode': 'CIS-3',
+      'measureName': 'Childhood Immunization Status: Combination 3',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'CRC',
-      'closed': ['567', '890', '123'],
-      'benchmarks': ['70%', '90%', '96%'],
-      'hitsNeeded': ['14', '24', '34'],
+      'measureCode': 'CRC',
+      'measureName': 'Colorectal Cancer Screening',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'CDC-EE',
-      'closed': ['678', '901', '234'],
-      'benchmarks': ['75%', '92%', '98%'],
-      'hitsNeeded': ['16', '26', '36'],
+      'measureCode': 'CDC-EE',
+      'measureName': 'Comprehensive Diabetes Care: Eye Exams',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'CDC-HbA1c',
-      'closed': ['789', '012', '345'],
-      'benchmarks': ['80%', '94%', '99%'],
-      'hitsNeeded': ['13', '23', '33'],
+      'measureCode': 'CDC-HbA1c',
+      'measureName': 'Comprehensive Diabetes Care: HbA1c Control (8.0% or 9.0%)',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'CHBP',
-      'closed': ['890', '123', '456'],
-      'benchmarks': ['85%', '96%', '100%'],
-      'hitsNeeded': ['17', '27', '37'],
+      'measureCode': 'CHBP',
+      'measureName': 'Controlling High Blood Pressure',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'FUA-7',
-      'closed': ['901', '234', '567'],
-      'benchmarks': ['90%', '98%', '100%'],
-      'hitsNeeded': ['11', '21', '31'],
+      'measureCode': 'FUA-7',
+      'measureName': 'Follow-Up After ED Visit for Alcohol and Other Drug Abuse: Within 7 Days Post-Discharge',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'MAC',
-      'closed': ['012', '345', '678'],
-      'benchmarks': ['95%', '99%', '100%'],
-      'hitsNeeded': ['19', '29', '39'],
+      'measureCode': 'MAC',
+      'measureName': 'Medication Adherence for Cholesterol',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'MAH',
-      'closed': ['123', '456', '789'],
-      'benchmarks': ['100%', '100%', '100%'],
-      'hitsNeeded': ['0', '0', '0'],
+      'measureCode': 'MAH',
+      'measureName': 'Medication Adherence for Hypertension',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'MAD',
-      'closed': ['234', '567', '890'],
-      'benchmarks': ['45%', '70%', '85%'],
-      'hitsNeeded': ['25', '40', '55'],
+      'measureCode': 'MAD',
+      'measureName': 'Medication Adherence for Oral Diabetes Medications',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'OMF',
-      'closed': ['345', '678', '901'],
-      'benchmarks': ['40%', '65%', '80%'],
-      'hitsNeeded': ['30', '45', '60'],
+      'measureCode': 'OMF',
+      'measureName': 'Osteoporosis Management in Women Who Had a Fracture',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'PPC-PP',
-      'closed': ['456', '789', '012'],
-      'benchmarks': ['35%', '60%', '75%'],
-      'hitsNeeded': ['35', '50', '65'],
+      'measureCode': 'PPC-PP',
+      'measureName': 'Prenatal and Postpartum Care: Postpartum Care',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'ST-DM',
-      'closed': ['567', '890', '123'],
-      'benchmarks': ['30%', '55%', '70%'],
-      'hitsNeeded': ['40', '55', '70'],
+      'measureCode': 'ST-DM',
+      'measureName': 'Statin Therapy for Patients with Diabetes- Received Statin Therapy',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
     {
-      'measure': 'TOC-MR',
-      'closed': ['678', '901', '234'],
-      'benchmarks': ['25%', '50%', '65%'],
-      'hitsNeeded': ['45', '60', '75'],
+      'measureCode': 'TOC-MR',
+      'measureName': 'Transitions of Care: Medication Reconciliation',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
+    },
+    {
+      'measureCode': 'TOC-PE',
+      'measureName': 'Transitions of Care: Patient Engagement after Inpatient Discharge',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
+    },
+    {
+      'measureCode': 'VLS',
+      'measureName': 'Viral Load Suppression',
+      'open': '-',
+      'numerator': '-',
+      'denominator': '-',
+      'closedApp': '-',
+      'closedClaim': '-',
+      'closedEmr': '-',
+      'complianceRate': '%',
+      'benchmark50th': '%',
+      'benchmark75th': '%',
+      'benchmark90th': '%',
+      'hitsToTarget': '-',
+      'weight': '-',
+      'achieved': '%',
     },
   ];
 
@@ -160,264 +374,38 @@ class _QualityScorecardsTabletScreenState extends State<QualityScorecardsTabletS
                 ),
               ],
             ),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Page Title
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 24),
-                    child: Text(
-                      'Quality Score Cards',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF333333),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Page Title
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 24),
+                        child: Text(
+                          'Quality Score Cards',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF333333),
+                          ),
+                        ),
                       ),
-                    ),
+
+                      // Practice Information Section
+                      _buildPracticeInfoSection(),
+                      const SizedBox(height: 16),
+                      _buildClearAllButton(),
+                      const SizedBox(height: 24),
+                    
+                      // Perfect Table
+                      _buildPerfectTable(),
+                    ],
                   ),
-                
-                  // Score Cards Table
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.grey[300]!),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 3,
-                          offset: const Offset(0, 1),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        // Table
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: DataTable(
-                            headingRowHeight: 100,
-                            dataRowHeight: 50,
-                            columnSpacing: 0,
-                            border: TableBorder.all(
-                              color: Colors.grey[300]!,
-                              width: 1,
-                            ),
-                            columns: [
-                              // Measures Column
-                              DataColumn(
-                                label: Container(
-                                  width: 120,
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFFF8F9FA),
-                                  ),
-                                  child: const Text(
-                                    'Measures',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF333333),
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              // Closed Section
-                              ...List.generate(3, (index) => DataColumn(
-                                label: Container(
-                                  width: 80,
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFFE8F5E8),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        'Closed',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFF333333),
-                                          fontSize: 14,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        index == 0 ? 'MCO' : index == 1 ? 'CLAIM' : 'EHR*',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[600],
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )),
-                              // Benchmarks Section
-                              ...List.generate(3, (index) => DataColumn(
-                                label: Container(
-                                  width: 100,
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFFF0F8F0),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        'Benchmarks',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFF333333),
-                                          fontSize: 14,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        index == 0 ? '50TH/3 START' : index == 1 ? '75TH/4 START' : '90TH/5STAR',
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          color: Colors.grey[600],
-                                        ),
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.visible,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )),
-                              // Hits Needed Section
-                              ...List.generate(3, (index) => DataColumn(
-                                label: Container(
-                                  width: 100,
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFFF8F9FA),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        'Hits Needed',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFF333333),
-                                          fontSize: 14,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        index == 0 ? '50TH/3 START' : index == 1 ? '75TH/4 START' : '90TH/5STAR',
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          color: Colors.grey[600],
-                                        ),
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.visible,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )),
-                            ],
-                            rows: _getCurrentPageRows(),
-                          ),
-                        ),
-                        
-                        // Pagination
-                        Container(
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF8F9FA),
-                            border: Border(
-                              top: BorderSide(color: Colors.grey[300]!),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // Left side - Rows per page and info
-                              Row(
-                                children: [
-                                  const Text(
-                                    'Rows per page:',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF666666),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(4),
-                                      border: Border.all(color: Colors.grey[300]!),
-                                    ),
-                                    child: DropdownButtonHideUnderline(
-                                      child: DropdownButton<int>(
-                                        value: _rowsPerPage,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF333333),
-                                        ),
-                                        items: const [
-                                          DropdownMenuItem(value: 20, child: Text('20')),
-                                          DropdownMenuItem(value: 40, child: Text('40')),
-                                          DropdownMenuItem(value: 60, child: Text('60')),
-                                          DropdownMenuItem(value: 80, child: Text('80')),
-                                          DropdownMenuItem(value: 100, child: Text('100')),
-                                        ],
-                                        onChanged: (int? newValue) {
-                                          if (newValue != null) {
-                                            setState(() {
-                                              _rowsPerPage = newValue;
-                                              _currentPage = 0;
-                                            });
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 32),
-                                  Text(
-                                    _getPageInfo(),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF666666),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              
-                              // Right side - Pagination buttons
-                              Row(
-                                children: [
-                                  _buildPaginationButton('⏮️', _currentPage == 0, () => _goToFirstPage()),
-                                  const SizedBox(width: 4),
-                                  _buildPaginationButton('◀', _currentPage == 0, () => _goToPreviousPage()),
-                                  const SizedBox(width: 4),
-                                  _buildPaginationButton('▶', _currentPage >= _getTotalPages() - 1, () => _goToNextPage()),
-                                  const SizedBox(width: 4),
-                                  _buildPaginationButton('⏭️', _currentPage >= _getTotalPages() - 1, () => _goToLastPage()),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           ),
         ],
@@ -472,157 +460,9 @@ class _QualityScorecardsTabletScreenState extends State<QualityScorecardsTabletS
     }
   }
 
-  List<DataRow> _getCurrentPageRows() {
-    final startIndex = _currentPage * _rowsPerPage;
-    final endIndex = (startIndex + _rowsPerPage).clamp(0, _qualityMetrics.length);
-    
-    return _qualityMetrics
-        .sublist(startIndex, endIndex)
-        .map((metric) => _buildDataRow(
-              metric['measure'],
-              metric['closed'],
-              metric['benchmarks'],
-              metric['hitsNeeded'],
-            ))
-        .toList();
-  }
 
-  int _getTotalPages() {
-    return (_qualityMetrics.length / _rowsPerPage).ceil();
-  }
 
-  String _getPageInfo() {
-    final startIndex = _currentPage * _rowsPerPage + 1;
-    final endIndex = ((_currentPage + 1) * _rowsPerPage).clamp(0, _qualityMetrics.length);
-    return '$startIndex-$endIndex of ${_qualityMetrics.length}';
-  }
 
-  void _goToFirstPage() {
-    if (_currentPage > 0) {
-      setState(() {
-        _currentPage = 0;
-      });
-    }
-  }
-
-  void _goToPreviousPage() {
-    if (_currentPage > 0) {
-      setState(() {
-        _currentPage--;
-      });
-    }
-  }
-
-  void _goToNextPage() {
-    if (_currentPage < _getTotalPages() - 1) {
-      setState(() {
-        _currentPage++;
-      });
-    }
-  }
-
-  void _goToLastPage() {
-    final totalPages = _getTotalPages();
-    if (_currentPage < totalPages - 1) {
-      setState(() {
-        _currentPage = totalPages - 1;
-      });
-    }
-  }
-
-  Widget _buildPaginationButton(String icon, bool isDisabled, VoidCallback onPressed) {
-    return Container(
-      width: 36,
-      height: 36,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: Colors.grey[300]!),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: isDisabled ? null : onPressed,
-          borderRadius: BorderRadius.circular(4),
-          child: Center(
-            child: Text(
-              icon,
-              style: TextStyle(
-                fontSize: 14,
-                color: isDisabled ? Colors.grey[400] : const Color(0xFF333333),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  DataRow _buildDataRow(String measure, List<String> closed, List<String> benchmarks, List<String> hitsNeeded) {
-    return DataRow(
-      cells: [
-        DataCell(
-          Container(
-            width: 120,
-            padding: const EdgeInsets.all(12),
-            decoration: const BoxDecoration(
-              color: Color(0xFFF8F9FA),
-            ),
-            child: Text(
-              measure,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Color(0xFF1976D2),
-                fontSize: 14,
-              ),
-            ),
-          ),
-        ),
-        ...closed.map((value) => DataCell(
-          Container(
-            width: 80,
-            padding: const EdgeInsets.all(12),
-            child: Text(
-              value,
-              style: const TextStyle(
-                color: Color(0xFF333333),
-                fontSize: 14,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        )),
-        ...benchmarks.map((value) => DataCell(
-          Container(
-            width: 100,
-            padding: const EdgeInsets.all(12),
-            child: Text(
-              value,
-              style: const TextStyle(
-                color: Color(0xFF333333),
-                fontSize: 14,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        )),
-        ...hitsNeeded.map((value) => DataCell(
-          Container(
-            width: 100,
-            padding: const EdgeInsets.all(12),
-            child: Text(
-              value,
-              style: const TextStyle(
-                color: Color(0xFF333333),
-                fontSize: 14,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        )),
-      ],
-    );
-  }
 
   void _showSuccessMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -634,4 +474,434 @@ class _QualityScorecardsTabletScreenState extends State<QualityScorecardsTabletS
       ),
     );
   }
+
+  Widget _buildPracticeInfoSection() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F9FA),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFFE0E0E0)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: _buildPracticeDropdown(),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: _buildMCODropdown(),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: _buildLOBDropdown(),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: _buildProductDropdown(),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: _buildMeasureDropdown(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPracticeDropdown() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'PRACTICE NAME:',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF666666),
+            letterSpacing: 0.5,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(color: const Color(0xFFE0E0E0)),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: _selectedProvider,
+              isExpanded: true,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF333333),
+              ),
+              items: AppProviders.providers.map((String provider) {
+                return DropdownMenuItem<String>(
+                  value: provider,
+                  child: Text(provider),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  setState(() {
+                    _selectedProvider = newValue;
+                  });
+                  _showSuccessMessage('Quality scorecards updated for $newValue');
+                }
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMCODropdown() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'MCO:',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF666666),
+            letterSpacing: 0.5,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(color: const Color(0xFFE0E0E0)),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: _selectedMCO,
+              isExpanded: true,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF333333),
+              ),
+              items: const [
+                'ANTHEM',
+                'HealthFirst',
+                'MetroPlus',
+                'Fidelis Care',
+                'Empire BCBS',
+                'UHC Community',
+                'Emblem',
+                'Molina',
+              ].map((String mco) {
+                return DropdownMenuItem<String>(
+                  value: mco,
+                  child: Text(mco),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  setState(() {
+                    _selectedMCO = newValue;
+                  });
+                  _showSuccessMessage('Quality scorecards updated for $newValue');
+                }
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLOBDropdown() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'LOB:',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF666666),
+            letterSpacing: 0.5,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(color: const Color(0xFFE0E0E0)),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: _selectedLOB,
+              isExpanded: true,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF333333),
+              ),
+              items: const [
+                'MCD',
+                'MCR',
+              ].map((String lob) {
+                return DropdownMenuItem<String>(
+                  value: lob,
+                  child: Text(lob),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  setState(() {
+                    _selectedLOB = newValue;
+                  });
+                  _showSuccessMessage('Quality scorecards updated for $newValue');
+                }
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProductDropdown() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Product:',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF666666),
+            letterSpacing: 0.5,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(color: const Color(0xFFE0E0E0)),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: _selectedProduct,
+              isExpanded: true,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF333333),
+              ),
+              items: const [
+                'All',
+                'EPP',
+                'Medicaid/CHP',
+                'HARP',
+              ].map((String product) {
+                return DropdownMenuItem<String>(
+                  value: product,
+                  child: Text(product),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  setState(() {
+                    _selectedProduct = newValue;
+                  });
+                  _showSuccessMessage('Quality scorecards updated for $newValue');
+                }
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMeasureDropdown() {
+    // Get all unique measure names from the data
+    List<String> measureNames = _qualityMetrics
+        .map((metric) => metric['measureName'] as String)
+        .toSet()
+        .toList();
+    measureNames.insert(0, 'All'); // Add 'All' option at the beginning
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Measure:',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF666666),
+            letterSpacing: 0.5,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(color: const Color(0xFFE0E0E0)),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: _selectedMeasure,
+              isExpanded: true,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF333333),
+              ),
+              items: measureNames.map((String measure) {
+                return DropdownMenuItem<String>(
+                  value: measure,
+                  child: Text(
+                    measure,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  setState(() {
+                    _selectedMeasure = newValue;
+                  });
+                  _showSuccessMessage('Quality scorecards updated for $newValue');
+                }
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildClearAllButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: const Color(0xFF667EEA),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(25),
+              onTap: _clearAllFields,
+              child: const Icon(
+                Icons.clear_all,
+                color: Colors.white,
+                size: 24,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _clearAllFields() {
+    setState(() {
+      _selectedProvider = 'All';
+      _selectedMCO = 'ANTHEM';
+      _selectedLOB = 'MCD';
+      _selectedProduct = 'All';
+      _selectedMeasure = 'All';
+    });
+    _showSuccessMessage('All fields cleared successfully');
+  }
+
+
+
+  Widget _buildPracticeInfoItem(String label, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF666666),
+            letterSpacing: 0.5,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF333333),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+
+
+  Widget _buildPerfectTable() {
+    final columns = [
+      const TableColumn(title: 'Code', key: 'measureCode', width: 100, alignment: TextAlign.center),
+      const TableColumn(title: 'Measure Name', key: 'measureName', width: 250),
+      const TableColumn(title: 'Open', key: 'open', width: 80, alignment: TextAlign.center),
+      const TableColumn(title: 'Num.', key: 'numerator', width: 80, alignment: TextAlign.center),
+      const TableColumn(title: 'Den.', key: 'denominator', width: 80, alignment: TextAlign.center),
+      const TableColumn(title: 'APP', key: 'closedApp', width: 80, alignment: TextAlign.center),
+      const TableColumn(title: 'CLAIM', key: 'closedClaim', width: 100, alignment: TextAlign.center),
+      const TableColumn(title: 'EMR', key: 'closedEmr', width: 80, alignment: TextAlign.center),
+      const TableColumn(title: 'Comp %', key: 'complianceRate', width: 100, alignment: TextAlign.center),
+      const TableColumn(title: '50TH', key: 'benchmark50th', width: 80, alignment: TextAlign.center),
+      const TableColumn(title: '75TH', key: 'benchmark75th', width: 80, alignment: TextAlign.center),
+      const TableColumn(title: '90TH', key: 'benchmark90th', width: 80, alignment: TextAlign.center),
+      const TableColumn(title: 'Target', key: 'hitsToTarget', width: 100, alignment: TextAlign.center),
+      const TableColumn(title: 'Weight', key: 'weight', width: 100, alignment: TextAlign.center),
+      const TableColumn(title: 'Achieved', key: 'achieved', width: 100, alignment: TextAlign.center),
+    ];
+
+    return PerfectTableWidget(
+      data: _qualityMetrics,
+      columns: columns,
+      height: 600,
+      headerColor: const Color(0xFF4F46E5),
+      rowColor: Colors.white,
+      alternateRowColor: const Color(0xFFF8F9FA),
+    );
+  }
+
 }
