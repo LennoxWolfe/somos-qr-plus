@@ -226,234 +226,373 @@
                 <h1 class="welcome-title">Quality Score Cards</h1>
             </div>
 
+            <!-- Practice Information Section -->
+            <div class="practice-info-section">
+                <div class="practice-info-grid">
+                    <div class="practice-info-item">
+                        <div class="info-label">PRACTICE NAME:</div>
+                        <div class="info-value">Delmont Medical, PC</div>
+                    </div>
+                    <div class="practice-info-item">
+                        <div class="info-label">MCO:</div>
+                        <div class="info-value">ANTHEM</div>
+                    </div>
+                    <div class="practice-info-item">
+                        <div class="info-label">LOB:</div>
+                        <div class="info-value">MEDICAID</div>
+                    </div>
+                    <div class="practice-info-item">
+                        <div class="info-label">Product:</div>
+                        <div class="info-value">-</div>
+                    </div>
+                    <div class="practice-info-item">
+                        <div class="info-label">Measure:</div>
+                        <div class="info-value">HEDIS MEASURE</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Score Cards Table Container -->
             <div class="table-container">
                 <div class="table-wrapper">
                     <table class="scorecards-table">
                         <thead>
-                            <tr>
-                                <th class="metric-header">Measures</th>
-                                <!-- Closed Section -->
-                                <th class="section-header closed-section" colspan="3">
-                                    <div class="section-title">Closed</div>
-                                    <div class="section-labels">
-                                        <span>MCO</span>
-                                        <span>CLAIM</span>
-                                        <span>EHR*</span>
-                                    </div>
-                                </th>
-                                <!-- Benchmarks Section -->
-                                <th class="section-header benchmarks-section" colspan="3">
-                                    <div class="section-title">Benchmarks</div>
-                                    <div class="section-labels">
-                                        <span>50TH/3 START</span>
-                                        <span>75TH/4 START</span>
-                                        <span>90TH/5STAR</span>
-                                    </div>
-                                </th>
-                                <!-- Hits Needed Section -->
-                                <th class="section-header hits-needed-section" colspan="3">
-                                    <div class="section-title">Hits Needed</div>
-                                    <div class="section-labels">
-                                        <span>50TH/3 START</span>
-                                        <span>75TH/4 START</span>
-                                        <span>90TH/5STAR</span>
-                                    </div>
-                                </th>
+                            <tr class="header-row-1">
+                                <th class="measure-code-header">Measure Code</th>
+                                <th class="measure-name-header">Measure Name</th>
+                                <th class="open-header">Open</th>
+                                <th class="numerator-header">Numerator</th>
+                                <th class="denominator-header">Denominator</th>
+                                <th class="closed-header" colspan="4">CLOSED</th>
+                                <th class="benchmarks-header" colspan="3">BENCHMARKS</th>
+                                <th class="hits-target-header">Hits to Next Target</th>
+                                <th class="weight-header">Weight</th>
+                                <th class="achieved-header">Achieved</th>
+                            </tr>
+                            <tr class="header-row-2">
+                                <th></th>
+                                <th></th>
+                                <th class="open-header"></th>
+                                <th class="numerator-header"></th>
+                                <th class="denominator-header"></th>
+                                <th class="app-header">APP</th>
+                                <th class="data-type closed-header">CLAIM</th>
+                                <th class="data-type closed-header">EMR</th>
+                                <th class="compliance-rate-header">Compliance rate</th>
+                                <th class="data-type benchmarks-header">50TH/3 STAR</th>
+                                <th class="data-type benchmarks-header">75TH/4 STAR</th>
+                                <th class="data-type benchmarks-header">90TH/5 STAR</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="metric-name">COA-PA</td>
-                                <td class="metric-value">123</td>
-                                <td class="metric-value">456</td>
-                                <td class="metric-value">789</td>
-                                <td class="metric-value">50%</td>
-                                <td class="metric-value">75%</td>
-                                <td class="metric-value">90%</td>
-                                <td class="metric-value">10</td>
-                                <td class="metric-value">20</td>
-                                <td class="metric-value">30</td>
+                                <td class="measure-code">COA-PA</td>
+                                <td class="measure-name">Care for Older Adults: Pain Assessment</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">CCS</td>
-                                <td class="metric-value">234</td>
-                                <td class="metric-value">567</td>
-                                <td class="metric-value">890</td>
-                                <td class="metric-value">55%</td>
-                                <td class="metric-value">80%</td>
-                                <td class="metric-value">95%</td>
-                                <td class="metric-value">15</td>
-                                <td class="metric-value">25</td>
-                                <td class="metric-value">35</td>
+                                <td class="measure-code">CCS</td>
+                                <td class="measure-name">Cervical Cancer Screening</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">CAW</td>
-                                <td class="metric-value">345</td>
-                                <td class="metric-value">678</td>
-                                <td class="metric-value">901</td>
-                                <td class="metric-value">60%</td>
-                                <td class="metric-value">85%</td>
-                                <td class="metric-value">92%</td>
-                                <td class="metric-value">12</td>
-                                <td class="metric-value">22</td>
-                                <td class="metric-value">32</td>
+                                <td class="measure-code">CAW</td>
+                                <td class="measure-name">Child and Adolescent Well-Care Visits</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">CIS-3</td>
-                                <td class="metric-value">456</td>
-                                <td class="metric-value">789</td>
-                                <td class="metric-value">012</td>
-                                <td class="metric-value">65%</td>
-                                <td class="metric-value">88%</td>
-                                <td class="metric-value">94%</td>
-                                <td class="metric-value">18</td>
-                                <td class="metric-value">28</td>
-                                <td class="metric-value">38</td>
+                                <td class="measure-code">CIS-3</td>
+                                <td class="measure-name">Childhood Immunization Status: Combination 3</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">CRC</td>
-                                <td class="metric-value">567</td>
-                                <td class="metric-value">890</td>
-                                <td class="metric-value">123</td>
-                                <td class="metric-value">70%</td>
-                                <td class="metric-value">90%</td>
-                                <td class="metric-value">96%</td>
-                                <td class="metric-value">14</td>
-                                <td class="metric-value">24</td>
-                                <td class="metric-value">34</td>
+                                <td class="measure-code">CRC</td>
+                                <td class="measure-name">Colorectal Cancer Screening</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">CDC-EE</td>
-                                <td class="metric-value">678</td>
-                                <td class="metric-value">901</td>
-                                <td class="metric-value">234</td>
-                                <td class="metric-value">75%</td>
-                                <td class="metric-value">92%</td>
-                                <td class="metric-value">98%</td>
-                                <td class="metric-value">16</td>
-                                <td class="metric-value">26</td>
-                                <td class="metric-value">36</td>
+                                <td class="measure-code">CDC-EE</td>
+                                <td class="measure-name">Comprehensive Diabetes Care: Eye Exams</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">CDC-HbA1c</td>
-                                <td class="metric-value">789</td>
-                                <td class="metric-value">012</td>
-                                <td class="metric-value">345</td>
-                                <td class="metric-value">80%</td>
-                                <td class="metric-value">94%</td>
-                                <td class="metric-value">99%</td>
-                                <td class="metric-value">13</td>
-                                <td class="metric-value">23</td>
-                                <td class="metric-value">33</td>
+                                <td class="measure-code">CDC-HbA1c</td>
+                                <td class="measure-name">Comprehensive Diabetes Care: HbA1c Control (8.0% or 9.0%)</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">CHBP</td>
-                                <td class="metric-value">890</td>
-                                <td class="metric-value">123</td>
-                                <td class="metric-value">456</td>
-                                <td class="metric-value">85%</td>
-                                <td class="metric-value">96%</td>
-                                <td class="metric-value">100%</td>
-                                <td class="metric-value">17</td>
-                                <td class="metric-value">27</td>
-                                <td class="metric-value">37</td>
+                                <td class="measure-code">CHBP</td>
+                                <td class="measure-name">Controlling High Blood Pressure</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">FUA-7</td>
-                                <td class="metric-value">901</td>
-                                <td class="metric-value">234</td>
-                                <td class="metric-value">567</td>
-                                <td class="metric-value">90%</td>
-                                <td class="metric-value">98%</td>
-                                <td class="metric-value">100%</td>
-                                <td class="metric-value">11</td>
-                                <td class="metric-value">21</td>
-                                <td class="metric-value">31</td>
+                                <td class="measure-code">FUA-7</td>
+                                <td class="measure-name">Follow-Up After ED Visit for Alcohol and Other Drug Abuse: Within 7 Days Post-Discharge</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">MAC</td>
-                                <td class="metric-value">012</td>
-                                <td class="metric-value">345</td>
-                                <td class="metric-value">678</td>
-                                <td class="metric-value">95%</td>
-                                <td class="metric-value">99%</td>
-                                <td class="metric-value">100%</td>
-                                <td class="metric-value">19</td>
-                                <td class="metric-value">29</td>
-                                <td class="metric-value">39</td>
+                                <td class="measure-code">MAC</td>
+                                <td class="measure-name">Medication Adherence for Cholesterol</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">MAH</td>
-                                <td class="metric-value">123</td>
-                                <td class="metric-value">456</td>
-                                <td class="metric-value">789</td>
-                                <td class="metric-value">100%</td>
-                                <td class="metric-value">100%</td>
-                                <td class="metric-value">100%</td>
-                                <td class="metric-value">0</td>
-                                <td class="metric-value">0</td>
-                                <td class="metric-value">0</td>
+                                <td class="measure-code">MAH</td>
+                                <td class="measure-name">Medication Adherence for Hypertension</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">MAD</td>
-                                <td class="metric-value">234</td>
-                                <td class="metric-value">567</td>
-                                <td class="metric-value">890</td>
-                                <td class="metric-value">45%</td>
-                                <td class="metric-value">70%</td>
-                                <td class="metric-value">85%</td>
-                                <td class="metric-value">25</td>
-                                <td class="metric-value">40</td>
-                                <td class="metric-value">55</td>
+                                <td class="measure-code">MAD</td>
+                                <td class="measure-name">Medication Adherence for Oral Diabetes Medications</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">OMF</td>
-                                <td class="metric-value">345</td>
-                                <td class="metric-value">678</td>
-                                <td class="metric-value">901</td>
-                                <td class="metric-value">40%</td>
-                                <td class="metric-value">65%</td>
-                                <td class="metric-value">80%</td>
-                                <td class="metric-value">30</td>
-                                <td class="metric-value">45</td>
-                                <td class="metric-value">60</td>
+                                <td class="measure-code">OMF</td>
+                                <td class="measure-name">Osteoporosis Management in Women Who Had a Fracture</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">PPC-PP</td>
-                                <td class="metric-value">456</td>
-                                <td class="metric-value">789</td>
-                                <td class="metric-value">012</td>
-                                <td class="metric-value">35%</td>
-                                <td class="metric-value">60%</td>
-                                <td class="metric-value">75%</td>
-                                <td class="metric-value">35</td>
-                                <td class="metric-value">50</td>
-                                <td class="metric-value">65</td>
+                                <td class="measure-code">PPC-PP</td>
+                                <td class="measure-name">Prenatal and Postpartum Care: Postpartum Care</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">ST-DM</td>
-                                <td class="metric-value">567</td>
-                                <td class="metric-value">890</td>
-                                <td class="metric-value">123</td>
-                                <td class="metric-value">30%</td>
-                                <td class="metric-value">55%</td>
-                                <td class="metric-value">70%</td>
-                                <td class="metric-value">40</td>
-                                <td class="metric-value">55</td>
-                                <td class="metric-value">70</td>
+                                <td class="measure-code">ST-DM</td>
+                                <td class="measure-name">Statin Therapy for Patients with Diabetes- Received Statin Therapy</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                             <tr>
-                                <td class="metric-name">TOC-MR</td>
-                                <td class="metric-value">678</td>
-                                <td class="metric-value">901</td>
-                                <td class="metric-value">234</td>
-                                <td class="metric-value">25%</td>
-                                <td class="metric-value">50%</td>
-                                <td class="metric-value">65%</td>
-                                <td class="metric-value">45</td>
-                                <td class="metric-value">60</td>
-                                <td class="metric-value">75</td>
+                                <td class="measure-code">TOC-MR</td>
+                                <td class="measure-name">Transitions of Care: Medication Reconciliation</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                            </tr>
+                            <tr>
+                                <td class="measure-code">TOC-PE</td>
+                                <td class="measure-name">Transitions of Care: Patient Engagement after Inpatient Discharge</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                            </tr>
+                            <tr>
+                                <td class="measure-code">VLS</td>
+                                <td class="measure-name">Viral Load Suppression</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">%</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">-</td>
+                                <td class="data-cell">%</td>
                             </tr>
                         </tbody>
                     </table>
