@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOMOS QR+ - Control Panel</title>
+    <link rel="stylesheet" href="../css/control-panel.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="nav-header">
+        <div class="nav-container">
+            <button class="nav-menu-btn">
+                <span class="hamburger-icon">☰</span>
+            </button>
+            <div class="nav-logo">
+                <h1>SOMOS QR+</h1>
+            </div>
+            <div class="nav-provider">
+                <div class="searchable-dropdown" id="searchableDropdown">
+                    <div class="dropdown-trigger" id="dropdownTrigger">
+                        <span class="selected-text" id="selectedText">All</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <div class="search-container">
+                            <input type="text" class="search-input" id="searchInput" placeholder="Search providers...">
+                        </div>
+                        <div class="dropdown-options" id="dropdownOptions">
+                            <div class="dropdown-option" data-value="all" data-selected="true">
+                                <span class="option-text">All</span>
+                                <span class="checkmark">✓</span>
+                            </div>
+                            <div class="dropdown-option" data-value="330999346">
+                                <span class="option-text">330999346 - 1211 WPR Medical Services</span>
+                                <span class="checkmark">✓</span>
+                            </div>
+                            <div class="dropdown-option" data-value="743040031">
+                                <span class="option-text">743040031 - 139 Medical Facility(125th)</span>
+                                <span class="checkmark">✓</span>
+                            </div>
+                            <div class="dropdown-option" data-value="204465950">
+                                <span class="option-text">204465950 - 43rd Street Family Practice PLLC</span>
+                                <span class="checkmark">✓</span>
+                            </div>
+                            <div class="dropdown-option" data-value="113069838">
+                                <span class="option-text">113069838 - 609 Fulton Pediatrics PC</span>
+                                <span class="checkmark">✓</span>
+                            </div>
+                            <div class="dropdown-option" data-value="201075054">
+                                <span class="option-text">201075054 - 786 Medical PC</span>
+                                <span class="checkmark">✓</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-notifications">
+                <button class="notification-btn" id="notificationBtn">
+                    <svg class="notification-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+                    </svg>
+                    <span class="notification-badge" id="notificationBadge">3</span>
+                </button>
+                
+                <!-- Notifications Dropdown -->
+                <div class="notifications-dropdown" id="notificationsDropdown">
+                    <div class="notifications-header">
+                        <h3>Notifications</h3>
+                        <button class="mark-all-read-btn" id="markAllReadBtn">Mark all read</button>
+                    </div>
+                    
+                    <div class="notifications-list" id="notificationsList">
+                        <div class="notification-item unread" data-id="1">
+                            <div class="notification-icon-small">📋</div>
+                            <div class="notification-content">
+                                <div class="notification-title">New Quality Scorecard Available</div>
+                                <div class="notification-message">Your Q2 2025 quality scorecard is ready for review.</div>
+                                <div class="notification-time">2 hours ago</div>
+                            </div>
+                            <button class="notification-close" data-id="1">×</button>
+                        </div>
+                        
+                        <div class="notification-item unread" data-id="2">
+                            <div class="notification-icon-small">👥</div>
+                            <div class="notification-content">
+                                <div class="notification-title">Patient Appointment Reminder</div>
+                                <div class="notification-message">5 patients have appointments scheduled for tomorrow.</div>
+                                <div class="notification-time">4 hours ago</div>
+                            </div>
+                            <button class="notification-close" data-id="2">×</button>
+                        </div>
+                        
+                        <div class="notification-item unread" data-id="3">
+                            <div class="notification-icon-small">📊</div>
+                            <div class="notification-content">
+                                <div class="notification-title">Monthly Report Generated</div>
+                                <div class="notification-message">Your July 2025 performance report has been generated.</div>
+                                <div class="notification-time">1 day ago</div>
+                            </div>
+                            <button class="notification-close" data-id="3">×</button>
+                        </div>
+                        
+                        <div class="notification-item" data-id="4">
+                            <div class="notification-icon-small">✅</div>
+                            <div class="notification-content">
+                                <div class="notification-title">Document Upload Complete</div>
+                                <div class="notification-message">Patient records have been successfully uploaded.</div>
+                                <div class="notification-time">2 days ago</div>
+                            </div>
+                            <button class="notification-close" data-id="4">×</button>
+                        </div>
+                        
+                        <div class="notification-item" data-id="5">
+                            <div class="notification-icon-small">🔔</div>
+                            <div class="notification-content">
+                                <div class="notification-title">System Maintenance</div>
+                                <div class="notification-message">Scheduled maintenance completed successfully.</div>
+                                <div class="notification-time">3 days ago</div>
+                            </div>
+                            <button class="notification-close" data-id="5">×</button>
+                        </div>
+                    </div>
+                    
+                    <div class="notifications-footer">
+                        <a href="notifications.html" class="view-all-notifications">View all notifications</a>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-profile">
+                <button class="profile-btn">
+                    <div class="avatar">
+                        <div class="avatar-initials">JC</div>
+                    </div>
+                </button>
+                
+                <!-- Profile Dropdown -->
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <div class="avatar-initials">JC</div>
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-name">Joel Cedano</div>
+                            <div class="profile-email">jcedano@somosipa.com</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-divider"></div>
+                    
+                    <div class="profile-options">
+                        <div class="profile-option" data-action="language">
+                            <span class="option-label">Language</span>
+                            <span class="option-value">
+                                <span class="flag-icon">🇺🇸</span>
+                                English
+                            </span>
+                        </div>
+                        
+                        <div class="profile-option" data-action="invitations">
+                            <span class="option-label">Invitations</span>
+                        </div>
+                        
+                        <div class="profile-option" data-action="logout">
+                            <span class="option-label">Log Out</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Drawer -->
+    <nav class="nav-drawer" id="navDrawer">
+        <div class="drawer-header">
+            <div class="drawer-logo-container">
+                <div class="drawer-logo-circle">
+                    <div class="drawer-avatar-initials">JC</div>
+                </div>
+                <div class="drawer-title">
+                    <span class="drawer-title-text">SOMOS QR</span>
+                    <span class="drawer-title-plus">+</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="drawer-content">
+            <div class="drawer-item active" data-page="control-panel">
+                <span class="drawer-text">Control Panel</span>
+            </div>
+            
+            <div class="drawer-item" onclick="window.location.href='monitor.html'">
+                <span class="drawer-text">Monitor</span>
+            </div>
+            
+            <div class="drawer-item" onclick="window.location.href='security.html'">
+                <span class="drawer-text">Security</span>
+            </div>
+            
+            <div class="drawer-item" onclick="window.location.href='approval-module.html'">
+                <span class="drawer-text">Approval Module</span>
+            </div>
+            
+            <div class="drawer-divider"></div>
+            
+            <div class="drawer-item" onclick="window.location.href='general-configuration.html'">
+                <span class="drawer-text">General Configuration</span>
+            </div>
+            
+            <div class="drawer-item" onclick="logout()">
+                <span class="drawer-text">Log Out</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Overlay for closing drawer -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- Logout Dialog -->
+    <div class="logout-dialog" id="logoutDialog">
+        <div class="logout-dialog-content">
+            <div class="logout-dialog-header">
+                <div class="logout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16,17 21,12 16,7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </div>
+                <h3>Log Out</h3>
+            </div>
+            <div class="logout-dialog-body">
+                <p>Are you sure you want to log out of your account?</p>
+                <p class="logout-subtitle">You'll need to sign in again to access your dashboard.</p>
+            </div>
+            <div class="logout-dialog-footer">
+                <button class="logout-btn-cancel" onclick="closeLogoutDialog()">Cancel</button>
+                <button class="logout-btn-confirm" onclick="confirmLogout()">Log Out</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="control-panel-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Control Panel</h1>
+            <p class="page-subtitle">Monitor key performance indicators and metrics</p>
+        </div>
+
+        <!-- Period Selector -->
+        <div class="period-selector">
+            <label for="periodInput" class="period-label">Period</label>
+            <input type="text" id="periodInput" class="period-input" value="10/2025" placeholder="MM/YYYY">
+        </div>
+
+        <!-- KPI Categories -->
+        <div class="kpi-categories">
+            <!-- Appointment Metrics -->
+            <div class="kpi-category">
+                <div class="category-header" onclick="toggleCategory('appointments')">
+                    <div class="category-info">
+                        <div class="category-icon">📅</div>
+                        <div class="category-details">
+                            <h3 class="category-title">Appointment Metrics</h3>
+                            <p class="category-subtitle">Patient scheduling and attendance tracking</p>
+                        </div>
+                    </div>
+                    <div class="category-toggle">
+                        <span class="toggle-icon" id="appointments-toggle">▼</span>
+                    </div>
+                </div>
+                <div class="category-content" id="appointments-content">
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-icon">📅</div>
+                            <div class="kpi-title">Total Appointments</div>
+                            <div class="kpi-value">1,286</div>
+                            <div class="kpi-change positive">+12% vs last month</div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon">👥</div>
+                            <div class="kpi-title">Total Seen</div>
+                            <div class="kpi-value">956</div>
+                            <div class="kpi-change positive">+8% vs last month</div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon">❌</div>
+                            <div class="kpi-title">Total No-show</div>
+                            <div class="kpi-value">330</div>
+                            <div class="kpi-change negative">+5% vs last month</div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon">📊</div>
+                            <div class="kpi-title">Performance</div>
+                            <div class="kpi-value">74.34%</div>
+                            <div class="kpi-change positive">+3% vs last month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Adjustment Metrics -->
+            <div class="kpi-category">
+                <div class="category-header" onclick="toggleCategory('risk-adjustment')">
+                    <div class="category-info">
+                        <div class="category-icon">📋</div>
+                        <div class="category-details">
+                            <h3 class="category-title">Risk Adjustment</h3>
+                            <p class="category-subtitle">RA recommendations and completion tracking</p>
+                        </div>
+                    </div>
+                    <div class="category-toggle">
+                        <span class="toggle-icon" id="risk-adjustment-toggle">▼</span>
+                    </div>
+                </div>
+                <div class="category-content" id="risk-adjustment-content">
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-icon">📋</div>
+                            <div class="kpi-title">RA Recommended</div>
+                            <div class="kpi-value">343</div>
+                            <div class="kpi-change positive">+15% vs last month</div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon">✅</div>
+                            <div class="kpi-title">RA Complete</div>
+                            <div class="kpi-value">224</div>
+                            <div class="kpi-change positive">+22% vs last month</div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon">⚠️</div>
+                            <div class="kpi-title">RA Missed</div>
+                            <div class="kpi-value">119</div>
+                            <div class="kpi-change negative">+8% vs last month</div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon">📈</div>
+                            <div class="kpi-title">RA Performance</div>
+                            <div class="kpi-value">65.31%</div>
+                            <div class="kpi-change positive">+7% vs last month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gaps in Care Metrics -->
+            <div class="kpi-category">
+                <div class="category-header" onclick="toggleCategory('inpatient-care')">
+                    <div class="category-info">
+                        <div class="category-icon">🏥</div>
+                        <div class="category-details">
+                            <h3 class="category-title">Gaps in Care</h3>
+                            <p class="category-subtitle">GIC recommendations and confirmation tracking</p>
+                        </div>
+                    </div>
+                    <div class="category-toggle">
+                        <span class="toggle-icon" id="inpatient-care-toggle">▼</span>
+                    </div>
+                </div>
+                <div class="category-content" id="inpatient-care-content">
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-icon">🏥</div>
+                            <div class="kpi-title">GIC Recommended</div>
+                            <div class="kpi-value">1,031</div>
+                            <div class="kpi-change positive">+18% vs last month</div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon">✔️</div>
+                            <div class="kpi-title">GIC Confirmed</div>
+                            <div class="kpi-value">7</div>
+                            <div class="kpi-change negative">-2% vs last month</div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon">🚫</div>
+                            <div class="kpi-title">GIC Missed</div>
+                            <div class="kpi-value">1,024</div>
+                            <div class="kpi-change negative">+20% vs last month</div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon">📉</div>
+                            <div class="kpi-title">GIC Performance</div>
+                            <div class="kpi-value">0.68%</div>
+                            <div class="kpi-change negative">-1% vs last month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MCO Performance Metrics Table -->
+        <div class="metrics-table-section">
+            <div class="table-header">
+                <h2 class="table-title">MCO Performance Metrics</h2>
+                <div class="table-actions">
+                    <button class="btn-export">
+                        Export
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>MCO</th>
+                            <th>GIC</th>
+                            <th>RA</th>
+                            <th>Non-users</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="mco-name">United</td>
+                            <td class="metric-value">57.49%</td>
+                            <td class="metric-value">100.00%</td>
+                            <td class="metric-value">0.08%</td>
+                        </tr>
+                        <tr>
+                            <td class="mco-name">Emblem</td>
+                            <td class="metric-value">54.77%</td>
+                            <td class="metric-value">0.00%</td>
+                            <td class="metric-value">0.00%</td>
+                        </tr>
+                        <tr>
+                            <td class="mco-name">Elderplan</td>
+                            <td class="metric-value">59.42%</td>
+                            <td class="metric-value">0.00%</td>
+                            <td class="metric-value">0.00%</td>
+                        </tr>
+                        <tr>
+                            <td class="mco-name">Anthem</td>
+                            <td class="metric-value">50.62%</td>
+                            <td class="metric-value">0.00%</td>
+                            <td class="metric-value">0.00%</td>
+                        </tr>
+                        <tr>
+                            <td class="mco-name">Metroplus</td>
+                            <td class="metric-value">68.71%</td>
+                            <td class="metric-value">0.00%</td>
+                            <td class="metric-value">48.67%</td>
+                        </tr>
+                        <tr>
+                            <td class="mco-name">Molina</td>
+                            <td class="metric-value">38.98%</td>
+                            <td class="metric-value">0.00%</td>
+                            <td class="metric-value">17.07%</td>
+                        </tr>
+                        <tr>
+                            <td class="mco-name">Healthfirst</td>
+                            <td class="metric-value">72.57%</td>
+                            <td class="metric-value">79.26%</td>
+                            <td class="metric-value">15.59%</td>
+                        </tr>
+                        <tr>
+                            <td class="mco-name">Wellcare</td>
+                            <td class="metric-value">70.87%</td>
+                            <td class="metric-value">3.42%</td>
+                            <td class="metric-value">7.69%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" disabled>
+                    <span>«</span>
+                </button>
+                <button class="pagination-btn" disabled>
+                    <span>‹</span>
+                </button>
+                <button class="pagination-btn active">
+                    <span>1</span>
+                </button>
+                <button class="pagination-btn">
+                    <span>›</span>
+                </button>
+                <button class="pagination-btn">
+                    <span>»</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Connections By Practices Table -->
+        <div class="connections-table-section">
+            <div class="table-header">
+                <h2 class="table-title">Connections By Practices</h2>
+                <div class="table-actions">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search" id="connectionsSearch">
+                    </div>
+                    <button class="btn-send-email">
+                        Send Email
+                    </button>
+                    <button class="btn-export-excel">
+                        Export to Excel
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="connections-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-column="practices">
+                                Practices
+                                <span class="sort-arrows">↕</span>
+                            </th>
+                            <th class="sortable" data-column="npi">
+                                NPI
+                                <span class="sort-arrows">↕</span>
+                            </th>
+                            <th class="sortable" data-column="pcp">
+                                PCP Name
+                                <span class="sort-arrows">↕</span>
+                            </th>
+                            <th class="sortable" data-column="user">
+                                User Name
+                                <span class="sort-arrows">↕</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1093738650 - Morgera Medical Associates</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1093738650</td>
+                            <td class="pcp-cell">Dr. Gianna Morgera</td>
+                            <td class="user-cell">gianna.morgera@somoshealth.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1720174352 - Main Street Family Practice</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1720174352</td>
+                            <td class="pcp-cell">Dr. Belkis Colon</td>
+                            <td class="user-cell">belkis.colon@mainstreetmed.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1124013784 - Henry Medical Associates</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1124013784</td>
+                            <td class="pcp-cell">Dr. Zika Henry</td>
+                            <td class="user-cell">zika.henry@henrymedical.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1255436945 - Wong Family Medicine</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1255436945</td>
+                            <td class="pcp-cell">Dr. Alfredo Wong</td>
+                            <td class="user-cell">alfredo.wong@wongfamily.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1215356787 - Mangru Internal Medicine</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1215356787</td>
+                            <td class="pcp-cell">Dr. Sukdai Mangru</td>
+                            <td class="user-cell">sukdai.mangru@mangrumed.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1528061686 - Torres Primary Care</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1528061686</td>
+                            <td class="pcp-cell">Dr. Faulia Torres</td>
+                            <td class="user-cell">faulia.torres@torrescare.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1700848181 - Krata Medical Center</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1700848181</td>
+                            <td class="pcp-cell">Dr. Lewis Krata</td>
+                            <td class="user-cell">lewis.krata@kratamedical.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1215936521 - Schechter Family Practice</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1215936521</td>
+                            <td class="pcp-cell">Dr. Marc Schechter</td>
+                            <td class="user-cell">marc.schechter@schechterfamily.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1987654321 - Gamble Health Center</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1987654321</td>
+                            <td class="pcp-cell">Dr. Charlotte Gamble</td>
+                            <td class="user-cell">charlotte.gamble@gamblehealth.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1876543210 - Droller Medical Group</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1876543210</td>
+                            <td class="pcp-cell">Dr. Michael Droller</td>
+                            <td class="user-cell">michael.droller@drollermed.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1765432109 - Lazar Internal Medicine</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1765432109</td>
+                            <td class="pcp-cell">Dr. Ira Lazar</td>
+                            <td class="user-cell">ira.lazar@lazarmedical.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1654321098 - Norman Family Care</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1654321098</td>
+                            <td class="pcp-cell">Dr. Steven Norman</td>
+                            <td class="user-cell">steven.norman@normanfamily.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1543210987 - Belliard Medical Associates</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1543210987</td>
+                            <td class="pcp-cell">Dr. Dora Belliard</td>
+                            <td class="user-cell">dora.belliard@belliardmedical.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1432109876 - Rodriguez Primary Care</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1432109876</td>
+                            <td class="pcp-cell">Dr. Maria Rodriguez</td>
+                            <td class="user-cell">maria.rodriguez@rodriguezcare.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1321098765 - Johnson Family Medicine</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1321098765</td>
+                            <td class="pcp-cell">Dr. Robert Johnson</td>
+                            <td class="user-cell">robert.johnson@johnsonfamily.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1210987654 - Williams Medical Center</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1210987654</td>
+                            <td class="pcp-cell">Dr. Sarah Williams</td>
+                            <td class="user-cell">sarah.williams@williamsmedical.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1109876543 - Brown Internal Medicine</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1109876543</td>
+                            <td class="pcp-cell">Dr. David Brown</td>
+                            <td class="user-cell">david.brown@browninternal.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>1098765432 - Davis Family Practice</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">1098765432</td>
+                            <td class="pcp-cell">Dr. Jennifer Davis</td>
+                            <td class="user-cell">jennifer.davis@davisfamily.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>9876543210 - Miller Health Center</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">9876543210</td>
+                            <td class="pcp-cell">Dr. Christopher Miller</td>
+                            <td class="user-cell">christopher.miller@millerhealth.com</td>
+                        </tr>
+                        <tr>
+                            <td class="practices-cell">
+                                <ul class="practice-list">
+                                    <li>8765432109 - Wilson Medical Group</li>
+                                </ul>
+                            </td>
+                            <td class="npi-cell">8765432109</td>
+                            <td class="pcp-cell">Dr. Lisa Wilson</td>
+                            <td class="user-cell">lisa.wilson@wilsonmedical.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    <span class="items-per-page-label">Items per page:</span>
+                    <select class="items-per-page-select" id="itemsPerPage">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span class="pagination-status">Showing 1-10 of 20 items</span>
+                </div>
+                <div class="pagination">
+                    <button class="pagination-btn" disabled>
+                        <span>«</span>
+                    </button>
+                    <button class="pagination-btn" disabled>
+                        <span>‹</span>
+                    </button>
+                    <button class="pagination-btn active">
+                        <span>1</span>
+                    </button>
+                    <button class="pagination-btn">
+                        <span>2</span>
+                    </button>
+                    <button class="pagination-btn">
+                        <span>›</span>
+                    </button>
+                    <button class="pagination-btn">
+                        <span>»</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/control-panel.js"></script>
+</body>
+</html>
