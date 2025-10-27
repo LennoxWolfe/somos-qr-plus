@@ -124,13 +124,19 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
   }
 
   Widget _buildTwoFactorCard() {
+    final screenSize = MediaQuery.of(context).size;
+    final isHorizontal = screenSize.width > screenSize.height;
+    
     return Container(
-      constraints: const BoxConstraints(maxWidth: 800), // Increased for tablet
+      constraints: BoxConstraints(
+        maxWidth: isHorizontal ? 1200 : 800,
+        maxHeight: isHorizontal ? 700 : double.infinity,
+      ),
       child: Card(
         elevation: 20,
         shadowColor: Colors.black.withOpacity(0.15),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20), // Slightly larger radius for tablet
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Container(
           decoration: BoxDecoration(
@@ -145,18 +151,56 @@ class _TwoFactorScreenState extends State<TwoFactorScreen>
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(48), // Increased padding for tablet
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildLogoSection(),
-                const SizedBox(height: 32), // Increased spacing
-                _buildTwoFactorForm(),
-              ],
-            ),
+            padding: EdgeInsets.all(isHorizontal ? 32 : 48),
+            child: isHorizontal ? _buildHorizontalLayout() : _buildVerticalLayout(),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildVerticalLayout() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildLogoSection(),
+        const SizedBox(height: 32),
+        _buildTwoFactorForm(),
+      ],
+    );
+  }
+
+  Widget _buildHorizontalLayout() {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildLogoSection(),
+              const SizedBox(height: 32),
+              _buildFormHeader(),
+            ],
+          ),
+        ),
+        const SizedBox(width: 48),
+        Expanded(
+          flex: 1,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildCodeInputs(),
+              const SizedBox(height: 24),
+              _buildVerifyButton(),
+              const SizedBox(height: 24),
+              _buildResendButton(),
+              const SizedBox(height: 16),
+              _buildBackToLoginButton(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

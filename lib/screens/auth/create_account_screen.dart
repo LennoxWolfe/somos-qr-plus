@@ -108,13 +108,23 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
   }
 
   Widget _buildCreateAccountCard() {
+    final screenSize = MediaQuery.of(context).size;
+    final isHorizontal = screenSize.width > screenSize.height;
+    
+    // Debug: Print the screen size
+    print('Create Account - Screen Width: ${screenSize.width}, Height: ${screenSize.height}');
+    print('Create Account - Is Horizontal: $isHorizontal');
+    
     return Container(
-      constraints: const BoxConstraints(maxWidth: 800), // Increased for tablet
+      constraints: BoxConstraints(
+        maxWidth: isHorizontal ? 1200 : 800,
+        maxHeight: isHorizontal ? 900 : double.infinity,
+      ),
       child: Card(
         elevation: 20,
         shadowColor: Colors.black.withOpacity(0.15),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20), // Slightly larger radius for tablet
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Container(
           decoration: BoxDecoration(
@@ -129,22 +139,58 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(48), // Increased padding for tablet
+            padding: EdgeInsets.all(isHorizontal ? 24 : 48),
+            child: isHorizontal ? _buildHorizontalLayout() : _buildVerticalLayout(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildVerticalLayout() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildLogoSection(),
+        const SizedBox(height: 16),
+        _buildFormHeader(),
+        const SizedBox(height: 32),
+        _buildCreateAccountForm(),
+        const SizedBox(height: 32),
+        _buildFooter(),
+      ],
+    );
+  }
+
+  Widget _buildHorizontalLayout() {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildLogoSection(),
+              const SizedBox(height: 8),
+              _buildFormHeader(),
+            ],
+          ),
+        ),
+        const SizedBox(width: 32),
+        Expanded(
+          flex: 1,
+          child: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildLogoSection(),
-                const SizedBox(height: 16), // Increased spacing
-                _buildFormHeader(),
-                const SizedBox(height: 32), // Increased spacing
                 _buildCreateAccountForm(),
-                const SizedBox(height: 32), // Increased spacing
+                const SizedBox(height: 16),
                 _buildFooter(),
               ],
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 
