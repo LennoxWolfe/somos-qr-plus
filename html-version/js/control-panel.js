@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializePeriodSelector();
     initializeCategories();
     initializeTable();
+    initializeViewToggle();
     
     // Initialize connections table functionality
     initializeConnectionsTable();
@@ -989,4 +990,184 @@ function createPaginationButton(text, disabled = false, active = false) {
     button.appendChild(span);
     
     return button;
+}
+
+// View Toggle functionality
+function initializeViewToggle() {
+    const toggleButtons = document.querySelectorAll('.toggle-btn');
+    const tableContainer = document.querySelector('.table-container');
+    const graphContainer = document.getElementById('mcoGraph');
+    
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const view = button.getAttribute('data-view');
+            
+            // Remove active class from all buttons
+            toggleButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+            
+            if (view === 'table') {
+                tableContainer.style.display = 'block';
+                graphContainer.style.display = 'none';
+            } else if (view === 'graph') {
+                tableContainer.style.display = 'none';
+                graphContainer.style.display = 'block';
+                // Initialize or update the chart
+                initializeLineChart();
+            }
+        });
+    });
+}
+
+// Line Chart functionality
+function initializeLineChart() {
+    const canvas = document.getElementById('mcoLineChart');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    
+    // Clear previous chart
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // MCO Data
+    const mcoData = [
+        { name: 'United', gic: 57.49, ra: 100.00, nonUsers: 0.08 },
+        { name: 'Emblem', gic: 54.77, ra: 0.00, nonUsers: 0.00 },
+        { name: 'Elderplan', gic: 59.42, ra: 0.00, nonUsers: 0.00 },
+        { name: 'Anthem', gic: 50.62, ra: 0.00, nonUsers: 0.00 },
+        { name: 'Metroplus', gic: 68.71, ra: 0.00, nonUsers: 48.67 },
+        { name: 'Molina', gic: 38.98, ra: 0.00, nonUsers: 17.07 },
+        { name: 'Healthfirst', gic: 72.57, ra: 79.26, nonUsers: 15.59 },
+        { name: 'Wellcare', gic: 70.87, ra: 3.42, nonUsers: 7.69 }
+    ];
+    
+    // Chart dimensions - full width, proper centering
+    const padding = 80;
+    const chartWidth = canvas.width - (padding * 2);
+    const chartHeight = canvas.height - (padding * 2);
+    
+    // Draw chart
+    drawLineChart(ctx, mcoData, padding, chartWidth, chartHeight);
+}
+
+function drawLineChart(ctx, data, padding, width, height) {
+    const maxValue = 100;
+    const stepX = width / (data.length - 1);
+    
+    // Colors
+    const colors = {
+        gic: '#1976d2',
+        ra: '#4caf50',
+        nonUsers: '#ff9800'
+    };
+    
+    // Draw grid lines
+    ctx.strokeStyle = '#e0e0e0';
+    ctx.lineWidth = 1;
+    
+    // Horizontal grid lines
+    for (let i = 0; i <= 5; i++) {
+        const y = padding + (height / 5) * i;
+        ctx.beginPath();
+        ctx.moveTo(padding, y);
+        ctx.lineTo(padding + width, y);
+        ctx.stroke();
+    }
+    
+    // Vertical grid lines
+    for (let i = 0; i < data.length; i++) {
+        const x = padding + stepX * i;
+        ctx.beginPath();
+        ctx.moveTo(x, padding);
+        ctx.lineTo(x, padding + height);
+        ctx.stroke();
+    }
+    
+    // Draw lines for each metric
+    const metrics = ['gic', 'ra', 'nonUsers'];
+    
+    metrics.forEach((metric, metricIndex) => {
+        ctx.strokeStyle = colors[metric];
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        
+        data.forEach((point, index) => {
+            const x = padding + stepX * index;
+            const y = padding + height - (point[metric] / maxValue) * height;
+            
+            if (index === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+        });
+        
+        ctx.stroke();
+        
+        // Draw data points with better visibility
+        ctx.fillStyle = colors[metric];
+        data.forEach((point, index) => {
+            const x = padding + stepX * index;
+            const y = padding + height - (point[metric] / maxValue) * height;
+            
+            // Outer circle (white background)
+            ctx.beginPath();
+            ctx.arc(x, y, 6, 0, 2 * Math.PI);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+            ctx.strokeStyle = colors[metric];
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Inner circle (colored)
+            ctx.beginPath();
+            ctx.arc(x, y, 3, 0, 2 * Math.PI);
+            ctx.fillStyle = colors[metric];
+            ctx.fill();
+        });
+    });
+    
+    // Draw labels
+    ctx.fillStyle = '#333';
+    ctx.font = 'bold 14px Roboto, sans-serif';
+    ctx.textAlign = 'center';
+    
+    // X-axis labels (MCO names)
+    data.forEach((point, index) => {
+        const x = padding + stepX * index;
+        ctx.fillText(point.name, x, padding + height + 25);
+    });
+    
+    // Y-axis labels
+    ctx.font = '12px Roboto, sans-serif';
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 5; i++) {
+        const y = padding + (height / 5) * i;
+        const value = (5 - i) * 20;
+        ctx.fillText(value + '%', padding - 15, y + 4);
+    }
+    
+    // Legend - properly centered
+    const legendY = padding - 25;
+    const legendWidth = 200;
+    let legendX = padding + (width - legendWidth) / 2;
+    
+    metrics.forEach((metric, index) => {
+        const metricName = metric === 'gic' ? 'GIC' : metric === 'ra' ? 'RA' : 'NON-USERS';
+        
+        // Draw legend color with rounded corners
+        ctx.fillStyle = colors[metric];
+        ctx.fillRect(legendX, legendY - 10, 14, 14);
+        
+        // Draw legend text
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 12px Roboto, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(metricName, legendX + 20, legendY);
+        
+        legendX += 70;
+    });
 }

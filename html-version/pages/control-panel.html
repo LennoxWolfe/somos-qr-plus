@@ -405,8 +405,16 @@
             <div class="table-header">
                 <h2 class="table-title">MCO Performance Metrics</h2>
                 <div class="table-actions">
+                    <div class="view-toggle">
+                        <button class="toggle-btn active" data-view="table">
+                            Table
+                        </button>
+                        <button class="toggle-btn" data-view="graph">
+                            Graph
+                        </button>
+                    </div>
                     <button class="btn-export">
-                        Export
+                        Export ↗
                     </button>
                 </div>
             </div>
@@ -472,6 +480,11 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            
+            <!-- Graph Container -->
+            <div class="graph-container" id="mcoGraph" style="display: none;">
+                <canvas id="mcoLineChart" width="800" height="400"></canvas>
             </div>
             
             <!-- Pagination -->
