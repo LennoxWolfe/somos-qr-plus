@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeTabs();
     initializeTables();
     initializeToggleSwitches();
+    initializeSuperAdminModal();
+    initializeAddProfileModal();
+    initializeEditProfileModal();
+    initializeViewDetailsModal();
 });
 
 // Navigation functionality
@@ -903,3 +907,771 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Super Admin Modal functionality
+function initializeSuperAdminModal() {
+    const newSuperAdminBtn = document.querySelector('button[onclick="createNewSuperAdmin()"]');
+    const superAdminModal = document.getElementById('superAdminModal');
+    const closeSuperAdminBtn = document.getElementById('closeSuperAdminModal');
+    const superAdminCancelBtn = document.getElementById('superAdminCancelBtn');
+    const superAdminSaveBtn = document.getElementById('superAdminSaveBtn');
+    const superAdminForm = document.getElementById('superAdminForm');
+    
+    // Open modal when New button is clicked
+    if (newSuperAdminBtn) {
+        newSuperAdminBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openSuperAdminModal();
+        });
+    }
+    
+    // Close modal events
+    if (closeSuperAdminBtn) {
+        closeSuperAdminBtn.addEventListener('click', closeSuperAdminModal);
+    }
+    
+    if (superAdminCancelBtn) {
+        superAdminCancelBtn.addEventListener('click', closeSuperAdminModal);
+    }
+    
+    // Close modal when clicking overlay
+    if (superAdminModal) {
+        superAdminModal.addEventListener('click', function(e) {
+            if (e.target === superAdminModal) {
+                closeSuperAdminModal();
+            }
+        });
+    }
+    
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && superAdminModal && superAdminModal.classList.contains('show')) {
+            closeSuperAdminModal();
+        }
+    });
+    
+    // Form submission
+    if (superAdminSaveBtn) {
+        superAdminSaveBtn.addEventListener('click', function() {
+            saveSuperAdmin();
+        });
+    }
+    
+    // Real-time validation
+    const formInputs = document.querySelectorAll('#superAdminForm .form-input');
+    formInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            validateField(this);
+        });
+        
+        input.addEventListener('input', function() {
+            clearFieldError(this);
+        });
+    });
+}
+
+// Open Super Admin modal
+function openSuperAdminModal() {
+    const superAdminModal = document.getElementById('superAdminModal');
+    const superAdminForm = document.getElementById('superAdminForm');
+    
+    if (superAdminModal) {
+        // Clear form
+        if (superAdminForm) {
+            superAdminForm.reset();
+            clearAllErrors();
+        }
+        
+        // Show modal
+        superAdminModal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus on first input
+        setTimeout(() => {
+            const firstInput = document.getElementById('firstName');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        }, 100);
+    }
+}
+
+// Close Super Admin modal
+function closeSuperAdminModal() {
+    const superAdminModal = document.getElementById('superAdminModal');
+    if (superAdminModal) {
+        superAdminModal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// Save Super Admin
+function saveSuperAdmin() {
+    const form = document.getElementById('superAdminForm');
+    if (!form) return;
+    
+    const formData = new FormData(form);
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    // Clear previous errors
+    clearAllErrors();
+    
+    let isValid = true;
+    
+    // Validate First Name
+    if (!firstName) {
+        showFieldError('firstName', 'First Name is required');
+        isValid = false;
+    }
+    
+    // Validate Last Name
+    if (!lastName) {
+        showFieldError('lastName', 'Last Name is required');
+        isValid = false;
+    }
+    
+    // Validate Email
+    if (!email) {
+        showFieldError('email', 'Email is required');
+        isValid = false;
+    } else if (!isValidEmail(email)) {
+        showFieldError('email', 'Please enter a valid email address');
+        isValid = false;
+    }
+    
+    // Validate Password
+    if (!password) {
+        showFieldError('password', 'Password is required');
+        isValid = false;
+    } else if (password.length < 6) {
+        showFieldError('password', 'Password must be at least 6 characters');
+        isValid = false;
+    }
+    
+    // Validate Confirm Password
+    if (!confirmPassword) {
+        showFieldError('confirmPassword', 'Confirm Password is required');
+        isValid = false;
+    } else if (password !== confirmPassword) {
+        showFieldError('confirmPassword', 'Passwords do not match');
+        isValid = false;
+    }
+    
+    if (isValid) {
+        // Show loading state
+        showLoading();
+        
+        // Simulate API call
+        setTimeout(() => {
+            hideLoading();
+            showSuccess('Super Admin created successfully!');
+            closeSuperAdminModal();
+            
+            // In a real app, you would send the data to the server
+            console.log('Super Admin Data:', {
+                firstName,
+                lastName,
+                email,
+                password
+            });
+        }, 1500);
+    }
+}
+
+// Validate individual field
+function validateField(field) {
+    const value = field.value.trim();
+    const fieldName = field.id;
+    
+    clearFieldError(field);
+    
+    if (!value) {
+        showFieldError(fieldName, `${getFieldLabel(fieldName)} is required`);
+        return false;
+    }
+    
+    if (fieldName === 'email' && !isValidEmail(value)) {
+        showFieldError(fieldName, 'Please enter a valid email address');
+        return false;
+    }
+    
+    if (fieldName === 'password' && value.length < 6) {
+        showFieldError(fieldName, 'Password must be at least 6 characters');
+        return false;
+    }
+    
+    if (fieldName === 'confirmPassword') {
+        const password = document.getElementById('password').value;
+        if (value !== password) {
+            showFieldError(fieldName, 'Passwords do not match');
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+// Show field error
+function showFieldError(fieldName, message) {
+    const field = document.getElementById(fieldName);
+    const errorElement = document.getElementById(fieldName + 'Error');
+    
+    if (field) {
+        field.classList.add('error');
+    }
+    
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.classList.add('show');
+    }
+}
+
+// Clear field error
+function clearFieldError(field) {
+    const fieldName = field.id;
+    const errorElement = document.getElementById(fieldName + 'Error');
+    
+    field.classList.remove('error');
+    
+    if (errorElement) {
+        errorElement.classList.remove('show');
+    }
+}
+
+// Clear all errors
+function clearAllErrors() {
+    const errorElements = document.querySelectorAll('.error-message');
+    const errorFields = document.querySelectorAll('.form-input.error');
+    
+    errorElements.forEach(element => {
+        element.classList.remove('show');
+    });
+    
+    errorFields.forEach(field => {
+        field.classList.remove('error');
+    });
+}
+
+// Get field label
+function getFieldLabel(fieldName) {
+    const labels = {
+        'firstName': 'First Name',
+        'lastName': 'Last Name',
+        'email': 'Email',
+        'password': 'Password',
+        'confirmPassword': 'Confirm Password'
+    };
+    return labels[fieldName] || fieldName;
+}
+
+// Validate email format
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Show loading state
+function showLoading() {
+    const loadingOverlay = document.createElement('div');
+    loadingOverlay.className = 'loading-overlay';
+    loadingOverlay.innerHTML = '<div class="loading-spinner"></div>';
+    document.body.appendChild(loadingOverlay);
+}
+
+// Hide loading state
+function hideLoading() {
+    const loadingOverlay = document.querySelector('.loading-overlay');
+    if (loadingOverlay) {
+        loadingOverlay.remove();
+    }
+}
+
+// Show success message
+function showSuccess(message) {
+    const successDiv = document.createElement('div');
+    successDiv.className = 'success-notification';
+    successDiv.textContent = message;
+    document.body.appendChild(successDiv);
+    
+    setTimeout(() => {
+        successDiv.remove();
+    }, 3000);
+}
+
+// Override the existing createNewSuperAdmin function
+function createNewSuperAdmin() {
+    openSuperAdminModal();
+}
+
+// Export Admin Table function
+function exportAdminTable() {
+    showLoading();
+    
+    setTimeout(() => {
+        hideLoading();
+        showSuccess('Admin table exported successfully!');
+        
+        // In a real app, you would generate and download the Excel file
+        console.log('Exporting admin table...');
+    }, 1500);
+}
+
+// Add Profile Modal functionality
+function initializeAddProfileModal() {
+    const addProfileModal = document.getElementById('addProfileModal');
+    const addProfileBtn = document.querySelector('.btn-new-profile');
+    const closeAddProfileModalBtn = document.getElementById('closeAddProfileModal');
+    const addProfileCancelBtn = document.getElementById('addProfileCancelBtn');
+    const addProfileSaveBtn = document.getElementById('addProfileSaveBtn');
+    const addProfileForm = document.getElementById('addProfileForm');
+    
+    // Open modal
+    if (addProfileBtn) {
+        addProfileBtn.addEventListener('click', openAddProfileModal);
+    }
+    
+    // Close modal
+    if (closeAddProfileModalBtn) {
+        closeAddProfileModalBtn.addEventListener('click', closeAddProfileModal);
+    }
+    
+    if (addProfileCancelBtn) {
+        addProfileCancelBtn.addEventListener('click', closeAddProfileModal);
+    }
+    
+    // Close on overlay click
+    if (addProfileModal) {
+        addProfileModal.addEventListener('click', function(e) {
+            if (e.target === addProfileModal) {
+                closeAddProfileModal();
+            }
+        });
+    }
+    
+    // Save profile
+    if (addProfileSaveBtn) {
+        addProfileSaveBtn.addEventListener('click', saveProfile);
+    }
+    
+    // Real-time validation
+    const formFields = ['profileName', 'description', 'code', 'profileType'];
+    formFields.forEach(fieldName => {
+        const field = document.getElementById(fieldName);
+        if (field) {
+            field.addEventListener('blur', () => validateField(fieldName));
+            field.addEventListener('input', () => clearFieldError(fieldName));
+        }
+    });
+    
+    // Override the existing createNewProfile function
+    window.createNewProfile = openAddProfileModal;
+}
+
+function openAddProfileModal() {
+    const addProfileModal = document.getElementById('addProfileModal');
+    if (addProfileModal) {
+        addProfileModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        clearAllErrors();
+        resetForm();
+    }
+}
+
+function closeAddProfileModal() {
+    const addProfileModal = document.getElementById('addProfileModal');
+    if (addProfileModal) {
+        addProfileModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function saveProfile() {
+    const profileName = document.getElementById('profileName').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const code = document.getElementById('code').value.trim();
+    const profileType = document.getElementById('profileType').value;
+    const verificationRequired = document.getElementById('verificationRequired').checked;
+    const practiceRequired = document.getElementById('practiceRequired').checked;
+    
+    // Clear previous errors
+    clearAllErrors();
+    
+    // Validate required fields
+    let isValid = true;
+    
+    if (!profileName) {
+        showFieldError('profileName', 'Profile Name is required');
+        isValid = false;
+    }
+    
+    if (!code) {
+        showFieldError('code', 'Code is required');
+        isValid = false;
+    }
+    
+    if (!profileType) {
+        showFieldError('profileType', 'Profile Type is required');
+        isValid = false;
+    }
+    
+    if (!isValid) {
+        return;
+    }
+    
+    // Show loading state
+    showLoading();
+    
+    // Simulate API call
+    setTimeout(() => {
+        hideLoading();
+        
+        // Create profile object
+        const profile = {
+            name: profileName,
+            description: description,
+            code: code,
+            type: profileType,
+            verificationRequired: verificationRequired,
+            practiceRequired: practiceRequired,
+            createdAt: new Date().toISOString()
+        };
+        
+        console.log('Profile created:', profile);
+        
+        // Show success message
+        showSuccess('Profile created successfully!');
+        
+        // Close modal
+        closeAddProfileModal();
+        
+        // Here you would typically add the profile to the table
+        // addProfileToTable(profile);
+        
+    }, 1000);
+}
+
+function resetForm() {
+    const form = document.getElementById('addProfileForm');
+    if (form) {
+        form.reset();
+        document.getElementById('practiceRequired').checked = true; // Default to checked
+    }
+}
+
+// Edit Profile Modal functionality
+function initializeEditProfileModal() {
+    const editProfileModal = document.getElementById('editProfileModal');
+    const closeEditProfileModalBtn = document.getElementById('closeEditProfileModal');
+    const editProfileCancelBtn = document.getElementById('editProfileCancelBtn');
+    const editProfileSaveBtn = document.getElementById('editProfileSaveBtn');
+    
+    // Close modal
+    if (closeEditProfileModalBtn) {
+        closeEditProfileModalBtn.addEventListener('click', closeEditProfileModal);
+    }
+    
+    if (editProfileCancelBtn) {
+        editProfileCancelBtn.addEventListener('click', closeEditProfileModal);
+    }
+    
+    // Close on overlay click
+    if (editProfileModal) {
+        editProfileModal.addEventListener('click', function(e) {
+            if (e.target === editProfileModal) {
+                closeEditProfileModal();
+            }
+        });
+    }
+    
+    // Save profile
+    if (editProfileSaveBtn) {
+        editProfileSaveBtn.addEventListener('click', saveEditProfile);
+    }
+    
+    // Initialize menu interactions
+    initializeMenuInteractions();
+    
+    // Override the existing editProfile function
+    window.editProfile = openEditProfileModal;
+}
+
+function openEditProfileModal(profileId) {
+    const editProfileModal = document.getElementById('editProfileModal');
+    if (editProfileModal) {
+        editProfileModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        
+        // Load profile data (in a real app, this would fetch from API)
+        loadProfileData(profileId);
+    }
+}
+
+function closeEditProfileModal() {
+    const editProfileModal = document.getElementById('editProfileModal');
+    if (editProfileModal) {
+        editProfileModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function loadProfileData(profileId) {
+    // In a real app, this would fetch data from an API
+    // For now, we'll use the existing data from the form
+    console.log(`Loading profile data for ID: ${profileId}`);
+}
+
+function saveEditProfile() {
+    const profileName = document.getElementById('editProfileName').value.trim();
+    const description = document.getElementById('editDescription').value.trim();
+    const code = document.getElementById('editCode').value.trim();
+    const profileType = document.getElementById('editProfileType').value;
+    const verificationRequired = document.getElementById('editVerificationRequired').checked;
+    const practiceRequired = document.getElementById('editPracticeRequired').checked;
+    
+    // Get selected menu permissions
+    const selectedMenus = getSelectedMenuPermissions();
+    
+    // Validate required fields
+    let isValid = true;
+    
+    if (!profileName) {
+        showFieldError('editProfileName', 'Profile Name is required');
+        isValid = false;
+    }
+    
+    if (!code) {
+        showFieldError('editCode', 'Code is required');
+        isValid = false;
+    }
+    
+    if (!profileType) {
+        showFieldError('editProfileType', 'Profile Type is required');
+        isValid = false;
+    }
+    
+    if (!isValid) {
+        return;
+    }
+    
+    // Show loading state
+    showLoading();
+    
+    // Simulate API call
+    setTimeout(() => {
+        hideLoading();
+        
+        // Create profile object
+        const profile = {
+            id: 'current-profile-id',
+            name: profileName,
+            description: description,
+            code: code,
+            type: profileType,
+            verificationRequired: verificationRequired,
+            practiceRequired: practiceRequired,
+            menuPermissions: selectedMenus,
+            updatedAt: new Date().toISOString()
+        };
+        
+        console.log('Profile updated:', profile);
+        
+        // Show success message
+        showSuccess('Profile updated successfully!');
+        
+        // Close modal
+        closeEditProfileModal();
+        
+        // Here you would typically update the profile in the table
+        // updateProfileInTable(profile);
+        
+    }, 1000);
+}
+
+function initializeMenuInteractions() {
+    // Handle menu expansion/collapse
+    const menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(item => {
+        const arrow = item.querySelector('.menu-arrow');
+        const subMenu = item.querySelector('.sub-menu');
+        
+        if (arrow && subMenu) {
+            item.addEventListener('click', function(e) {
+                if (!e.target.matches('input[type="checkbox"]') && !e.target.matches('label')) {
+                    item.classList.toggle('expanded');
+                }
+            });
+        }
+    });
+    
+    // Handle checkbox interactions
+    const checkboxes = document.querySelectorAll('.menu-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            handleCheckboxChange(this);
+        });
+    });
+}
+
+function handleCheckboxChange(checkbox) {
+    const menuItem = checkbox.closest('.menu-item');
+    const parentCheckbox = menuItem.querySelector('.menu-checkbox');
+    const subCheckboxes = menuItem.querySelectorAll('.sub-menu .menu-checkbox');
+    
+    if (checkbox === parentCheckbox) {
+        // Parent checkbox changed - update all children
+        subCheckboxes.forEach(subCheckbox => {
+            subCheckbox.checked = checkbox.checked;
+            subCheckbox.classList.remove('indeterminate');
+        });
+    } else {
+        // Child checkbox changed - update parent
+        const checkedChildren = Array.from(subCheckboxes).filter(cb => cb.checked);
+        const totalChildren = subCheckboxes.length;
+        
+        if (checkedChildren.length === 0) {
+            parentCheckbox.checked = false;
+            parentCheckbox.classList.remove('indeterminate');
+        } else if (checkedChildren.length === totalChildren) {
+            parentCheckbox.checked = true;
+            parentCheckbox.classList.remove('indeterminate');
+        } else {
+            parentCheckbox.checked = false;
+            parentCheckbox.classList.add('indeterminate');
+        }
+    }
+}
+
+function getSelectedMenuPermissions() {
+    const selectedMenus = [];
+    const checkboxes = document.querySelectorAll('.menu-checkbox:checked');
+    
+    checkboxes.forEach(checkbox => {
+        selectedMenus.push(checkbox.id);
+    });
+    
+    return selectedMenus;
+}
+
+// View Details Modal functionality
+function initializeViewDetailsModal() {
+    const viewDetailsModal = document.getElementById('viewDetailsModal');
+    const closeViewDetailsModalBtn = document.getElementById('closeViewDetailsModal');
+    const viewDetailsCloseBtn = document.getElementById('viewDetailsCloseBtn');
+    
+    // Close modal
+    if (closeViewDetailsModalBtn) {
+        closeViewDetailsModalBtn.addEventListener('click', closeViewDetailsModal);
+    }
+    
+    if (viewDetailsCloseBtn) {
+        viewDetailsCloseBtn.addEventListener('click', closeViewDetailsModal);
+    }
+    
+    // Close on overlay click
+    if (viewDetailsModal) {
+        viewDetailsModal.addEventListener('click', function(e) {
+            if (e.target === viewDetailsModal) {
+                closeViewDetailsModal();
+            }
+        });
+    }
+    
+    // Initialize pagination
+    initializeViewDetailsPagination();
+    
+    // Override the existing viewUser function
+    window.viewUser = openViewDetailsModal;
+}
+
+function openViewDetailsModal(userId) {
+    const viewDetailsModal = document.getElementById('viewDetailsModal');
+    if (viewDetailsModal) {
+        viewDetailsModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        
+        // Load user data (in a real app, this would fetch from API)
+        loadUserDetails(userId);
+    }
+}
+
+function closeViewDetailsModal() {
+    const viewDetailsModal = document.getElementById('viewDetailsModal');
+    if (viewDetailsModal) {
+        viewDetailsModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function loadUserDetails(userId) {
+    // In a real app, this would fetch data from an API based on userId
+    console.log(`Loading user details for ID: ${userId}`);
+    
+    // For demo purposes, we'll show sample data
+    // The data is already in the HTML, but in a real app you'd populate it here
+}
+
+function initializeViewDetailsPagination() {
+    const firstPageBtn = document.getElementById('firstPageBtn');
+    const prevPageBtn = document.getElementById('prevPageBtn');
+    const nextPageBtn = document.getElementById('nextPageBtn');
+    const lastPageBtn = document.getElementById('lastPageBtn');
+    const currentPageBtn = document.getElementById('currentPageBtn');
+    
+    let currentPage = 1;
+    const totalPages = 1; // In a real app, this would be calculated based on data
+    
+    // Update pagination state
+    function updatePaginationState() {
+        firstPageBtn.disabled = currentPage === 1;
+        prevPageBtn.disabled = currentPage === 1;
+        nextPageBtn.disabled = currentPage === totalPages;
+        lastPageBtn.disabled = currentPage === totalPages;
+        
+        currentPageBtn.textContent = currentPage;
+        currentPageBtn.classList.toggle('active', true);
+    }
+    
+    // Event listeners
+    if (firstPageBtn) {
+        firstPageBtn.addEventListener('click', () => {
+            currentPage = 1;
+            updatePaginationState();
+            // In a real app, you'd load the first page of data here
+        });
+    }
+    
+    if (prevPageBtn) {
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePaginationState();
+                // In a real app, you'd load the previous page of data here
+            }
+        });
+    }
+    
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePaginationState();
+                // In a real app, you'd load the next page of data here
+            }
+        });
+    }
+    
+    if (lastPageBtn) {
+        lastPageBtn.addEventListener('click', () => {
+            currentPage = totalPages;
+            updatePaginationState();
+            // In a real app, you'd load the last page of data here
+        });
+    }
+    
+    // Initialize pagination state
+    updatePaginationState();
+}

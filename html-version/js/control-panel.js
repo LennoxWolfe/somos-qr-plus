@@ -12,6 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize connections table functionality
     initializeConnectionsTable();
+    
+    // Initialize modal functionality
+    initializeModal();
+    
+    // Initialize email dialog functionality
+    initializeEmailDialog();
 });
 
 // Navigation functionality
@@ -1170,4 +1176,377 @@ function drawLineChart(ctx, data, padding, width, height) {
         
         legendX += 70;
     });
+}
+
+// Modal functionality
+function initializeModal() {
+    const modal = document.getElementById('usersModal');
+    const closeBtn = document.getElementById('closeUsersModal');
+    const cancelBtn = document.getElementById('modalCancelBtn');
+    const modalSearchInput = document.getElementById('modalSearchInput');
+    
+    // Add click listeners to details buttons
+    const detailsButtons = document.querySelectorAll('.details-icon');
+    detailsButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const row = this.closest('tr');
+            const practiceName = row.querySelector('.practices-cell li').textContent;
+            openUsersModal(practiceName);
+        });
+    });
+    
+    // Close modal events
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeUsersModal);
+    }
+    
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', closeUsersModal);
+    }
+    
+    // Close modal when clicking overlay
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeUsersModal();
+            }
+        });
+    }
+    
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal && modal.classList.contains('show')) {
+            closeUsersModal();
+        }
+    });
+    
+    // Search functionality
+    if (modalSearchInput) {
+        modalSearchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            filterModalTable(searchTerm);
+        });
+    }
+    
+    // Initialize modal pagination
+    initializeModalPagination();
+}
+
+// Open users modal
+function openUsersModal(practiceName) {
+    const modal = document.getElementById('usersModal');
+    if (modal) {
+        // Populate modal with sample data
+        populateModalData(practiceName);
+        
+        // Show modal
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+// Close users modal
+function closeUsersModal() {
+    const modal = document.getElementById('usersModal');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// Populate modal with sample data
+function populateModalData(practiceName) {
+    const modalTableBody = document.getElementById('modalTableBody');
+    if (!modalTableBody) return;
+    
+    // Sample user data for the practice
+    const sampleUsers = [
+        {
+            firstName: 'Belkis',
+            lastName: 'Colon',
+            userName: '481mainstreetped@gmail.com',
+            created: '2025-04-29 12:32:14',
+            lastLogin: '2025-06-09 11:42:13',
+            status: 'Active'
+        },
+        {
+            firstName: 'Belkis',
+            lastName: 'Colon',
+            userName: '481mainstreetped@gmail.com',
+            created: '2025-04-29 12:32:14',
+            lastLogin: '2025-04-29 12:32:47',
+            status: 'Active'
+        },
+        {
+            firstName: 'Belkis',
+            lastName: 'Colon',
+            userName: '481mainstreetped@gmail.com',
+            created: '2025-04-29 12:32:14',
+            lastLogin: '2025-04-29 12:32:16',
+            status: 'Active'
+        },
+        {
+            firstName: 'Maria',
+            lastName: 'Rodriguez',
+            userName: 'maria.rodriguez@mainstreet.com',
+            created: '2025-04-28 14:15:30',
+            lastLogin: '2025-06-08 09:30:45',
+            status: 'Active'
+        },
+        {
+            firstName: 'John',
+            lastName: 'Smith',
+            userName: 'john.smith@mainstreet.com',
+            created: '2025-04-27 10:20:15',
+            lastLogin: '2025-06-07 16:45:22',
+            status: 'Active'
+        }
+    ];
+    
+    // Clear existing data
+    modalTableBody.innerHTML = '';
+    
+    // Add user rows
+    sampleUsers.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${user.firstName}</td>
+            <td>${user.lastName}</td>
+            <td>${user.userName}</td>
+            <td>${user.created}</td>
+            <td>${user.lastLogin}</td>
+            <td>${user.status}</td>
+        `;
+        modalTableBody.appendChild(row);
+    });
+}
+
+// Filter modal table
+function filterModalTable(searchTerm) {
+    const tableRows = document.querySelectorAll('#modalTableBody tr');
+    
+    tableRows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        if (text.includes(searchTerm)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+// Initialize modal pagination
+function initializeModalPagination() {
+    const firstPageBtn = document.getElementById('modalFirstPage');
+    const prevPageBtn = document.getElementById('modalPrevPage');
+    const nextPageBtn = document.getElementById('modalNextPage');
+    const lastPageBtn = document.getElementById('modalLastPage');
+    const currentPageBtn = document.getElementById('modalCurrentPage');
+    
+    let currentPage = 1;
+    const itemsPerPage = 5;
+    
+    // Add event listeners
+    if (firstPageBtn) {
+        firstPageBtn.addEventListener('click', () => goToPage(1));
+    }
+    
+    if (prevPageBtn) {
+        prevPageBtn.addEventListener('click', () => goToPage(currentPage - 1));
+    }
+    
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', () => goToPage(currentPage + 1));
+    }
+    
+    if (lastPageBtn) {
+        lastPageBtn.addEventListener('click', () => goToPage(getTotalPages()));
+    }
+    
+    function goToPage(page) {
+        const totalPages = getTotalPages();
+        if (page < 1 || page > totalPages) return;
+        
+        currentPage = page;
+        updateModalPagination();
+        updateModalTableDisplay();
+    }
+    
+    function getTotalPages() {
+        const totalRows = document.querySelectorAll('#modalTableBody tr').length;
+        return Math.ceil(totalRows / itemsPerPage);
+    }
+    
+    function updateModalPagination() {
+        const totalPages = getTotalPages();
+        
+        // Update current page button
+        if (currentPageBtn) {
+            currentPageBtn.textContent = currentPage;
+        }
+        
+        // Update button states
+        if (firstPageBtn) firstPageBtn.disabled = currentPage <= 1;
+        if (prevPageBtn) prevPageBtn.disabled = currentPage <= 1;
+        if (nextPageBtn) nextPageBtn.disabled = currentPage >= totalPages;
+        if (lastPageBtn) lastPageBtn.disabled = currentPage >= totalPages;
+    }
+    
+    function updateModalTableDisplay() {
+        const tableRows = document.querySelectorAll('#modalTableBody tr');
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        
+        tableRows.forEach((row, index) => {
+            if (index >= startIndex && index < endIndex) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+    
+    // Initialize display
+    updateModalPagination();
+    updateModalTableDisplay();
+}
+
+// Email Dialog functionality
+function initializeEmailDialog() {
+    const sendEmailBtn = document.querySelector('.btn-send-email');
+    const emailModal = document.getElementById('emailModal');
+    const closeEmailBtn = document.getElementById('closeEmailModal');
+    const emailCancelBtn = document.getElementById('emailCancelBtn');
+    const emailSendBtn = document.getElementById('emailSendBtn');
+    const emailInput = document.getElementById('emailInput');
+    
+    // Open email dialog when Send Email button is clicked
+    if (sendEmailBtn) {
+        sendEmailBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openEmailDialog();
+        });
+    }
+    
+    // Close email dialog events
+    if (closeEmailBtn) {
+        closeEmailBtn.addEventListener('click', closeEmailDialog);
+    }
+    
+    if (emailCancelBtn) {
+        emailCancelBtn.addEventListener('click', closeEmailDialog);
+    }
+    
+    // Close email dialog when clicking overlay
+    if (emailModal) {
+        emailModal.addEventListener('click', function(e) {
+            if (e.target === emailModal) {
+                closeEmailDialog();
+            }
+        });
+    }
+    
+    // Close email dialog on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && emailModal && emailModal.classList.contains('show')) {
+            closeEmailDialog();
+        }
+    });
+    
+    // Send email functionality
+    if (emailSendBtn) {
+        emailSendBtn.addEventListener('click', function() {
+            sendEmails();
+        });
+    }
+    
+    // Auto-resize textarea
+    if (emailInput) {
+        emailInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+    }
+}
+
+// Open email dialog
+function openEmailDialog() {
+    const emailModal = document.getElementById('emailModal');
+    const emailInput = document.getElementById('emailInput');
+    
+    if (emailModal) {
+        // Clear previous input
+        if (emailInput) {
+            emailInput.value = '';
+            emailInput.style.height = 'auto';
+        }
+        
+        // Show modal
+        emailModal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus on textarea
+        setTimeout(() => {
+            if (emailInput) {
+                emailInput.focus();
+            }
+        }, 100);
+    }
+}
+
+// Close email dialog
+function closeEmailDialog() {
+    const emailModal = document.getElementById('emailModal');
+    if (emailModal) {
+        emailModal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// Send emails function
+function sendEmails() {
+    const emailInput = document.getElementById('emailInput');
+    if (!emailInput) return;
+    
+    const emails = emailInput.value.trim();
+    
+    // Validate input
+    if (!emails) {
+        showError('Please enter at least one email address');
+        emailInput.focus();
+        return;
+    }
+    
+    // Parse emails (split by comma or semicolon)
+    const emailList = emails.split(/[,;]/).map(email => email.trim()).filter(email => email);
+    
+    if (emailList.length === 0) {
+        showError('Please enter valid email addresses');
+        emailInput.focus();
+        return;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const invalidEmails = emailList.filter(email => !emailRegex.test(email));
+    
+    if (invalidEmails.length > 0) {
+        showError(`Invalid email addresses: ${invalidEmails.join(', ')}`);
+        emailInput.focus();
+        return;
+    }
+    
+    // Show loading state
+    showLoading();
+    
+    // Simulate email sending
+    setTimeout(() => {
+        hideLoading();
+        showSuccess(`Emails sent successfully to ${emailList.length} recipient(s)`);
+        closeEmailDialog();
+        
+        // Log the emails (in a real app, this would be sent to a server)
+        console.log('Emails sent to:', emailList);
+    }, 2000);
 }

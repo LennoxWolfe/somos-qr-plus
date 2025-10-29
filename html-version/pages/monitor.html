@@ -201,7 +201,7 @@
             </div>
             
             <div class="drawer-item" onclick="window.location.href='approval-module.html'">
-                <span class="drawer-text">Approval Module</span>
+                <span class="drawer-text">User Management</span>
             </div>
             
             <div class="drawer-divider"></div>
@@ -454,6 +454,14 @@
 
             <!-- Activity Table -->
             <div class="table-section">
+                <div class="table-header">
+                    <h2 class="table-title">Activity</h2>
+                    <div class="table-actions">
+                        <button class="btn-export-excel" onclick="exportActivityTable()">
+                            Export ↗
+                        </button>
+                    </div>
+                </div>
                 <div class="table-container">
                     <table class="activity-table">
                         <thead>

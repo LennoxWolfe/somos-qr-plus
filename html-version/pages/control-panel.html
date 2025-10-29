@@ -201,7 +201,7 @@
             </div>
             
             <div class="drawer-item" onclick="window.location.href='approval-module.html'">
-                <span class="drawer-text">Approval Module</span>
+                <span class="drawer-text">User Management</span>
             </div>
             
             <div class="drawer-divider"></div>
@@ -510,7 +510,7 @@
         <!-- Connections By Practices Table -->
         <div class="connections-table-section">
             <div class="table-header">
-                <h2 class="table-title">Connections By Practices</h2>
+                <h2 class="table-title">Login Activity</h2>
                 <div class="table-actions">
                     <div class="search-container">
                         <input type="text" class="search-input" placeholder="Search" id="connectionsSearch">
@@ -519,7 +519,7 @@
                         Send Email
                     </button>
                     <button class="btn-export-excel">
-                        Export to Excel
+                        Export ↗
                     </button>
                 </div>
             </div>
@@ -544,6 +544,25 @@
                                 User Name
                                 <span class="sort-arrows">↕</span>
                             </th>
+                            <th class="sortable" data-column="created">
+                                Created
+                                <span class="sort-arrows">↕</span>
+                            </th>
+                            <th class="sortable" data-column="lastlogin">
+                                Last Login
+                                <span class="sort-arrows">↕</span>
+                            </th>
+                            <th class="sortable" data-column="count">
+                                Count
+                                <span class="sort-arrows">↕</span>
+                            </th>
+                            <th class="sortable" data-column="status">
+                                Status
+                                <span class="sort-arrows">↕</span>
+                            </th>
+                            <th class="no-sort">
+                                Details
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -556,6 +575,13 @@
                             <td class="npi-cell">1093738650</td>
                             <td class="pcp-cell">Dr. Gianna Morgera</td>
                             <td class="user-cell">gianna.morgera@somoshealth.com</td>
+                            <td class="created-cell">2025-09-03 12:48:59</td>
+                            <td class="lastlogin-cell">2025-09-03 12:49:01</td>
+                            <td class="count-cell">1</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -566,6 +592,13 @@
                             <td class="npi-cell">1720174352</td>
                             <td class="pcp-cell">Dr. Belkis Colon</td>
                             <td class="user-cell">belkis.colon@mainstreetmed.com</td>
+                            <td class="created-cell">2025-09-02 14:22:15</td>
+                            <td class="lastlogin-cell">2025-09-03 10:15:30</td>
+                            <td class="count-cell">3</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -576,6 +609,13 @@
                             <td class="npi-cell">1124013784</td>
                             <td class="pcp-cell">Dr. Zika Henry</td>
                             <td class="user-cell">zika.henry@henrymedical.com</td>
+                            <td class="created-cell">2025-09-01 09:45:22</td>
+                            <td class="lastlogin-cell">2025-09-03 08:30:45</td>
+                            <td class="count-cell">16</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -586,6 +626,13 @@
                             <td class="npi-cell">1255436945</td>
                             <td class="pcp-cell">Dr. Alfredo Wong</td>
                             <td class="user-cell">alfredo.wong@wongfamily.com</td>
+                            <td class="created-cell">2025-08-30 16:12:08</td>
+                            <td class="lastlogin-cell">2025-09-02 15:45:12</td>
+                            <td class="count-cell">8</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -596,6 +643,13 @@
                             <td class="npi-cell">1215356787</td>
                             <td class="pcp-cell">Dr. Sukdai Mangru</td>
                             <td class="user-cell">sukdai.mangru@mangrumed.com</td>
+                            <td class="created-cell">2025-08-28 11:30:45</td>
+                            <td class="lastlogin-cell">2025-09-01 14:20:15</td>
+                            <td class="count-cell">5</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -606,6 +660,13 @@
                             <td class="npi-cell">1528061686</td>
                             <td class="pcp-cell">Dr. Faulia Torres</td>
                             <td class="user-cell">faulia.torres@torrescare.com</td>
+                            <td class="created-cell">2025-08-25 13:15:30</td>
+                            <td class="lastlogin-cell">2025-08-31 09:45:22</td>
+                            <td class="count-cell">12</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -616,6 +677,13 @@
                             <td class="npi-cell">1700848181</td>
                             <td class="pcp-cell">Dr. Lewis Krata</td>
                             <td class="user-cell">lewis.krata@kratamedical.com</td>
+                            <td class="created-cell">2025-08-22 16:45:12</td>
+                            <td class="lastlogin-cell">2025-08-30 11:30:45</td>
+                            <td class="count-cell">7</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -626,6 +694,13 @@
                             <td class="npi-cell">1215936521</td>
                             <td class="pcp-cell">Dr. Marc Schechter</td>
                             <td class="user-cell">marc.schechter@schechterfamily.com</td>
+                            <td class="created-cell">2025-08-20 10:20:18</td>
+                            <td class="lastlogin-cell">2025-08-29 16:15:30</td>
+                            <td class="count-cell">4</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -636,6 +711,13 @@
                             <td class="npi-cell">1987654321</td>
                             <td class="pcp-cell">Dr. Charlotte Gamble</td>
                             <td class="user-cell">charlotte.gamble@gamblehealth.com</td>
+                            <td class="created-cell">2025-08-18 14:30:25</td>
+                            <td class="lastlogin-cell">2025-08-28 13:45:12</td>
+                            <td class="count-cell">9</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -646,6 +728,13 @@
                             <td class="npi-cell">1876543210</td>
                             <td class="pcp-cell">Dr. Michael Droller</td>
                             <td class="user-cell">michael.droller@drollermed.com</td>
+                            <td class="created-cell">2025-08-15 12:45:30</td>
+                            <td class="lastlogin-cell">2025-08-27 14:20:15</td>
+                            <td class="count-cell">6</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -656,6 +745,13 @@
                             <td class="npi-cell">1765432109</td>
                             <td class="pcp-cell">Dr. Ira Lazar</td>
                             <td class="user-cell">ira.lazar@lazarmedical.com</td>
+                            <td class="created-cell">2025-08-12 09:30:45</td>
+                            <td class="lastlogin-cell">2025-08-26 11:15:30</td>
+                            <td class="count-cell">11</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -666,6 +762,13 @@
                             <td class="npi-cell">1654321098</td>
                             <td class="pcp-cell">Dr. Steven Norman</td>
                             <td class="user-cell">steven.norman@normanfamily.com</td>
+                            <td class="created-cell">2025-08-10 15:20:12</td>
+                            <td class="lastlogin-cell">2025-08-25 16:45:22</td>
+                            <td class="count-cell">3</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -676,6 +779,13 @@
                             <td class="npi-cell">1543210987</td>
                             <td class="pcp-cell">Dr. Dora Belliard</td>
                             <td class="user-cell">dora.belliard@belliardmedical.com</td>
+                            <td class="created-cell">2025-08-08 11:15:30</td>
+                            <td class="lastlogin-cell">2025-08-24 10:30:45</td>
+                            <td class="count-cell">8</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -686,6 +796,13 @@
                             <td class="npi-cell">1432109876</td>
                             <td class="pcp-cell">Dr. Maria Rodriguez</td>
                             <td class="user-cell">maria.rodriguez@rodriguezcare.com</td>
+                            <td class="created-cell">2025-08-05 14:45:18</td>
+                            <td class="lastlogin-cell">2025-08-23 13:20:30</td>
+                            <td class="count-cell">14</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -696,6 +813,13 @@
                             <td class="npi-cell">1321098765</td>
                             <td class="pcp-cell">Dr. Robert Johnson</td>
                             <td class="user-cell">robert.johnson@johnsonfamily.com</td>
+                            <td class="created-cell">2025-08-03 10:30:25</td>
+                            <td class="lastlogin-cell">2025-08-22 15:45:12</td>
+                            <td class="count-cell">7</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -706,6 +830,13 @@
                             <td class="npi-cell">1210987654</td>
                             <td class="pcp-cell">Dr. Sarah Williams</td>
                             <td class="user-cell">sarah.williams@williamsmedical.com</td>
+                            <td class="created-cell">2025-08-01 16:20:45</td>
+                            <td class="lastlogin-cell">2025-08-21 12:30:18</td>
+                            <td class="count-cell">9</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -716,6 +847,13 @@
                             <td class="npi-cell">1109876543</td>
                             <td class="pcp-cell">Dr. David Brown</td>
                             <td class="user-cell">david.brown@browninternal.com</td>
+                            <td class="created-cell">2025-07-30 13:15:30</td>
+                            <td class="lastlogin-cell">2025-08-20 14:45:25</td>
+                            <td class="count-cell">5</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -726,6 +864,13 @@
                             <td class="npi-cell">1098765432</td>
                             <td class="pcp-cell">Dr. Jennifer Davis</td>
                             <td class="user-cell">jennifer.davis@davisfamily.com</td>
+                            <td class="created-cell">2025-07-28 11:45:12</td>
+                            <td class="lastlogin-cell">2025-08-19 16:20:30</td>
+                            <td class="count-cell">12</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -736,6 +881,13 @@
                             <td class="npi-cell">9876543210</td>
                             <td class="pcp-cell">Dr. Christopher Miller</td>
                             <td class="user-cell">christopher.miller@millerhealth.com</td>
+                            <td class="created-cell">2025-07-25 14:30:45</td>
+                            <td class="lastlogin-cell">2025-08-18 11:15:22</td>
+                            <td class="count-cell">6</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="practices-cell">
@@ -746,6 +898,13 @@
                             <td class="npi-cell">8765432109</td>
                             <td class="pcp-cell">Dr. Lisa Wilson</td>
                             <td class="user-cell">lisa.wilson@wilsonmedical.com</td>
+                            <td class="created-cell">2025-07-22 12:20:30</td>
+                            <td class="lastlogin-cell">2025-08-17 15:30:45</td>
+                            <td class="count-cell">10</td>
+                            <td class="status-cell">Active</td>
+                            <td class="details-cell">
+                                <span class="details-icon">☰</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -757,12 +916,12 @@
                     <span class="items-per-page-label">Items per page:</span>
                     <select class="items-per-page-select" id="itemsPerPage">
                         <option value="5">5</option>
-                        <option value="10" selected>10</option>
-                        <option value="20">20</option>
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-                    <span class="pagination-status">Showing 1-10 of 20 items</span>
+                    <span class="pagination-status">Showing 1-20 of 20 items</span>
                 </div>
                 <div class="pagination">
                     <button class="pagination-btn" disabled>
@@ -784,6 +943,79 @@
                         <span>»</span>
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users Connection List Modal -->
+    <div class="modal-overlay" id="usersModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 class="modal-title">Users Connection List</h2>
+                <button class="modal-close" id="closeUsersModal">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="modal-search-container">
+                    <input type="text" class="modal-search-input" id="modalSearchInput" placeholder="Search">
+                </div>
+                
+                <div class="modal-table-container">
+                    <table class="modal-table">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>User Name</th>
+                                <th>Created</th>
+                                <th>Last Login</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modalTableBody">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="modal-pagination">
+                    <button class="pagination-btn" id="modalFirstPage">&laquo;</button>
+                    <button class="pagination-btn" id="modalPrevPage">&lsaquo;</button>
+                    <button class="pagination-btn active" id="modalCurrentPage">1</button>
+                    <button class="pagination-btn" id="modalNextPage">&rsaquo;</button>
+                    <button class="pagination-btn" id="modalLastPage">&raquo;</button>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="modal-cancel-btn" id="modalCancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enter Emails Modal -->
+    <div class="modal-overlay" id="emailModal">
+        <div class="modal-dialog email-dialog">
+            <div class="modal-header">
+                <h2 class="modal-title">Enter Emails</h2>
+                <button class="modal-close" id="closeEmailModal">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="email-form">
+                    <label for="emailInput" class="email-label">Emails:</label>
+                    <textarea 
+                        id="emailInput" 
+                        class="email-textarea" 
+                        placeholder="Enter one or multiple email addresses, separated by commas (,) or semicolons (;)"
+                        rows="6"
+                    ></textarea>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="modal-cancel-btn" id="emailCancelBtn">Cancel</button>
+                <button class="modal-send-btn" id="emailSendBtn">Send Email</button>
             </div>
         </div>
     </div>

@@ -849,6 +849,72 @@ function showSuccess(message) {
     }, 3000);
 }
 
+// Export Activity Table to Excel (CSV format)
+function exportActivityTable() {
+    const table = document.querySelector('.activity-table');
+    if (!table) {
+        showError('Activity table not found');
+        return;
+    }
+    
+    // Get all visible rows (respecting filters)
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => 
+        row.style.display !== 'none'
+    );
+    
+    if (rows.length === 0) {
+        showError('No data to export');
+        return;
+    }
+    
+    // Get headers
+    const headers = Array.from(table.querySelectorAll('thead th')).map(th => 
+        th.textContent.trim().replace(/\s+/g, ' ')
+    );
+    
+    // Build CSV content
+    let csvContent = headers.join(',') + '\n';
+    
+    rows.forEach(row => {
+        const cells = Array.from(row.querySelectorAll('td'));
+        const rowData = cells.map(cell => {
+            // Get text content and clean it
+            let text = cell.textContent.trim();
+            // Replace commas and newlines with spaces
+            text = text.replace(/,/g, ' ').replace(/\n/g, ' ').replace(/\r/g, '');
+            // Escape quotes
+            text = text.replace(/"/g, '""');
+            // Wrap in quotes if contains spaces or special characters
+            if (text.includes(' ') || text.includes('"')) {
+                return `"${text}"`;
+            }
+            return text;
+        });
+        csvContent += rowData.join(',') + '\n';
+    });
+    
+    // Create blob and download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    // Generate filename with current date
+    const now = new Date();
+    const dateStr = now.toISOString().split('T')[0]; // YYYY-MM-DD format
+    const filename = `activity_export_${dateStr}.csv`;
+    
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Show success message
+    showSuccess(`Exported ${rows.length} rows to ${filename}`);
+}
+
 // Add smooth scrolling for better UX
 document.addEventListener('DOMContentLoaded', function() {
     // Smooth scroll for anchor links

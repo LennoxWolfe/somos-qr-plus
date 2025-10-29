@@ -970,6 +970,44 @@ body {
     overflow: hidden;
 }
 
+.table-header {
+    padding: 24px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.table-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.btn-export-excel {
+    background: none;
+    border: none;
+    color: #1976d2;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    padding: 0;
+}
+
+.btn-export-excel:hover {
+    color: #1565c0;
+    text-decoration: underline;
+}
+
 .table-container {
     overflow-x: auto;
 }
