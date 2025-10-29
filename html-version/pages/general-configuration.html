@@ -260,6 +260,7 @@
                             <th>Value</th>
                             <th>Created</th>
                             <th>Modified</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -275,6 +276,9 @@
                             </td>
                             <td class="timestamp-cell">2025-05-19 21:45:32</td>
                             <td class="timestamp-cell">2025-05-19 21:45:32</td>
+                            <td class="action-cell">
+                                <span class="no-edit">-</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="description-cell">Force Refresh</td>
@@ -288,6 +292,9 @@
                             </td>
                             <td class="timestamp-cell">2025-05-19 21:45:32</td>
                             <td class="timestamp-cell">2025-05-19 21:45:32</td>
+                            <td class="action-cell">
+                                <span class="no-edit">-</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="description-cell">Alert all user activities</td>
@@ -296,6 +303,26 @@
                             </td>
                             <td class="timestamp-cell">2025-01-10 00:22:49</td>
                             <td class="timestamp-cell">2025-01-10 00:22:53</td>
+                            <td class="action-cell">
+                                <div class="action-menu">
+                                    <button class="action-btn" onclick="toggleActionMenu('config3')">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="5" r="2"></circle>
+                                            <circle cx="12" cy="12" r="2"></circle>
+                                            <circle cx="12" cy="19" r="2"></circle>
+                                        </svg>
+                                    </button>
+                                    <div class="action-dropdown" id="actionMenuConfig3">
+                                        <button class="action-item" onclick="editConfig('alert-email', 'email', 'nlopez@somoscommunitycare.org')">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                            Edit
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <td class="description-cell">Invite Expirations Days</td>
@@ -304,6 +331,26 @@
                             </td>
                             <td class="timestamp-cell">2024-07-05 10:35:27</td>
                             <td class="timestamp-cell">2024-07-23 18:19:15</td>
+                            <td class="action-cell">
+                                <div class="action-menu">
+                                    <button class="action-btn" onclick="toggleActionMenu('config4')">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="5" r="2"></circle>
+                                            <circle cx="12" cy="12" r="2"></circle>
+                                            <circle cx="12" cy="19" r="2"></circle>
+                                        </svg>
+                                    </button>
+                                    <div class="action-dropdown" id="actionMenuConfig4">
+                                        <button class="action-item" onclick="editConfig('invite-expirations', 'number', 7)">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                            Edit
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <td class="description-cell">OTP CODE (Re-send)</td>
@@ -312,6 +359,26 @@
                             </td>
                             <td class="timestamp-cell">2024-07-05 02:37:30</td>
                             <td class="timestamp-cell">2024-07-23 18:19:15</td>
+                            <td class="action-cell">
+                                <div class="action-menu">
+                                    <button class="action-btn" onclick="toggleActionMenu('config5')">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="5" r="2"></circle>
+                                            <circle cx="12" cy="12" r="2"></circle>
+                                            <circle cx="12" cy="19" r="2"></circle>
+                                        </svg>
+                                    </button>
+                                    <div class="action-dropdown" id="actionMenuConfig5">
+                                        <button class="action-item" onclick="editConfig('otp-resend', 'number', 10)">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                            Edit
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <td class="description-cell">OTP CODE</td>
@@ -320,6 +387,26 @@
                             </td>
                             <td class="timestamp-cell">2024-07-05 14:35:27</td>
                             <td class="timestamp-cell">2024-07-23 18:19:23</td>
+                            <td class="action-cell">
+                                <div class="action-menu">
+                                    <button class="action-btn" onclick="toggleActionMenu('config6')">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="5" r="2"></circle>
+                                            <circle cx="12" cy="12" r="2"></circle>
+                                            <circle cx="12" cy="19" r="2"></circle>
+                                        </svg>
+                                    </button>
+                                    <div class="action-dropdown" id="actionMenuConfig6">
+                                        <button class="action-item" onclick="editConfig('otp-code', 'number', 10)">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                            Edit
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <td class="description-cell">Connection Token</td>
@@ -328,9 +415,55 @@
                             </td>
                             <td class="timestamp-cell">2024-07-04 14:39:04</td>
                             <td class="timestamp-cell">2024-08-30 22:46:35</td>
+                            <td class="action-cell">
+                                <div class="action-menu">
+                                    <button class="action-btn" onclick="toggleActionMenu('config7')">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="5" r="2"></circle>
+                                            <circle cx="12" cy="12" r="2"></circle>
+                                            <circle cx="12" cy="19" r="2"></circle>
+                                        </svg>
+                                    </button>
+                                    <div class="action-dropdown" id="actionMenuConfig7">
+                                        <button class="action-item" onclick="editConfig('connection-token', 'number', 17)">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                            Edit
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Configuration Modal -->
+    <div id="editConfigModal" class="modal-overlay">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Configuration</h3>
+                <button class="modal-close" onclick="closeEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="edit-form">
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <input type="text" id="configDescription" class="form-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Value</label>
+                        <div id="configValueContainer"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-cancel-btn" onclick="closeEditModal()">Cancel</button>
+                <button class="modal-save-btn" onclick="saveConfig()">Save</button>
             </div>
         </div>
     </div>

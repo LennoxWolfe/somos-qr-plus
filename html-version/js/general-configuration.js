@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeNotifications();
     initializeToggleSwitches();
     initializeEditButtons();
+    initializeActionMenus();
+    initializeEditModal();
 });
 
 // Navigation functionality
@@ -623,3 +625,229 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Initialize Edit Modal
+function initializeEditModal() {
+    const editConfigModal = document.getElementById('editConfigModal');
+    if (editConfigModal) {
+        editConfigModal.style.display = 'none';
+    }
+}
+
+// Action Menu functionality
+function initializeActionMenus() {
+    // Close action menus when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.action-menu')) {
+            const allMenus = document.querySelectorAll('.action-dropdown');
+            allMenus.forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    });
+}
+
+function toggleActionMenu(menuId) {
+    // Close all menus first
+    const allMenus = document.querySelectorAll('.action-dropdown');
+    allMenus.forEach(menu => {
+        menu.style.display = 'none';
+    });
+    
+    // Show the clicked menu - fix the ID format
+    const menu = document.getElementById('actionMenu' + menuId.charAt(0).toUpperCase() + menuId.slice(1));
+    if (menu) {
+        menu.style.display = 'block';
+    }
+}
+
+// Edit Configuration functionality
+function editConfig(configId, valueType, currentValue) {
+    const editConfigModal = document.getElementById('editConfigModal');
+    const configDescription = document.getElementById('configDescription');
+    const configValueContainer = document.getElementById('configValueContainer');
+    
+    if (editConfigModal) {
+        // Set description based on configId
+        const descriptions = {
+            'maintenance-mode': 'Maintenance Mode ON/OFF',
+            'force-refresh': 'Force Refresh',
+            'alert-email': 'Alert all user activities',
+            'invite-expirations': 'Invite Expirations Days',
+            'otp-resend': 'OTP CODE (Re-send)',
+            'otp-code': 'OTP CODE',
+            'connection-token': 'Connection Token'
+        };
+        
+        configDescription.value = descriptions[configId] || configId;
+        
+        // Clear previous content
+        configValueContainer.innerHTML = '';
+        
+        // Create appropriate input based on value type
+        if (valueType === 'toggle') {
+            const toggleContainer = document.createElement('div');
+            toggleContainer.className = 'modal-toggle-switch';
+            toggleContainer.innerHTML = `
+                <input type="checkbox" id="modalToggle" class="toggle-input" ${currentValue ? 'checked' : ''}>
+                <label for="modalToggle" class="toggle-label">
+                    <span class="toggle-slider"></span>
+                </label>
+            `;
+            configValueContainer.appendChild(toggleContainer);
+        } else if (valueType === 'email') {
+            const emailInput = document.createElement('input');
+            emailInput.type = 'email';
+            emailInput.className = 'form-input';
+            emailInput.value = currentValue;
+            emailInput.placeholder = 'Enter email address';
+            configValueContainer.appendChild(emailInput);
+        } else if (valueType === 'number') {
+            const numberInput = document.createElement('input');
+            numberInput.type = 'number';
+            numberInput.className = 'form-input';
+            numberInput.value = currentValue;
+            numberInput.placeholder = 'Enter number';
+            configValueContainer.appendChild(numberInput);
+        }
+        
+        // Store current config data for saving
+        editConfigModal.dataset.configId = configId;
+        editConfigModal.dataset.valueType = valueType;
+        
+        // Show modal
+        editConfigModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeEditModal() {
+    const editConfigModal = document.getElementById('editConfigModal');
+    if (editConfigModal) {
+        editConfigModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function saveConfig() {
+    const editConfigModal = document.getElementById('editConfigModal');
+    const configId = editConfigModal.dataset.configId;
+    const valueType = editConfigModal.dataset.valueType;
+    
+    let newValue;
+    
+    if (valueType === 'toggle') {
+        const toggleInput = document.querySelector('#modalToggle');
+        newValue = toggleInput.checked;
+    } else if (valueType === 'email') {
+        const emailInput = document.querySelector('#configValueContainer input[type="email"]');
+        newValue = emailInput.value;
+        
+        // Basic email validation
+        if (!isValidEmail(newValue)) {
+            alert('Please enter a valid email address');
+            return;
+        }
+    } else if (valueType === 'number') {
+        const numberInput = document.querySelector('#configValueContainer input[type="number"]');
+        newValue = parseInt(numberInput.value);
+        
+        if (isNaN(newValue)) {
+            alert('Please enter a valid number');
+            return;
+        }
+    }
+    
+    // Simulate API call
+    showLoading();
+    setTimeout(() => {
+        hideLoading();
+        
+        // Update the table display
+        updateTableValue(configId, newValue, valueType);
+        
+        // Close modal
+        closeEditModal();
+        
+        // Show success message
+        showNotification('Configuration updated successfully!', 'success');
+    }, 1000);
+}
+
+function updateTableValue(configId, newValue, valueType) {
+    // Update the main table display
+    if (valueType === 'toggle') {
+        const toggleInput = document.getElementById(configId);
+        if (toggleInput) {
+            toggleInput.checked = newValue;
+        }
+    } else if (valueType === 'email') {
+        const emailSpan = document.querySelector(`[data-config="${configId}"] .email-value`);
+        if (emailSpan) {
+            emailSpan.textContent = newValue;
+        }
+    } else if (valueType === 'number') {
+        const numberSpan = document.querySelector(`[data-config="${configId}"] .number-value`);
+        if (numberSpan) {
+            numberSpan.textContent = newValue;
+        }
+    }
+}
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function showLoading() {
+    // Simple loading indicator
+    const loadingDiv = document.createElement('div');
+    loadingDiv.id = 'loadingOverlay';
+    loadingDiv.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    `;
+    loadingDiv.innerHTML = '<div style="color: white; font-size: 18px;">Saving...</div>';
+    document.body.appendChild(loadingDiv);
+}
+
+function hideLoading() {
+    const loadingDiv = document.getElementById('loadingOverlay');
+    if (loadingDiv) {
+        loadingDiv.remove();
+    }
+}
+
+function showNotification(message, type) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#4caf50' : '#f44336'};
+        color: white;
+        padding: 12px 20px;
+        border-radius: 4px;
+        z-index: 10000;
+        font-size: 14px;
+    `;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
