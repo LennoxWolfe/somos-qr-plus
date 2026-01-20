@@ -951,6 +951,12 @@ body {
     background: white;
     min-width: 200px;
     transition: border-color 0.2s ease;
+    color: #333;
+}
+
+#practiceCancelationSearch,
+#providerCancelationSearch {
+    color: #333 !important;
 }
 
 .filter-select:focus {

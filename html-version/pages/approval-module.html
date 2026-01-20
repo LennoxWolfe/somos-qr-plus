@@ -571,6 +571,10 @@
                         <option value="durga">Durga Maddineni</option>
                     </select>
                 </div>
+                <div class="filter-group" style="display: flex; flex-direction: column; gap: 8px;">
+                    <label class="filter-label">Search</label>
+                    <input type="text" class="filter-select" id="practiceCancelationSearch" placeholder="Search..." style="display: block !important; visibility: visible !important; opacity: 1 !important; min-width: 200px; width: 200px; color: #333 !important;">
+                </div>
             </div>
 
             <!-- Disenrolled Practices Table -->
@@ -616,7 +620,7 @@
                                 <td class="created-cell">N/A</td>
                                 <td class="action-cell">
                                     <div class="action-menu">
-                                        <button class="action-menu-btn" onclick="toggleActionMenu('practice1')">
+                                        <button class="action-menu-btn" onclick="event.stopPropagation(); toggleActionMenu('practice1');">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <circle cx="12" cy="5" r="2"></circle>
                                                 <circle cx="12" cy="12" r="2"></circle>
@@ -624,21 +628,12 @@
                                             </svg>
                                         </button>
                                         <div class="action-menu-dropdown" id="actionMenuPractice1">
-                                            <button class="action-menu-item" onclick="viewPractice(1)">
+                                            <button class="action-menu-item" onclick="retractPracticeCancellation(1)">
                                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M1,12s4-8,11-8,11,8,11,8-4,8-11,8-11-8-11-8Z"></path>
-                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                    <path d="M3 12l4-4 4 4M7 8v8M14 8h4M14 12h4M14 16h4"/>
+                                                    <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
                                                 </svg>
-                                                View
-                                            </button>
-                                            <button class="action-menu-item delete-item" onclick="disenrollPractice(1)">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                                    <circle cx="8.5" cy="7" r="4"></circle>
-                                                    <line x1="20" y1="8" x2="20" y2="14"></line>
-                                                    <line x1="23" y1="11" x2="17" y2="11"></line>
-                                                </svg>
-                                                Disenroll
+                                                Retract Cancellation
                                             </button>
                                         </div>
                                     </div>
@@ -653,7 +648,7 @@
                                 <td class="created-cell">N/A</td>
                                 <td class="action-cell">
                                     <div class="action-menu">
-                                        <button class="action-menu-btn" onclick="toggleActionMenu('practice2')">
+                                        <button class="action-menu-btn" onclick="event.stopPropagation(); toggleActionMenu('practice2');">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <circle cx="12" cy="5" r="2"></circle>
                                                 <circle cx="12" cy="12" r="2"></circle>
@@ -661,21 +656,12 @@
                                             </svg>
                                         </button>
                                         <div class="action-menu-dropdown" id="actionMenuPractice2">
-                                            <button class="action-menu-item" onclick="viewPractice(2)">
+                                            <button class="action-menu-item" onclick="retractPracticeCancellation(2)">
                                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M1,12s4-8,11-8,11,8,11,8-4,8-11,8-11-8-11-8Z"></path>
-                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                    <path d="M3 12l4-4 4 4M7 8v8M14 8h4M14 12h4M14 16h4"/>
+                                                    <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
                                                 </svg>
-                                                View
-                                            </button>
-                                            <button class="action-menu-item delete-item" onclick="disenrollPractice(2)">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                                    <circle cx="8.5" cy="7" r="4"></circle>
-                                                    <line x1="20" y1="8" x2="20" y2="14"></line>
-                                                    <line x1="23" y1="11" x2="17" y2="11"></line>
-                                                </svg>
-                                                Disenroll
+                                                Retract Cancellation
                                             </button>
                                         </div>
                                     </div>
@@ -740,6 +726,10 @@
                         <option value="jungmee">Jungmee Kim</option>
                     </select>
                 </div>
+                <div class="filter-group" style="display: flex; flex-direction: column; gap: 8px;">
+                    <label class="filter-label">Search</label>
+                    <input type="text" class="filter-select" id="providerCancelationSearch" placeholder="Search..." style="display: block !important; visibility: visible !important; opacity: 1 !important; min-width: 200px; width: 200px; color: #333 !important;">
+                </div>
             </div>
 
             <!-- Disenrolled Providers Table -->
@@ -785,7 +775,7 @@
                                 <td class="created-cell"></td>
                                 <td class="action-cell">
                                     <div class="action-menu">
-                                        <button class="action-menu-btn" onclick="toggleActionMenu('provider1')">
+                                        <button class="action-menu-btn" onclick="event.stopPropagation(); toggleActionMenu('provider1');">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <circle cx="12" cy="5" r="2"></circle>
                                                 <circle cx="12" cy="12" r="2"></circle>
@@ -793,21 +783,12 @@
                                             </svg>
                                         </button>
                                         <div class="action-menu-dropdown" id="actionMenuProvider1">
-                                            <button class="action-menu-item" onclick="viewProvider(1)">
+                                            <button class="action-menu-item" onclick="retractProviderCancellation(1)">
                                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M1,12s4-8,11-8,11,8,11,8-4,8-11,8-11-8-11-8Z"></path>
-                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                    <path d="M3 12l4-4 4 4M7 8v8M14 8h4M14 12h4M14 16h4"/>
+                                                    <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
                                                 </svg>
-                                                View
-                                            </button>
-                                            <button class="action-menu-item delete-item" onclick="disenrollProvider(1)">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                                    <circle cx="8.5" cy="7" r="4"></circle>
-                                                    <line x1="20" y1="8" x2="20" y2="14"></line>
-                                                    <line x1="23" y1="11" x2="17" y2="11"></line>
-                                                </svg>
-                                                Disenroll
+                                                Retract Cancellation
                                             </button>
                                         </div>
                                     </div>
@@ -822,7 +803,7 @@
                                 <td class="created-cell"></td>
                                 <td class="action-cell">
                                     <div class="action-menu">
-                                        <button class="action-menu-btn" onclick="toggleActionMenu('provider2')">
+                                        <button class="action-menu-btn" onclick="event.stopPropagation(); toggleActionMenu('provider2');">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <circle cx="12" cy="5" r="2"></circle>
                                                 <circle cx="12" cy="12" r="2"></circle>
@@ -830,21 +811,12 @@
                                             </svg>
                                         </button>
                                         <div class="action-menu-dropdown" id="actionMenuProvider2">
-                                            <button class="action-menu-item" onclick="viewProvider(2)">
+                                            <button class="action-menu-item" onclick="retractProviderCancellation(2)">
                                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M1,12s4-8,11-8,11,8,11,8-4,8-11,8-11-8-11-8Z"></path>
-                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                    <path d="M3 12l4-4 4 4M7 8v8M14 8h4M14 12h4M14 16h4"/>
+                                                    <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
                                                 </svg>
-                                                View
-                                            </button>
-                                            <button class="action-menu-item delete-item" onclick="disenrollProvider(2)">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                                    <circle cx="8.5" cy="7" r="4"></circle>
-                                                    <line x1="20" y1="8" x2="20" y2="14"></line>
-                                                    <line x1="23" y1="11" x2="17" y2="11"></line>
-                                                </svg>
-                                                Disenroll
+                                                Retract Cancellation
                                             </button>
                                         </div>
                                     </div>

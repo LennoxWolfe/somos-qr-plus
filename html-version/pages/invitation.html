@@ -229,6 +229,11 @@
 
     <div class="main-content">
         <div class="container">
+            <!-- Back Button -->
+            <button onclick="window.location.href='control-panel.html'" style="background: #1976d2 !important; color: white !important; border: none !important; padding: 12px 20px !important; border-radius: 50px !important; cursor: pointer !important; margin-bottom: 20px !important; font-size: 14px !important; font-weight: 600 !important; display: block !important; visibility: visible !important; opacity: 1 !important; position: relative !important; z-index: 999 !important;">
+                ← Back to Control Panel
+            </button>
+            
             <!-- Page Header -->
             <div class="page-header">
                 <div class="page-title">
@@ -244,13 +249,33 @@
                         <div class="form-group">
                             <label for="providerUsers" class="form-label">Provider Users</label>
                             <div class="input-container">
-                                <select id="providerUsers" name="providerUsers" class="form-select" required>
-                                    <option value="">Select provider users</option>
-                                    <option value="provider1">Provider 1</option>
-                                    <option value="provider2">Provider 2</option>
-                                    <option value="provider3">Provider 3</option>
-                                </select>
-                                <div class="select-arrow">▼</div>
+                                <div class="searchable-dropdown" id="providerUsersDropdown">
+                                    <div class="dropdown-trigger" id="providerUsersTrigger">
+                                        <span class="selected-text" id="providerUsersSelectedText">Select provider users</span>
+                                        <span class="dropdown-arrow">▼</span>
+                                    </div>
+                                    <div class="dropdown-menu" id="providerUsersMenu">
+                                        <div class="search-container">
+                                            <input type="text" class="search-input" id="providerUsersSearchInput" placeholder="Search provider users...">
+                                            <span class="search-icon">🔍</span>
+                                        </div>
+                                        <div class="dropdown-options" id="providerUsersOptions">
+                                            <div class="dropdown-option" data-value="provider1">
+                                                <span class="option-text">Provider 1</span>
+                                                <span class="checkmark">✓</span>
+                                            </div>
+                                            <div class="dropdown-option" data-value="provider2">
+                                                <span class="option-text">Provider 2</span>
+                                                <span class="checkmark">✓</span>
+                                            </div>
+                                            <div class="dropdown-option" data-value="provider3">
+                                                <span class="option-text">Provider 3</span>
+                                                <span class="checkmark">✓</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="providerUsers" name="providerUsers" required>
                             </div>
                         </div>
                     </div>
@@ -259,7 +284,41 @@
                         <div class="form-group">
                             <label for="npi" class="form-label">NPI</label>
                             <div class="input-container">
-                                <input type="text" id="npi" name="npi" class="form-input" placeholder="Enter NPI number" required>
+                                <div class="searchable-dropdown" id="npiDropdown">
+                                    <div class="dropdown-trigger" id="npiTrigger">
+                                        <span class="selected-text" id="npiSelectedText">Enter NPI number</span>
+                                        <span class="dropdown-arrow">▼</span>
+                                    </div>
+                                    <div class="dropdown-menu" id="npiMenu">
+                                        <div class="search-container">
+                                            <input type="text" class="search-input" id="npiSearchInput" placeholder="Search NPI...">
+                                            <span class="search-icon">🔍</span>
+                                        </div>
+                                        <div class="dropdown-options" id="npiOptions">
+                                            <div class="dropdown-option" data-value="1234567890">
+                                                <span class="option-text">1234567890</span>
+                                                <span class="checkmark">✓</span>
+                                            </div>
+                                            <div class="dropdown-option" data-value="0987654321">
+                                                <span class="option-text">0987654321</span>
+                                                <span class="checkmark">✓</span>
+                                            </div>
+                                            <div class="dropdown-option" data-value="1122334455">
+                                                <span class="option-text">1122334455</span>
+                                                <span class="checkmark">✓</span>
+                                            </div>
+                                            <div class="dropdown-option" data-value="2233445566">
+                                                <span class="option-text">2233445566</span>
+                                                <span class="checkmark">✓</span>
+                                            </div>
+                                            <div class="dropdown-option" data-value="3344556677">
+                                                <span class="option-text">3344556677</span>
+                                                <span class="checkmark">✓</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="npi" name="npi" required>
                             </div>
                         </div>
                     </div>

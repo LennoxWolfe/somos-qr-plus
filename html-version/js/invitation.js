@@ -11,6 +11,12 @@ function initializeInvitation() {
     // Initialize searchable dropdown
     initializeSearchableDropdown();
     
+    // Initialize provider users dropdown
+    initializeProviderUsersDropdown();
+    
+    // Initialize NPI dropdown
+    initializeNPIDropdown();
+    
     // Initialize notifications
     initializeNotifications();
     
@@ -137,6 +143,259 @@ function initializeSearchableDropdown() {
             trigger.classList.remove('active');
         });
     });
+}
+
+// Provider Users Dropdown Functions
+function initializeProviderUsersDropdown() {
+    const dropdown = document.getElementById('providerUsersDropdown');
+    const trigger = document.getElementById('providerUsersTrigger');
+    const menu = document.getElementById('providerUsersMenu');
+    const searchInput = document.getElementById('providerUsersSearchInput');
+    const options = document.querySelectorAll('#providerUsersOptions .dropdown-option');
+    const selectedText = document.getElementById('providerUsersSelectedText');
+    const hiddenInput = document.getElementById('providerUsers');
+    
+    if (!dropdown || !trigger || !menu || !searchInput || !selectedText || !hiddenInput) {
+        console.error('Provider Users dropdown elements not found');
+        return;
+    }
+    
+    let isOpen = false;
+    
+    // Toggle dropdown
+    trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleDropdown();
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target)) {
+            closeDropdown();
+        }
+    });
+    
+    // Search functionality
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        
+        options.forEach(option => {
+            const text = option.querySelector('.option-text').textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                option.style.display = 'flex';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+    });
+    
+    // Option selection
+    options.forEach(option => {
+        option.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const value = this.getAttribute('data-value');
+            const text = this.querySelector('.option-text').textContent;
+            
+            // Update selected option
+            options.forEach(opt => {
+                opt.classList.remove('selected');
+                opt.setAttribute('data-selected', 'false');
+            });
+            
+            this.classList.add('selected');
+            this.setAttribute('data-selected', 'true');
+            selectedText.textContent = text;
+            
+            // Update hidden input
+            hiddenInput.value = value;
+            
+            // Clear any error styling
+            clearFieldError.call(hiddenInput);
+            
+            // Update button state
+            updateButtonState();
+            
+            // Close dropdown
+            closeDropdown();
+        });
+    });
+    
+    // Close dropdown on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isOpen) {
+            closeDropdown();
+        }
+    });
+    
+    function toggleDropdown() {
+        if (isOpen) {
+            closeDropdown();
+        } else {
+            openDropdown();
+        }
+    }
+    
+    function openDropdown() {
+        menu.classList.add('show');
+        trigger.classList.add('active');
+        searchInput.focus();
+        searchInput.value = ''; // Clear search on open
+        // Show all options when opening
+        options.forEach(option => {
+            option.style.display = 'flex';
+        });
+        isOpen = true;
+    }
+    
+    function closeDropdown() {
+        menu.classList.remove('show');
+        trigger.classList.remove('active');
+        isOpen = false;
+    }
+}
+
+// NPI Dropdown Functions
+function initializeNPIDropdown() {
+    const dropdown = document.getElementById('npiDropdown');
+    const trigger = document.getElementById('npiTrigger');
+    const menu = document.getElementById('npiMenu');
+    const searchInput = document.getElementById('npiSearchInput');
+    const options = document.querySelectorAll('#npiOptions .dropdown-option');
+    const selectedText = document.getElementById('npiSelectedText');
+    const hiddenInput = document.getElementById('npi');
+    
+    if (!dropdown || !trigger || !menu || !searchInput || !selectedText || !hiddenInput) {
+        console.error('NPI dropdown elements not found');
+        return;
+    }
+    
+    let isOpen = false;
+    
+    // Allow typing directly in the trigger to search
+    trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        openDropdown();
+    });
+    
+    // Also allow clicking on the selected text area to open
+    selectedText.addEventListener('click', function(e) {
+        e.stopPropagation();
+        openDropdown();
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target)) {
+            closeDropdown();
+        }
+    });
+    
+    // Search functionality - filter options as user types
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value;
+        
+        // Filter options
+        options.forEach(option => {
+            const text = option.querySelector('.option-text').textContent;
+            if (text.includes(searchTerm)) {
+                option.style.display = 'flex';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+        
+        // Update selected text and value as user types (for free text entry)
+        if (searchTerm && /^\d+$/.test(searchTerm)) {
+            selectedText.textContent = searchTerm;
+            hiddenInput.value = searchTerm;
+            clearFieldError.call(hiddenInput);
+            updateButtonState();
+        } else if (searchTerm === '') {
+            // Reset to placeholder if search is cleared
+            selectedText.textContent = 'Enter NPI number';
+            hiddenInput.value = '';
+            updateButtonState();
+        }
+    });
+    
+    // Allow Enter key to select or confirm typed value
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const searchTerm = this.value.trim();
+            
+            // If it's a valid 10-digit NPI, use it
+            if (/^\d{10}$/.test(searchTerm)) {
+                selectedText.textContent = searchTerm;
+                hiddenInput.value = searchTerm;
+                clearFieldError.call(hiddenInput);
+                updateButtonState();
+                closeDropdown();
+            } else {
+                // Try to select first visible option
+                const firstVisible = Array.from(options).find(opt => opt.style.display !== 'none');
+                if (firstVisible) {
+                    firstVisible.click();
+                }
+            }
+        }
+    });
+    
+    // Option selection
+    options.forEach(option => {
+        option.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const value = this.getAttribute('data-value');
+            const text = this.querySelector('.option-text').textContent;
+            
+            // Update selected option
+            options.forEach(opt => {
+                opt.classList.remove('selected');
+                opt.setAttribute('data-selected', 'false');
+            });
+            
+            this.classList.add('selected');
+            this.setAttribute('data-selected', 'true');
+            selectedText.textContent = text;
+            
+            // Update hidden input
+            hiddenInput.value = value;
+            
+            // Clear any error styling
+            clearFieldError.call(hiddenInput);
+            
+            // Update button state
+            updateButtonState();
+            
+            // Close dropdown
+            closeDropdown();
+        });
+    });
+    
+    // Close dropdown on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isOpen) {
+            closeDropdown();
+        }
+    });
+    
+    function openDropdown() {
+        menu.classList.add('show');
+        trigger.classList.add('active');
+        searchInput.focus();
+        searchInput.value = ''; // Clear search on open
+        // Show all options when opening
+        options.forEach(option => {
+            option.style.display = 'flex';
+        });
+        isOpen = true;
+    }
+    
+    function closeDropdown() {
+        menu.classList.remove('show');
+        trigger.classList.remove('active');
+        isOpen = false;
+    }
 }
 
 // Notifications Functions
@@ -269,7 +528,7 @@ function initializeForm() {
     });
     
     // Real-time validation and button state
-    const inputs = form.querySelectorAll('input, select');
+    const inputs = form.querySelectorAll('input:not([type="hidden"]), select');
     inputs.forEach(input => {
         input.addEventListener('blur', validateField);
         input.addEventListener('input', function() {
@@ -278,6 +537,24 @@ function initializeForm() {
         });
         input.addEventListener('change', updateButtonState);
     });
+    
+    // Also listen to the hidden provider users input
+    const providerUsersInput = document.getElementById('providerUsers');
+    if (providerUsersInput) {
+        providerUsersInput.addEventListener('change', function() {
+            validateField.call(this);
+            updateButtonState();
+        });
+    }
+    
+    // Also listen to the hidden NPI input
+    const npiInput = document.getElementById('npi');
+    if (npiInput) {
+        npiInput.addEventListener('change', function() {
+            validateField.call(this);
+            updateButtonState();
+        });
+    }
     
     // Initial button state
     updateButtonState();
@@ -364,7 +641,20 @@ function validateField() {
 }
 
 function showFieldError(field, message) {
-    field.style.borderColor = '#d32f2f';
+    // For hidden inputs, apply error styling to the dropdown trigger
+    if (field.type === 'hidden' && field.id === 'providerUsers') {
+        const trigger = document.getElementById('providerUsersTrigger');
+        if (trigger) {
+            trigger.style.borderColor = '#d32f2f';
+        }
+    } else if (field.type === 'hidden' && field.id === 'npi') {
+        const trigger = document.getElementById('npiTrigger');
+        if (trigger) {
+            trigger.style.borderColor = '#d32f2f';
+        }
+    } else {
+        field.style.borderColor = '#d32f2f';
+    }
     
     // Create or update error message
     const formGroup = field.closest('.form-group');
@@ -384,7 +674,21 @@ function showFieldError(field, message) {
 }
 
 function clearFieldError() {
-    this.style.borderColor = '#e0e0e0';
+    // For hidden inputs, clear error styling from the dropdown trigger
+    if (this.type === 'hidden' && this.id === 'providerUsers') {
+        const trigger = document.getElementById('providerUsersTrigger');
+        if (trigger) {
+            trigger.style.borderColor = '';
+        }
+    } else if (this.type === 'hidden' && this.id === 'npi') {
+        const trigger = document.getElementById('npiTrigger');
+        if (trigger) {
+            trigger.style.borderColor = '';
+        }
+    } else {
+        this.style.borderColor = '#e0e0e0';
+    }
+    
     const formGroup = this.closest('.form-group');
     const errorElement = formGroup.querySelector('.field-error');
     if (errorElement) {

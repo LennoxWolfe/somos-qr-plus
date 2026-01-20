@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeTabs();
     initializeTables();
     initializeToggleSwitches();
+    initializeActionMenus();
 });
 
 // Navigation functionality
@@ -596,6 +597,8 @@ function initializeFilters() {
     const userFilter = document.getElementById('userFilter');
     const npiFilter = document.getElementById('npiFilter');
     const providerUserFilter = document.getElementById('providerUserFilter');
+    const practiceCancelationSearch = document.getElementById('practiceCancelationSearch');
+    const providerCancelationSearch = document.getElementById('providerCancelationSearch');
     
     if (practiceInvitesFilter) {
         practiceInvitesFilter.addEventListener('input', (e) => {
@@ -615,6 +618,12 @@ function initializeFilters() {
         });
     }
     
+    if (practiceCancelationSearch) {
+        practiceCancelationSearch.addEventListener('input', (e) => {
+            filterPracticesTableBySearch('.practices-table', e.target.value);
+        });
+    }
+    
     if (npiFilter) {
         npiFilter.addEventListener('change', (e) => {
             filterProvidersTable('.providers-table', e.target.value, 'npi');
@@ -624,6 +633,12 @@ function initializeFilters() {
     if (providerUserFilter) {
         providerUserFilter.addEventListener('change', (e) => {
             filterProvidersTable('.providers-table', e.target.value, 'user');
+        });
+    }
+    
+    if (providerCancelationSearch) {
+        providerCancelationSearch.addEventListener('input', (e) => {
+            filterProvidersTableBySearch('.providers-table', e.target.value);
         });
     }
 }
@@ -645,7 +660,9 @@ function filterInvitesTable(tableSelector, searchTerm) {
 
 function filterPracticesTable(tableSelector, filterValue, filterType) {
     const table = document.querySelector(tableSelector);
+    if (!table) return;
     const tbody = table.querySelector('tbody');
+    if (!tbody) return;
     const rows = tbody.querySelectorAll('tr');
     
     rows.forEach(row => {
@@ -674,9 +691,31 @@ function filterPracticesTable(tableSelector, filterValue, filterType) {
     });
 }
 
+function filterPracticesTableBySearch(tableSelector, searchTerm) {
+    const table = document.querySelector(tableSelector);
+    if (!table) return;
+    const tbody = table.querySelector('tbody');
+    if (!tbody) return;
+    const rows = tbody.querySelectorAll('tr');
+    
+    const searchLower = searchTerm.toLowerCase();
+    
+    rows.forEach(row => {
+        if (!searchTerm) {
+            row.style.display = '';
+            return;
+        }
+        
+        const rowText = row.textContent.toLowerCase();
+        row.style.display = rowText.includes(searchLower) ? '' : 'none';
+    });
+}
+
 function filterProvidersTable(tableSelector, filterValue, filterType) {
     const table = document.querySelector(tableSelector);
+    if (!table) return;
     const tbody = table.querySelector('tbody');
+    if (!tbody) return;
     const rows = tbody.querySelectorAll('tr');
     
     rows.forEach(row => {
@@ -700,6 +739,26 @@ function filterProvidersTable(tableSelector, filterValue, filterType) {
         }
         
         row.style.display = shouldShow ? '' : 'none';
+    });
+}
+
+function filterProvidersTableBySearch(tableSelector, searchTerm) {
+    const table = document.querySelector(tableSelector);
+    if (!table) return;
+    const tbody = table.querySelector('tbody');
+    if (!tbody) return;
+    const rows = tbody.querySelectorAll('tr');
+    
+    const searchLower = searchTerm.toLowerCase();
+    
+    rows.forEach(row => {
+        if (!searchTerm) {
+            row.style.display = '';
+            return;
+        }
+        
+        const rowText = row.textContent.toLowerCase();
+        row.style.display = rowText.includes(searchLower) ? '' : 'none';
     });
 }
 
@@ -738,6 +797,7 @@ function updateEmailDeliveryStatus(inviteId, isDelivered) {
 
 // Action Menu functionality
 function toggleActionMenu(menuId) {
+    console.log('toggleActionMenu called with:', menuId);
     // Close all other menus first
     const allMenus = document.querySelectorAll('.action-menu-dropdown');
     allMenus.forEach(menu => {
@@ -748,9 +808,42 @@ function toggleActionMenu(menuId) {
     
     // Toggle the clicked menu
     const menu = document.getElementById(`actionMenu${menuId}`);
+    console.log('Menu element:', menu);
     if (menu) {
         menu.classList.toggle('show');
+        console.log('Menu classes after toggle:', menu.classList.toString());
+    } else {
+        console.error('Menu not found with ID:', `actionMenu${menuId}`);
     }
+}
+
+// Make function globally accessible
+window.toggleActionMenu = toggleActionMenu;
+
+// Initialize action menu buttons
+function initializeActionMenus() {
+    const actionMenuButtons = document.querySelectorAll('.action-menu-btn');
+    actionMenuButtons.forEach(button => {
+        // Remove existing onclick handlers
+        button.removeAttribute('onclick');
+        
+        // Add event listener
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            // Get the menu ID from the button's parent's dropdown
+            const actionMenu = this.closest('.action-menu');
+            const dropdown = actionMenu ? actionMenu.querySelector('.action-menu-dropdown') : null;
+            
+            if (dropdown && dropdown.id) {
+                // Extract menuId from ID like "actionMenuProvider1" -> "provider1"
+                const menuId = dropdown.id.replace('actionMenu', '');
+                console.log('Button clicked, menuId:', menuId);
+                toggleActionMenu(menuId);
+            }
+        });
+    });
 }
 
 // Close action menus when clicking outside
@@ -853,6 +946,16 @@ function disenrollPractice(practiceId) {
     setTimeout(() => {
         hideLoading();
         showToast('success', 'Practice Disenrolled', `Practice ${practiceId} has been disenrolled successfully.`);
+    }, 1000);
+}
+
+function retractPracticeCancellation(practiceId) {
+    console.log(`Retracting cancellation for practice ${practiceId}...`);
+    showLoading();
+    
+    setTimeout(() => {
+        hideLoading();
+        showToast('success', 'Cancellation Retracted', `Cancellation has been retracted for practice ${practiceId} successfully.`);
     }, 1000);
 }
 
