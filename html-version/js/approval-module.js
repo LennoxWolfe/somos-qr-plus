@@ -453,11 +453,13 @@ function initializeTables() {
     initializeTableSorting('.invites-table');
     initializeTableSorting('.practices-table');
     initializeTableSorting('.providers-table');
+    initializeTableSorting('.verification-practices-table');
     
     // Initialize pagination
     initializePagination('.invites-table');
     initializePagination('.practices-table');
     initializePagination('.providers-table');
+    initializePagination('.verification-practices-table');
     
     // Initialize filters
     initializeFilters();
@@ -599,6 +601,7 @@ function initializeFilters() {
     const providerUserFilter = document.getElementById('providerUserFilter');
     const practiceCancelationSearch = document.getElementById('practiceCancelationSearch');
     const providerCancelationSearch = document.getElementById('providerCancelationSearch');
+    const verificationPracticesFilter = document.getElementById('verificationPracticesFilter');
     
     if (practiceInvitesFilter) {
         practiceInvitesFilter.addEventListener('input', (e) => {
@@ -639,6 +642,12 @@ function initializeFilters() {
     if (providerCancelationSearch) {
         providerCancelationSearch.addEventListener('input', (e) => {
             filterProvidersTableBySearch('.providers-table', e.target.value);
+        });
+    }
+    
+    if (verificationPracticesFilter) {
+        verificationPracticesFilter.addEventListener('input', (e) => {
+            filterInvitesTable('.verification-practices-table', e.target.value);
         });
     }
 }
@@ -846,6 +855,12 @@ function initializeActionMenus() {
     });
 }
 
+function closeAllActionMenus() {
+    document.querySelectorAll('.action-menu-dropdown').forEach(menu => {
+        menu.classList.remove('show');
+    });
+}
+
 // Close action menus when clicking outside
 document.addEventListener('click', function(e) {
     if (!e.target.closest('.action-menu')) {
@@ -895,6 +910,33 @@ function exportToExcel() {
 function uploadInvitations() {
     console.log('Opening Upload modal...');
     openUploadModal();
+}
+
+// Verification Request Practices tab
+function refreshVerificationPractices() {
+    console.log('Refreshing Verification Request Practices data...');
+    showLoading();
+    setTimeout(() => {
+        hideLoading();
+        showToast('success', 'Data Refreshed', 'Verification Request Practices data has been refreshed successfully.');
+    }, 1000);
+}
+
+function exportVerificationPracticesToExcel() {
+    console.log('Exporting Verification Request Practices to Excel...');
+    showToast('success', 'Export Started', 'Verification Request Practices export has been started.');
+}
+
+function viewVerificationRequest(id) {
+    console.log('View verification request:', id);
+    closeAllActionMenus();
+    showToast('info', 'View', 'Verification request details (placeholder).');
+}
+
+function approveVerificationRequest(id) {
+    console.log('Approve verification request:', id);
+    closeAllActionMenus();
+    showToast('success', 'Approved', 'Verification request has been approved (placeholder).');
 }
 
 // Invite action functions

@@ -980,7 +980,8 @@ body {
 
 .invites-table,
 .practices-table,
-.providers-table {
+.providers-table,
+.verification-practices-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
@@ -988,14 +989,16 @@ body {
 
 .invites-table thead,
 .practices-table thead,
-.providers-table thead {
+.providers-table thead,
+.verification-practices-table thead {
     background: #1976d2;
     color: white;
 }
 
 .invites-table th,
 .practices-table th,
-.providers-table th {
+.providers-table th,
+.verification-practices-table th {
     padding: 16px 20px;
     text-align: left;
     font-weight: 600;
@@ -1022,30 +1025,57 @@ body {
 
 .invites-table tbody tr,
 .practices-table tbody tr,
-.providers-table tbody tr {
+.providers-table tbody tr,
+.verification-practices-table tbody tr {
     border-bottom: 1px solid #f0f0f0;
     transition: background-color 0.2s ease;
 }
 
 .invites-table tbody tr:nth-child(even),
 .practices-table tbody tr:nth-child(even),
-.providers-table tbody tr:nth-child(even) {
+.providers-table tbody tr:nth-child(even),
+.verification-practices-table tbody tr:nth-child(even) {
     background-color: #f8f9fa;
 }
 
 .invites-table tbody tr:hover,
 .practices-table tbody tr:hover,
-.providers-table tbody tr:hover {
+.providers-table tbody tr:hover,
+.verification-practices-table tbody tr:hover {
     background-color: #e3f2fd;
 }
 
 .invites-table td,
 .practices-table td,
-.providers-table td {
+.providers-table td,
+.verification-practices-table td {
     padding: 16px 20px;
     vertical-align: middle;
     font-size: 13px;
     color: #333;
+}
+
+/* Verification Request Practices table: column widths to prevent NPI/Status overlap */
+.verification-practices-table th:nth-child(1),
+.verification-practices-table td:nth-child(1) { min-width: 180px; }
+.verification-practices-table th:nth-child(2),
+.verification-practices-table td:nth-child(2) { min-width: 110px; white-space: nowrap; }
+.verification-practices-table th:nth-child(3),
+.verification-practices-table td:nth-child(3) { min-width: 100px; white-space: nowrap; }
+.verification-practices-table th:nth-child(4),
+.verification-practices-table td:nth-child(4) { min-width: 160px; }
+.verification-practices-table th:nth-child(5),
+.verification-practices-table td:nth-child(5) { min-width: 160px; }
+.verification-practices-table th:nth-child(6),
+.verification-practices-table td:nth-child(6) { min-width: 60px; text-align: center; }
+
+.verification-practices-table .status-cell {
+    white-space: nowrap;
+}
+
+.verification-practices-table .verified-cell.empty {
+    color: #9e9e9e;
+    font-style: normal;
 }
 
 /* Specific column styling */
@@ -2065,9 +2095,11 @@ input:checked + .toggle-label .toggle-slider:before {
     .invites-table th,
     .practices-table th,
     .providers-table th,
+    .verification-practices-table th,
     .invites-table td,
     .practices-table td,
-    .providers-table td {
+    .providers-table td,
+    .verification-practices-table td {
         padding: 8px 12px;
         font-size: 12px;
     }
@@ -2125,9 +2157,11 @@ input:checked + .toggle-label .toggle-slider:before {
     .invites-table th,
     .practices-table th,
     .providers-table th,
+    .verification-practices-table th,
     .invites-table td,
     .practices-table td,
-    .providers-table td {
+    .providers-table td,
+    .verification-practices-table td {
         padding: 6px 8px;
         font-size: 11px;
     }
