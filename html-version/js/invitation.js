@@ -506,6 +506,9 @@ function handleProfileAction(action) {
             // Handle language change
             console.log('Language change requested');
             break;
+        case 'account-settings':
+            window.location.href = 'account-settings.html';
+            break;
         case 'invitations':
             // Navigate to invitations page
             window.location.href = 'invitation.html';

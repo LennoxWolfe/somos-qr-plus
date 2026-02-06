@@ -102,6 +102,17 @@ function initializeNavigation() {
             closeProfileDropdown();
         }
     });
+
+    // Profile option clicks
+    document.querySelectorAll('.profile-option').forEach(option => {
+        option.addEventListener('click', () => {
+            const action = option.getAttribute('data-action');
+            closeProfileDropdown();
+            if (action === 'account-settings') window.location.href = 'account-settings.html';
+            else if (action === 'invitations') window.location.href = 'invitation.html';
+            else if (action === 'logout') showLogoutDialog();
+        });
+    });
 }
 
 function closeDrawer() {

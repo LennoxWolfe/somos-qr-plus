@@ -401,6 +401,9 @@ function handleProfileAction(action) {
             console.log('Language settings clicked');
             // TODO: Implement language selection
             break;
+        case 'account-settings':
+            window.location.href = 'account-settings.html';
+            break;
         case 'invitations':
             console.log('Invitations clicked');
             window.location.href = 'invitation.html';

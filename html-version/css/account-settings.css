@@ -1,0 +1,202 @@
+/* Dropdown filter hidden option */
+.dropdown-option.hidden {
+    display: none;
+}
+
+/* Account Settings page content */
+.account-settings-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.account-settings-container .page-header {
+    margin-bottom: 32px;
+}
+
+.account-settings-container .page-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.account-settings-container .page-subtitle {
+    font-size: 1rem;
+    color: #666;
+}
+
+.settings-section {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.settings-section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.settings-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.settings-form .form-row:last-of-type {
+    margin-bottom: 24px;
+}
+
+.settings-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settings-form .form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.settings-form .form-input,
+.settings-form .form-select {
+    padding: 10px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+}
+
+.settings-form .form-input:focus,
+.settings-form .form-select:focus {
+    outline: none;
+    border-color: #1976d2;
+}
+
+.settings-form .form-select {
+    cursor: pointer;
+    background: white;
+    max-width: 280px;
+}
+
+.btn-primary {
+    background: #1976d2;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #1565c0;
+}
+
+/* Toggle rows for notifications */
+.settings-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.settings-toggle-row:last-of-type {
+    border-bottom: none;
+}
+
+.toggle-label-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.toggle-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.toggle-desc {
+    font-size: 13px;
+    color: #666;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 48px;
+    height: 26px;
+}
+
+.toggle-switch .toggle-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 26px;
+    transition: background-color 0.2s ease;
+}
+
+.toggle-label .toggle-slider {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-input:checked + .toggle-label {
+    background-color: #1976d2;
+}
+
+.toggle-input:checked + .toggle-label .toggle-slider {
+    transform: translateX(22px);
+}
+
+/* Single column for full-width fields */
+.settings-form .form-row.single {
+    grid-template-columns: 1fr;
+}
+
+@media (max-width: 768px) {
+    .account-settings-container {
+        padding: 16px;
+    }
+    .settings-form .form-row {
+        grid-template-columns: 1fr;
+    }
+    .settings-section {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .account-settings-container .page-title {
+        font-size: 1.5rem;
+    }
+}

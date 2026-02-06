@@ -261,6 +261,9 @@ function handleProfileAction(action) {
         case 'language':
             console.log('Language settings clicked');
             break;
+        case 'account-settings':
+            window.location.href = 'account-settings.html';
+            break;
         case 'invitations':
             console.log('Invitations clicked');
             window.location.href = 'invitation.html';
