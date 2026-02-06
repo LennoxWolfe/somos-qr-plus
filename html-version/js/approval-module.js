@@ -454,12 +454,14 @@ function initializeTables() {
     initializeTableSorting('.practices-table');
     initializeTableSorting('.providers-table');
     initializeTableSorting('.verification-practices-table');
+    initializeTableSorting('.verification-users-table');
     
     // Initialize pagination
     initializePagination('.invites-table');
     initializePagination('.practices-table');
     initializePagination('.providers-table');
     initializePagination('.verification-practices-table');
+    initializePagination('.verification-users-table');
     
     // Initialize filters
     initializeFilters();
@@ -602,6 +604,7 @@ function initializeFilters() {
     const practiceCancelationSearch = document.getElementById('practiceCancelationSearch');
     const providerCancelationSearch = document.getElementById('providerCancelationSearch');
     const verificationPracticesFilter = document.getElementById('verificationPracticesFilter');
+    const verificationUsersFilter = document.getElementById('verificationUsersFilter');
     
     if (practiceInvitesFilter) {
         practiceInvitesFilter.addEventListener('input', (e) => {
@@ -648,6 +651,12 @@ function initializeFilters() {
     if (verificationPracticesFilter) {
         verificationPracticesFilter.addEventListener('input', (e) => {
             filterInvitesTable('.verification-practices-table', e.target.value);
+        });
+    }
+    
+    if (verificationUsersFilter) {
+        verificationUsersFilter.addEventListener('input', (e) => {
+            filterInvitesTable('.verification-users-table', e.target.value);
         });
     }
 }
@@ -937,6 +946,33 @@ function approveVerificationRequest(id) {
     console.log('Approve verification request:', id);
     closeAllActionMenus();
     showToast('success', 'Approved', 'Verification request has been approved (placeholder).');
+}
+
+// Verification Request Users tab
+function refreshVerificationUsers() {
+    console.log('Refreshing Verification Request Users data...');
+    showLoading();
+    setTimeout(() => {
+        hideLoading();
+        showToast('success', 'Data Refreshed', 'Verification Request Users data has been refreshed successfully.');
+    }, 1000);
+}
+
+function exportVerificationUsersToExcel() {
+    console.log('Exporting Verification Request Users to Excel...');
+    showToast('success', 'Export Started', 'Verification Request Users export has been started.');
+}
+
+function viewVerificationUser(id) {
+    console.log('View verification user:', id);
+    closeAllActionMenus();
+    showToast('info', 'View', 'Verification user details (placeholder).');
+}
+
+function approveVerificationUser(id) {
+    console.log('Approve verification user:', id);
+    closeAllActionMenus();
+    showToast('success', 'Approved', 'Verification user has been approved (placeholder).');
 }
 
 // Invite action functions
