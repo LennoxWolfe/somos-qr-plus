@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOMOS QR+ - Account Settings</title>
-    <link rel="stylesheet" href="../css/general-configuration.css">
-    <link rel="stylesheet" href="../css/account-settings.css">
+    <title>SOMOS QR+ - Entity Info Check</title>
+    <link rel="stylesheet" href="../css/approval-module.css">
+    <link rel="stylesheet" href="../css/entity-info-check.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation Header (same as control panel / general config) -->
+    <!-- Navigation Header -->
     <header class="nav-header">
         <div class="nav-container">
             <button class="nav-menu-btn">
@@ -45,14 +46,6 @@
                                 <span class="option-text">204465950 - 43rd Street Family Practice PLLC</span>
                                 <span class="checkmark">✓</span>
                             </div>
-                            <div class="dropdown-option" data-value="113069838">
-                                <span class="option-text">113069838 - 609 Fulton Pediatrics PC</span>
-                                <span class="checkmark">✓</span>
-                            </div>
-                            <div class="dropdown-option" data-value="201075054">
-                                <span class="option-text">201075054 - 786 Medical PC</span>
-                                <span class="checkmark">✓</span>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -75,28 +68,9 @@
                             <div class="notification-icon-small">📋</div>
                             <div class="notification-content">
                                 <div class="notification-title">New Quality Scorecard Available</div>
-                                <div class="notification-message">Your Q2 2025 quality scorecard is ready for review.</div>
                                 <div class="notification-time">2 hours ago</div>
                             </div>
                             <button class="notification-close" data-id="1">×</button>
-                        </div>
-                        <div class="notification-item unread" data-id="2">
-                            <div class="notification-icon-small">👥</div>
-                            <div class="notification-content">
-                                <div class="notification-title">Patient Appointment Reminder</div>
-                                <div class="notification-message">5 patients have appointments scheduled for tomorrow.</div>
-                                <div class="notification-time">4 hours ago</div>
-                            </div>
-                            <button class="notification-close" data-id="2">×</button>
-                        </div>
-                        <div class="notification-item unread" data-id="3">
-                            <div class="notification-icon-small">📊</div>
-                            <div class="notification-content">
-                                <div class="notification-title">Monthly Report Generated</div>
-                                <div class="notification-message">Your July 2025 performance report has been generated.</div>
-                                <div class="notification-time">1 day ago</div>
-                            </div>
-                            <button class="notification-close" data-id="3">×</button>
                         </div>
                     </div>
                     <div class="notifications-footer">
@@ -122,13 +96,6 @@
                     </div>
                     <div class="profile-divider"></div>
                     <div class="profile-options">
-                        <div class="profile-option" data-action="language">
-                            <span class="option-label">Language</span>
-                            <span class="option-value">
-                                <span class="flag-icon">🇺🇸</span>
-                                English
-                            </span>
-                        </div>
                         <div class="profile-option" data-action="account-settings">
                             <span class="option-label">Account Settings</span>
                         </div>
@@ -144,6 +111,7 @@
         </div>
     </header>
 
+    <!-- Navigation Drawer -->
     <nav class="nav-drawer" id="navDrawer">
         <div class="drawer-header">
             <div class="drawer-logo-container">
@@ -169,14 +137,14 @@
             <div class="drawer-item" onclick="window.location.href='approval-module.html'">
                 <span class="drawer-text">User Management</span>
             </div>
-            <div class="drawer-item" onclick="window.location.href='entity-info-check.html'">
+            <div class="drawer-item active" onclick="window.location.href='entity-info-check.html'">
                 <span class="drawer-text">Entity Info Check</span>
             </div>
             <div class="drawer-divider"></div>
             <div class="drawer-item" onclick="window.location.href='general-configuration.html'">
                 <span class="drawer-text">General Configuration</span>
             </div>
-            <div class="drawer-item active" onclick="window.location.href='account-settings.html'">
+            <div class="drawer-item" onclick="window.location.href='account-settings.html'">
                 <span class="drawer-text">Account Settings</span>
             </div>
             <div class="drawer-item" onclick="logout()">
@@ -187,6 +155,7 @@
 
     <div class="drawer-overlay" id="drawerOverlay"></div>
 
+    <!-- Logout Dialog -->
     <div class="logout-dialog" id="logoutDialog">
         <div class="logout-dialog-content">
             <div class="logout-dialog-header">
@@ -210,110 +179,55 @@
         </div>
     </div>
 
-    <div class="account-settings-container">
+    <div class="entity-info-check-container">
         <div class="page-header">
-            <h1 class="page-title">Account Settings</h1>
-            <p class="page-subtitle">Manage your profile, password, and preferences</p>
+            <h1 class="page-title">Check Information of Entities</h1>
         </div>
 
-        <!-- Profile section -->
-        <section class="settings-section">
-            <h2 class="settings-section-title">Profile</h2>
-            <form id="profileForm" class="settings-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="firstName" class="form-label">First Name</label>
-                        <input type="text" id="firstName" class="form-input" value="Joel" placeholder="First name">
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName" class="form-label">Last Name</label>
-                        <input type="text" id="lastName" class="form-input" value="Cedano" placeholder="Last name">
-                    </div>
-                </div>
-                <div class="form-row single">
-                    <div class="form-group">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" class="form-input" value="jcedano@somosipa.com" placeholder="Email">
-                    </div>
-                </div>
-                <button type="submit" class="btn-primary">Save profile</button>
-            </form>
-        </section>
-
-        <!-- Change password section -->
-        <section class="settings-section">
-            <h2 class="settings-section-title">Change Password</h2>
-            <form id="passwordForm" class="settings-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="currentPassword" class="form-label">Current password</label>
-                        <input type="password" id="currentPassword" class="form-input" placeholder="Enter current password">
+        <div class="entity-check-form">
+            <div class="entity-form-row">
+                <div class="filter-group entity-type-group">
+                    <label class="filter-label" for="entityTypeTrigger">Entity Type</label>
+                    <div class="entity-type-dropdown" id="entityTypeDropdown">
+                        <button type="button" class="entity-type-trigger" id="entityTypeTrigger" aria-expanded="false" aria-haspopup="listbox">
+                            <span class="entity-type-selected" id="entityTypeSelected">Select an Entity</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="entity-type-menu" id="entityTypeMenu" role="listbox" hidden>
+                            <div class="entity-type-search-wrap">
+                                <input type="text" class="entity-type-search" id="entityTypeSearch" placeholder="Search..." aria-label="Search entity types">
+                            </div>
+                            <div class="entity-type-options" id="entityTypeOptions">
+                                <div class="entity-type-option" role="option" data-value="provider-npi" tabindex="0">Provider NPI</div>
+                                <div class="entity-type-option" role="option" data-value="user-email" tabindex="0">User Email</div>
+                                <div class="entity-type-option" role="option" data-value="member-plan-id" tabindex="0">Member Plan ID</div>
+                                <div class="entity-type-option" role="option" data-value="practice-billing-tin" tabindex="0">Practice Billing Tin</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="newPassword" class="form-label">New password</label>
-                        <input type="password" id="newPassword" class="form-input" placeholder="Enter new password">
-                    </div>
-                    <div class="form-group">
-                        <label for="confirmPassword" class="form-label">Confirm new password</label>
-                        <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm new password">
+                <div class="filter-group value-group">
+                    <label class="filter-label" for="entityValueInput">Value</label>
+                    <div class="value-input-wrap">
+                        <input type="text" id="entityValueInput" class="filter-select value-input" placeholder="Value" aria-label="Value">
+                        <span class="value-input-icon" aria-hidden="true">🔍</span>
                     </div>
                 </div>
-                <button type="submit" class="btn-primary">Update password</button>
-            </form>
-        </section>
-
-        <!-- Language section -->
-        <section class="settings-section">
-            <h2 class="settings-section-title">Language</h2>
-            <form id="languageForm" class="settings-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="language" class="form-label">Display language</label>
-                        <select id="language" class="form-select">
-                            <option value="en" selected>English</option>
-                            <option value="es">Spanish</option>
-                        </select>
-                    </div>
+                <div class="filter-group troubleshooting-group">
+                    <label class="filter-label">&nbsp;</label>
+                    <button type="button" class="btn-troubleshooting" id="troubleshootingBtn">
+                        <svg class="btn-troubleshooting-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                        Troubleshooting
+                    </button>
                 </div>
-                <button type="submit" class="btn-primary">Save</button>
-            </form>
-        </section>
-
-        <!-- Notifications section -->
-        <section class="settings-section">
-            <h2 class="settings-section-title">Notifications</h2>
-            <form id="notificationsForm" class="settings-form">
-                <div class="settings-toggle-row">
-                    <div class="toggle-label-text">
-                        <span class="toggle-title">Email notifications</span>
-                        <span class="toggle-desc">Receive email alerts for important updates</span>
-                    </div>
-                    <div class="toggle-switch">
-                        <input type="checkbox" id="emailNotifications" class="toggle-input" checked>
-                        <label for="emailNotifications" class="toggle-label">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="settings-toggle-row">
-                    <div class="toggle-label-text">
-                        <span class="toggle-title">In-app notifications</span>
-                        <span class="toggle-desc">Show notification badge in header</span>
-                    </div>
-                    <div class="toggle-switch">
-                        <input type="checkbox" id="inAppNotifications" class="toggle-input" checked>
-                        <label for="inAppNotifications" class="toggle-label">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-                <button type="submit" class="btn-primary">Save preferences</button>
-            </form>
-        </section>
+            </div>
+        </div>
     </div>
 
-    <script src="../js/account-settings.js"></script>
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="../js/entity-info-check.js"></script>
 </body>
 </html>
