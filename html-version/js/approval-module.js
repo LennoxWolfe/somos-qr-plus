@@ -18,6 +18,23 @@ function closeVerificationPracticesFilterModal() {
 window.openVerificationPracticesFilterModal = openVerificationPracticesFilterModal;
 window.closeVerificationPracticesFilterModal = closeVerificationPracticesFilterModal;
 
+function openVerificationUsersFilterModal() {
+    var modal = document.getElementById('verificationUsersFilterModal');
+    if (modal) {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
+function closeVerificationUsersFilterModal() {
+    var modal = document.getElementById('verificationUsersFilterModal');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+}
+window.openVerificationUsersFilterModal = openVerificationUsersFilterModal;
+window.closeVerificationUsersFilterModal = closeVerificationUsersFilterModal;
+
 function openRequestVerificationDialog(rowData) {
     var modal = document.getElementById('requestVerificationModal');
     if (!modal || !rowData) return;
@@ -70,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeToggleSwitches();
     initializeActionMenus();
     initializeVerificationPracticesFilterModal();
+    initializeVerificationUsersFilterModal();
     initializeRequestVerificationModal();
 });
 
@@ -1050,6 +1068,74 @@ function initializeVerificationPracticesFilterModal() {
     }
 }
 
+function initializeVerificationUsersFilterModal() {
+    var modal = document.getElementById('verificationUsersFilterModal');
+    var closeBtn = document.getElementById('closeVerificationUsersFilterModalBtn');
+    var cancelBtn = document.getElementById('verificationUsersFilterCancelBtn');
+    var applyBtn = document.getElementById('verificationUsersFilterApplyBtn');
+
+    var vuFilterBtn = document.querySelector('.vu-filter-btn');
+    if (vuFilterBtn) {
+        vuFilterBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openVerificationUsersFilterModal();
+        });
+    }
+    document.body.addEventListener('click', function(e) {
+        if (e.target && e.target.closest && e.target.closest('.vu-filter-btn')) {
+            e.preventDefault();
+            e.stopPropagation();
+            openVerificationUsersFilterModal();
+        }
+    }, true);
+
+    if (closeBtn && modal) closeBtn.addEventListener('click', closeVerificationUsersFilterModal);
+    if (cancelBtn && modal) cancelBtn.addEventListener('click', closeVerificationUsersFilterModal);
+    if (applyBtn) applyBtn.addEventListener('click', function() { applyVerificationUsersFilters(); });
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeVerificationUsersFilterModal();
+        });
+    }
+}
+
+function applyVerificationUsersFilters() {
+    var email = (document.getElementById('vuFilterEmail') || {}).value.trim().toLowerCase();
+    var firstName = (document.getElementById('vuFilterFirstName') || {}).value.trim().toLowerCase();
+    var lastName = (document.getElementById('vuFilterLastName') || {}).value.trim().toLowerCase();
+    var profile = (document.getElementById('vuFilterProfile') || {}).value.trim().toLowerCase();
+    var tin = (document.getElementById('vuFilterTIN') || {}).value.trim().toLowerCase();
+    var status = (document.getElementById('vuFilterStatus') || {}).value.trim().toLowerCase();
+
+    var table = document.querySelector('.verification-users-table');
+    if (!table) return;
+    var rows = table.querySelectorAll('tbody tr');
+
+    rows.forEach(function(row) {
+        var cells = row.querySelectorAll('td');
+        if (cells.length < 8) return;
+        var rowEmail = (cells[0].textContent || '').trim().toLowerCase();
+        var rowFirstName = (cells[1].textContent || '').trim().toLowerCase();
+        var rowLastName = (cells[2].textContent || '').trim().toLowerCase();
+        var rowProfile = (cells[3].textContent || '').trim().toLowerCase();
+        var rowTin = (cells[4].textContent || '').trim().toLowerCase();
+        var rowStatus = (cells[5].textContent || '').trim().toLowerCase();
+
+        var matchEmail = !email || rowEmail.includes(email);
+        var matchFirstName = !firstName || rowFirstName.includes(firstName);
+        var matchLastName = !lastName || rowLastName.includes(lastName);
+        var matchProfile = !profile || rowProfile.includes(profile);
+        var matchTin = !tin || rowTin.includes(tin.replace(/\D/g, '')) || (cells[4].textContent || '').replace(/\D/g, '').includes(tin.replace(/\D/g, ''));
+        var matchStatus = !status || rowStatus.includes(status);
+
+        row.style.display = (matchEmail && matchFirstName && matchLastName && matchProfile && matchTin && matchStatus) ? '' : 'none';
+    });
+
+    closeVerificationUsersFilterModal();
+    showToast('success', 'Filters Applied', 'Verification Request Users filters have been applied.');
+}
+
 function initializeRequestVerificationModal() {
     var modal = document.getElementById('requestVerificationModal');
     var closeBtn = document.getElementById('closeRequestVerificationModalBtn');
@@ -1169,10 +1255,30 @@ function viewVerificationUser(id) {
     showToast('info', 'View', 'Verification user details (placeholder).');
 }
 
-function approveVerificationUser(id) {
-    console.log('Approve verification user:', id);
+function approveVerificationUser(menuId) {
     closeAllActionMenus();
-    showToast('success', 'Approved', 'Verification user has been approved (placeholder).');
+    var menu = document.getElementById('actionMenu' + menuId);
+    if (!menu) return;
+    var row = menu.closest('tr');
+    if (!row) return;
+    var cells = row.querySelectorAll('td');
+    if (cells.length < 8) return;
+    var statusCell = cells[5];
+    var statusText = statusCell.querySelector('.status-badge') ? statusCell.querySelector('.status-badge').textContent.trim() : statusCell.textContent.trim();
+    var tinVal = getCellText(cells[4]);
+    var rowData = {
+        requestId: '#VFU' + (menuId.replace(/^verificationUser/, '') || ''),
+        status: statusText || 'Pending',
+        email: getCellText(cells[0]),
+        firstName: getCellText(cells[1]),
+        lastName: getCellText(cells[2]),
+        profile: getCellText(cells[3]),
+        tin: tinVal,
+        npi: '',
+        phone: '',
+        practices: [{ id: tinVal || '—', practiceName: '—', city: '—', tin: tinVal || '—' }]
+    };
+    openRequestVerificationDialog(rowData);
 }
 
 // Invite action functions

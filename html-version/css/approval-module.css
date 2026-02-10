@@ -1086,17 +1086,17 @@ body {
 
 /* Verification Request Users table: column widths */
 .verification-users-table th:nth-child(1),
-.verification-users-table td:nth-child(1) { min-width: 140px; }
+.verification-users-table td:nth-child(1) { min-width: 180px; }
 .verification-users-table th:nth-child(2),
-.verification-users-table td:nth-child(2) { min-width: 200px; }
+.verification-users-table td:nth-child(2) { min-width: 100px; }
 .verification-users-table th:nth-child(3),
-.verification-users-table td:nth-child(3) { min-width: 180px; }
+.verification-users-table td:nth-child(3) { min-width: 110px; }
 .verification-users-table th:nth-child(4),
-.verification-users-table td:nth-child(4) { min-width: 100px; white-space: nowrap; }
+.verification-users-table td:nth-child(4) { min-width: 90px; white-space: nowrap; }
 .verification-users-table th:nth-child(5),
-.verification-users-table td:nth-child(5) { min-width: 95px; white-space: nowrap; }
+.verification-users-table td:nth-child(5) { min-width: 100px; white-space: nowrap; }
 .verification-users-table th:nth-child(6),
-.verification-users-table td:nth-child(6) { min-width: 155px; }
+.verification-users-table td:nth-child(6) { min-width: 95px; white-space: nowrap; }
 .verification-users-table th:nth-child(7),
 .verification-users-table td:nth-child(7) { min-width: 155px; }
 .verification-users-table th:nth-child(8),
@@ -1363,6 +1363,16 @@ input:checked + .toggle-label .toggle-slider:before {
 }
 
 #verificationPracticesFilterModal.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+#verificationUsersFilterModal.modal-overlay {
+    z-index: 10000;
+}
+
+#verificationUsersFilterModal.modal-overlay.show {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
