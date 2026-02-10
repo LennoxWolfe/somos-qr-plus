@@ -166,7 +166,9 @@
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 14px;
+    width: 16px;
+    height: 16px;
+    color: #666;
     pointer-events: none;
 }
 
