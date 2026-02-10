@@ -1,5 +1,65 @@
 // Approval Module JavaScript functionality
 
+// Verification Request Practices filter modal - define first so onclick works
+function openVerificationPracticesFilterModal() {
+    var modal = document.getElementById('verificationPracticesFilterModal');
+    if (modal) {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
+function closeVerificationPracticesFilterModal() {
+    var modal = document.getElementById('verificationPracticesFilterModal');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+}
+window.openVerificationPracticesFilterModal = openVerificationPracticesFilterModal;
+window.closeVerificationPracticesFilterModal = closeVerificationPracticesFilterModal;
+
+function openRequestVerificationDialog(rowData) {
+    var modal = document.getElementById('requestVerificationModal');
+    if (!modal || !rowData) return;
+    var idEl = document.getElementById('requestVerificationId');
+    var statusEl = document.getElementById('requestVerificationStatus');
+    if (idEl) idEl.textContent = rowData.requestId || '';
+    if (statusEl) statusEl.textContent = rowData.status || '';
+    setFormValue('rvFirstName', rowData.firstName);
+    setFormValue('rvLastName', rowData.lastName);
+    setFormValue('rvNPI', rowData.npi != null && rowData.npi !== '' ? rowData.npi : '—');
+    setFormValue('rvEmail', rowData.email);
+    setFormValue('rvPhone', rowData.phone != null && rowData.phone !== '' ? rowData.phone : '—');
+    setFormValue('rvProfile', rowData.profile);
+    var tbody = document.getElementById('requestVerificationPracticeTbody');
+    if (tbody) {
+        tbody.innerHTML = '';
+        var practices = rowData.practices && rowData.practices.length ? rowData.practices : [{ id: rowData.tin || '—', practiceName: '—', city: '—', tin: rowData.tin || '—' }];
+        practices.forEach(function(p) {
+            var tr = document.createElement('tr');
+            tr.innerHTML = '<td>' + (p.id || '—') + '</td><td>' + (p.practiceName || '—') + '</td><td>' + (p.city || '—') + '</td><td>' + (p.tin || '—') + '</td>';
+            tbody.appendChild(tr);
+        });
+    }
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function setFormValue(id, value) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = value != null && value !== '' ? value : '—';
+}
+
+function closeRequestVerificationDialog() {
+    var modal = document.getElementById('requestVerificationModal');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+}
+window.openRequestVerificationDialog = openRequestVerificationDialog;
+window.closeRequestVerificationDialog = closeRequestVerificationDialog;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize interactive elements
     initializeSearchableDropdown();
@@ -9,6 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeTables();
     initializeToggleSwitches();
     initializeActionMenus();
+    initializeVerificationPracticesFilterModal();
+    initializeRequestVerificationModal();
 });
 
 // Navigation functionality
@@ -947,16 +1009,143 @@ function exportVerificationPracticesToExcel() {
     showToast('success', 'Export Started', 'Verification Request Practices export has been started.');
 }
 
+function initializeVerificationPracticesFilterModal() {
+    var modal = document.getElementById('verificationPracticesFilterModal');
+    var closeBtn = document.getElementById('closeVerificationPracticesFilterModalBtn');
+    var cancelBtn = document.getElementById('verificationPracticesFilterCancelBtn');
+    var applyBtn = document.getElementById('verificationPracticesFilterApplyBtn');
+
+    // 1) Direct listener on the VP Filter button (unique class .vp-filter-btn)
+    var vpFilterBtn = document.querySelector('.vp-filter-btn');
+    if (vpFilterBtn) {
+        vpFilterBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openVerificationPracticesFilterModal();
+        });
+    }
+
+    // 2) Capture-phase delegation so we run before any other handler
+    document.body.addEventListener('click', function(e) {
+        if (e.target && e.target.closest && e.target.closest('.vp-filter-btn')) {
+            e.preventDefault();
+            e.stopPropagation();
+            openVerificationPracticesFilterModal();
+        }
+    }, true);
+
+    if (closeBtn && modal) {
+        closeBtn.addEventListener('click', function() { closeVerificationPracticesFilterModal(); });
+    }
+    if (cancelBtn && modal) {
+        cancelBtn.addEventListener('click', function() { closeVerificationPracticesFilterModal(); });
+    }
+    if (applyBtn) {
+        applyBtn.addEventListener('click', function() { applyVerificationPracticesFilters(); });
+    }
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeVerificationPracticesFilterModal();
+        });
+    }
+}
+
+function initializeRequestVerificationModal() {
+    var modal = document.getElementById('requestVerificationModal');
+    var closeBtn = document.getElementById('closeRequestVerificationModalBtn');
+    var cancelBtn = document.getElementById('requestVerificationCancelBtn');
+    var denyBtn = document.getElementById('requestVerificationDenyBtn');
+    var acceptBtn = document.getElementById('requestVerificationAcceptBtn');
+
+    if (closeBtn && modal) closeBtn.addEventListener('click', closeRequestVerificationDialog);
+    if (cancelBtn && modal) cancelBtn.addEventListener('click', closeRequestVerificationDialog);
+    if (denyBtn) {
+        denyBtn.addEventListener('click', function() {
+            closeRequestVerificationDialog();
+            showToast('info', 'Request Denied', 'Verification request has been denied.');
+        });
+    }
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', function() {
+            closeRequestVerificationDialog();
+            showToast('success', 'Request Accepted', 'Verification request has been accepted.');
+        });
+    }
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeRequestVerificationDialog();
+        });
+    }
+}
+
+function applyVerificationPracticesFilters() {
+    const firstName = (document.getElementById('vpFilterFirstName') || {}).value.trim().toLowerCase();
+    const lastName = (document.getElementById('vpFilterLastName') || {}).value.trim().toLowerCase();
+    const npi = (document.getElementById('vpFilterNPI') || {}).value.trim().toLowerCase();
+    const profile = (document.getElementById('vpFilterProfile') || {}).value.trim().toLowerCase();
+    const tin = (document.getElementById('vpFilterTIN') || {}).value.trim().toLowerCase();
+    const status = (document.getElementById('vpFilterStatus') || {}).value.trim().toLowerCase();
+
+    const table = document.querySelector('.verification-practices-table');
+    if (!table) return;
+    const rows = table.querySelectorAll('tbody tr');
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length < 7) return;
+        const rowFirstName = (cells[1].textContent || '').trim().toLowerCase();
+        const rowLastName = (cells[2].textContent || '').trim().toLowerCase();
+        const rowProfile = (cells[3].textContent || '').trim().toLowerCase();
+        const rowTin = (cells[4].textContent || '').trim().toLowerCase();
+        const rowStatus = (cells[5].textContent || '').trim().toLowerCase();
+
+        const matchFirstName = !firstName || rowFirstName.includes(firstName);
+        const matchLastName = !lastName || rowLastName.includes(lastName);
+        const matchProfile = !profile || rowProfile.includes(profile);
+        const matchTin = !tin || rowTin.includes(tin);
+        const matchStatus = !status || rowStatus.includes(status);
+        const matchNpi = !npi || rowTin.includes(npi) || (cells[4].textContent || '').replace(/\D/g, '').includes(npi.replace(/\D/g, ''));
+
+        row.style.display = (matchFirstName && matchLastName && matchProfile && matchTin && matchStatus && matchNpi) ? '' : 'none';
+    });
+
+    closeVerificationPracticesFilterModal();
+    showToast('success', 'Filters Applied', 'Verification Request Practices filters have been applied.');
+}
+
 function viewVerificationRequest(id) {
     console.log('View verification request:', id);
     closeAllActionMenus();
     showToast('info', 'View', 'Verification request details (placeholder).');
 }
 
-function approveVerificationRequest(id) {
-    console.log('Approve verification request:', id);
+function approveVerificationRequest(menuId) {
     closeAllActionMenus();
-    showToast('success', 'Approved', 'Verification request has been approved (placeholder).');
+    var menu = document.getElementById('actionMenu' + menuId);
+    if (!menu) return;
+    var row = menu.closest('tr');
+    if (!row) return;
+    var cells = row.querySelectorAll('td');
+    if (cells.length < 7) return;
+    var statusCell = cells[5];
+    var statusText = statusCell.querySelector('.status-badge') ? statusCell.querySelector('.status-badge').textContent.trim() : statusCell.textContent.trim();
+    var rowData = {
+        requestId: '#VF' + (menuId.replace(/^verification/, '') || ''),
+        status: statusText || 'Pending',
+        email: getCellText(cells[0]),
+        firstName: getCellText(cells[1]),
+        lastName: getCellText(cells[2]),
+        profile: getCellText(cells[3]),
+        tin: getCellText(cells[4]),
+        npi: '',
+        phone: '',
+        practices: [{ id: getCellText(cells[4]), practiceName: '—', city: '—', tin: getCellText(cells[4]) }]
+    };
+    openRequestVerificationDialog(rowData);
+}
+
+function getCellText(cell) {
+    return cell ? (cell.textContent || '').trim() : '';
 }
 
 // Verification Request Users tab

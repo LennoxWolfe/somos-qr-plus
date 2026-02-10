@@ -884,6 +884,12 @@
                             <path d="M20.49,9A9,9,0,0,0,5.64,5.64L1,10m22,4L18.36,18.36A9,9,0,0,1,3.51,15"></path>
                         </svg>
                     </button>
+                    <button type="button" class="action-btn filter-btn vp-filter-btn" id="verificationPracticesFilterBtn" data-open-vp-filter="true" onclick="openVerificationPracticesFilterModal(); return false;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46 22,3"></polygon>
+                        </svg>
+                        Filter
+                    </button>
                     <button class="action-btn export-btn" onclick="exportVerificationPracticesToExcel()">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -901,24 +907,32 @@
                     <table class="verification-practices-table">
                         <thead>
                             <tr>
-                                <th class="sortable" data-column="practice-name">
-                                    Practice Name
+                                <th class="sortable" data-column="email">
+                                    Email
                                     <span class="sort-arrows">↕</span>
                                 </th>
-                                <th class="sortable" data-column="npi">
-                                    NPI
+                                <th class="sortable" data-column="first-name">
+                                    First Name
+                                    <span class="sort-arrows">↕</span>
+                                </th>
+                                <th class="sortable" data-column="last-name">
+                                    Last Name
+                                    <span class="sort-arrows">↕</span>
+                                </th>
+                                <th class="sortable" data-column="profile">
+                                    Profile
+                                    <span class="sort-arrows">↕</span>
+                                </th>
+                                <th class="sortable" data-column="tin">
+                                    TIN
                                     <span class="sort-arrows">↕</span>
                                 </th>
                                 <th class="sortable" data-column="status">
                                     Status
                                     <span class="sort-arrows">↕</span>
                                 </th>
-                                <th class="sortable" data-column="requested-date">
-                                    Requested
-                                    <span class="sort-arrows">↕</span>
-                                </th>
-                                <th class="sortable" data-column="verified-date">
-                                    Verified
+                                <th class="sortable" data-column="created">
+                                    Created
                                     <span class="sort-arrows">↕</span>
                                 </th>
                                 <th>Action</th>
@@ -926,13 +940,15 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="practice-name-cell">1211 WPR Medical Services</td>
-                                <td class="npi-cell">330999346</td>
+                                <td class="email-cell">admin@1211wpr.com</td>
+                                <td class="first-name-cell">July</td>
+                                <td class="last-name-cell">Gaysynsky</td>
+                                <td class="profile-cell">Admin</td>
+                                <td class="tin-cell">33-0999346</td>
                                 <td class="status-cell">
                                     <span class="status-badge pending">pending</span>
                                 </td>
-                                <td class="requested-cell">2025-09-15 10:30:00</td>
-                                <td class="verified-cell empty">—</td>
+                                <td class="created-cell">2025-09-15 10:30:00</td>
                                 <td class="action-cell">
                                     <div class="action-menu">
                                         <button class="action-menu-btn" onclick="toggleActionMenu('verification1')">
@@ -943,31 +959,22 @@
                                             </svg>
                                         </button>
                                         <div class="action-menu-dropdown" id="actionMenuverification1">
-                                            <button class="action-menu-item" onclick="viewVerificationRequest(1)">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M1,12s4-8,11-8,11,8,11,8-4,8-11,8-11-8-11-8Z"></path>
-                                                    <circle cx="12" cy="12" r="3"></circle>
-                                                </svg>
-                                                View
-                                            </button>
-                                            <button class="action-menu-item" onclick="approveVerificationRequest(1)">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <polyline points="20,6 9,17 4,12"></polyline>
-                                                </svg>
-                                                Approve
-                                            </button>
+                                            <button class="action-menu-item" onclick="viewVerificationRequest('verification1')">View</button>
+                                            <button class="action-menu-item" onclick="approveVerificationRequest('verification1')">Approve</button>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="practice-name-cell">43rd Street Family Practice PLLC</td>
-                                <td class="npi-cell">204465950</td>
+                                <td class="email-cell">contact@43rdstreet.com</td>
+                                <td class="first-name-cell">Michael</td>
+                                <td class="last-name-cell">Johnson</td>
+                                <td class="profile-cell">Admin</td>
+                                <td class="tin-cell">20-4465950</td>
                                 <td class="status-cell">
                                     <span class="status-badge accepted">verified</span>
                                 </td>
-                                <td class="requested-cell">2025-09-10 14:22:00</td>
-                                <td class="verified-cell">2025-09-12 09:15:00</td>
+                                <td class="created-cell">2025-09-10 14:22:00</td>
                                 <td class="action-cell">
                                     <div class="action-menu">
                                         <button class="action-menu-btn" onclick="toggleActionMenu('verification2')">
@@ -978,25 +985,21 @@
                                             </svg>
                                         </button>
                                         <div class="action-menu-dropdown" id="actionMenuverification2">
-                                            <button class="action-menu-item" onclick="viewVerificationRequest(2)">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M1,12s4-8,11-8,11,8,11,8-4,8-11,8-11-8-11-8Z"></path>
-                                                    <circle cx="12" cy="12" r="3"></circle>
-                                                </svg>
-                                                View
-                                            </button>
+                                            <button class="action-menu-item" onclick="viewVerificationRequest('verification2')">View</button>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="practice-name-cell">609 Fulton Pediatrics PC</td>
-                                <td class="npi-cell">113069838</td>
+                                <td class="email-cell">info@609fulton.com</td>
+                                <td class="first-name-cell">Sarah</td>
+                                <td class="last-name-cell">Williams</td>
+                                <td class="profile-cell">Admin</td>
+                                <td class="tin-cell">11-3069838</td>
                                 <td class="status-cell">
                                     <span class="status-badge pending">pending</span>
                                 </td>
-                                <td class="requested-cell">2025-09-18 08:45:00</td>
-                                <td class="verified-cell empty">—</td>
+                                <td class="created-cell">2025-09-18 08:45:00</td>
                                 <td class="action-cell">
                                     <div class="action-menu">
                                         <button class="action-menu-btn" onclick="toggleActionMenu('verification3')">
@@ -1007,19 +1010,8 @@
                                             </svg>
                                         </button>
                                         <div class="action-menu-dropdown" id="actionMenuverification3">
-                                            <button class="action-menu-item" onclick="viewVerificationRequest(3)">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M1,12s4-8,11-8,11,8,11,8-4,8-11,8-11-8-11-8Z"></path>
-                                                    <circle cx="12" cy="12" r="3"></circle>
-                                                </svg>
-                                                View
-                                            </button>
-                                            <button class="action-menu-item" onclick="approveVerificationRequest(3)">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <polyline points="20,6 9,17 4,12"></polyline>
-                                                </svg>
-                                                Approve
-                                            </button>
+                                            <button class="action-menu-item" onclick="viewVerificationRequest('verification3')">View</button>
+                                            <button class="action-menu-item" onclick="approveVerificationRequest('verification3')">Approve</button>
                                         </div>
                                     </div>
                                 </td>
@@ -1267,6 +1259,151 @@
             <div class="modal-footer">
                 <button type="button" class="btn-cancel" onclick="closeAddInvitationModal()">Cancel</button>
                 <button type="button" class="btn-primary" onclick="submitAddInvitation()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verification Request Practices Filter Modal -->
+    <div class="modal-overlay" id="verificationPracticesFilterModal">
+        <div class="modal-content filter-modal">
+            <div class="modal-header">
+                <h3>Filter</h3>
+                <button type="button" class="modal-close" id="closeVerificationPracticesFilterModalBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="verificationPracticesFilterForm">
+                    <div class="filter-columns">
+                        <div class="filter-column">
+                            <div class="form-group">
+                                <label for="vpFilterFirstName">First Name</label>
+                                <input type="text" id="vpFilterFirstName" name="firstName" placeholder="First Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="vpFilterNPI">NPI</label>
+                                <select id="vpFilterNPI" name="npi">
+                                    <option value="">Select a Provider</option>
+                                    <option value="330999346">330999346 - 1211 WPR Medical Services</option>
+                                    <option value="204465950">204465950 - 43rd Street Family Practice PLLC</option>
+                                    <option value="113069838">113069838 - 609 Fulton Pediatrics PC</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="vpFilterProfile">Profile</label>
+                                <select id="vpFilterProfile" name="profile">
+                                    <option value="">Select Role</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="User">User</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-column">
+                            <div class="form-group">
+                                <label for="vpFilterLastName">Last Name</label>
+                                <input type="text" id="vpFilterLastName" name="lastName" placeholder="Last Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="vpFilterTIN">TIN</label>
+                                <select id="vpFilterTIN" name="tin">
+                                    <option value="">Select a Practice</option>
+                                    <option value="33-0999346">33-0999346 - 1211 WPR Medical Services</option>
+                                    <option value="20-4465950">20-4465950 - 43rd Street Family Practice</option>
+                                    <option value="11-3069838">11-3069838 - 609 Fulton Pediatrics</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="vpFilterStatus">Status</label>
+                                <select id="vpFilterStatus" name="status">
+                                    <option value="">Select Status</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="verified">Verified</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" id="verificationPracticesFilterCancelBtn">Cancel</button>
+                <button type="button" class="btn-primary" id="verificationPracticesFilterApplyBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6,9 12,15 18,9"></polyline>
+                    </svg>
+                    Apply
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Verification Dialog (opens when Approve is clicked on VP tab) -->
+    <div class="modal-overlay" id="requestVerificationModal">
+        <div class="modal-content request-verification-modal">
+            <div class="modal-header">
+                <h3>Request Verification <span id="requestVerificationId"></span> <span id="requestVerificationStatus" class="request-status-text"></span></h3>
+                <button type="button" class="modal-close" id="closeRequestVerificationModalBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <h4 class="section-title">User Information</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <span class="form-value" id="rvFirstName"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <span class="form-value" id="rvLastName"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>NPI</label>
+                            <span class="form-value" id="rvNPI"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <span class="form-value" id="rvEmail"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <span class="form-value" id="rvPhone"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Profile</label>
+                            <span class="form-value" id="rvProfile"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <h4 class="section-title">Practice Info</h4>
+                    <div class="request-table-wrap">
+                        <table class="verification-practices-table request-practice-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Practice Name</th>
+                                    <th>City</th>
+                                    <th>TIN</th>
+                                </tr>
+                            </thead>
+                            <tbody id="requestVerificationPracticeTbody">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="request-pagination">
+                        <button type="button" class="pagination-btn" disabled>«</button>
+                        <button type="button" class="pagination-btn" disabled>‹</button>
+                        <button type="button" class="pagination-btn active">1</button>
+                        <button type="button" class="pagination-btn">›</button>
+                        <button type="button" class="pagination-btn">»</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" id="requestVerificationCancelBtn">Cancel</button>
+                <button type="button" class="btn-deny" id="requestVerificationDenyBtn">Deny</button>
+                <button type="button" class="btn-primary" id="requestVerificationAcceptBtn">Accept</button>
             </div>
         </div>
     </div>
