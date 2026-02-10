@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeVerificationPracticesFilterModal();
     initializeVerificationUsersFilterModal();
     initializeRequestVerificationModal();
+    initializeAddUsersToPracticeModals();
 });
 
 // Navigation functionality
@@ -546,6 +547,7 @@ function initializeTables() {
     initializeTableSorting('.providers-table');
     initializeTableSorting('.verification-practices-table');
     initializeTableSorting('.verification-users-table');
+    initializeTableSorting('.add-users-to-practice-table');
     
     // Initialize pagination
     initializePagination('.invites-table');
@@ -1162,6 +1164,83 @@ function initializeRequestVerificationModal() {
             if (e.target === modal) closeRequestVerificationDialog();
         });
     }
+}
+
+// Add Users to Practice: List Users, Select Provider, Add Invitations Users modals
+function openListUsersModal(menuId) {
+    closeAllActionMenus();
+    var modal = document.getElementById('listUsersModal');
+    if (modal) {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeListUsersModal() {
+    var modal = document.getElementById('listUsersModal');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function openSelectProviderModal(menuId) {
+    closeAllActionMenus();
+    var modal = document.getElementById('selectProviderModal');
+    if (modal) {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeSelectProviderModal() {
+    var modal = document.getElementById('selectProviderModal');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function closeAddInvitationsUsersModal() {
+    var modal = document.getElementById('addInvitationsUsersModal');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function openAddInvitationsUsersModal() {
+    var modal = document.getElementById('addInvitationsUsersModal');
+    if (modal) {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function initializeAddUsersToPracticeModals() {
+    var listUsersModal = document.getElementById('listUsersModal');
+    var selectProviderModal = document.getElementById('selectProviderModal');
+    var addInvitationsModal = document.getElementById('addInvitationsUsersModal');
+
+    document.getElementById('closeListUsersModalBtn') && document.getElementById('closeListUsersModalBtn').addEventListener('click', closeListUsersModal);
+    document.getElementById('listUsersCancelBtn') && document.getElementById('listUsersCancelBtn').addEventListener('click', closeListUsersModal);
+    if (listUsersModal) listUsersModal.addEventListener('click', function(e) { if (e.target === listUsersModal) closeListUsersModal(); });
+
+    document.getElementById('closeSelectProviderModalBtn') && document.getElementById('closeSelectProviderModalBtn').addEventListener('click', closeSelectProviderModal);
+    document.getElementById('selectProviderCancelBtn') && document.getElementById('selectProviderCancelBtn').addEventListener('click', closeSelectProviderModal);
+    document.getElementById('selectProviderAddBtn') && document.getElementById('selectProviderAddBtn').addEventListener('click', function() {
+        closeSelectProviderModal();
+        showToast('success', 'Providers Added', 'Selected providers have been added to the practice.');
+    });
+    if (selectProviderModal) selectProviderModal.addEventListener('click', function(e) { if (e.target === selectProviderModal) closeSelectProviderModal(); });
+
+    document.getElementById('closeAddInvitationsUsersModalBtn') && document.getElementById('closeAddInvitationsUsersModalBtn').addEventListener('click', closeAddInvitationsUsersModal);
+    document.getElementById('addInvitationsUsersCancelBtn') && document.getElementById('addInvitationsUsersCancelBtn').addEventListener('click', closeAddInvitationsUsersModal);
+    document.getElementById('addInvitationsUsersSaveBtn') && document.getElementById('addInvitationsUsersSaveBtn').addEventListener('click', function() {
+        closeAddInvitationsUsersModal();
+        showToast('success', 'Invitations Saved', 'User invitations have been saved.');
+    });
+    if (addInvitationsModal) addInvitationsModal.addEventListener('click', function(e) { if (e.target === addInvitationsModal) closeAddInvitationsUsersModal(); });
 }
 
 function applyVerificationPracticesFilters() {

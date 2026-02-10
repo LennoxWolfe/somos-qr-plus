@@ -263,6 +263,7 @@
             <button class="main-tab-btn active" data-tab="practice-invites">Practice Invites</button>
             <button class="main-tab-btn" data-tab="verification-request-practices">Verification Request Practices</button>
             <button class="main-tab-btn" data-tab="verification-request-users">Verification Request Users</button>
+            <button class="main-tab-btn" data-tab="add-users-to-practice">Add Users to Practice</button>
             <button class="main-tab-btn" data-tab="disenrolled-practices">Practice Cancelation</button>
             <button class="main-tab-btn" data-tab="disenrolled-providers">Provider Cancelation</button>
         </div>
@@ -555,6 +556,128 @@
                     <button class="pagination-btn">
                         <span>»</span>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Users to Practice Tab Content -->
+        <div class="tab-content" id="add-users-to-practice-tab">
+            <div class="action-bar">
+                <div class="filter-section" style="margin-bottom: 0; padding-bottom: 0; border: none; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end;">
+                    <div class="filter-group">
+                        <label class="filter-label">TIN</label>
+                        <select class="filter-select" id="addUsersTinFilter">
+                        <option value="">Select a Practice</option>
+                        <option value="582501863">582501863 - Essen Medical Associates Pc</option>
+                        <option value="010744455">010744455 - Hanna Medical</option>
+                        <option value="061563870">061563870 - Jacob George Md</option>
+                        <option value="1580958362">1580958362 - Martinez Sergio A</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">User</label>
+                    <select class="filter-select" id="addUsersUserFilter">
+                        <option value="">Select a user</option>
+                        <option value="1">Adam Taylor</option>
+                        <option value="2">Danielle Dunn</option>
+                        <option value="3">Jessica Smith</option>
+                    </select>
+                </div>
+                </div>
+                <div class="action-buttons">
+                    <button type="button" class="action-btn new-btn" onclick="openAddInvitationsUsersModal()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                            <line x1="23" y1="11" x2="17" y1="11"></line>
+                        </svg>
+                        Invite Users
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-section">
+                <div class="table-container">
+                    <table class="add-users-to-practice-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-column="practice-name">Practice Name <span class="sort-arrows">↕</span></th>
+                                <th class="sortable" data-column="tin">TIN <span class="sort-arrows">↕</span></th>
+                                <th class="sortable" data-column="first-name">First Name <span class="sort-arrows">↕</span></th>
+                                <th class="sortable" data-column="last-name">Last Name <span class="sort-arrows">↕</span></th>
+                                <th class="sortable" data-column="email">Email <span class="sort-arrows">↕</span></th>
+                                <th class="sortable" data-column="created">Created <span class="sort-arrows">↕</span></th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="practice-name-cell">Essen Medical Associates Pc</td>
+                                <td class="tin-cell">582501863</td>
+                                <td class="first-name-cell">Adam</td>
+                                <td class="last-name-cell">Taylor</td>
+                                <td class="email-cell">adam.taylor@example.com</td>
+                                <td class="created-cell">2024-07-22 17:34:26</td>
+                                <td class="action-cell">
+                                    <div class="action-menu">
+                                        <button class="action-menu-btn" onclick="event.stopPropagation(); toggleActionMenu('addUsers1');">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg>
+                                        </button>
+                                        <div class="action-menu-dropdown" id="actionMenuaddUsers1">
+                                            <button class="action-menu-item" onclick="openListUsersModal('addUsers1')">View</button>
+                                            <button class="action-menu-item" onclick="openSelectProviderModal('addUsers1')">Add User</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="practice-name-cell">Hanna Medical</td>
+                                <td class="tin-cell">010744455</td>
+                                <td class="first-name-cell">Danielle</td>
+                                <td class="last-name-cell">Dunn</td>
+                                <td class="email-cell">danielle.dunn@example.com</td>
+                                <td class="created-cell">2024-08-15 10:20:00</td>
+                                <td class="action-cell">
+                                    <div class="action-menu">
+                                        <button class="action-menu-btn" onclick="event.stopPropagation(); toggleActionMenu('addUsers2');">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg>
+                                        </button>
+                                        <div class="action-menu-dropdown" id="actionMenuaddUsers2">
+                                            <button class="action-menu-item" onclick="openListUsersModal('addUsers2')">View</button>
+                                            <button class="action-menu-item" onclick="openSelectProviderModal('addUsers2')">Add User</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="practice-name-cell">Martinez Sergio A</td>
+                                <td class="tin-cell">1580958362</td>
+                                <td class="first-name-cell">Ronald</td>
+                                <td class="last-name-cell">Gray</td>
+                                <td class="email-cell">ronald.gray@example.com</td>
+                                <td class="created-cell">N/A</td>
+                                <td class="action-cell">
+                                    <div class="action-menu">
+                                        <button class="action-menu-btn" onclick="event.stopPropagation(); toggleActionMenu('addUsers3');">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg>
+                                        </button>
+                                        <div class="action-menu-dropdown" id="actionMenuaddUsers3">
+                                            <button class="action-menu-item" onclick="openListUsersModal('addUsers3')">View</button>
+                                            <button class="action-menu-item" onclick="openSelectProviderModal('addUsers3')">Add User</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <button class="pagination-btn" disabled><span>«</span></button>
+                    <button class="pagination-btn" disabled><span>‹</span></button>
+                    <button class="pagination-btn active"><span>1</span></button>
+                    <button class="pagination-btn"><span>›</span></button>
+                    <button class="pagination-btn"><span>»</span></button>
                 </div>
             </div>
         </div>
@@ -1411,6 +1534,132 @@
                     </svg>
                     Apply
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- List Users Modal (from Add Users to Practice > View) -->
+    <div class="modal-overlay" id="listUsersModal">
+        <div class="modal-content list-users-modal">
+            <div class="modal-header">
+                <h3>List Users</h3>
+                <button type="button" class="modal-close" id="closeListUsersModalBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="table-section">
+                    <div class="table-container">
+                        <table class="list-users-table">
+                            <thead>
+                                <tr>
+                                    <th class="sortable">ID <span class="sort-arrows">↕</span></th>
+                                    <th class="sortable">Full Name <span class="sort-arrows">↕</span></th>
+                                    <th class="sortable">Email <span class="sort-arrows">↕</span></th>
+                                    <th class="sortable">Last Login <span class="sort-arrows">↕</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>200</td><td>Apple Test</td><td>apple@top1solutions.com</td><td>2026-02-09 21:17:48</td></tr>
+                                <tr><td>204</td><td>Darius De la cruz Hilario</td><td>dariusjosedelacruz@gmail.com</td><td>2026-01-19 00:37:45</td></tr>
+                                <tr><td>201</td><td>test camilo</td><td>caescobar@top1solutions.com</td><td>2025-10-09 20:16:17</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>«</button>
+                        <button class="pagination-btn" disabled>‹</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">›</button>
+                        <button class="pagination-btn">»</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" id="listUsersCancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Select Provider Modal (from Add Users to Practice > Add User) -->
+    <div class="modal-overlay" id="selectProviderModal">
+        <div class="modal-content select-provider-modal">
+            <div class="modal-header">
+                <h3>Select Provider</h3>
+                <button type="button" class="modal-close" id="closeSelectProviderModalBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="selectProviderSearch">Search Providers</label>
+                    <input type="text" id="selectProviderSearch" class="filter-input" placeholder="Search Providers">
+                </div>
+                <div class="table-section">
+                    <div class="table-container">
+                        <table class="select-provider-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="selectProviderSelectAll" aria-label="Select all"></th>
+                                    <th class="sortable">NPI <span class="sort-arrows">↕</span></th>
+                                    <th class="sortable">First Name <span class="sort-arrows">↕</span></th>
+                                    <th class="sortable">Last Name <span class="sort-arrows">↕</span></th>
+                                    <th class="sortable">Tin <span class="sort-arrows">↕</span></th>
+                                    <th class="sortable">Email <span class="sort-arrows">↕</span></th>
+                                    <th class="sortable">Phone <span class="sort-arrows">↕</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><input type="checkbox" class="provider-row-checkbox"></td><td>2564398780</td><td>Adam</td><td>Taylor</td><td>1580958362</td><td>adam.taylor@example.com</td><td>555-0101</td></tr>
+                                <tr><td><input type="checkbox" class="provider-row-checkbox"></td><td>164840RSER</td><td>Danielle</td><td>Dunn</td><td>1580958362</td><td>danielle.dunn@example.com</td><td>555-0102</td></tr>
+                                <tr><td><input type="checkbox" class="provider-row-checkbox"></td><td>1024819346</td><td>Jessica</td><td>Smith</td><td>1580958362</td><td>jessica.smith@example.com</td><td>555-0103</td></tr>
+                                <tr><td><input type="checkbox" class="provider-row-checkbox"></td><td>1880133613</td><td>Logan</td><td>Estes</td><td>1580958362</td><td>logan.estes@example.com</td><td>555-0104</td></tr>
+                                <tr><td><input type="checkbox" class="provider-row-checkbox"></td><td>2985158328</td><td>Ronald</td><td>Gray</td><td>1580958362</td><td>ronald.gray@example.com</td><td>555-0105</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>«</button>
+                        <button class="pagination-btn" disabled>‹</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">›</button>
+                        <button class="pagination-btn">»</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" id="selectProviderCancelBtn">Cancel</button>
+                <button type="button" class="btn-primary" id="selectProviderAddBtn">Add Provider</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Invitations Users Modal (invite new users to practice) -->
+    <div class="modal-overlay" id="addInvitationsUsersModal">
+        <div class="modal-content add-invitations-users-modal">
+            <div class="modal-header">
+                <h3>Add Invitations Users</h3>
+                <div class="modal-header-actions">
+                    <button type="button" class="btn-primary btn-sm" id="addInvitationsAddUsersBtn">Add Users</button>
+                    <button type="button" class="btn-secondary btn-sm" id="addInvitationsAddProviderBtn">Add Provider</button>
+                </div>
+                <button type="button" class="modal-close" id="closeAddInvitationsUsersModalBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <h4 class="section-title">Users Invitations</h4>
+                    <div class="invitation-rows" id="addInvitationsUsersRows">
+                        <div class="form-row invitation-row">
+                            <div class="form-group"><label>First Name</label><input type="text" placeholder="First Name" required></div>
+                            <div class="form-group"><label>Last Name</label><input type="text" placeholder="Last Name" required></div>
+                            <div class="form-group"><label>Email</label><input type="email" placeholder="Email" required></div>
+                            <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="999-999-9999"></div>
+                            <div class="form-group"><label>Role</label><select><option value="Non Admin">Non Admin</option><option value="Admin">Admin</option></select></div>
+                            <div class="form-group"><label>NPI</label><input type="text" placeholder="N/A" readonly></div>
+                            <div class="form-group" style="align-self: flex-end;"><button type="button" class="btn-icon-delete" title="Remove">🗑</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" id="addInvitationsUsersCancelBtn">Cancel</button>
+                <button type="button" class="btn-primary" id="addInvitationsUsersSaveBtn">Save</button>
             </div>
         </div>
     </div>

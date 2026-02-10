@@ -982,7 +982,8 @@ body {
 .practices-table,
 .providers-table,
 .verification-practices-table,
-.verification-users-table {
+.verification-users-table,
+.add-users-to-practice-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
@@ -992,7 +993,8 @@ body {
 .practices-table thead,
 .providers-table thead,
 .verification-practices-table thead,
-.verification-users-table thead {
+.verification-users-table thead,
+.add-users-to-practice-table thead {
     background: #1976d2;
     color: white;
 }
@@ -1001,7 +1003,8 @@ body {
 .practices-table th,
 .providers-table th,
 .verification-practices-table th,
-.verification-users-table th {
+.verification-users-table th,
+.add-users-to-practice-table th {
     padding: 16px 20px;
     text-align: left;
     font-weight: 600;
@@ -1030,7 +1033,8 @@ body {
 .practices-table tbody tr,
 .providers-table tbody tr,
 .verification-practices-table tbody tr,
-.verification-users-table tbody tr {
+.verification-users-table tbody tr,
+.add-users-to-practice-table tbody tr {
     border-bottom: 1px solid #f0f0f0;
     transition: background-color 0.2s ease;
 }
@@ -1039,7 +1043,8 @@ body {
 .practices-table tbody tr:nth-child(even),
 .providers-table tbody tr:nth-child(even),
 .verification-practices-table tbody tr:nth-child(even),
-.verification-users-table tbody tr:nth-child(even) {
+.verification-users-table tbody tr:nth-child(even),
+.add-users-to-practice-table tbody tr:nth-child(even) {
     background-color: #f8f9fa;
 }
 
@@ -1047,7 +1052,8 @@ body {
 .practices-table tbody tr:hover,
 .providers-table tbody tr:hover,
 .verification-practices-table tbody tr:hover,
-.verification-users-table tbody tr:hover {
+.verification-users-table tbody tr:hover,
+.add-users-to-practice-table tbody tr:hover {
     background-color: #e3f2fd;
 }
 
@@ -1055,7 +1061,8 @@ body {
 .practices-table td,
 .providers-table td,
 .verification-practices-table td,
-.verification-users-table td {
+.verification-users-table td,
+.add-users-to-practice-table td {
     padding: 16px 20px;
     vertical-align: middle;
     font-size: 13px;
@@ -1102,6 +1109,22 @@ body {
 .verification-users-table th:nth-child(8),
 .verification-users-table td:nth-child(8) { min-width: 60px; text-align: center; }
 .verification-users-table .verified-cell.empty { color: #9e9e9e; }
+
+/* Add Users to Practice table: column widths */
+.add-users-to-practice-table th:nth-child(1),
+.add-users-to-practice-table td:nth-child(1) { min-width: 180px; }
+.add-users-to-practice-table th:nth-child(2),
+.add-users-to-practice-table td:nth-child(2) { min-width: 100px; white-space: nowrap; }
+.add-users-to-practice-table th:nth-child(3),
+.add-users-to-practice-table td:nth-child(3) { min-width: 90px; }
+.add-users-to-practice-table th:nth-child(4),
+.add-users-to-practice-table td:nth-child(4) { min-width: 90px; }
+.add-users-to-practice-table th:nth-child(5),
+.add-users-to-practice-table td:nth-child(5) { min-width: 180px; }
+.add-users-to-practice-table th:nth-child(6),
+.add-users-to-practice-table td:nth-child(6) { min-width: 155px; }
+.add-users-to-practice-table th:nth-child(7),
+.add-users-to-practice-table td:nth-child(7) { min-width: 60px; text-align: center; }
 
 /* Specific column styling */
 .email-cell {
@@ -1376,6 +1399,82 @@ input:checked + .toggle-label .toggle-slider:before {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+}
+
+/* Add Users to Practice modals */
+#listUsersModal.modal-overlay,
+#selectProviderModal.modal-overlay,
+#addInvitationsUsersModal.modal-overlay {
+    z-index: 10000;
+}
+
+#listUsersModal.modal-overlay.show,
+#selectProviderModal.modal-overlay.show,
+#addInvitationsUsersModal.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.list-users-modal.modal-content,
+.select-provider-modal.modal-content,
+.add-invitations-users-modal.modal-content {
+    max-width: 720px;
+    width: 95%;
+}
+
+.modal-header-actions {
+    display: flex;
+    gap: 8px;
+    margin-right: auto;
+    margin-left: 16px;
+}
+
+.list-users-table thead,
+.select-provider-table thead {
+    background: #1976d2;
+    color: white;
+}
+
+.list-users-table th,
+.list-users-table td,
+.select-provider-table th,
+.select-provider-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.list-users-table tbody tr:nth-child(even),
+.select-provider-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.select-provider-table th:first-child,
+.select-provider-table td:first-child {
+    width: 40px;
+    text-align: center;
+}
+
+.invitation-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.invitation-row .form-group {
+    flex: 1;
+    min-width: 120px;
+}
+
+.btn-icon-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    font-size: 16px;
 }
 
 .modal-content {
