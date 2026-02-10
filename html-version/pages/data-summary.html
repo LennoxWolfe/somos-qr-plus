@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOMOS QR+ - Data Summary</title>
+    <link rel="stylesheet" href="../css/approval-module.css">
+    <link rel="stylesheet" href="../css/data-summary.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="nav-header">
+        <div class="nav-container">
+            <button class="nav-menu-btn">
+                <span class="hamburger-icon">☰</span>
+            </button>
+            <div class="nav-logo">
+                <h1>SOMOS QR+</h1>
+            </div>
+            <div class="nav-provider">
+                <div class="searchable-dropdown" id="searchableDropdown">
+                    <div class="dropdown-trigger" id="dropdownTrigger">
+                        <span class="selected-text" id="selectedText">All</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <div class="search-container">
+                            <input type="text" class="search-input" id="searchInput" placeholder="Search providers...">
+                        </div>
+                        <div class="dropdown-options" id="dropdownOptions">
+                            <div class="dropdown-option" data-value="all" data-selected="true">
+                                <span class="option-text">All</span>
+                                <span class="checkmark">✓</span>
+                            </div>
+                            <div class="dropdown-option" data-value="330999346">
+                                <span class="option-text">330999346 - 1211 WPR Medical Services</span>
+                                <span class="checkmark">✓</span>
+                            </div>
+                            <div class="dropdown-option" data-value="204465950">
+                                <span class="option-text">204465950 - 43rd Street Family Practice PLLC</span>
+                                <span class="checkmark">✓</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-notifications">
+                <button class="notification-btn" id="notificationBtn">
+                    <svg class="notification-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+                    </svg>
+                    <span class="notification-badge" id="notificationBadge">3</span>
+                </button>
+                <div class="notifications-dropdown" id="notificationsDropdown">
+                    <div class="notifications-header">
+                        <h3>Notifications</h3>
+                        <button class="mark-all-read-btn" id="markAllReadBtn">Mark all read</button>
+                    </div>
+                    <div class="notifications-list" id="notificationsList">
+                        <div class="notification-item unread" data-id="1">
+                            <div class="notification-icon-small">📋</div>
+                            <div class="notification-content">
+                                <div class="notification-title">New Quality Scorecard Available</div>
+                                <div class="notification-time">2 hours ago</div>
+                            </div>
+                            <button class="notification-close" data-id="1">×</button>
+                        </div>
+                    </div>
+                    <div class="notifications-footer">
+                        <a href="notifications.html" class="view-all-notifications">View all notifications</a>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-profile">
+                <button class="profile-btn">
+                    <div class="avatar">
+                        <div class="avatar-initials">JC</div>
+                    </div>
+                </button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <div class="avatar-initials">JC</div>
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-name">Joel Cedano</div>
+                            <div class="profile-email">jcedano@somosipa.com</div>
+                        </div>
+                    </div>
+                    <div class="profile-divider"></div>
+                    <div class="profile-options">
+                        <div class="profile-option" data-action="account-settings">
+                            <span class="option-label">Account Settings</span>
+                        </div>
+                        <div class="profile-option" data-action="invitations">
+                            <span class="option-label">Invitations</span>
+                        </div>
+                        <div class="profile-option" data-action="logout">
+                            <span class="option-label">Log Out</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-drawer" id="navDrawer">
+        <div class="drawer-header">
+            <div class="drawer-logo-container">
+                <div class="drawer-logo-circle">
+                    <div class="drawer-avatar-initials">JC</div>
+                </div>
+                <div class="drawer-title">
+                    <span class="drawer-title-text">SOMOS QR</span>
+                    <span class="drawer-title-plus">+</span>
+                </div>
+            </div>
+        </div>
+        <div class="drawer-content">
+            <div class="drawer-item" onclick="window.location.href='control-panel.html'">
+                <span class="drawer-text">Control Panel</span>
+            </div>
+            <div class="drawer-item" onclick="window.location.href='monitor.html'">
+                <span class="drawer-text">Monitor</span>
+            </div>
+            <div class="drawer-item" onclick="window.location.href='security.html'">
+                <span class="drawer-text">Security</span>
+            </div>
+            <div class="drawer-item" onclick="window.location.href='approval-module.html'">
+                <span class="drawer-text">User Management</span>
+            </div>
+            <div class="drawer-item" onclick="window.location.href='entity-info-check.html'">
+                <span class="drawer-text">Entity Info Check</span>
+            </div>
+            <div class="drawer-item active" onclick="window.location.href='data-summary.html'">
+                <span class="drawer-text">Data Summary</span>
+            </div>
+            <div class="drawer-divider"></div>
+            <div class="drawer-item" onclick="window.location.href='general-configuration.html'">
+                <span class="drawer-text">General Configuration</span>
+            </div>
+            <div class="drawer-item" onclick="window.location.href='account-settings.html'">
+                <span class="drawer-text">Account Settings</span>
+            </div>
+            <div class="drawer-item" onclick="logout()">
+                <span class="drawer-text">Log Out</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <div class="logout-dialog" id="logoutDialog">
+        <div class="logout-dialog-content">
+            <div class="logout-dialog-header">
+                <div class="logout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16,17 21,12 16,7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </div>
+                <h3>Log Out</h3>
+            </div>
+            <div class="logout-dialog-body">
+                <p>Are you sure you want to log out of your account?</p>
+                <p class="logout-subtitle">You'll need to sign in again to access your dashboard.</p>
+            </div>
+            <div class="logout-dialog-footer">
+                <button class="logout-btn-cancel" onclick="closeLogoutDialog()">Cancel</button>
+                <button class="logout-btn-confirm" onclick="confirmLogout()">Log Out</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="data-summary-container">
+        <div class="page-header">
+            <h1 class="page-title">Data Summary</h1>
+        </div>
+
+        <div class="data-summary-filters">
+            <div class="filter-group">
+                <label class="filter-label">Search</label>
+                <div class="search-input-wrap">
+                    <svg class="search-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    <input type="text" id="dataSummarySearch" class="filter-input data-summary-search" placeholder="Filter" aria-label="Search">
+                </div>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Period</label>
+                <div class="period-input-wrap">
+                    <svg class="period-input-icon period-icon-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    <input type="text" id="dataSummaryPeriod" class="filter-input period-input" value="02/10/2026" placeholder="MM/DD/YYYY" aria-label="Period">
+                    <button type="button" class="period-clear-btn" id="periodClearBtn" title="Clear">×</button>
+                    <button type="button" class="period-calendar-btn" id="periodCalendarBtn" title="Select date">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-section">
+            <div class="table-container">
+                <table class="data-summary-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-column="table">Table <span class="sort-arrows">↕</span></th>
+                            <th class="sortable" data-column="aim">AIM <span class="sort-arrows">↕</span></th>
+                            <th class="sortable" data-column="somos">Somos QR+ <span class="sort-arrows">↕</span></th>
+                            <th class="sortable" data-column="difference">Difference <span class="sort-arrows">↕</span></th>
+                            <th class="sortable" data-column="pctdiff">% Diff. <span class="sort-arrows">↕</span></th>
+                            <th class="sortable" data-column="reason">Reason <span class="sort-arrows">↕</span></th>
+                            <th class="sortable" data-column="status">Status <span class="sort-arrows">↕</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="table-cell">Dim_mco</td>
+                            <td class="aim-cell">10</td>
+                            <td class="somos-cell">10</td>
+                            <td class="difference-cell">0</td>
+                            <td class="pctdiff-cell">0%</td>
+                            <td class="reason-cell">—</td>
+                            <td class="status-cell"><span class="status-ok"><span class="status-ok-icon">✓</span> OK</span></td>
+                        </tr>
+                        <tr>
+                            <td class="table-cell">Dim_provider</td>
+                            <td class="aim-cell">135</td>
+                            <td class="somos-cell">10</td>
+                            <td class="difference-cell">125</td>
+                            <td class="pctdiff-cell">-93%</td>
+                            <td class="reason-cell">—</td>
+                            <td class="status-cell"><span class="status-review"><span class="status-review-dot"></span> REVIEW</span></td>
+                        </tr>
+                        <tr>
+                            <td class="table-cell">Dim_provider_location</td>
+                            <td class="aim-cell">327</td>
+                            <td class="somos-cell">10</td>
+                            <td class="difference-cell">317</td>
+                            <td class="pctdiff-cell">-97%</td>
+                            <td class="reason-cell">Data summarized by BILLING_TIN Code No filters applied</td>
+                            <td class="status-cell"><span class="status-review"><span class="status-review-dot"></span> REVIEW</span></td>
+                        </tr>
+                        <tr>
+                            <td class="table-cell">Dim_product</td>
+                            <td class="aim-cell">10</td>
+                            <td class="somos-cell">10</td>
+                            <td class="difference-cell">0</td>
+                            <td class="pctdiff-cell">0%</td>
+                            <td class="reason-cell">—</td>
+                            <td class="status-cell"><span class="status-ok"><span class="status-ok-icon">✓</span> OK</span></td>
+                        </tr>
+                        <tr>
+                            <td class="table-cell">Metric_priority</td>
+                            <td class="aim-cell">10</td>
+                            <td class="somos-cell">10</td>
+                            <td class="difference-cell">0</td>
+                            <td class="pctdiff-cell">0%</td>
+                            <td class="reason-cell">—</td>
+                            <td class="status-cell"><span class="status-ok"><span class="status-ok-icon">✓</span> OK</span></td>
+                        </tr>
+                        <tr>
+                            <td class="table-cell">Caregap_measure_xwalk</td>
+                            <td class="aim-cell">10</td>
+                            <td class="somos-cell">378</td>
+                            <td class="difference-cell">-368</td>
+                            <td class="pctdiff-cell">-97%</td>
+                            <td class="reason-cell">—</td>
+                            <td class="status-cell"><span class="status-review"><span class="status-review-dot"></span> REVIEW</span></td>
+                        </tr>
+                        <tr>
+                            <td class="table-cell">Schedule_all</td>
+                            <td class="aim-cell">3,367</td>
+                            <td class="somos-cell">360</td>
+                            <td class="difference-cell">3,007</td>
+                            <td class="pctdiff-cell">-89%</td>
+                            <td class="reason-cell">2771 Records that do not meet the criteria SDW_FACT.eff_pop_ind - Y and for the current period 2025 4 Records that do not exist in the table DIM_MEMBER 2834 Records with canceled status</td>
+                            <td class="status-cell"><span class="status-review"><span class="status-review-dot"></span> REVIEW</span></td>
+                        </tr>
+                        <tr>
+                            <td class="table-cell">Dim_date</td>
+                            <td class="aim-cell">10</td>
+                            <td class="somos-cell">10</td>
+                            <td class="difference-cell">0</td>
+                            <td class="pctdiff-cell">0%</td>
+                            <td class="reason-cell">—</td>
+                            <td class="status-cell"><span class="status-ok"><span class="status-ok-icon">✓</span> OK</span></td>
+                        </tr>
+                        <tr>
+                            <td class="table-cell">Mco_ra_all</td>
+                            <td class="aim-cell">5,710</td>
+                            <td class="somos-cell">1,089</td>
+                            <td class="difference-cell">4,621</td>
+                            <td class="pctdiff-cell">-81%</td>
+                            <td class="reason-cell">3839 Records that do not meet the criteria SDW_FACT.eff_pop_ind - Y and for the current period 2025 3003 Records that do not exist in the table DIM_MEMBER 3839 Records of PROVIDER that do not exist in the table SDW_FACT.eff_pop_ind - Y and for the current period 2025 5710 Records that do not apply to the current period 2025</td>
+                            <td class="status-cell"><span class="status-review"><span class="status-review-dot"></span> REVIEW</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination">
+                <button type="button" class="pagination-btn" disabled>«</button>
+                <button type="button" class="pagination-btn" disabled>‹</button>
+                <button type="button" class="pagination-btn active">1</button>
+                <button type="button" class="pagination-btn">2</button>
+                <button type="button" class="pagination-btn">3</button>
+                <button type="button" class="pagination-btn">4</button>
+                <button type="button" class="pagination-btn">5</button>
+                <button type="button" class="pagination-btn">›</button>
+                <button type="button" class="pagination-btn">»</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/data-summary.js"></script>
+</body>
+</html>

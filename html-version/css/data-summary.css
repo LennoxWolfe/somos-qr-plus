@@ -1,0 +1,226 @@
+/* Data Summary page */
+
+.data-summary-container {
+    padding: 24px 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.data-summary-container .page-header {
+    margin-bottom: 24px;
+}
+
+.data-summary-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 24px;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.data-summary-filters .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.data-summary-filters .filter-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.search-input-wrap,
+.period-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input-wrap .search-input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: #666;
+    pointer-events: none;
+}
+
+.data-summary-search {
+    padding-left: 36px;
+    min-width: 220px;
+}
+
+.period-input-wrap {
+    min-width: 200px;
+}
+
+.period-input-wrap .period-icon-left {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: #666;
+    pointer-events: none;
+}
+
+.period-input {
+    padding-left: 36px;
+    padding-right: 70px;
+    width: 100%;
+}
+
+.period-clear-btn,
+.period-calendar-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: #666;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.period-clear-btn:hover,
+.period-calendar-btn:hover {
+    color: #333;
+}
+
+.period-clear-btn {
+    right: 40px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.period-calendar-btn {
+    right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.period-calendar-btn svg {
+    color: inherit;
+}
+
+/* Data Summary table */
+.data-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.data-summary-table thead {
+    background: #1976d2;
+    color: white;
+}
+
+.data-summary-table th {
+    padding: 14px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-summary-table th.sortable {
+    cursor: pointer;
+}
+
+.data-summary-table th.sortable:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.data-summary-table .sort-arrows {
+    margin-left: 6px;
+    opacity: 0.8;
+}
+
+.data-summary-table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.data-summary-table tbody tr:nth-child(even) {
+    background: #f5f9ff;
+}
+
+.data-summary-table tbody tr:nth-child(odd) {
+    background: #fff;
+}
+
+.data-summary-table tbody tr:hover {
+    background: #e3f2fd;
+}
+
+.data-summary-table td {
+    padding: 12px 16px;
+    vertical-align: middle;
+    color: #333;
+}
+
+.data-summary-table .table-cell {
+    font-weight: 500;
+    min-width: 140px;
+}
+
+.data-summary-table .reason-cell {
+    max-width: 380px;
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: normal;
+}
+
+/* Status column */
+.status-ok,
+.status-review {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.status-ok-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #2e7d32;
+    color: white;
+    font-size: 11px;
+    line-height: 1;
+}
+
+.status-review-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #c62828;
+    flex-shrink: 0;
+}
+
+.status-ok {
+    color: #2e7d32;
+}
+
+.status-review {
+    color: #c62828;
+}
