@@ -97,6 +97,9 @@
             <div class="drawer-item active" data-page="reports">
                 <span class="drawer-text">Reports</span>
             </div>
+            <div class="drawer-item" onclick="window.location.href='tsm-report.html'">
+                <span class="drawer-text">Time Sensitive Measures</span>
+            </div>
             <div class="drawer-item" data-page="resources">
                 <span class="drawer-text">Resources</span>
             </div>
@@ -351,6 +354,30 @@
                                 </div>
                             </div>
                             <div class="login-status offline">Offline</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TSM Card (opens dedicated TSM report page) -->
+                <div class="kpi-card" id="tsmKpiCard" data-navigate="tsm-report.html">
+                    <div class="kpi-header">
+                        <h3 class="kpi-title">TSM</h3>
+                        <div class="ra-navigation">
+                            <button type="button" class="nav-arrow prev-arrow" data-direction="prev">‹</button>
+                            <span class="timeframe-indicator">TODAY</span>
+                            <button type="button" class="nav-arrow next-arrow" data-direction="next">›</button>
+                        </div>
+                        <div class="kpi-date">TODAY</div>
+                        <div class="kpi-date-value">02-03-2026</div>
+                    </div>
+                    <div class="kpi-metrics">
+                        <div class="metric-bar missed">
+                            <div class="metric-label">Missed</div>
+                            <div class="metric-value">0</div>
+                        </div>
+                        <div class="metric-bar completed">
+                            <div class="metric-label">Completed</div>
+                            <div class="metric-value">0</div>
                         </div>
                     </div>
                 </div>

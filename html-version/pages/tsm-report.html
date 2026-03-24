@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Sensitive Measure - SOMOS QR+</title>
+    <link rel="stylesheet" href="../css/reports.css">
+</head>
+<body>
+    <header class="nav-header">
+        <div class="nav-container">
+            <button class="nav-menu-btn" type="button">
+                <span class="hamburger-icon">☰</span>
+            </button>
+            <div class="nav-logo">
+                <h1>SOMOS QR+</h1>
+            </div>
+            <div class="nav-provider">
+                <select class="provider-dropdown" id="providerDropdown">
+                    <option value="all" selected>All</option>
+                    <option value="delmont">Delmont Medical, PC</option>
+                    <option value="provider2">Provider 2</option>
+                    <option value="provider3">Provider 3</option>
+                    <option value="provider4">Provider 4</option>
+                </select>
+            </div>
+            <div class="nav-profile">
+                <button class="profile-btn" type="button">
+                    <div class="avatar">
+                        <div class="avatar-initials">JC</div>
+                    </div>
+                </button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <div class="avatar-initials">JC</div>
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-name">Joel Cedano</div>
+                            <div class="profile-email">jcedano@somosipa.com</div>
+                        </div>
+                    </div>
+                    <div class="profile-divider"></div>
+                    <div class="profile-options">
+                        <div class="profile-option" data-action="language">
+                            <span class="option-label">Language</span>
+                            <span class="option-value">
+                                <span class="flag-icon">🇺🇸</span>
+                                English
+                            </span>
+                        </div>
+                        <div class="profile-option" data-action="invitations">
+                            <span class="option-label">Invitations</span>
+                        </div>
+                        <div class="profile-option" data-action="logout">
+                            <span class="option-label">Log Out</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-drawer" id="navDrawer">
+        <div class="drawer-header">
+            <div class="drawer-logo-container">
+                <div class="drawer-logo-circle">
+                    <div class="drawer-avatar-initials">JC</div>
+                </div>
+                <div class="drawer-title">
+                    <span class="drawer-title-text">SOMOS QR</span>
+                    <span class="drawer-title-plus">+</span>
+                </div>
+            </div>
+        </div>
+        <div class="drawer-content">
+            <div class="drawer-item" data-page="dashboard">
+                <span class="drawer-text">Dashboard</span>
+            </div>
+            <div class="drawer-item" data-page="quality-scorecards">
+                <span class="drawer-text">Quality Score Cards</span>
+            </div>
+            <div class="drawer-item" onclick="window.location.href='schedule.html'">
+                <span class="drawer-text">My Schedule</span>
+            </div>
+            <div class="drawer-item" data-page="patients">
+                <span class="drawer-text">My Patients</span>
+            </div>
+            <div class="drawer-item" data-page="reports">
+                <span class="drawer-text">Reports</span>
+            </div>
+            <div class="drawer-item active" onclick="window.location.href='tsm-report.html'">
+                <span class="drawer-text">Time Sensitive Measures</span>
+            </div>
+            <div class="drawer-item" data-page="resources">
+                <span class="drawer-text">Resources</span>
+            </div>
+            <div class="drawer-divider"></div>
+            <div class="drawer-item" onclick="window.location.href='settings.html'">
+                <span class="drawer-text">Settings</span>
+            </div>
+            <div class="drawer-item" onclick="logout()">
+                <span class="drawer-text">Log Out</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="logout-dialog" id="logoutDialog">
+        <div class="logout-dialog-content">
+            <div class="logout-dialog-header">
+                <div class="logout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16,17 21,12 16,7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </div>
+                <h3>Log Out</h3>
+            </div>
+            <div class="logout-dialog-body">
+                <p>Are you sure you want to log out of your account?</p>
+                <p class="logout-subtitle">You'll need to sign in again to access your dashboard.</p>
+            </div>
+            <div class="logout-dialog-footer">
+                <button class="logout-btn-cancel" type="button" onclick="closeLogoutDialog()">Cancel</button>
+                <button class="logout-btn-confirm" type="button" onclick="confirmLogout()">Log Out</button>
+            </div>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="table-container">
+                <div class="table-controls">
+                    <div class="table-controls-left">
+                        <button class="collapse-btn" type="button" id="tsmCollapseBtn">
+                            <span class="collapse-icon">▼</span>
+                        </button>
+                    </div>
+                    <div class="table-controls-center">
+                        <h2 class="table-title">Time Sensitive Measure (FUM, FUA, TRC)</h2>
+                    </div>
+                    <div class="table-controls-right">
+                        <a href="#" class="export-link" id="tsmExportLink">
+                            <span class="export-icon">↗</span>
+                            Export
+                        </a>
+                    </div>
+                </div>
+
+                <div class="table-wrapper expanded" id="tsm-report-table">
+                    <table class="reports-table" id="tsmReportsTable">
+                        <thead>
+                            <tr>
+                                <th class="sortable">Patient Name <span class="sort-icon">↕</span></th>
+                                <th class="sortable">DOB <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MCO <span class="sort-icon">↕</span></th>
+                                <th class="sortable">Status <span class="sort-icon">↕</span></th>
+                                <th class="sortable">Measure Code <span class="sort-icon">↕</span></th>
+                                <th class="sortable">Patient Phone <span class="sort-icon">↕</span></th>
+                            </tr>
+                            <tr class="filter-row">
+                                <th>
+                                    <input type="text" class="column-filter" id="tsmNameFilter" placeholder="Filter name...">
+                                </th>
+                                <th>
+                                    <input type="date" class="column-filter" id="tsmDobFilter" title="Filter by date of birth">
+                                </th>
+                                <th>
+                                    <select class="column-filter" id="tsmMcoFilter">
+                                        <option value="">All MCOs</option>
+                                        <option value="Healthfirst">Healthfirst</option>
+                                        <option value="Metroplus">Metroplus</option>
+                                        <option value="Anthem">Anthem</option>
+                                        <option value="Emblem">Emblem</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <select class="column-filter" id="tsmStatusFilter">
+                                        <option value="">All Statuses</option>
+                                        <option value="Completed">Completed</option>
+                                        <option value="Open">Open</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <select class="column-filter" id="tsmMeasureFilter">
+                                        <option value="">All Measures</option>
+                                        <option value="CBP">CBP</option>
+                                        <option value="DSF">DSF</option>
+                                        <option value="CFO">CFO</option>
+                                        <option value="EED">EED</option>
+                                        <option value="W30">W30</option>
+                                        <option value="WCV">WCV</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" id="tsmPhoneFilter" placeholder="Filter phone...">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Abbas A Chowdhury</td>
+                                <td>12-01-1951</td>
+                                <td>Healthfirst</td>
+                                <td>Completed</td>
+                                <td>CBP</td>
+                                <td>16469824440</td>
+                            </tr>
+                            <tr>
+                                <td>Abbie Liss Pena</td>
+                                <td>03-14-1968</td>
+                                <td>Metroplus</td>
+                                <td>Open</td>
+                                <td>DSF</td>
+                                <td>17185550112</td>
+                            </tr>
+                            <tr>
+                                <td>Maria Santos-Reyes</td>
+                                <td>07-22-1974</td>
+                                <td>Healthfirst</td>
+                                <td>Open</td>
+                                <td>CFO</td>
+                                <td>19292334455</td>
+                            </tr>
+                            <tr>
+                                <td>James O'Neill</td>
+                                <td>11-30-1962</td>
+                                <td>Metroplus</td>
+                                <td>Completed</td>
+                                <td>EED</td>
+                                <td>13479990221</td>
+                            </tr>
+                            <tr>
+                                <td>Priya Kapoor</td>
+                                <td>01-05-1989</td>
+                                <td>Healthfirst</td>
+                                <td>Completed</td>
+                                <td>W30</td>
+                                <td>19176001122</td>
+                            </tr>
+                            <tr>
+                                <td>Devon Williams</td>
+                                <td>09-18-1955</td>
+                                <td>Anthem</td>
+                                <td>Open</td>
+                                <td>WCV</td>
+                                <td>16462200998</td>
+                            </tr>
+                            <tr>
+                                <td>Elena Morales</td>
+                                <td>05-02-1971</td>
+                                <td>Metroplus</td>
+                                <td>Completed</td>
+                                <td>CBP</td>
+                                <td>12125554433</td>
+                            </tr>
+                            <tr>
+                                <td>Robert Chen</td>
+                                <td>08-11-1949</td>
+                                <td>Emblem</td>
+                                <td>Open</td>
+                                <td>DSF</td>
+                                <td>19178881200</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="export-modal" id="tsmExportModal">
+        <div class="export-modal-content">
+            <div class="export-modal-header">
+                <h2>Select Fields</h2>
+                <button class="export-modal-close" type="button" id="tsmCloseExportModal">×</button>
+            </div>
+            <div class="export-modal-body">
+                <div class="field-list">
+                    <div class="field-item">
+                        <input type="checkbox" id="tsmSelectAll" class="field-checkbox">
+                        <label for="tsmSelectAll" class="field-label">Fields</label>
+                    </div>
+                    <div class="field-item">
+                        <input type="checkbox" id="tsmFieldPatientName" class="field-checkbox tsm-field-cb" checked>
+                        <label for="tsmFieldPatientName" class="field-label">Patient Name</label>
+                    </div>
+                    <div class="field-item">
+                        <input type="checkbox" id="tsmFieldDob" class="field-checkbox tsm-field-cb" checked>
+                        <label for="tsmFieldDob" class="field-label">DOB</label>
+                    </div>
+                    <div class="field-item">
+                        <input type="checkbox" id="tsmFieldMco" class="field-checkbox tsm-field-cb" checked>
+                        <label for="tsmFieldMco" class="field-label">MCO</label>
+                    </div>
+                    <div class="field-item">
+                        <input type="checkbox" id="tsmFieldStatus" class="field-checkbox tsm-field-cb" checked>
+                        <label for="tsmFieldStatus" class="field-label">Status</label>
+                    </div>
+                    <div class="field-item">
+                        <input type="checkbox" id="tsmFieldMeasure" class="field-checkbox tsm-field-cb" checked>
+                        <label for="tsmFieldMeasure" class="field-label">Measure Code</label>
+                    </div>
+                    <div class="field-item">
+                        <input type="checkbox" id="tsmFieldPhone" class="field-checkbox tsm-field-cb" checked>
+                        <label for="tsmFieldPhone" class="field-label">Patient Phone</label>
+                    </div>
+                </div>
+            </div>
+            <div class="export-modal-footer">
+                <button class="export-btn-close" type="button" id="tsmCancelExport">Close</button>
+                <button class="export-btn-apply" type="button" id="tsmApplyExport">Download</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/tsm-report.js"></script>
+</body>
+</html>

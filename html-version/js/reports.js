@@ -97,6 +97,11 @@ function initializeKPICards() {
     
     kpiCards.forEach(card => {
         card.addEventListener('click', function() {
+            const route = this.getAttribute('data-navigate');
+            if (route) {
+                window.location.href = route;
+                return;
+            }
             // Remove active class from all cards
             kpiCards.forEach(c => c.classList.remove('active'));
             // Add active class to clicked card
@@ -124,6 +129,9 @@ function initializeKPICards() {
     
     // Initialize SIIP navigation
     initializeSIIPNavigation();
+    
+    // Initialize TSM navigation
+    initializeTSMNavigation();
     
     // Initialize card-to-table linking
     initializeCardToTableLinking();
@@ -662,6 +670,63 @@ function initializeSIIPNavigation() {
     updateSIIPDisplay();
 }
 
+// TSM Navigation (compact card: timeframe + completed / missed only)
+function initializeTSMNavigation() {
+    const tsmCard = document.getElementById('tsmKpiCard');
+    if (!tsmCard) return;
+
+    const prevArrow = tsmCard.querySelector('.prev-arrow');
+    const nextArrow = tsmCard.querySelector('.next-arrow');
+    const timeframeIndicator = tsmCard.querySelector('.timeframe-indicator');
+    const kpiDate = tsmCard.querySelector('.kpi-date');
+    const kpiDateValue = tsmCard.querySelector('.kpi-date-value');
+
+    if (!prevArrow || !nextArrow || !timeframeIndicator || !kpiDate || !kpiDateValue) return;
+
+    let currentTimeframe = 0;
+
+    const timeframes = [
+        { name: 'TODAY', date: '02-03-2026', completed: 0, missed: 0 },
+        { name: 'LAST 30 DAYS', date: '01-04-2026 to 02-03-2026', completed: 12, missed: 3 },
+        { name: 'YTD', date: '01-01-2026 to 02-03-2026', completed: 48, missed: 9 }
+    ];
+
+    function updateTSMDisplay() {
+        const tf = timeframes[currentTimeframe];
+        timeframeIndicator.textContent = tf.name;
+        kpiDate.textContent = tf.name;
+        kpiDateValue.textContent = tf.date;
+
+        const completedEl = tsmCard.querySelector('.metric-bar.completed .metric-value');
+        const missedEl = tsmCard.querySelector('.metric-bar.missed .metric-value');
+        if (completedEl) completedEl.textContent = String(tf.completed);
+        if (missedEl) missedEl.textContent = String(tf.missed);
+
+        prevArrow.disabled = currentTimeframe === 0;
+        nextArrow.disabled = currentTimeframe === timeframes.length - 1;
+        prevArrow.classList.toggle('disabled', prevArrow.disabled);
+        nextArrow.classList.toggle('disabled', nextArrow.disabled);
+    }
+
+    prevArrow.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (currentTimeframe > 0) {
+            currentTimeframe--;
+            updateTSMDisplay();
+        }
+    });
+
+    nextArrow.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (currentTimeframe < timeframes.length - 1) {
+            currentTimeframe++;
+            updateTSMDisplay();
+        }
+    });
+
+    updateTSMDisplay();
+}
+
 // Card-to-Table Linking functionality
 function initializeCardToTableLinking() {
     const kpiCards = document.querySelectorAll('.kpi-card');
@@ -676,6 +741,11 @@ function initializeCardToTableLinking() {
     
     kpiCards.forEach((card, index) => {
         card.addEventListener('click', function() {
+            const route = this.getAttribute('data-navigate');
+            if (route) {
+                window.location.href = route;
+                return;
+            }
             // Remove active class from all cards
             kpiCards.forEach(c => c.classList.remove('active'));
             // Add active class to clicked card
