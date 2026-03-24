@@ -549,6 +549,9 @@ class _MyInvitationsScreenState extends State<MyInvitationsScreen>
       case 'reports':
         context.go('/reports');
         break;
+      case 'tsm':
+        context.go('/tsm-measures');
+        break;
       case 'resources':
         context.go('/resources');
         break;

@@ -582,6 +582,9 @@ class _PatientProfileTabletModalState extends State<PatientProfileTabletModal> {
         Navigator.of(context).pop();
         // Navigate to reports
         break;
+      case 'tsm':
+        Navigator.of(context).pop();
+        break;
       case 'resources':
         Navigator.of(context).pop();
         // Navigate to resources

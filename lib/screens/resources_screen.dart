@@ -1797,6 +1797,9 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
       case 'reports':
         context.go('/reports');
         break;
+      case 'tsm':
+        context.go('/tsm-measures');
+        break;
       case 'resources':
         // Already on resources page
         break;

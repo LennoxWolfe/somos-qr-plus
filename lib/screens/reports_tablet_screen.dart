@@ -10,6 +10,7 @@ import '../widgets/staff_login_table_widget.dart';
 import '../widgets/tablet_app_header_widget.dart';
 import '../widgets/tablet_layout_widget.dart';
 import '../widgets/provider_dropdown_widget.dart';
+import '../widgets/tsm_reports_card_widget.dart';
 import '../core/constants/providers.dart';
 
 class ReportsTabletScreen extends StatefulWidget {
@@ -36,6 +37,29 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
       'rank': 'RANK 0/0',
       'networkRank': '9 of 2,118 providers',
       'hasNavigation': false,
+    },
+    'TSM': {
+      'timeframe': 'TODAY',
+      'date': '02-03-2026',
+      'missed': 0,
+      'completed': 0,
+      'hasNavigation': true,
+      'timeframes': [
+        {'name': 'TODAY', 'date': '02-03-2026', 'missed': 0, 'completed': 0},
+        {
+          'name': 'LAST 30 DAYS',
+          'date': '01-03-2026 to 02-03-2026',
+          'missed': 3,
+          'completed': 28,
+        },
+        {
+          'name': 'YTD',
+          'date': '01-01-2026 to 02-03-2026',
+          'missed': 12,
+          'completed': 156,
+        },
+      ],
+      'currentTimeframeIndex': 0,
     },
     'RA': {
       'timeframe': 'TODAY',
@@ -175,6 +199,9 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
         break;
       case 'reports':
         // Already on reports page
+        break;
+      case 'tsm':
+        context.go('/tsm-measures');
         break;
       case 'resources':
         context.go('/resources');
@@ -697,6 +724,7 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
           mainAxisSpacing: spacing,
           childAspectRatio: childAspectRatio,
           children: [
+            _buildTSMCard(),
             _buildGICCard(),
             _buildRACard(),
             _buildAPPTCard(),
@@ -706,6 +734,39 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildTSMCard() {
+    final data = _kpiData['TSM'];
+    if (data == null) return const SizedBox.shrink();
+
+    final currentIndex = data['currentTimeframeIndex'] as int? ?? 0;
+    final timeframes =
+        data['timeframes'] as List<Map<String, dynamic>>? ?? const [];
+    final tf = timeframes.isNotEmpty && currentIndex < timeframes.length
+        ? timeframes[currentIndex]
+        : <String, dynamic>{};
+
+    final name = (tf['name'] as String?) ?? data['timeframe'] as String? ?? 'TODAY';
+    final dateLine = (tf['date'] as String?) ?? data['date'] as String? ?? '';
+    final completed = (tf['completed'] as int?) ?? data['completed'] as int? ?? 0;
+    final missed = (tf['missed'] as int?) ?? data['missed'] as int? ?? 0;
+
+    return TsmReportsCard(
+      timeframeLabel: name,
+      dateLine: dateLine,
+      completed: completed,
+      missed: missed,
+      canGoPrevious: currentIndex > 0,
+      canGoNext: currentIndex < timeframes.length - 1,
+      onPrevious: currentIndex > 0
+          ? () => _updateTimeframe('TSM', currentIndex - 1)
+          : null,
+      onNext: currentIndex < timeframes.length - 1
+          ? () => _updateTimeframe('TSM', currentIndex + 1)
+          : null,
+      onOpenFullTable: () => context.go('/tsm-measures'),
     );
   }
 
@@ -1237,6 +1298,11 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
         kpiData['open'] = timeframe['open'] ?? 0;
         kpiData['total'] = timeframe['total'] ?? 0;
         kpiData['earnings'] = timeframe['earnings'] ?? 0.0;
+      } else if (kpiType == 'TSM') {
+        kpiData['missed'] = timeframe['missed'] ?? 0;
+        kpiData['completed'] = timeframe['completed'] ?? 0;
+        kpiData['timeframe'] = timeframe['name'] ?? kpiData['timeframe'];
+        kpiData['date'] = timeframe['date'] ?? kpiData['date'];
       }
     });
   }

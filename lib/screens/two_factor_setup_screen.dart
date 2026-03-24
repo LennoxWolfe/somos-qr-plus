@@ -310,6 +310,9 @@ class _TwoFactorSetupScreenState extends State<TwoFactorSetupScreen> {
       case 'reports':
         context.go('/reports');
         break;
+      case 'tsm':
+        context.go('/tsm-measures');
+        break;
       case 'resources':
         context.go('/resources');
         break;

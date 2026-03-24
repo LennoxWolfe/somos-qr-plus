@@ -9,6 +9,7 @@ import '../../screens/settings_screen.dart';
 import '../../screens/quality_scorecards_tablet_screen.dart';
 import '../../screens/dashboard_screen.dart';
 import '../../screens/reports_tablet_screen.dart';
+import '../../screens/tsm_measures_tablet_screen.dart';
 import '../../screens/patients_tablet_screen.dart';
 import '../../screens/schedule_tablet_screen.dart';
 import '../../screens/resources_screen.dart';
@@ -97,6 +98,19 @@ final appRouter = GoRouter(
               },
             ),
           ),
+    GoRoute(
+      path: '/tsm-measures',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const TsmMeasuresTabletScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    ),
     GoRoute(
       path: '/patients',
       pageBuilder: (context, state) {

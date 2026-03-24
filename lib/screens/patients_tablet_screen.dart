@@ -439,6 +439,9 @@ class _PatientsTabletScreenState extends State<PatientsTabletScreen> {
       case 'reports':
         context.go('/reports');
         break;
+      case 'tsm':
+        context.go('/tsm-measures');
+        break;
       case 'resources':
         context.go('/resources');
         break;
