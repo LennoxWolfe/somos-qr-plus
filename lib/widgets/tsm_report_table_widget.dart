@@ -51,8 +51,56 @@ class _TsmReportTableWidgetState extends State<TsmReportTableWidget> {
     _TsmColumn('admit_facility', 'ADMIT FACILITY', 160),
   ];
 
+  static const List<String> _mcoDropdownItems = [
+    '',
+    'Healthfirst',
+    'Anthem',
+    'Emblem',
+    'Molina',
+    'Centene',
+    'WellCare',
+    'Fidelis',
+  ];
+
+  static const List<String> _measureCodeDropdownItems = [
+    '',
+    'CBP',
+    'KED',
+    'COL',
+    'AWV',
+    'CCS',
+    'HBA1C',
+    'CHL',
+  ];
+
+  static const List<String> _productDropdownItems = [
+    '',
+    'Medicare MLTC',
+    'Medicaid',
+    'Commercial',
+    'Medicare FFS',
+    'Dual SNP',
+    'MA HMO',
+    'CHPlus',
+  ];
+
   late final List<Map<String, String>> _seedRows;
-  late final List<TextEditingController> _filterControllers;
+  late List<Map<String, String>> _filteredRows;
+
+  final TextEditingController _nameFilterController = TextEditingController();
+  final TextEditingController _dobFilterController = TextEditingController();
+  final TextEditingController _memberIdFilterController =
+      TextEditingController();
+  final TextEditingController _phoneFilterController = TextEditingController();
+  final TextEditingController _diagnosisFilterController =
+      TextEditingController();
+
+  String _mcoFilter = '';
+  String _measureCodeFilter = '';
+  String _productFilter = '';
+
+  int _currentPage = 1;
+  int _rowsPerPage = 10;
 
   final ScrollController _hScroll = ScrollController();
   final ScrollController _vScroll = ScrollController();
@@ -69,17 +117,16 @@ class _TsmReportTableWidgetState extends State<TsmReportTableWidget> {
   void initState() {
     super.initState();
     _seedRows = _buildSeedRows();
-    _filterControllers = List.generate(
-      _columns.length,
-      (_) => TextEditingController(),
-    );
+    _filteredRows = List<Map<String, String>>.from(_seedRows);
   }
 
   @override
   void dispose() {
-    for (final c in _filterControllers) {
-      c.dispose();
-    }
+    _nameFilterController.dispose();
+    _dobFilterController.dispose();
+    _memberIdFilterController.dispose();
+    _phoneFilterController.dispose();
+    _diagnosisFilterController.dispose();
     _hScroll.dispose();
     _vScroll.dispose();
     super.dispose();
@@ -91,7 +138,9 @@ class _TsmReportTableWidgetState extends State<TsmReportTableWidget> {
       final id = 100000 + n;
       return {
         'pcp_tin': '12-345678${n % 10}',
-        'pcp_practice': n.isEven ? 'Metro Community Health PC' : 'Harbor View Medical Group',
+        'pcp_practice': n.isEven
+            ? 'Metro Community Health PC'
+            : 'Harbor View Medical Group',
         'pcp_npi': '198765432$n',
         'mco': ['Healthfirst', 'Anthem', 'Emblem', 'Molina', 'Centene', 'WellCare', 'Fidelis'][i],
         'ipa': ['East IPA', 'Harbor IPA', 'Bright IPA', 'Lakeside PHO', 'Summit IPA', 'Metro IPA', 'Coastal IPA'][i],
@@ -143,18 +192,51 @@ class _TsmReportTableWidgetState extends State<TsmReportTableWidget> {
     });
   }
 
-  List<Map<String, String>> _visibleRows() {
-    var rows = List<Map<String, String>>.from(_seedRows);
-    rows = rows.where((row) {
-      for (var i = 0; i < _columns.length; i++) {
-        final q = _filterControllers[i].text.trim().toLowerCase();
-        if (q.isEmpty) continue;
-        final val = (row[_columns[i].key] ?? '').toLowerCase();
-        if (!val.contains(q)) return false;
-      }
-      return true;
-    }).toList();
+  void _applyFilters() {
+    setState(() {
+      _filteredRows = _seedRows.where((row) {
+        final nameQ = _nameFilterController.text.trim().toLowerCase();
+        if (nameQ.isNotEmpty &&
+            !(row['member_name'] ?? '').toLowerCase().contains(nameQ)) {
+          return false;
+        }
+        if (_mcoFilter.isNotEmpty && row['mco'] != _mcoFilter) {
+          return false;
+        }
+        final dobQ = _dobFilterController.text.trim();
+        if (dobQ.isNotEmpty && !(row['member_dob'] ?? '').contains(dobQ)) {
+          return false;
+        }
+        if (_measureCodeFilter.isNotEmpty &&
+            row['measure_code'] != _measureCodeFilter) {
+          return false;
+        }
+        if (_productFilter.isNotEmpty && row['product'] != _productFilter) {
+          return false;
+        }
+        final idQ = _memberIdFilterController.text.trim().toLowerCase();
+        if (idQ.isNotEmpty &&
+            !(row['mco_member_id'] ?? '').toLowerCase().contains(idQ)) {
+          return false;
+        }
+        final phoneQ = _phoneFilterController.text.trim();
+        if (phoneQ.isNotEmpty &&
+            !(row['member_phone_1'] ?? '').contains(phoneQ)) {
+          return false;
+        }
+        final dxQ = _diagnosisFilterController.text.trim().toLowerCase();
+        if (dxQ.isNotEmpty &&
+            !(row['diagnosis_code'] ?? '').toLowerCase().contains(dxQ)) {
+          return false;
+        }
+        return true;
+      }).toList();
+      _currentPage = 1;
+    });
+  }
 
+  List<Map<String, String>> _sortedRows() {
+    final rows = List<Map<String, String>>.from(_filteredRows);
     if (_sortColumnIndex != null) {
       final key = _columns[_sortColumnIndex!].key;
       rows.sort((a, b) {
@@ -167,13 +249,41 @@ class _TsmReportTableWidgetState extends State<TsmReportTableWidget> {
     return rows;
   }
 
+  List<Map<String, String>> _paginatedRows() {
+    final sorted = _sortedRows();
+    if (sorted.isEmpty) return [];
+    final start = (_currentPage - 1) * _rowsPerPage;
+    if (start >= sorted.length) return [];
+    final end = (start + _rowsPerPage).clamp(0, sorted.length);
+    return sorted.sublist(start, end);
+  }
+
+  int get _totalPages {
+    final n = _filteredRows.length;
+    if (n == 0) return 1;
+    return (n / _rowsPerPage).ceil();
+  }
+
+  void _goToPage(int page) {
+    if (page >= 1 && page <= _totalPages) {
+      setState(() => _currentPage = page);
+    }
+  }
+
   void _onRefresh() {
+    _nameFilterController.clear();
+    _dobFilterController.clear();
+    _memberIdFilterController.clear();
+    _phoneFilterController.clear();
+    _diagnosisFilterController.clear();
+    _mcoFilter = '';
+    _measureCodeFilter = '';
+    _productFilter = '';
     setState(() {
-      for (final c in _filterControllers) {
-        c.clear();
-      }
+      _filteredRows = List<Map<String, String>>.from(_seedRows);
       _sortColumnIndex = null;
       _sortAscending = true;
+      _currentPage = 1;
     });
   }
 
@@ -204,6 +314,139 @@ class _TsmReportTableWidgetState extends State<TsmReportTableWidget> {
       pos.maxScrollExtent,
     );
     _hScroll.jumpTo(target.toDouble());
+  }
+
+  Widget _buildFilterField({
+    required TextEditingController controller,
+    required String hint,
+  }) {
+    return TextField(
+      controller: controller,
+      onChanged: (_) => _applyFilters(),
+      style: const TextStyle(fontSize: 11),
+      decoration: ReportTableTokens.filterFieldDecoration(hint: hint),
+    );
+  }
+
+  Widget _buildFilterDropdown({
+    required String value,
+    required List<String> items,
+    required String hint,
+    required ValueChanged<String?> onChanged,
+  }) {
+    return DropdownButtonFormField<String>(
+      value: value.isEmpty ? null : value,
+      decoration: ReportTableTokens.dropdownFieldDecoration(hint: hint),
+      items: items.map((item) {
+        return DropdownMenuItem<String>(
+          value: item.isEmpty ? null : item,
+          child: Text(
+            item.isEmpty ? hint : item,
+            style: TextStyle(
+              fontSize: 11,
+              color: item.isEmpty ? Colors.grey.shade500 : Colors.black,
+            ),
+          ),
+        );
+      }).toList(),
+      onChanged: onChanged,
+    );
+  }
+
+  Widget _buildPaginationBar() {
+    final total = _filteredRows.length;
+    final startIndex = total == 0 ? 0 : (_currentPage - 1) * _rowsPerPage + 1;
+    final endIndex = total == 0
+        ? 0
+        : (_currentPage * _rowsPerPage).clamp(0, total);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        border: Border(top: BorderSide(color: Colors.grey.shade200)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              const Text(
+                'Rows per page:',
+                style: TextStyle(fontSize: 11, color: Color(0xFF666666)),
+              ),
+              const SizedBox(width: 6),
+              DropdownButton<int>(
+                value: _rowsPerPage,
+                items: [10, 20, 50, 100]
+                    .map(
+                      (v) => DropdownMenuItem<int>(
+                        value: v,
+                        child: Text('$v',
+                            style: const TextStyle(fontSize: 11)),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (v) {
+                  if (v != null) {
+                    setState(() {
+                      _rowsPerPage = v;
+                      _currentPage = 1;
+                    });
+                  }
+                },
+                underline: Container(),
+                style: const TextStyle(fontSize: 11),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                'Showing $startIndex-$endIndex of $total',
+                style: const TextStyle(fontSize: 11, color: Color(0xFF666666)),
+              ),
+              const SizedBox(width: 12),
+              IconButton(
+                onPressed:
+                    _currentPage > 1 ? () => _goToPage(_currentPage - 1) : null,
+                icon: const Icon(Icons.chevron_left),
+                iconSize: 18,
+                padding: const EdgeInsets.all(2),
+                constraints:
+                    const BoxConstraints(minWidth: 28, minHeight: 28),
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1976D2),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  '$_currentPage',
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: _currentPage < _totalPages
+                    ? () => _goToPage(_currentPage + 1)
+                    : null,
+                icon: const Icon(Icons.chevron_right),
+                iconSize: 18,
+                padding: const EdgeInsets.all(2),
+                constraints:
+                    const BoxConstraints(minWidth: 28, minHeight: 28),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _headerCell(int colIndex) {
@@ -262,30 +505,6 @@ class _TsmReportTableWidgetState extends State<TsmReportTableWidget> {
     );
   }
 
-  Widget _filterCell(int colIndex) {
-    return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          right: BorderSide(color: Colors.grey.shade200),
-          bottom: BorderSide(color: Colors.grey.shade300),
-        ),
-      ),
-      child: TextField(
-        controller: _filterControllers[colIndex],
-        onChanged: (_) => setState(() {}),
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 11,
-          color: Color(0xFF333333),
-        ),
-        decoration:
-            ReportTableTokens.filterFieldDecoration(hint: 'Filter'),
-      ),
-    );
-  }
-
   Widget _dataCell(String value, bool isEvenRow) {
     final display = value.isEmpty ? '—' : value;
     final bg = isEvenRow ? Colors.white : const Color(0xFFFAFAFA);
@@ -324,17 +543,8 @@ class _TsmReportTableWidgetState extends State<TsmReportTableWidget> {
     );
   }
 
-  TableRow _filterRow() {
-    return TableRow(
-      children: List.generate(
-        _columns.length,
-        (i) => _filterCell(i),
-      ),
-    );
-  }
-
-  TableRow _dataRow(Map<String, String> row, int visibleIndex) {
-    final isEven = visibleIndex.isEven;
+  TableRow _dataRow(Map<String, String> row, int pageRowIndex) {
+    final isEven = pageRowIndex.isEven;
     return TableRow(
       children: List.generate(_columns.length, (i) {
         return _dataCell(row[_columns[i].key] ?? '', isEven);
@@ -344,13 +554,12 @@ class _TsmReportTableWidgetState extends State<TsmReportTableWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final visible = _visibleRows();
+    final pageRows = _paginatedRows();
     final table = Table(
       columnWidths: _columnWidths,
       children: [
         _headerRow(),
-        _filterRow(),
-        ...visible.asMap().entries.map(
+        ...pageRows.asMap().entries.map(
               (e) => _dataRow(e.value, e.key),
             ),
       ],
@@ -397,18 +606,126 @@ class _TsmReportTableWidgetState extends State<TsmReportTableWidget> {
       ),
     );
 
-    return ReportTableCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ReportTableToolbar(
-            title: TsmReportTableWidget.titleLabel,
-            onRefresh: _onRefresh,
-            onExport: _onExport,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double padding;
+        if (constraints.maxWidth < 600) {
+          padding = 6;
+        } else if (constraints.maxWidth < 900) {
+          padding = 8;
+        } else {
+          padding = 12;
+        }
+
+        return ReportTableCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ReportTableToolbar(
+                title: TsmReportTableWidget.titleLabel,
+                onRefresh: _onRefresh,
+                onExport: _onExport,
+              ),
+              Container(
+                padding: EdgeInsets.all(padding),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade300)),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _nameFilterController,
+                            hint: 'Name...',
+                          ),
+                        ),
+                        SizedBox(width: padding),
+                        Expanded(
+                          child: _buildFilterDropdown(
+                            value: _mcoFilter,
+                            items: _mcoDropdownItems,
+                            hint: 'MCO',
+                            onChanged: (v) {
+                              _mcoFilter = v ?? '';
+                              _applyFilters();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: padding),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _dobFilterController,
+                            hint: 'DOB...',
+                          ),
+                        ),
+                        SizedBox(width: padding),
+                        Expanded(
+                          child: _buildFilterDropdown(
+                            value: _measureCodeFilter,
+                            items: _measureCodeDropdownItems,
+                            hint: 'Measure code',
+                            onChanged: (v) {
+                              _measureCodeFilter = v ?? '';
+                              _applyFilters();
+                            },
+                          ),
+                        ),
+                        SizedBox(width: padding),
+                        Expanded(
+                          child: _buildFilterDropdown(
+                            value: _productFilter,
+                            items: _productDropdownItems,
+                            hint: 'Product',
+                            onChanged: (v) {
+                              _productFilter = v ?? '';
+                              _applyFilters();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: padding),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _memberIdFilterController,
+                            hint: 'Member ID...',
+                          ),
+                        ),
+                        SizedBox(width: padding),
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _phoneFilterController,
+                            hint: 'Phone...',
+                          ),
+                        ),
+                        SizedBox(width: padding),
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _diagnosisFilterController,
+                            hint: 'Diagnosis code...',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(child: scrollBody),
+              _buildPaginationBar(),
+            ],
           ),
-          Expanded(child: scrollBody),
-        ],
-      ),
+        );
+      },
     );
   }
 }
