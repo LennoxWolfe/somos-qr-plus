@@ -165,13 +165,6 @@ class _TabletSidebarWidgetState extends State<TabletSidebarWidget> {
                     () => widget.onNavigation('reports')
                   ),
                   _buildSidebarItem(
-                    'Time Sensitive Measures',
-                    Icons.timer_outlined,
-                    Icons.timer,
-                    widget.activeRoute == 'tsm',
-                    () => widget.onNavigation('tsm'),
-                  ),
-                  _buildSidebarItem(
                     'Resources', 
                     Icons.folder_outlined, 
                     Icons.folder, 

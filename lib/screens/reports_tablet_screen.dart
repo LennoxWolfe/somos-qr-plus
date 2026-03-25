@@ -11,6 +11,7 @@ import '../widgets/tablet_app_header_widget.dart';
 import '../widgets/tablet_layout_widget.dart';
 import '../widgets/provider_dropdown_widget.dart';
 import '../widgets/tsm_reports_card_widget.dart';
+import '../widgets/tsm_time_sensitive_table_widget.dart';
 import '../core/constants/providers.dart';
 
 class ReportsTabletScreen extends StatefulWidget {
@@ -41,22 +42,48 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
     'TSM': {
       'timeframe': 'TODAY',
       'date': '02-03-2026',
-      'missed': 0,
-      'completed': 0,
       'hasNavigation': true,
+      // Macro KPIs for key TSM detail columns: MCO, MCO MEMBER ID, MEMBER NAME,
+      // MEMBER DOB, MEMBER PHONE 1, MEASURE CODE, DEADLINE CALCULATION
       'timeframes': [
-        {'name': 'TODAY', 'date': '02-03-2026', 'missed': 0, 'completed': 0},
+        {
+          'name': 'TODAY',
+          'date': '02-03-2026',
+          'yellowMacro': [
+            {'label': 'MCO', 'value': '2'},
+            {'label': 'MCO MEMBER ID', 'value': '1,240'},
+            {'label': 'MEMBER NAME', 'value': '892'},
+            {'label': 'MEMBER DOB', 'value': '98%'},
+            {'label': 'MEMBER PHONE 1', 'value': '1,180'},
+            {'label': 'MEASURE CODE', 'value': '12'},
+            {'label': 'DEADLINE CALCULATION', 'value': '7 due'},
+          ],
+        },
         {
           'name': 'LAST 30 DAYS',
           'date': '01-03-2026 to 02-03-2026',
-          'missed': 3,
-          'completed': 28,
+          'yellowMacro': [
+            {'label': 'MCO', 'value': '3'},
+            {'label': 'MCO MEMBER ID', 'value': '8,420'},
+            {'label': 'MEMBER NAME', 'value': '7,102'},
+            {'label': 'MEMBER DOB', 'value': '97%'},
+            {'label': 'MEMBER PHONE 1', 'value': '8,050'},
+            {'label': 'MEASURE CODE', 'value': '18'},
+            {'label': 'DEADLINE CALCULATION', 'value': '42 due'},
+          ],
         },
         {
           'name': 'YTD',
           'date': '01-01-2026 to 02-03-2026',
-          'missed': 12,
-          'completed': 156,
+          'yellowMacro': [
+            {'label': 'MCO', 'value': '3'},
+            {'label': 'MCO MEMBER ID', 'value': '24,600'},
+            {'label': 'MEMBER NAME', 'value': '21,340'},
+            {'label': 'MEMBER DOB', 'value': '96%'},
+            {'label': 'MEMBER PHONE 1', 'value': '23,100'},
+            {'label': 'MEASURE CODE', 'value': '22'},
+            {'label': 'DEADLINE CALCULATION', 'value': '128 due'},
+          ],
         },
       ],
       'currentTimeframeIndex': 0,
@@ -200,9 +227,6 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
       case 'reports':
         // Already on reports page
         break;
-      case 'tsm':
-        context.go('/tsm-measures');
-        break;
       case 'resources':
         context.go('/resources');
         break;
@@ -312,6 +336,76 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(16), // Reduced padding
                         child: const GICTableWidget(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _showTSMTableDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(6),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              double dialogWidth = constraints.maxWidth * 0.99;
+              double dialogHeight = constraints.maxHeight * 0.95;
+              if (constraints.maxWidth > 1200) {
+                dialogWidth = 1250;
+              }
+              return Container(
+                width: dialogWidth,
+                height: dialogHeight,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFf8f9fa),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'Time Senstive Measures #1',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => Navigator.of(dialogContext).pop(),
+                            icon: const Icon(Icons.close, size: 24),
+                            tooltip: 'Close',
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: const TsmTimeSensitiveTableWidget(),
                       ),
                     ),
                   ],
@@ -737,6 +831,29 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
     );
   }
 
+  /// Builds macro KPI rows for the seven TSM table columns shown on the card.
+  List<TsmMacroMetric> _tsmMacroMetricsFromTimeframe(Map<String, dynamic> tf) {
+    final raw = tf['yellowMacro'] as List<dynamic>?;
+    if (raw == null || raw.isEmpty) {
+      return const [
+        TsmMacroMetric('MCO', '—'),
+        TsmMacroMetric('MCO MEMBER ID', '—'),
+        TsmMacroMetric('MEMBER NAME', '—'),
+        TsmMacroMetric('MEMBER DOB', '—'),
+        TsmMacroMetric('MEMBER PHONE 1', '—'),
+        TsmMacroMetric('MEASURE CODE', '—'),
+        TsmMacroMetric('DEADLINE CALCULATION', '—'),
+      ];
+    }
+    return raw.map((e) {
+      final m = e as Map<String, dynamic>;
+      return TsmMacroMetric(
+        m['label'] as String? ?? '—',
+        m['value']?.toString() ?? '—',
+      );
+    }).toList();
+  }
+
   Widget _buildTSMCard() {
     final data = _kpiData['TSM'];
     if (data == null) return const SizedBox.shrink();
@@ -750,14 +867,13 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
 
     final name = (tf['name'] as String?) ?? data['timeframe'] as String? ?? 'TODAY';
     final dateLine = (tf['date'] as String?) ?? data['date'] as String? ?? '';
-    final completed = (tf['completed'] as int?) ?? data['completed'] as int? ?? 0;
-    final missed = (tf['missed'] as int?) ?? data['missed'] as int? ?? 0;
+    final macroMetrics = _tsmMacroMetricsFromTimeframe(tf);
 
     return TsmReportsCard(
       timeframeLabel: name,
       dateLine: dateLine,
-      completed: completed,
-      missed: missed,
+      macroMetrics: macroMetrics,
+      onViewReports: () => _showTSMTableDialog(context),
       canGoPrevious: currentIndex > 0,
       canGoNext: currentIndex < timeframes.length - 1,
       onPrevious: currentIndex > 0
@@ -766,7 +882,6 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
       onNext: currentIndex < timeframes.length - 1
           ? () => _updateTimeframe('TSM', currentIndex + 1)
           : null,
-      onOpenFullTable: () => context.go('/tsm-measures'),
     );
   }
 
@@ -1299,8 +1414,6 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
         kpiData['total'] = timeframe['total'] ?? 0;
         kpiData['earnings'] = timeframe['earnings'] ?? 0.0;
       } else if (kpiType == 'TSM') {
-        kpiData['missed'] = timeframe['missed'] ?? 0;
-        kpiData['completed'] = timeframe['completed'] ?? 0;
         kpiData['timeframe'] = timeframe['name'] ?? kpiData['timeframe'];
         kpiData['date'] = timeframe['date'] ?? kpiData['date'];
       }
