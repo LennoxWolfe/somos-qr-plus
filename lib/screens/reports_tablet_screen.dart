@@ -818,13 +818,13 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
           mainAxisSpacing: spacing,
           childAspectRatio: childAspectRatio,
           children: [
-            _buildTSMCard(),
             _buildGICCard(),
             _buildRACard(),
             _buildAPPTCard(),
             _buildMWOVCard(),
             _buildSIIPCard(),
             _buildStaffLoginCard(),
+            _buildTSMCard(),
           ],
         );
       },

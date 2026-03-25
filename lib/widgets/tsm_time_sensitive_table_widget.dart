@@ -89,6 +89,15 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
 
   String? _sortKey;
   bool _sortAsc = true;
+  bool _suppressFilterUpdates = false;
+
+  late final int _idxMco;
+  late final int _idxMcoMemberId;
+  late final int _idxMemberName;
+  late final int _idxMemberDob;
+  late final int _idxMemberPhone1;
+  late final int _idxMeasureCode;
+  late final int _idxDeadlineCalculation;
 
   final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _verticalScrollController = ScrollController();
@@ -103,8 +112,33 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
       (_) => TextEditingController(),
     );
     for (final c in _filterControllers) {
-      c.addListener(_applyFilters);
+      c.addListener(() {
+        if (_suppressFilterUpdates) return;
+        _applyFilters();
+      });
     }
+
+    _idxMco = _columns.indexWhere((c) => c.key == 'mco');
+    _idxMcoMemberId =
+        _columns.indexWhere((c) => c.key == 'mco_member_id');
+    _idxMemberName =
+        _columns.indexWhere((c) => c.key == 'member_name');
+    _idxMemberDob =
+        _columns.indexWhere((c) => c.key == 'member_dob');
+    _idxMemberPhone1 =
+        _columns.indexWhere((c) => c.key == 'member_phone_1');
+    _idxMeasureCode =
+        _columns.indexWhere((c) => c.key == 'measure_code');
+    _idxDeadlineCalculation =
+        _columns.indexWhere((c) => c.key == 'deadline_calculation');
+
+    assert(_idxMco != -1);
+    assert(_idxMcoMemberId != -1);
+    assert(_idxMemberName != -1);
+    assert(_idxMemberDob != -1);
+    assert(_idxMemberPhone1 != -1);
+    assert(_idxMeasureCode != -1);
+    assert(_idxDeadlineCalculation != -1);
   }
 
   @override
@@ -130,6 +164,187 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
       }).toList();
       _sortRows();
     });
+  }
+
+  void _clearAllFilters() {
+    _suppressFilterUpdates = true;
+    for (final c in _filterControllers) {
+      c.text = '';
+    }
+    _suppressFilterUpdates = false;
+    _applyFilters();
+  }
+
+  Widget _buildExternalFilters() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Match the padding + typography behavior used across other report tables.
+        double padding;
+        if (constraints.maxWidth < 600) {
+          padding = 6;
+        } else if (constraints.maxWidth < 900) {
+          padding = 8;
+        } else {
+          padding = 12;
+        }
+
+        return Container(
+          padding: EdgeInsets.all(padding),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+          ),
+          child: constraints.maxWidth < 600
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _filterControllers[_idxMco],
+                            hint: 'MCO...',
+                          ),
+                        ),
+                        SizedBox(width: padding),
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _filterControllers[_idxMemberName],
+                            hint: 'Name...',
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: padding),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildFilterField(
+                            controller:
+                                _filterControllers[_idxMcoMemberId],
+                            hint: 'Member ID...',
+                          ),
+                        ),
+                        SizedBox(width: padding),
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _filterControllers[_idxMemberDob],
+                            hint: 'DOB...',
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: padding),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildFilterField(
+                            controller:
+                                _filterControllers[_idxMemberPhone1],
+                            hint: 'Phone...',
+                          ),
+                        ),
+                        SizedBox(width: padding),
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _filterControllers[_idxMeasureCode],
+                            hint: 'Measure...',
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: padding),
+                    _buildFilterField(
+                      controller: _filterControllers[_idxDeadlineCalculation],
+                      hint: 'Deadline...',
+                    ),
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _filterControllers[_idxMco],
+                            hint: 'MCO...',
+                          ),
+                        ),
+                        SizedBox(width: padding),
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _filterControllers[_idxMemberName],
+                            hint: 'Name...',
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: padding),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildFilterField(
+                            controller:
+                                _filterControllers[_idxMcoMemberId],
+                            hint: 'Member ID...',
+                          ),
+                        ),
+                        SizedBox(width: padding),
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _filterControllers[_idxMemberDob],
+                            hint: 'DOB...',
+                          ),
+                        ),
+                        SizedBox(width: padding),
+                        Expanded(
+                          child: _buildFilterField(
+                            controller:
+                                _filterControllers[_idxMemberPhone1],
+                            hint: 'Phone...',
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: padding),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildFilterField(
+                            controller: _filterControllers[_idxMeasureCode],
+                            hint: 'Measure...',
+                          ),
+                        ),
+                        SizedBox(width: padding),
+                        Expanded(
+                          child: _buildFilterField(
+                            controller:
+                                _filterControllers[_idxDeadlineCalculation],
+                            hint: 'Deadline...',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+        );
+      },
+    );
+  }
+
+  Widget _buildFilterField({
+    required TextEditingController controller,
+    required String hint,
+  }) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minWidth: 80),
+      child: TextField(
+        controller: controller,
+        decoration: _filterDecoration(hint),
+        style: const TextStyle(fontSize: 11),
+      ),
+    );
   }
 
   void _sortRows() {
@@ -173,6 +388,7 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildToolbar(context),
+          _buildExternalFilters(),
           Expanded(
             child: ScrollConfiguration(
               behavior: ScrollConfiguration.of(context).copyWith(
@@ -212,7 +428,6 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             _buildHeaderRow(),
-                            _buildFilterRow(),
                             ..._filtered.asMap().entries.map((e) {
                               return _buildDataRow(e.value, e.key);
                             }),
@@ -231,57 +446,75 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
   }
 
   Widget _buildToolbar(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
-      ),
-      child: Row(
-        children: [
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF333333)),
-            padding: EdgeInsets.zero,
-            onSelected: (v) {
-              if (v == 'refresh') _applyFilters();
-            },
-            itemBuilder: (context) => const [
-              PopupMenuItem(value: 'refresh', child: Text('Refresh')),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Match header sizing behavior used by the other report tables.
+        double fontSize;
+        double padding;
+        if (constraints.maxWidth < 600) {
+          fontSize = 11;
+          padding = 6;
+        } else if (constraints.maxWidth < 900) {
+          fontSize = 12;
+          padding = 8;
+        } else {
+          fontSize = 14;
+          padding = 12;
+        }
+
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(padding),
+          decoration: BoxDecoration(
+            color: const Color(0xFFf8f9fa),
+            border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
+          ),
+          child: Row(
+            children: [
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF333333)),
+                padding: EdgeInsets.zero,
+                onSelected: (v) {
+                  if (v == 'refresh') {
+                    _applyFilters();
+                  } else if (v == 'clear') {
+                    _clearAllFilters();
+                  }
+                },
+                itemBuilder: (context) => const [
+                  PopupMenuItem(value: 'refresh', child: Text('Refresh')),
+                  PopupMenuItem(value: 'clear', child: Text('Clear filters')),
+                ],
+              ),
+              Expanded(
+                child: Text(
+                  'Time Senstive Measures #1',
+                  style: TextStyle(
+                    fontSize: fontSize + 2,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF333333),
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Export (demo)')),
+                  );
+                },
+                icon: const Icon(Icons.file_download, size: 20),
+                tooltip: 'Export',
+              ),
             ],
           ),
-          Expanded(
-            child: Text(
-              'Time Senstive Measures #1',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF333333),
-              ),
-            ),
-          ),
-          TextButton.icon(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Export (demo)')),
-              );
-            },
-            icon: const Icon(Icons.open_in_new, size: 18, color: Color(0xFF1976D2)),
-            label: const Text(
-              'Export',
-              style: TextStyle(
-                color: Color(0xFF1976D2),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
   Widget _buildHeaderRow() {
-    const headerBg = Color(0xFFF0F0F0);
+    const headerBg = Color(0xFFf8f9fa);
     return Container(
       decoration: BoxDecoration(
         color: headerBg,
@@ -335,36 +568,12 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
     );
   }
 
-  Widget _buildFilterRow() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: List.generate(_columns.length, (i) {
-          final col = _columns[i];
-          return _filterCell(
-            width: col.width,
-            child: TextField(
-              controller: _filterControllers[i],
-              textAlign: TextAlign.center,
-              decoration: _filterDecoration('Filter'),
-              style: const TextStyle(fontSize: 11),
-            ),
-          );
-        }),
-      ),
-    );
-  }
-
   InputDecoration _filterDecoration(String hint) {
     return InputDecoration(
       isDense: true,
       hintText: hint,
-      hintStyle: TextStyle(fontSize: 10, color: Colors.grey.shade500),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+      hintStyle: TextStyle(fontSize: 11, color: Colors.grey.shade500),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
         borderSide: BorderSide(color: Colors.grey.shade300),
@@ -377,19 +586,6 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
         borderRadius: BorderRadius.circular(4),
         borderSide: const BorderSide(color: Color(0xFF1976D2)),
       ),
-      filled: true,
-      fillColor: Colors.white,
-    );
-  }
-
-  Widget _filterCell({required double width, required Widget child}) {
-    return Container(
-      width: width,
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        border: Border(right: BorderSide(color: Colors.grey.shade200)),
-      ),
-      child: child,
     );
   }
 
