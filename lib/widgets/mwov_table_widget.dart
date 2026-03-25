@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../core/theme/report_table_tokens.dart';
+import 'report_table_card.dart';
+import 'report_table_toolbar.dart';
 
 class MWOVTableWidget extends StatefulWidget {
   const MWOVTableWidget({super.key});
@@ -169,6 +172,25 @@ class _MWOVTableWidgetState extends State<MWOVTableWidget> {
     }
   }
 
+  void _toolbarRefresh() {
+    _nameFilterController.clear();
+    _dobFilterController.clear();
+    _dosFilterController.clear();
+    _phoneFilterController.clear();
+    _addressFilterController.clear();
+    _mcoFilter = '';
+    _applyFilters();
+  }
+
+  void _toolbarExport() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Export (demo)'),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
   void _sortTable(String column) {
     setState(() {
       if (_sortColumn == column) {
@@ -224,50 +246,23 @@ class _MWOVTableWidgetState extends State<MWOVTableWidget> {
           padding = 12;
         }
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Table Header
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(padding),
-              decoration: BoxDecoration(
-                color: const Color(0xFFf8f9fa),
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey.shade300),
+        return ReportTableCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ReportTableToolbar(
+                title: 'MWOV\'s Detailed Report',
+                onRefresh: _toolbarRefresh,
+                onExport: _toolbarExport,
+              ),
+              Container(
+                padding: EdgeInsets.all(padding),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade300)),
                 ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'MWOV\'s Detailed Report',
-                      style: TextStyle(
-                        fontSize: fontSize + 2,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF333333),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      // Export functionality - silent for now
-                    },
-                    icon: const Icon(Icons.file_download, size: 20),
-                    tooltip: 'Export',
-                  ),
-                ],
-              ),
-            ),
-            
-            // Filter Row
-            Container(
-              padding: EdgeInsets.all(padding),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
-              ),
-              child: Column(
+                child: Column(
                 children: [
                   // First row of filters - 3 columns for better fit
                   Row(
@@ -342,44 +337,59 @@ class _MWOVTableWidgetState extends State<MWOVTableWidget> {
                   Expanded(
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
+                      physics: const AlwaysScrollableScrollPhysics(),
                       child: SingleChildScrollView(
-                        child: DataTable(
-                          columnSpacing: padding * 2,
-                          dataTextStyle: TextStyle(fontSize: fontSize),
-                          headingTextStyle: TextStyle(
-                            fontSize: fontSize,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF333333),
-                          ),
-                          columns: [
-                            _buildDataColumn('NAME', 'name', fontSize),
-                            _buildDataColumn('MCO', 'mco', fontSize),
-                            _buildDataColumn('DOB', 'dob', fontSize),
-                            _buildDataColumn('LAST DOS', 'lastDos', fontSize),
-                            _buildDataColumn('PHONE', 'phone', fontSize),
-                            _buildDataColumn('ADDRESS', 'address', fontSize),
-                          ],
-                          rows: _paginatedPatients.map((patient) {
-                            return DataRow(
-                              cells: [
-                                DataCell(Text(patient.name)),
-                                DataCell(Text(patient.mco)),
-                                DataCell(Text(patient.dob)),
-                                DataCell(Text(patient.lastDos.isEmpty ? '-' : patient.lastDos)),
-                                DataCell(Text(patient.phone)),
-                                DataCell(
-                                  ConstrainedBox(
-                                    constraints: BoxConstraints(maxWidth: 250),
-                                    child: Text(
-                                      patient.address,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
+                        scrollDirection: Axis.vertical,
+                        physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics(),
+                        ),
+                        child: ReportTableTokens.themedDataTable(
+                          context: context,
+                          dataTable: DataTable(
+                            columnSpacing: padding * 2,
+                            columns: [
+                              _buildDataColumn('NAME', 'name', fontSize),
+                              _buildDataColumn('MCO', 'mco', fontSize),
+                              _buildDataColumn('DOB', 'dob', fontSize),
+                              _buildDataColumn('LAST DOS', 'lastDos', fontSize),
+                              _buildDataColumn('PHONE', 'phone', fontSize),
+                              _buildDataColumn('ADDRESS', 'address', fontSize),
+                            ],
+                            rows: _paginatedPatients
+                                .asMap()
+                                .entries
+                                .map((e) {
+                              final i = e.key;
+                              final patient = e.value;
+                              return DataRow(
+                                color: WidgetStateProperty.all(
+                                  i.isEven
+                                      ? Colors.white
+                                      : ReportTableTokens.zebraOdd,
+                                ),
+                                cells: [
+                                  DataCell(Text(patient.name)),
+                                  DataCell(Text(patient.mco)),
+                                  DataCell(Text(patient.dob)),
+                                  DataCell(Text(patient.lastDos.isEmpty
+                                      ? '-'
+                                      : patient.lastDos)),
+                                  DataCell(Text(patient.phone)),
+                                  DataCell(
+                                    ConstrainedBox(
+                                      constraints:
+                                          const BoxConstraints(maxWidth: 250),
+                                      child: Text(
+                                        patient.address,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            );
-                          }).toList(),
+                                ],
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
                     ),
@@ -391,6 +401,7 @@ class _MWOVTableWidgetState extends State<MWOVTableWidget> {
               ),
             ),
           ],
+          ),
         );
       },
     );
@@ -402,13 +413,13 @@ class _MWOVTableWidgetState extends State<MWOVTableWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(label),
-          SizedBox(width: 4),
+          const SizedBox(width: 4),
           Icon(
             _sortColumn == column
                 ? (_sortAscending ? Icons.arrow_upward : Icons.arrow_downward)
                 : Icons.unfold_more,
-            size: fontSize,
-            color: Colors.grey.shade600,
+            size: 14,
+            color: const Color(0xFF666666),
           ),
         ],
       ),
@@ -579,20 +590,12 @@ class _MWOVTableWidgetState extends State<MWOVTableWidget> {
     required ValueChanged<String> onChanged,
   }) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: 80), // Minimum width constraint
+      constraints: const BoxConstraints(minWidth: 80),
       child: TextField(
         controller: controller,
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: TextStyle(fontSize: 11, color: Colors.grey.shade500),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-          isDense: true,
-        ),
+        decoration: ReportTableTokens.filterFieldDecoration(hint: hint),
         style: const TextStyle(fontSize: 11),
+        textAlign: TextAlign.center,
         onChanged: onChanged,
       ),
     );
@@ -605,19 +608,10 @@ class _MWOVTableWidgetState extends State<MWOVTableWidget> {
     required ValueChanged<String?> onChanged,
   }) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: 80), // Minimum width constraint
+      constraints: const BoxConstraints(minWidth: 80),
       child: DropdownButtonFormField<String>(
         value: value!.isEmpty ? null : value,
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: TextStyle(fontSize: 11, color: Colors.grey.shade500),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-          isDense: true,
-        ),
+        decoration: ReportTableTokens.dropdownFieldDecoration(hint: hint),
         items: items.map((item) {
           return DropdownMenuItem<String>(
             value: item.isEmpty ? null : item,

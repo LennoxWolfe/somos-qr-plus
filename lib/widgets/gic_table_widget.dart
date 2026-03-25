@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../core/theme/report_table_tokens.dart';
+import 'report_table_card.dart';
+import 'report_table_toolbar.dart';
 
 class GICTableWidget extends StatefulWidget {
   const GICTableWidget({super.key});
@@ -265,6 +268,24 @@ class _GICTableWidgetState extends State<GICTableWidget> {
     }
   }
 
+  void _toolbarRefresh() {
+    setState(() {
+      _nameFilterController.clear();
+      _dobFilterController.clear();
+      _phoneFilterController.clear();
+      _mcoFilter = '';
+      _apptFilter = '';
+      _measureFilter = '';
+      _statusFilter = '';
+      _applyFilters();
+      _currentPage = 1;
+    });
+  }
+
+  void _toolbarExport() {
+    _showExportDialog();
+  }
+
   void _sortTable(String column) {
     setState(() {
       if (_sortColumn == column) {
@@ -322,53 +343,27 @@ class _GICTableWidgetState extends State<GICTableWidget> {
           padding = 12;
         }
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Table Header
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(padding),
-              decoration: BoxDecoration(
-                color: const Color(0xFFf8f9fa),
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey.shade300),
+        return ReportTableCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ReportTableToolbar(
+                title: 'GIC Detailed Report',
+                onRefresh: _toolbarRefresh,
+                onExport: _toolbarExport,
+              ),
+              // Filter Row
+              Container(
+                padding: EdgeInsets.all(padding),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade300)),
                 ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'GIC Detailed Report',
-                      style: TextStyle(
-                        fontSize: fontSize + 2,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF333333),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      _showExportDialog();
-                    },
-                    icon: const Icon(Icons.file_download, size: 20),
-                    tooltip: 'Export',
-                  ),
-                ],
-              ),
-            ),
-            
-            // Filter Row
-            Container(
-              padding: EdgeInsets.all(padding),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
-              ),
-              child: Column(
-                children: [
-                  // First row of filters - 2 columns for better fit
-                  Row(
+                child: Column(
+                  children: [
+                    // First row of filters - 2 columns for better fit
+                    Row(
                     children: [
                       Expanded(
                         child: _buildFilterField(
@@ -461,57 +456,63 @@ class _GICTableWidgetState extends State<GICTableWidget> {
             Expanded(
               child: Column(
                 children: [
-                  // Table with horizontal scroll
                   Expanded(
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
+                      physics: const AlwaysScrollableScrollPhysics(),
                       child: SingleChildScrollView(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: constraints.maxWidth - 32, // Account for padding
-                          ),
-                          child: DataTable(
-                            columnSpacing: padding * 1.5, // Reduced spacing to prevent overflow
-                            dataTextStyle: TextStyle(fontSize: fontSize),
-                            headingTextStyle: TextStyle(
-                              fontSize: fontSize,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFF333333),
-                            ),
-                          columns: [
-                            _buildDataColumn('NAME', 'name', fontSize),
-                            _buildDataColumn('MCO', 'mco', fontSize),
-                            _buildDataColumn('DOB', 'dob', fontSize),
-                            _buildDataColumn('APPT', 'appointment', fontSize),
-                            _buildDataColumn('MEASURE', 'measure', fontSize),
-                            _buildDataColumn('STATUS', 'status', fontSize),
-                            _buildDataColumn('PHONE', 'phone', fontSize),
-                          ],
-                          rows: _paginatedPatients.map((patient) {
-                            return DataRow(
-                              cells: [
-                                DataCell(Text(patient.name)),
-                                DataCell(Text(patient.mco)),
-                                DataCell(Text(patient.dob)),
-                                DataCell(Text(patient.appointment)),
-                                DataCell(Text(patient.measure)),
-                                DataCell(Text(patient.status)),
-                                DataCell(Text(patient.phone)),
-                              ],
-                            );
-                          }).toList(),
+                        scrollDirection: Axis.vertical,
+                        physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics(),
+                        ),
+                        child: ReportTableTokens.themedDataTable(
+                          context: context,
+                          dataTable: DataTable(
+                            columnSpacing: padding * 1.5,
+                            columns: [
+                              _buildDataColumn('NAME', 'name', fontSize),
+                              _buildDataColumn('MCO', 'mco', fontSize),
+                              _buildDataColumn('DOB', 'dob', fontSize),
+                              _buildDataColumn('APPT', 'appointment', fontSize),
+                              _buildDataColumn('MEASURE', 'measure', fontSize),
+                              _buildDataColumn('STATUS', 'status', fontSize),
+                              _buildDataColumn('PHONE', 'phone', fontSize),
+                            ],
+                            rows: _paginatedPatients
+                                .asMap()
+                                .entries
+                                .map((e) {
+                              final i = e.key;
+                              final patient = e.value;
+                              return DataRow(
+                                color: WidgetStateProperty.all(
+                                  i.isEven
+                                      ? Colors.white
+                                      : ReportTableTokens.zebraOdd,
+                                ),
+                                cells: [
+                                  DataCell(Text(patient.name)),
+                                  DataCell(Text(patient.mco)),
+                                  DataCell(Text(patient.dob)),
+                                  DataCell(Text(patient.appointment)),
+                                  DataCell(Text(patient.measure)),
+                                  DataCell(Text(patient.status)),
+                                  DataCell(Text(patient.phone)),
+                                ],
+                              );
+                            }).toList(),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  // Pagination Controls
                   const SizedBox(height: 16),
                   _buildPaginationControls(),
                 ],
               ),
             ),
           ],
+        ),
         );
       },
     );
@@ -523,13 +524,13 @@ class _GICTableWidgetState extends State<GICTableWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(label),
-          SizedBox(width: 4),
+          const SizedBox(width: 4),
           Icon(
             _sortColumn == column
                 ? (_sortAscending ? Icons.arrow_upward : Icons.arrow_downward)
                 : Icons.unfold_more,
-            size: fontSize,
-            color: Colors.grey.shade600,
+            size: 14,
+            color: const Color(0xFF666666),
           ),
         ],
       ),
@@ -543,20 +544,12 @@ class _GICTableWidgetState extends State<GICTableWidget> {
     required ValueChanged<String> onChanged,
   }) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: 80), // Minimum width constraint
+      constraints: const BoxConstraints(minWidth: 80),
       child: TextField(
         controller: controller,
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: TextStyle(fontSize: 11, color: Colors.grey.shade500),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-          isDense: true,
-        ),
+        decoration: ReportTableTokens.filterFieldDecoration(hint: hint),
         style: const TextStyle(fontSize: 11),
+        textAlign: TextAlign.center,
         onChanged: onChanged,
       ),
     );
@@ -730,16 +723,7 @@ class _GICTableWidgetState extends State<GICTableWidget> {
       constraints: const BoxConstraints(minWidth: 80), // Minimum width constraint
       child: DropdownButtonFormField<String>(
         value: value!.isEmpty ? null : value,
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: TextStyle(fontSize: 11, color: Colors.grey.shade500),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-          isDense: true,
-        ),
+        decoration: ReportTableTokens.dropdownFieldDecoration(hint: hint),
         items: items.map((item) {
           return DropdownMenuItem<String>(
             value: item.isEmpty ? null : item,

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import '../widgets/gic_table_widget.dart';
 import '../widgets/ra_table_widget.dart';
 import '../widgets/appt_table_widget.dart';
 import '../widgets/mwov_table_widget.dart';
 import '../widgets/siip_table_widget.dart';
 import '../widgets/staff_login_table_widget.dart';
+import '../widgets/tsm_report_table_widget.dart';
+import '../widgets/report_detail_dialog.dart';
 import '../widgets/tablet_app_header_widget.dart';
 import '../widgets/tablet_layout_widget.dart';
 import '../widgets/provider_dropdown_widget.dart';
@@ -86,6 +89,54 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
         {'name': 'YTD', 'completed': 89, 'open': 34, 'total': 123, 'earnings': 890.00},
       ],
       'currentTimeframeIndex': 0,
+    },
+    'TSM': {
+      'timeframe': 'TODAY',
+      'date': '02-03-2026',
+      'hasNavigation': true,
+      'currentTimeframeIndex': 0,
+      'mco': 2,
+      'mcoMemberId': 1240,
+      'memberName': 892,
+      'memberDob': '98%',
+      'memberPhone1': 1180,
+      'measureCode': 12,
+      'deadlineCalc': '7 due',
+      'timeframes': [
+        {
+          'name': 'TODAY',
+          'date': '02-03-2026',
+          'mco': 2,
+          'mcoMemberId': 1240,
+          'memberName': 892,
+          'memberDob': '98%',
+          'memberPhone1': 1180,
+          'measureCode': 12,
+          'deadlineCalc': '7 due',
+        },
+        {
+          'name': 'LAST 30 DAYS',
+          'date': '01-04-2026 to 02-03-2026',
+          'mco': 5,
+          'mcoMemberId': 3600,
+          'memberName': 2100,
+          'memberDob': '96%',
+          'memberPhone1': 3400,
+          'measureCode': 28,
+          'deadlineCalc': '42 due',
+        },
+        {
+          'name': 'YTD',
+          'date': '01-01-2026 to 02-03-2026',
+          'mco': 12,
+          'mcoMemberId': 8900,
+          'memberName': 5600,
+          'memberDob': '94%',
+          'memberPhone1': 7200,
+          'measureCode': 65,
+          'deadlineCalc': '128 due',
+        },
+      ],
     },
   };
 
@@ -224,446 +275,58 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
   }
 
   void _showGICTableDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          insetPadding: const EdgeInsets.all(8), // Increased padding to prevent overflow
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              double dialogWidth = constraints.maxWidth * 0.95; // Reduced to prevent overflow
-              double dialogHeight = constraints.maxHeight * 0.95; // Use more screen height
-              
-              if (constraints.maxWidth > 1200) {
-                dialogWidth = 1200; // Reduced max width to prevent overflow
-              }
-              
-              return Container(
-                width: dialogWidth,
-                height: dialogHeight,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    // Header
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFf8f9fa),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                        border: Border(
-                          bottom: BorderSide(color: Colors.grey.shade300),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Expanded(
-                            child: Text(
-                              'GIC Detailed Report',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF333333),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            icon: const Icon(Icons.close, size: 24),
-                            tooltip: 'Close',
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Table Content
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16), // Reduced padding
-                        child: const GICTableWidget(),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
+    ReportDetailDialog.show(
+      context,
+      title: 'GIC Detailed Report',
+      child: const GICTableWidget(),
+    );
+  }
+
+  void _showTSMTableDialog(BuildContext context) {
+    ReportDetailDialog.show(
+      context,
+      title: TsmReportTableWidget.titleLabel,
+      child: const TsmReportTableWidget(),
     );
   }
 
   void _showRATableDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          insetPadding: const EdgeInsets.all(6), // Further reduced padding for more width
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              double dialogWidth = constraints.maxWidth * 0.99; // Use even more screen width
-              double dialogHeight = constraints.maxHeight * 0.95; // Use more screen height
-              
-              if (constraints.maxWidth > 1200) {
-                dialogWidth = 1250; // Slightly increased max width for very large screens
-              }
-              
-              return Container(
-                width: dialogWidth,
-                height: dialogHeight,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    // Header
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFf8f9fa),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                        border: Border(
-                          bottom: BorderSide(color: Colors.grey.shade300),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Expanded(
-                            child: Text(
-                              'RA Detailed Report',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF333333),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            icon: const Icon(Icons.close, size: 24),
-                            tooltip: 'Close',
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Table Content
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16), // Reduced padding
-                        child: const RATableWidget(),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
+    ReportDetailDialog.show(
+      context,
+      title: 'RA Detailed Report',
+      child: const RATableWidget(),
     );
   }
 
   void _showAPPTTableDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          insetPadding: const EdgeInsets.all(6), // Further reduced padding for more width
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              double dialogWidth = constraints.maxWidth * 0.99; // Use even more screen width
-              double dialogHeight = constraints.maxHeight * 0.95; // Use more screen height
-              
-              if (constraints.maxWidth > 1200) {
-                dialogWidth = 1250; // Slightly increased max width for very large screens
-              }
-              
-              return Container(
-                width: dialogWidth,
-                height: dialogHeight,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    // Header
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFf8f9fa),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                        border: Border(
-                          bottom: BorderSide(color: Colors.grey.shade300),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Expanded(
-                            child: Text(
-                              'APPT Detailed Report',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF333333),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            icon: const Icon(Icons.close, size: 24),
-                            tooltip: 'Close',
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Table Content
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16), // Reduced padding
-                        child: const APPTTableWidget(),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
+    ReportDetailDialog.show(
+      context,
+      title: 'APPT Detailed Report',
+      child: const APPTTableWidget(),
     );
   }
 
   void _showMWOVTableDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          insetPadding: const EdgeInsets.all(6), // Further reduced padding for more width
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              double dialogWidth = constraints.maxWidth * 0.99; // Use even more screen width
-              double dialogHeight = constraints.maxHeight * 0.95; // Use more screen height
-              
-              if (constraints.maxWidth > 1200) {
-                dialogWidth = 1250; // Slightly increased max width for very large screens
-              }
-              
-              return Container(
-                width: dialogWidth,
-                height: dialogHeight,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    // Header
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFf8f9fa),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                        border: Border(
-                          bottom: BorderSide(color: Colors.grey.shade300),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Expanded(
-                            child: Text(
-                              'MWOV\'s Detailed Report',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF333333),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            icon: const Icon(Icons.close, size: 24),
-                            tooltip: 'Close',
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Table Content
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16), // Reduced padding
-                        child: const MWOVTableWidget(),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
+    ReportDetailDialog.show(
+      context,
+      title: 'MWOV\'s Detailed Report',
+      child: const MWOVTableWidget(),
     );
   }
 
   void _showSIIPTableDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          insetPadding: const EdgeInsets.all(6), // Further reduced padding for more width
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              double dialogWidth = constraints.maxWidth * 0.99; // Use even more screen width
-              double dialogHeight = constraints.maxHeight * 0.95; // Use more screen height
-              
-              if (constraints.maxWidth > 1200) {
-                dialogWidth = 1250; // Slightly increased max width for very large screens
-              }
-              
-              return Container(
-                width: dialogWidth,
-                height: dialogHeight,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    // Header
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFf8f9fa),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                        border: Border(
-                          bottom: BorderSide(color: Colors.grey.shade300),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Expanded(
-                            child: Text(
-                              'SIIP Detailed Report',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF333333),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            icon: const Icon(Icons.close, size: 24),
-                            tooltip: 'Close',
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Table Content
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16), // Reduced padding
-                        child: const SIIPTableWidget(),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
+    ReportDetailDialog.show(
+      context,
+      title: 'SIIP Detailed Report',
+      child: const SIIPTableWidget(),
     );
   }
 
   void _showStaffLoginTableDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          insetPadding: const EdgeInsets.all(6), // Further reduced padding for more width
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              double dialogWidth = constraints.maxWidth * 0.99; // Use even more screen width
-              double dialogHeight = constraints.maxHeight * 0.95; // Use more screen height
-              
-              if (constraints.maxWidth > 1200) {
-                dialogWidth = 1250; // Slightly increased max width for very large screens
-              }
-              
-              return Container(
-                width: dialogWidth,
-                height: dialogHeight,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    // Header
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFf8f9fa),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                        border: Border(
-                          bottom: BorderSide(color: Colors.grey.shade300),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Expanded(
-                            child: Text(
-                              'Staff Login Detailed Report',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF333333),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            icon: const Icon(Icons.close, size: 24),
-                            tooltip: 'Close',
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Table Content
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16), // Reduced padding
-                        child: const StaffLoginTableWidget(),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
+    ReportDetailDialog.show(
+      context,
+      title: 'Staff Login Detailed Report',
+      child: const StaffLoginTableWidget(),
     );
   }
 
@@ -703,9 +366,122 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
             _buildMWOVCard(),
             _buildSIIPCard(),
             _buildStaffLoginCard(),
+            _buildTSMCard(),
           ],
         );
       },
+    );
+  }
+
+  String _formatTsmInt(int value) {
+    return NumberFormat('#,##0', 'en_US').format(value);
+  }
+
+  Widget _buildTsmMetricRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: const Color(0xFFE3F2FD),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: const Color(0xFFBBDEFB)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF333333),
+                  height: 1.25,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF333333),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTSMCard() {
+    final data = _kpiData['TSM'];
+    if (data == null) return const SizedBox.shrink();
+
+    final mco = data['mco'] as int? ?? 0;
+    final mcoMemberId = data['mcoMemberId'] as int? ?? 0;
+    final memberName = data['memberName'] as int? ?? 0;
+    final memberDob = data['memberDob'] as String? ?? '';
+    final memberPhone1 = data['memberPhone1'] as int? ?? 0;
+    final measureCode = data['measureCode'] as int? ?? 0;
+    final deadlineCalc = data['deadlineCalc'] as String? ?? '';
+
+    return _buildKPICard(
+      title: 'TSM',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildKPIHeader(
+            'TSM',
+            data['timeframe'] as String?,
+            data['date'] as String?,
+            true,
+          ),
+          const SizedBox(height: 8),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildTsmMetricRow('MCO', _formatTsmInt(mco)),
+                  _buildTsmMetricRow('MCO MEMBER ID', _formatTsmInt(mcoMemberId)),
+                  _buildTsmMetricRow('MEMBER NAME', _formatTsmInt(memberName)),
+                  _buildTsmMetricRow('MEMBER DOB', memberDob),
+                  _buildTsmMetricRow('MEMBER PHONE 1', _formatTsmInt(memberPhone1)),
+                  _buildTsmMetricRow('MEASURE CODE', _formatTsmInt(measureCode)),
+                  _buildTsmMetricRow('DEADLINE CALCULATION', deadlineCalc),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () => _showTSMTableDialog(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1976D2),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        'View Reports',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -1237,6 +1013,16 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
         kpiData['open'] = timeframe['open'] ?? 0;
         kpiData['total'] = timeframe['total'] ?? 0;
         kpiData['earnings'] = timeframe['earnings'] ?? 0.0;
+      } else if (kpiType == 'TSM') {
+        kpiData['timeframe'] = timeframe['name'];
+        kpiData['date'] = timeframe['date'];
+        kpiData['mco'] = timeframe['mco'] ?? 0;
+        kpiData['mcoMemberId'] = timeframe['mcoMemberId'] ?? 0;
+        kpiData['memberName'] = timeframe['memberName'] ?? 0;
+        kpiData['memberDob'] = timeframe['memberDob'] ?? '';
+        kpiData['memberPhone1'] = timeframe['memberPhone1'] ?? 0;
+        kpiData['measureCode'] = timeframe['measureCode'] ?? 0;
+        kpiData['deadlineCalc'] = timeframe['deadlineCalc'] ?? '';
       }
     });
   }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../core/theme/report_table_tokens.dart';
+import 'report_table_card.dart';
+import 'report_table_toolbar.dart';
 
 class SIIPTableWidget extends StatefulWidget {
   const SIIPTableWidget({super.key});
@@ -183,6 +186,26 @@ class _SIIPTableWidgetState extends State<SIIPTableWidget> {
     }
   }
 
+  void _toolbarRefresh() {
+    _idFilterController.clear();
+    _apptFilterController.clear();
+    _phoneFilterController.clear();
+    _earningsFilterController.clear();
+    _potentialFilterController.clear();
+    _measureFilter = '';
+    _statusFilter = '';
+    _applyFilters();
+  }
+
+  void _toolbarExport() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Export (demo)'),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
   void _sortTable(String column) {
     setState(() {
       if (_sortColumn == column) {
@@ -244,50 +267,23 @@ class _SIIPTableWidgetState extends State<SIIPTableWidget> {
           padding = 12;
         }
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Table Header
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(padding),
-              decoration: BoxDecoration(
-                color: const Color(0xFFf8f9fa),
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey.shade300),
+        return ReportTableCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ReportTableToolbar(
+                title: 'SIIP Detailed Report',
+                onRefresh: _toolbarRefresh,
+                onExport: _toolbarExport,
+              ),
+              Container(
+                padding: EdgeInsets.all(padding),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade300)),
                 ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'SIIP Detailed Report',
-                      style: TextStyle(
-                        fontSize: fontSize + 2,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF333333),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      // Export functionality - silent for now
-                    },
-                    icon: const Icon(Icons.file_download, size: 20),
-                    tooltip: 'Export',
-                  ),
-                ],
-              ),
-            ),
-            
-            // Filter Row
-            Container(
-              padding: EdgeInsets.all(padding),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
-              ),
-              child: LayoutBuilder(
+                child: LayoutBuilder(
                 builder: (context, constraints) {
                   // For mobile devices, stack filters vertically
                   if (constraints.maxWidth < 600) {
@@ -465,83 +461,95 @@ class _SIIPTableWidgetState extends State<SIIPTableWidget> {
                   Expanded(
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
+                      physics: const AlwaysScrollableScrollPhysics(),
                       child: SingleChildScrollView(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: constraints.maxWidth - 32, // Account for padding
-                          ),
-                          child: DataTable(
-                            columnSpacing: padding * 1.5, // Reduced spacing to prevent overflow
-                            dataTextStyle: TextStyle(fontSize: fontSize),
-                            headingTextStyle: TextStyle(
-                              fontSize: fontSize,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFF333333),
-                            ),
-                          columns: [
-                            _buildDataColumn('ID', 'id', fontSize),
-                            _buildDataColumn('APPT', 'appointment', fontSize),
-                            _buildDataColumn('MEASURE', 'measure', fontSize),
-                            _buildDataColumn('STATUS', 'status', fontSize),
-                            _buildDataColumn('PHONE', 'phone', fontSize),
-                            _buildDataColumn('EARNINGS', 'earnings', fontSize),
-                            _buildDataColumn('POTENTIAL', 'potential', fontSize),
-                          ],
-                          rows: _paginatedRecords.map((record) {
-                            return DataRow(
-                              cells: [
-                                DataCell(Text(record.id)),
-                                DataCell(Text(record.appointment)),
-                                DataCell(Text(record.measure)),
-                                DataCell(
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: record.status == 'Completed' 
-                                          ? Colors.green.shade100 
-                                          : Colors.blue.shade100,
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(
-                                        color: record.status == 'Completed' 
-                                            ? Colors.green.shade300 
-                                            : Colors.blue.shade300,
-                                        width: 1,
+                        scrollDirection: Axis.vertical,
+                        physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics(),
+                        ),
+                        child: ReportTableTokens.themedDataTable(
+                          context: context,
+                          dataTable: DataTable(
+                            columnSpacing: padding * 1.5,
+                            columns: [
+                              _buildDataColumn('ID', 'id', fontSize),
+                              _buildDataColumn(
+                                  'APPT', 'appointment', fontSize),
+                              _buildDataColumn('MEASURE', 'measure', fontSize),
+                              _buildDataColumn('STATUS', 'status', fontSize),
+                              _buildDataColumn('PHONE', 'phone', fontSize),
+                              _buildDataColumn('EARNINGS', 'earnings', fontSize),
+                              _buildDataColumn(
+                                  'POTENTIAL', 'potential', fontSize),
+                            ],
+                            rows: _paginatedRecords
+                                .asMap()
+                                .entries
+                                .map((e) {
+                              final i = e.key;
+                              final record = e.value;
+                              return DataRow(
+                                color: WidgetStateProperty.all(
+                                  i.isEven
+                                      ? Colors.white
+                                      : ReportTableTokens.zebraOdd,
+                                ),
+                                cells: [
+                                  DataCell(Text(record.id)),
+                                  DataCell(Text(record.appointment)),
+                                  DataCell(Text(record.measure)),
+                                  DataCell(
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: record.status == 'Completed'
+                                            ? Colors.green.shade100
+                                            : Colors.blue.shade100,
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: record.status == 'Completed'
+                                              ? Colors.green.shade300
+                                              : Colors.blue.shade300,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        record.status,
+                                        style: TextStyle(
+                                          color: record.status == 'Completed'
+                                              ? Colors.green.shade700
+                                              : Colors.blue.shade700,
+                                          fontSize: fontSize - 1,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
-                                    child: Text(
-                                      record.status,
+                                  ),
+                                  DataCell(Text(record.phone)),
+                                  DataCell(
+                                    Text(
+                                      _formatCurrency(record.earnings),
                                       style: TextStyle(
-                                        color: record.status == 'Completed' 
-                                            ? Colors.green.shade700 
-                                            : Colors.blue.shade700,
-                                        fontSize: fontSize - 1,
+                                        color: record.earnings > 0
+                                            ? Colors.green.shade700
+                                            : Colors.grey.shade600,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ),
-                                ),
-                                DataCell(Text(record.phone)),
-                                DataCell(
-                                  Text(
-                                    _formatCurrency(record.earnings),
-                                    style: TextStyle(
-                                      color: record.earnings > 0 ? Colors.green.shade700 : Colors.grey.shade600,
-                                      fontWeight: FontWeight.w500,
+                                  DataCell(
+                                    Text(
+                                      _formatCurrency(record.potential),
+                                      style: TextStyle(
+                                        color: Colors.blue.shade700,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                DataCell(
-                                  Text(
-                                    _formatCurrency(record.potential),
-                                    style: TextStyle(
-                                      color: Colors.blue.shade700,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }).toList(),
+                                ],
+                              );
+                            }).toList(),
                           ),
                         ),
                       ),
@@ -554,6 +562,7 @@ class _SIIPTableWidgetState extends State<SIIPTableWidget> {
               ),
             ),
           ],
+          ),
         );
       },
     );
@@ -565,13 +574,13 @@ class _SIIPTableWidgetState extends State<SIIPTableWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(label),
-          SizedBox(width: 4),
+          const SizedBox(width: 4),
           Icon(
             _sortColumn == column
                 ? (_sortAscending ? Icons.arrow_upward : Icons.arrow_downward)
                 : Icons.unfold_more,
-            size: fontSize,
-            color: Colors.grey.shade600,
+            size: 14,
+            color: const Color(0xFF666666),
           ),
         ],
       ),
@@ -742,20 +751,12 @@ class _SIIPTableWidgetState extends State<SIIPTableWidget> {
     required ValueChanged<String> onChanged,
   }) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: 80), // Minimum width constraint
+      constraints: const BoxConstraints(minWidth: 80),
       child: TextField(
         controller: controller,
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: TextStyle(fontSize: 11, color: Colors.grey.shade500),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-          isDense: true,
-        ),
+        decoration: ReportTableTokens.filterFieldDecoration(hint: hint),
         style: const TextStyle(fontSize: 11),
+        textAlign: TextAlign.center,
         onChanged: onChanged,
       ),
     );
@@ -768,19 +769,10 @@ class _SIIPTableWidgetState extends State<SIIPTableWidget> {
     required ValueChanged<String?> onChanged,
   }) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: 80), // Minimum width constraint
+      constraints: const BoxConstraints(minWidth: 80),
       child: DropdownButtonFormField<String>(
         value: value!.isEmpty ? null : value,
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: TextStyle(fontSize: 11, color: Colors.grey.shade500),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-          isDense: true,
-        ),
+        decoration: ReportTableTokens.dropdownFieldDecoration(hint: hint),
         items: items.map((item) {
           return DropdownMenuItem<String>(
             value: item.isEmpty ? null : item,
