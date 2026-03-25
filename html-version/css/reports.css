@@ -556,6 +556,56 @@ body {
     color: #333;
 }
 
+/* TSM #1 card — macro metrics (light blue tiles, same family as Missed metric bars) */
+.tsm-macro-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.tsm-macro-metrics .tsm-macro-item:last-child {
+    grid-column: 1 / -1;
+}
+
+.tsm-macro-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8px 6px;
+    border-radius: 6px;
+    background-color: #e3f2fd;
+    border: 1px solid #bbdefb;
+    min-height: 56px;
+}
+
+.tsm-macro-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+}
+
+.tsm-macro-value {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1565c0;
+    margin-top: 4px;
+}
+
+.kpi-card.active .tsm-macro-item {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+.kpi-card.active .tsm-macro-label,
+.kpi-card.active .tsm-macro-value {
+    color: #fff;
+}
+
 /* KPI Rank */
 .kpi-rank {
     text-align: center;
@@ -989,6 +1039,31 @@ body {
 .table-wrapper.expanded {
     max-height: none;
     opacity: 1;
+}
+
+/* TSM wide table: horizontal scroll for all columns */
+#tsm-table.table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#tsm-table .tsm-reports-table {
+    min-width: 3400px;
+    width: max-content;
+    max-width: none;
+}
+
+#tsm-table .tsm-reports-table th,
+#tsm-table .tsm-reports-table td {
+    white-space: nowrap;
+}
+
+#tsm-table .tsm-reports-table thead tr:first-child th {
+    text-align: center;
+}
+
+#tsm-table .tsm-reports-table tr.filter-row th {
+    text-align: center;
 }
 
 .reports-table {

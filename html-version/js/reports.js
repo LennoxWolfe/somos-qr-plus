@@ -6,6 +6,17 @@ document.addEventListener('DOMContentLoaded', function() {
     initializePagination();
     initializeTableControls();
     initializeInlineFilters();
+    if (location.hash === '#tsm') {
+        setTimeout(function () {
+            const tsmCard = document.getElementById('tsmKpiCard');
+            if (!tsmCard) return;
+            document.querySelectorAll('.kpi-card').forEach(function (c) {
+                c.classList.remove('active');
+            });
+            tsmCard.classList.add('active');
+            showTableForCard('TSM #1');
+        }, 0);
+    }
 });
 
 // Navigation functionality
@@ -129,9 +140,6 @@ function initializeKPICards() {
     
     // Initialize SIIP navigation
     initializeSIIPNavigation();
-    
-    // Initialize TSM navigation
-    initializeTSMNavigation();
     
     // Initialize card-to-table linking
     initializeCardToTableLinking();
@@ -670,156 +678,92 @@ function initializeSIIPNavigation() {
     updateSIIPDisplay();
 }
 
-// TSM Navigation (compact card: timeframe + completed / missed only)
-function initializeTSMNavigation() {
-    const tsmCard = document.getElementById('tsmKpiCard');
-    if (!tsmCard) return;
+function showTableForCard(cardTitle) {
+    const tableWrappers = document.querySelectorAll('.table-wrapper');
+    tableWrappers.forEach((wrapper) => {
+        wrapper.style.display = 'none';
+    });
 
-    const prevArrow = tsmCard.querySelector('.prev-arrow');
-    const nextArrow = tsmCard.querySelector('.next-arrow');
-    const timeframeIndicator = tsmCard.querySelector('.timeframe-indicator');
-    const kpiDate = tsmCard.querySelector('.kpi-date');
-    const kpiDateValue = tsmCard.querySelector('.kpi-date-value');
+    const tableTitleElement = document.getElementById('currentTableTitle');
+    let tableTitle = '';
 
-    if (!prevArrow || !nextArrow || !timeframeIndicator || !kpiDate || !kpiDateValue) return;
-
-    let currentTimeframe = 0;
-
-    const timeframes = [
-        { name: 'TODAY', date: '02-03-2026', completed: 0, missed: 0 },
-        { name: 'LAST 30 DAYS', date: '01-04-2026 to 02-03-2026', completed: 12, missed: 3 },
-        { name: 'YTD', date: '01-01-2026 to 02-03-2026', completed: 48, missed: 9 }
-    ];
-
-    function updateTSMDisplay() {
-        const tf = timeframes[currentTimeframe];
-        timeframeIndicator.textContent = tf.name;
-        kpiDate.textContent = tf.name;
-        kpiDateValue.textContent = tf.date;
-
-        const completedEl = tsmCard.querySelector('.metric-bar.completed .metric-value');
-        const missedEl = tsmCard.querySelector('.metric-bar.missed .metric-value');
-        if (completedEl) completedEl.textContent = String(tf.completed);
-        if (missedEl) missedEl.textContent = String(tf.missed);
-
-        prevArrow.disabled = currentTimeframe === 0;
-        nextArrow.disabled = currentTimeframe === timeframes.length - 1;
-        prevArrow.classList.toggle('disabled', prevArrow.disabled);
-        nextArrow.classList.toggle('disabled', nextArrow.disabled);
+    switch (cardTitle) {
+        case 'GIC':
+            document.getElementById('gic-table').style.display = 'block';
+            tableTitle = 'GIC Detailed Report';
+            break;
+        case 'RA':
+            document.getElementById('ra-table').style.display = 'block';
+            tableTitle = 'RA Detailed Report';
+            break;
+        case 'APPT':
+            document.getElementById('appt-table').style.display = 'block';
+            tableTitle = 'Appointment Detailed Report';
+            break;
+        case 'MWOV\'s':
+            document.getElementById('mwov-table').style.display = 'block';
+            tableTitle = 'Members Without Visits Report';
+            break;
+        case 'SIIP':
+            document.getElementById('siip-table').style.display = 'block';
+            tableTitle = 'SIIP Detailed Report';
+            break;
+        case 'TSM #1':
+            document.getElementById('tsm-table').style.display = 'block';
+            tableTitle = 'Time Sensitive Measure #1';
+            break;
+        case 'STAFF LOGIN':
+            document.getElementById('staff-login-table').style.display = 'block';
+            tableTitle = 'Staff Login Report';
+            break;
+        default:
+            document.getElementById('gic-table').style.display = 'block';
+            tableTitle = 'GIC Detailed Report';
     }
 
-    prevArrow.addEventListener('click', function (e) {
-        e.stopPropagation();
-        if (currentTimeframe > 0) {
-            currentTimeframe--;
-            updateTSMDisplay();
-        }
+    if (tableTitleElement) {
+        tableTitleElement.textContent = tableTitle;
+    }
+
+    const collapseBtn = document.querySelector('.collapse-btn');
+    if (collapseBtn) {
+        collapseBtn.classList.add('collapsed');
+    }
+
+    document.querySelectorAll('.table-wrapper').forEach((wrapper) => {
+        wrapper.classList.add('collapsed');
+        wrapper.classList.remove('expanded');
     });
 
-    nextArrow.addEventListener('click', function (e) {
-        e.stopPropagation();
-        if (currentTimeframe < timeframes.length - 1) {
-            currentTimeframe++;
-            updateTSMDisplay();
-        }
-    });
-
-    updateTSMDisplay();
+    setTimeout(() => {
+        initializePagination();
+    }, 100);
 }
 
 // Card-to-Table Linking functionality
 function initializeCardToTableLinking() {
     const kpiCards = document.querySelectorAll('.kpi-card');
     const tableWrappers = document.querySelectorAll('.table-wrapper');
-    
-    // Hide all tables except the first one (GIC)
+
     tableWrappers.forEach((wrapper, index) => {
         if (index > 0) {
             wrapper.style.display = 'none';
         }
     });
-    
-    kpiCards.forEach((card, index) => {
-        card.addEventListener('click', function() {
+
+    kpiCards.forEach((card) => {
+        card.addEventListener('click', function () {
             const route = this.getAttribute('data-navigate');
             if (route) {
                 window.location.href = route;
                 return;
             }
-            // Remove active class from all cards
-            kpiCards.forEach(c => c.classList.remove('active'));
-            // Add active class to clicked card
+            kpiCards.forEach((c) => c.classList.remove('active'));
             this.classList.add('active');
-            
-            // Show corresponding table
-            const cardTitle = this.querySelector('.kpi-title').textContent;
-            showTableForCard(cardTitle);
+            const title = this.querySelector('.kpi-title').textContent;
+            showTableForCard(title);
         });
     });
-    
-    function showTableForCard(cardTitle) {
-        // Hide all tables
-        tableWrappers.forEach(wrapper => {
-            wrapper.style.display = 'none';
-        });
-        
-        // Update table title
-        const tableTitleElement = document.getElementById('currentTableTitle');
-        let tableTitle = '';
-        
-        // Show the appropriate table based on card title
-        switch(cardTitle) {
-            case 'GIC':
-                document.getElementById('gic-table').style.display = 'block';
-                tableTitle = 'GIC Detailed Report';
-                break;
-            case 'RA':
-                document.getElementById('ra-table').style.display = 'block';
-                tableTitle = 'RA Detailed Report';
-                break;
-            case 'APPT':
-                document.getElementById('appt-table').style.display = 'block';
-                tableTitle = 'Appointment Detailed Report';
-                break;
-            case 'MWOV\'s':
-                document.getElementById('mwov-table').style.display = 'block';
-                tableTitle = 'Members Without Visits Report';
-                break;
-            case 'SIIP':
-                document.getElementById('siip-table').style.display = 'block';
-                tableTitle = 'SIIP Detailed Report';
-                break;
-            case 'STAFF LOGIN':
-                document.getElementById('staff-login-table').style.display = 'block';
-                tableTitle = 'Staff Login Report';
-                break;
-            default:
-                document.getElementById('gic-table').style.display = 'block';
-                tableTitle = 'GIC Detailed Report';
-        }
-        
-        // Update the table title
-        if (tableTitleElement) {
-            tableTitleElement.textContent = tableTitle;
-        }
-        
-               // Reset collapse state when switching tables - start collapsed
-       const collapseBtn = document.querySelector('.collapse-btn');
-       if (collapseBtn) {
-           collapseBtn.classList.add('collapsed');
-       }
-       
-       // Set all table wrappers to collapsed state
-       document.querySelectorAll('.table-wrapper').forEach(wrapper => {
-           wrapper.classList.add('collapsed');
-           wrapper.classList.remove('expanded');
-       });
-        
-        // Reinitialize pagination for the new table
-        setTimeout(() => {
-            initializePagination();
-        }, 100);
-    }
 }
 
 // MWOV's Pie Chart functionality
@@ -914,23 +858,21 @@ function initializeMWOVPieChart() {
 
 // Table sorting functionality
 function initializeTableSorting() {
-    const sortableHeaders = document.querySelectorAll('.reports-table th.sortable');
-    
-    sortableHeaders.forEach(header => {
-        header.addEventListener('click', function() {
-            const column = Array.from(this.parentElement.children).indexOf(this);
+    document.querySelectorAll('.reports-table th.sortable').forEach((header) => {
+        header.addEventListener('click', function () {
+            const theadRow = this.closest('tr');
+            const table = this.closest('.table-wrapper')?.querySelector('.reports-table')
+                || this.closest('table');
+            if (!table) return;
+
+            const column = Array.from(theadRow.children).indexOf(this);
             const isAscending = !this.classList.contains('sort-asc');
-            
-            // Remove sort classes from all headers
-            sortableHeaders.forEach(h => {
+
+            table.querySelectorAll('thead tr:first-child th.sortable').forEach((h) => {
                 h.classList.remove('sort-asc', 'sort-desc');
             });
-            
-            // Add sort class to current header
             this.classList.add(isAscending ? 'sort-asc' : 'sort-desc');
-            
-            // Sort the table
-            sortTable(column, isAscending);
+            sortTable(column, isAscending, table);
         });
     });
 }
@@ -1178,32 +1120,59 @@ function initializeExportModal() {
     window.showExportModal = showExportModal;
 }
 
+function parseTSMMDDYYYY(str) {
+    const p = str.split('-');
+    if (p.length !== 3) return 0;
+    return new Date(parseInt(p[2], 10), parseInt(p[0], 10) - 1, parseInt(p[1], 10)).getTime();
+}
+
 // Helper functions
-function sortTable(column, ascending) {
-    const table = document.querySelector('.reports-table');
-    const tbody = table.querySelector('tbody');
+function sortTable(column, ascending, table) {
+    const targetTable = table || document.querySelector('#gic-table .reports-table');
+    if (!targetTable) return;
+    const wrapper = targetTable.closest('.table-wrapper');
+    const tableId = wrapper ? wrapper.id : '';
+    const tbody = targetTable.querySelector('tbody');
     const rows = Array.from(tbody.querySelectorAll('tr'));
-    
-    rows.sort((a, b) => {
-        const aValue = a.children[column].textContent.trim();
-        const bValue = b.children[column].textContent.trim();
-        
-        // Handle different data types
-        if (column === 2) { // DOB column
-            const aDate = new Date(aValue);
-            const bDate = new Date(bValue);
-            return ascending ? aDate - bDate : bDate - aDate;
-        } else if (column === 6) { // PHONE column
-            const aNum = parseInt(aValue.replace(/\D/g, ''));
-            const bNum = parseInt(bValue.replace(/\D/g, ''));
-            return ascending ? aNum - bNum : bNum - aNum;
-        } else {
-            return ascending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-        }
-    });
-    
-    // Reorder rows in the table
-    rows.forEach(row => tbody.appendChild(row));
+
+    if (tableId === 'tsm-table') {
+        const dateCols = new Set([9, 19, 20, 21]);
+        const phoneCols = new Set([14, 15, 16]);
+        rows.sort((a, b) => {
+            const aValue = a.children[column]?.textContent.trim() ?? '';
+            const bValue = b.children[column]?.textContent.trim() ?? '';
+            let cmp = 0;
+            if (dateCols.has(column)) {
+                cmp = parseTSMMDDYYYY(aValue) - parseTSMMDDYYYY(bValue);
+            } else if (phoneCols.has(column)) {
+                const aNum = parseInt(aValue.replace(/\D/g, ''), 10) || 0;
+                const bNum = parseInt(bValue.replace(/\D/g, ''), 10) || 0;
+                cmp = aNum - bNum;
+            } else {
+                cmp = aValue.localeCompare(bValue, undefined, { sensitivity: 'base' });
+            }
+            return ascending ? cmp : -cmp;
+        });
+    } else {
+        rows.sort((a, b) => {
+            const aValue = a.children[column].textContent.trim();
+            const bValue = b.children[column].textContent.trim();
+
+            if (column === 2) {
+                const aDate = new Date(aValue);
+                const bDate = new Date(bValue);
+                return ascending ? aDate - bDate : bDate - aDate;
+            } else if (column === 6) {
+                const aNum = parseInt(aValue.replace(/\D/g, ''));
+                const bNum = parseInt(bValue.replace(/\D/g, ''));
+                return ascending ? aNum - bNum : bNum - aNum;
+            } else {
+                return ascending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+            }
+        });
+    }
+
+    rows.forEach((row) => tbody.appendChild(row));
 }
 
 function updateTableData(kpiType) {
@@ -1326,6 +1295,11 @@ function initializeInlineFilters() {
                         element: row
                     };
                 });
+            } else if (tableId === 'tsm-table') {
+                originalTableData[tableId] = Array.from(rows).map(row => ({
+                    cells: Array.from(row.querySelectorAll('td')).map((td) => td.textContent.trim()),
+                    element: row
+                }));
             } else if (tableId === 'staff-login-table') {
                 originalTableData[tableId] = Array.from(rows).map(row => {
                     const cells = row.querySelectorAll('td');
@@ -1361,6 +1335,8 @@ function initializeInlineFilters() {
             applyAPPTFilters(tableData);
         } else if (tableId === 'mwov-table') {
             applyMWOVFilters(tableData);
+        } else if (tableId === 'tsm-table') {
+            applyTSMFilters(tableData);
         } else if (tableId === 'staff-login-table') {
             applyStaffLoginFilters(tableData);
         }
@@ -1566,6 +1542,25 @@ function initializeInlineFilters() {
         });
     }
     
+    function applyTSMFilters(tableData) {
+        const filterInputs = document.querySelectorAll('#tsm-table .filter-row .column-filter');
+
+        tableData.forEach((item) => {
+            item.element.style.display = '';
+        });
+
+        tableData.forEach((item) => {
+            let showRow = true;
+            filterInputs.forEach((input, idx) => {
+                const q = input.value.trim().toLowerCase();
+                if (!q) return;
+                const cell = (item.cells[idx] || '').toLowerCase();
+                if (!cell.includes(q)) showRow = false;
+            });
+            item.element.style.display = showRow ? '' : 'none';
+        });
+    }
+
     function applyStaffLoginFilters(tableData) {
         const nameFilter = document.getElementById('staffNameFilter')?.value.toLowerCase() || '';
         const userFilter = document.getElementById('staffUserFilter')?.value.toLowerCase() || '';

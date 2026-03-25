@@ -97,7 +97,7 @@
             <div class="drawer-item active" data-page="reports">
                 <span class="drawer-text">Reports</span>
             </div>
-            <div class="drawer-item" onclick="window.location.href='tsm-report.html'">
+            <div class="drawer-item" onclick="window.location.href='reports.html#tsm'">
                 <span class="drawer-text">Time Sensitive Measures</span>
             </div>
             <div class="drawer-item" data-page="resources">
@@ -358,26 +358,39 @@
                     </div>
                 </div>
 
-                <!-- TSM Card (opens dedicated TSM report page) -->
-                <div class="kpi-card" id="tsmKpiCard" data-navigate="tsm-report.html">
+                <!-- TSM #1 Card — macro metrics (yellow table columns) -->
+                <div class="kpi-card" id="tsmKpiCard">
                     <div class="kpi-header">
-                        <h3 class="kpi-title">TSM</h3>
-                        <div class="ra-navigation">
-                            <button type="button" class="nav-arrow prev-arrow" data-direction="prev">‹</button>
-                            <span class="timeframe-indicator">TODAY</span>
-                            <button type="button" class="nav-arrow next-arrow" data-direction="next">›</button>
-                        </div>
-                        <div class="kpi-date">TODAY</div>
-                        <div class="kpi-date-value">02-03-2026</div>
+                        <h3 class="kpi-title">TSM #1</h3>
                     </div>
-                    <div class="kpi-metrics">
-                        <div class="metric-bar missed">
-                            <div class="metric-label">Missed</div>
-                            <div class="metric-value">0</div>
+                    <div class="tsm-macro-metrics" aria-label="TSM column macro metrics">
+                        <div class="tsm-macro-item">
+                            <span class="tsm-macro-label">MCO</span>
+                            <span class="tsm-macro-value">2</span>
                         </div>
-                        <div class="metric-bar completed">
-                            <div class="metric-label">Completed</div>
-                            <div class="metric-value">0</div>
+                        <div class="tsm-macro-item">
+                            <span class="tsm-macro-label">MEMBER NAME</span>
+                            <span class="tsm-macro-value">1,248</span>
+                        </div>
+                        <div class="tsm-macro-item">
+                            <span class="tsm-macro-label">MEMBER DOB</span>
+                            <span class="tsm-macro-value">98%</span>
+                        </div>
+                        <div class="tsm-macro-item">
+                            <span class="tsm-macro-label">MEMBER PHONE 1</span>
+                            <span class="tsm-macro-value">94%</span>
+                        </div>
+                        <div class="tsm-macro-item">
+                            <span class="tsm-macro-label">MEASURE CODE</span>
+                            <span class="tsm-macro-value">6</span>
+                        </div>
+                        <div class="tsm-macro-item">
+                            <span class="tsm-macro-label">DEADLINE CALCULATION</span>
+                            <span class="tsm-macro-value">14</span>
+                        </div>
+                        <div class="tsm-macro-item">
+                            <span class="tsm-macro-label">DIAGNOSIS CODE</span>
+                            <span class="tsm-macro-value">24</span>
                         </div>
                     </div>
                 </div>
@@ -1126,6 +1139,174 @@
                                 <td>5169988581</td>
                                 <td>$ 10.00</td>
                                 <td>$ 10.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- TSM Table -->
+                <div class="table-wrapper" id="tsm-table" data-table="tsm" style="display: none;">
+                    <table class="reports-table tsm-reports-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable">PCP TIN <span class="sort-icon">↕</span></th>
+                                <th class="sortable">PCP PRACTICE <span class="sort-icon">↕</span></th>
+                                <th class="sortable">PCP NPI <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MCO <span class="sort-icon">↕</span></th>
+                                <th class="sortable">IPA <span class="sort-icon">↕</span></th>
+                                <th class="sortable">PRODUCT <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MCO PRODUCT <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MCP MEMBER ID <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MEMBER NAME <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MEMBER DOB <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MEMBER ADDRESS 1 <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MEMBER ADDRESS 2 <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MEMBER CITY <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MEMBER ZIP <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MEMBER PHONE 1 <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MEMBER PHONE 2 <span class="sort-icon">↕</span></th>
+                                <th class="sortable">EMR PHONE 3 <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MEASURE CODE <span class="sort-icon">↕</span></th>
+                                <th class="sortable">MEASURE <span class="sort-icon">↕</span></th>
+                                <th class="sortable">EVENT DATE <span class="sort-icon">↕</span></th>
+                                <th class="sortable">ALERT DATE <span class="sort-icon">↕</span></th>
+                                <th class="sortable">DEADLINE CALCULATION <span class="sort-icon">↕</span></th>
+                                <th class="sortable">DIAGNOSIS CODE <span class="sort-icon">↕</span></th>
+                                <th class="sortable">DIAGNOSIS DESCRIPTION <span class="sort-icon">↕</span></th>
+                                <th class="sortable">ADMIT FACILITY <span class="sort-icon">↕</span></th>
+                            </tr>
+                            <tr class="filter-row">
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                                <th>
+                                    <input type="text" class="column-filter" placeholder="Filter...">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>12-3456789</td>
+                                <td>Delmont Medical, PC</td>
+                                <td>1234567890</td>
+                                <td>Healthfirst</td>
+                                <td>SOMOS IPA</td>
+                                <td>Medicare</td>
+                                <td>HF-MAP</td>
+                                <td>MCP-10048291</td>
+                                <td>Abbas A Chowdhury</td>
+                                <td>12-01-1951</td>
+                                <td>123 Broadway</td>
+                                <td>Apt 4</td>
+                                <td>Brooklyn</td>
+                                <td>11201</td>
+                                <td>16469824440</td>
+                                <td>17185550112</td>
+                                <td></td>
+                                <td>CBP</td>
+                                <td>Controlling High Blood Pressure</td>
+                                <td>01-15-2026</td>
+                                <td>01-10-2026</td>
+                                <td>03-01-2026</td>
+                                <td>I10</td>
+                                <td>Essential hypertension</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>98-7654321</td>
+                                <td>Riverside Clinic</td>
+                                <td>9876543210</td>
+                                <td>Metroplus</td>
+                                <td>IPA East</td>
+                                <td>Medicaid</td>
+                                <td>MP-MAP</td>
+                                <td>MCP-20011922</td>
+                                <td>Abbie Liss Pena</td>
+                                <td>03-14-1968</td>
+                                <td>400 Park Ave</td>
+                                <td></td>
+                                <td>Bronx</td>
+                                <td>10451</td>
+                                <td>17185550112</td>
+                                <td></td>
+                                <td>9175550100</td>
+                                <td>DSF</td>
+                                <td>Diabetes Screening</td>
+                                <td>02-01-2026</td>
+                                <td>01-28-2026</td>
+                                <td>02-15-2026</td>
+                                <td>E11</td>
+                                <td>Type 2 diabetes mellitus</td>
+                                <td>—</td>
                             </tr>
                         </tbody>
                     </table>
