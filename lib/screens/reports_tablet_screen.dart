@@ -96,45 +96,45 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
       'hasNavigation': true,
       'currentTimeframeIndex': 0,
       'mco': 2,
-      'mcoMemberId': 1240,
       'memberName': 892,
       'memberDob': '98%',
       'memberPhone1': 1180,
       'measureCode': 12,
-      'deadlineCalc': '7 due',
+      'deadlineCalculation': '7 due',
+      'diagnosisCode': 9,
       'timeframes': [
         {
           'name': 'TODAY',
           'date': '02-03-2026',
           'mco': 2,
-          'mcoMemberId': 1240,
           'memberName': 892,
           'memberDob': '98%',
           'memberPhone1': 1180,
           'measureCode': 12,
-          'deadlineCalc': '7 due',
+          'deadlineCalculation': '7 due',
+          'diagnosisCode': 9,
         },
         {
           'name': 'LAST 30 DAYS',
           'date': '01-04-2026 to 02-03-2026',
           'mco': 5,
-          'mcoMemberId': 3600,
           'memberName': 2100,
           'memberDob': '96%',
           'memberPhone1': 3400,
           'measureCode': 28,
-          'deadlineCalc': '42 due',
+          'deadlineCalculation': '42 due',
+          'diagnosisCode': 31,
         },
         {
           'name': 'YTD',
           'date': '01-01-2026 to 02-03-2026',
           'mco': 12,
-          'mcoMemberId': 8900,
           'memberName': 5600,
           'memberDob': '94%',
           'memberPhone1': 7200,
           'measureCode': 65,
-          'deadlineCalc': '128 due',
+          'deadlineCalculation': '128 due',
+          'diagnosisCode': 78,
         },
       ],
     },
@@ -423,12 +423,14 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
     if (data == null) return const SizedBox.shrink();
 
     final mco = data['mco'] as int? ?? 0;
-    final mcoMemberId = data['mcoMemberId'] as int? ?? 0;
     final memberName = data['memberName'] as int? ?? 0;
     final memberDob = data['memberDob'] as String? ?? '';
     final memberPhone1 = data['memberPhone1'] as int? ?? 0;
     final measureCode = data['measureCode'] as int? ?? 0;
-    final deadlineCalc = data['deadlineCalc'] as String? ?? '';
+    final deadlineCalculation = (data['deadlineCalculation'] ??
+            data['deadlineCalc']) as String? ??
+        '';
+    final diagnosisCode = data['diagnosisCode'] as int? ?? 0;
 
     return _buildKPICard(
       title: 'TSM',
@@ -448,12 +450,12 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildTsmMetricRow('MCO', _formatTsmInt(mco)),
-                  _buildTsmMetricRow('MCO MEMBER ID', _formatTsmInt(mcoMemberId)),
                   _buildTsmMetricRow('MEMBER NAME', _formatTsmInt(memberName)),
                   _buildTsmMetricRow('MEMBER DOB', memberDob),
                   _buildTsmMetricRow('MEMBER PHONE 1', _formatTsmInt(memberPhone1)),
                   _buildTsmMetricRow('MEASURE CODE', _formatTsmInt(measureCode)),
-                  _buildTsmMetricRow('DEADLINE CALCULATION', deadlineCalc),
+                  _buildTsmMetricRow('DEADLINE CALCULATION', deadlineCalculation),
+                  _buildTsmMetricRow('DIAGNOSIS CODE', _formatTsmInt(diagnosisCode)),
                   const SizedBox(height: 8),
                   SizedBox(
                     width: double.infinity,
@@ -1017,12 +1019,13 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
         kpiData['timeframe'] = timeframe['name'];
         kpiData['date'] = timeframe['date'];
         kpiData['mco'] = timeframe['mco'] ?? 0;
-        kpiData['mcoMemberId'] = timeframe['mcoMemberId'] ?? 0;
         kpiData['memberName'] = timeframe['memberName'] ?? 0;
         kpiData['memberDob'] = timeframe['memberDob'] ?? '';
         kpiData['memberPhone1'] = timeframe['memberPhone1'] ?? 0;
         kpiData['measureCode'] = timeframe['measureCode'] ?? 0;
-        kpiData['deadlineCalc'] = timeframe['deadlineCalc'] ?? '';
+        kpiData['deadlineCalculation'] =
+            timeframe['deadlineCalculation'] ?? timeframe['deadlineCalc'] ?? '';
+        kpiData['diagnosisCode'] = timeframe['diagnosisCode'] ?? 0;
       }
     });
   }
