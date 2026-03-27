@@ -30,7 +30,7 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
       TextEditingController();
   String _mcoFilter = '';
   String _measureFilter = '';
-  String _memberStateFilter = '';
+  String _ipaFilter = '';
 
   @override
   void initState() {
@@ -42,12 +42,12 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
   void _loadSampleData() {
     _records = [
       TSMRecord(
-        pcp: 'PQ-101',
-        pqPractice: 'Bronx Family Care',
-        pqGrp: 'PQ-GRP-A',
+        pcpTin: '12-3456789',
+        pcpPractice: 'Bronx Family Care',
+        pcpNpi: '1234567890',
         mco: 'Healthfirst',
-        lob: 'Medicaid',
-        patient: 'Active',
+        ipa: 'Metro IPA',
+        product: 'Medicaid',
         mcoProduct: 'HF Gold',
         mcoMemberId: '1240',
         memberName: 'Maria Alvarez',
@@ -55,28 +55,26 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
         memberAddress1: '110 E 170th St',
         memberAddress2: 'Apt 3B',
         memberCity: 'Bronx',
-        memberState: 'NY',
         memberZip: '10452',
         memberPhone1: '7185550121',
         memberPhone2: '3475551212',
-        pcpName: 'Dr. Rivera',
+        emrPhone3: '2125550100',
         measureCode: 'TSM-01',
         measure: 'Medication Reconciliation',
-        dueDate: '04-10-2026',
-        dateOfService: '03-20-2026',
+        eventDate: '04-10-2026',
+        alertDate: '03-20-2026',
         deadlineCalculation: '7 due',
         diagnosisCode: 'I10',
         diagnosisDescription: 'Essential (primary) hypertension',
-        lastVisit: '03-20-2026',
         admitFacility: 'Lincoln Medical Center',
       ),
       TSMRecord(
-        pcp: 'PQ-104',
-        pqPractice: 'Washington Heights Clinic',
-        pqGrp: 'PQ-GRP-B',
+        pcpTin: '98-7654321',
+        pcpPractice: 'Washington Heights Clinic',
+        pcpNpi: '9876543210',
         mco: 'Anthem',
-        lob: 'Medicare',
-        patient: 'Active',
+        ipa: 'North IPA',
+        product: 'Medicare',
         mcoProduct: 'Anthem Plus',
         mcoMemberId: '1318',
         memberName: 'Jose Martinez',
@@ -84,28 +82,26 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
         memberAddress1: '450 W 181st St',
         memberAddress2: '',
         memberCity: 'New York',
-        memberState: 'NY',
         memberZip: '10033',
         memberPhone1: '6465559182',
         memberPhone2: '',
-        pcpName: 'Dr. Perez',
+        emrPhone3: '2125550200',
         measureCode: 'TSM-03',
         measure: 'Follow-up Call',
-        dueDate: '04-02-2026',
-        dateOfService: '03-19-2026',
+        eventDate: '04-02-2026',
+        alertDate: '03-19-2026',
         deadlineCalculation: '3 due',
         diagnosisCode: 'E11.9',
         diagnosisDescription: 'Type 2 diabetes mellitus without complications',
-        lastVisit: '03-19-2026',
         admitFacility: 'NewYork-Presbyterian',
       ),
       TSMRecord(
-        pcp: 'PQ-110',
-        pqPractice: 'Queens Community Health',
-        pqGrp: 'PQ-GRP-A',
+        pcpTin: '11-2345678',
+        pcpPractice: 'Queens Community Health',
+        pcpNpi: '1122334455',
         mco: 'Emblem',
-        lob: 'Commercial',
-        patient: 'Pending',
+        ipa: 'East IPA',
+        product: 'Commercial',
         mcoProduct: 'Emblem Core',
         mcoMemberId: '1407',
         memberName: 'Ana Gomez',
@@ -113,28 +109,26 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
         memberAddress1: '76-12 Roosevelt Ave',
         memberAddress2: 'Floor 2',
         memberCity: 'Jackson Heights',
-        memberState: 'NY',
         memberZip: '11372',
         memberPhone1: '9175552334',
         memberPhone2: '7185552334',
-        pcpName: 'Dr. Hall',
+        emrPhone3: '7185550300',
         measureCode: 'TSM-02',
         measure: 'Transition of Care',
-        dueDate: '04-15-2026',
-        dateOfService: '03-23-2026',
+        eventDate: '04-15-2026',
+        alertDate: '03-23-2026',
         deadlineCalculation: '12 due',
         diagnosisCode: 'J44.9',
         diagnosisDescription: 'Chronic obstructive pulmonary disease, unspecified',
-        lastVisit: '03-23-2026',
         admitFacility: 'Elmhurst Hospital',
       ),
       TSMRecord(
-        pcp: 'PQ-115',
-        pqPractice: 'Brooklyn Medical Group',
-        pqGrp: 'PQ-GRP-C',
+        pcpTin: '55-6677889',
+        pcpPractice: 'Brooklyn Medical Group',
+        pcpNpi: '5566778899',
         mco: 'Molina',
-        lob: 'Medicaid',
-        patient: 'Active',
+        ipa: 'South IPA',
+        product: 'Medicaid',
         mcoProduct: 'Molina Basic',
         mcoMemberId: '1529',
         memberName: 'Carlos Torres',
@@ -142,28 +136,26 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
         memberAddress1: '204 Court St',
         memberAddress2: '',
         memberCity: 'Brooklyn',
-        memberState: 'NY',
         memberZip: '11201',
         memberPhone1: '7185559923',
         memberPhone2: '',
-        pcpName: 'Dr. Wilson',
+        emrPhone3: '7185550400',
         measureCode: 'TSM-04',
         measure: 'Medication Review',
-        dueDate: '04-05-2026',
-        dateOfService: '03-18-2026',
+        eventDate: '04-05-2026',
+        alertDate: '03-18-2026',
         deadlineCalculation: '5 due',
         diagnosisCode: 'N18.3',
         diagnosisDescription: 'Chronic kidney disease, stage 3',
-        lastVisit: '03-18-2026',
         admitFacility: 'Maimonides Medical Center',
       ),
       TSMRecord(
-        pcp: 'PQ-121',
-        pqPractice: 'Harlem Health Partners',
-        pqGrp: 'PQ-GRP-B',
+        pcpTin: '44-3322110',
+        pcpPractice: 'Harlem Health Partners',
+        pcpNpi: '4433221100',
         mco: 'Healthfirst',
-        lob: 'Medicare',
-        patient: 'Closed',
+        ipa: 'Metro IPA',
+        product: 'Medicare',
         mcoProduct: 'HF Silver',
         mcoMemberId: '1642',
         memberName: 'Elena Ruiz',
@@ -171,19 +163,17 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
         memberAddress1: '12 Lenox Ave',
         memberAddress2: 'Unit 5A',
         memberCity: 'New York',
-        memberState: 'NY',
         memberZip: '10027',
         memberPhone1: '2125554733',
         memberPhone2: '6465554733',
-        pcpName: 'Dr. Blake',
+        emrPhone3: '2125550500',
         measureCode: 'TSM-01',
         measure: 'Medication Reconciliation',
-        dueDate: '03-28-2026',
-        dateOfService: '03-15-2026',
+        eventDate: '03-28-2026',
+        alertDate: '03-15-2026',
         deadlineCalculation: 'Completed',
         diagnosisCode: 'I25.10',
         diagnosisDescription: 'Atherosclerotic heart disease of native coronary artery',
-        lastVisit: '03-15-2026',
         admitFacility: 'Mount Sinai Hospital',
       ),
     ];
@@ -209,8 +199,8 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
         final mcoMatch = _mcoFilter.isEmpty || record.mco == _mcoFilter;
         final measureMatch =
             _measureFilter.isEmpty || record.measure == _measureFilter;
-        final stateMatch = _memberStateFilter.isEmpty ||
-            record.memberState == _memberStateFilter;
+        final ipaMatch =
+            _ipaFilter.isEmpty || record.ipa == _ipaFilter;
 
         return memberNameMatch &&
             memberIdMatch &&
@@ -220,7 +210,7 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
             deadlineMatch &&
             mcoMatch &&
             measureMatch &&
-            stateMatch;
+            ipaMatch;
       }).toList();
       _currentPage = 1;
     });
@@ -268,18 +258,18 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
 
   String _getValueForColumn(TSMRecord record, String column) {
     switch (column) {
-      case 'pcp':
-        return record.pcp;
-      case 'pqPractice':
-        return record.pqPractice;
-      case 'pqGrp':
-        return record.pqGrp;
+      case 'pcpTin':
+        return record.pcpTin;
+      case 'pcpPractice':
+        return record.pcpPractice;
+      case 'pcpNpi':
+        return record.pcpNpi;
       case 'mco':
         return record.mco;
-      case 'lob':
-        return record.lob;
-      case 'patient':
-        return record.patient;
+      case 'ipa':
+        return record.ipa;
+      case 'product':
+        return record.product;
       case 'mcoProduct':
         return record.mcoProduct;
       case 'mcoMemberId':
@@ -294,32 +284,28 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
         return record.memberAddress2;
       case 'memberCity':
         return record.memberCity;
-      case 'memberState':
-        return record.memberState;
       case 'memberZip':
         return record.memberZip;
       case 'memberPhone1':
         return record.memberPhone1;
       case 'memberPhone2':
         return record.memberPhone2;
-      case 'pcpName':
-        return record.pcpName;
+      case 'emrPhone3':
+        return record.emrPhone3;
       case 'measureCode':
         return record.measureCode;
       case 'measure':
         return record.measure;
-      case 'dueDate':
-        return record.dueDate;
-      case 'dateOfService':
-        return record.dateOfService;
+      case 'eventDate':
+        return record.eventDate;
+      case 'alertDate':
+        return record.alertDate;
       case 'deadlineCalculation':
         return record.deadlineCalculation;
       case 'diagnosisCode':
         return record.diagnosisCode;
       case 'diagnosisDescription':
         return record.diagnosisDescription;
-      case 'lastVisit':
-        return record.lastVisit;
       case 'admitFacility':
         return record.admitFacility;
       default:
@@ -480,11 +466,11 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                       SizedBox(width: padding),
                       Expanded(
                         child: _buildFilterDropdown(
-                          value: _memberStateFilter,
-                          items: ['', 'NY', 'NJ', 'CT'],
-                          hint: 'State',
+                          value: _ipaFilter,
+                          items: ['', 'Metro IPA', 'North IPA', 'East IPA', 'South IPA'],
+                          hint: 'IPA',
                           onChanged: (value) {
-                            _memberStateFilter = value ?? '';
+                            _ipaFilter = value ?? '';
                             _applyFilters();
                           },
                         ),
@@ -510,28 +496,31 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                             color: const Color(0xFF333333),
                           ),
                           columns: [
-                            _buildDataColumn('PCP ID', 'pcp', fontSize),
-                            _buildDataColumn('PCP PRACTICE', 'pqPractice', fontSize),
-                            _buildDataColumn('PQ GRP', 'pqGrp', fontSize),
+                            _buildDataColumn('PCP TIN', 'pcpTin', fontSize),
+                            _buildDataColumn('PCP PRACTICE', 'pcpPractice', fontSize),
+                            _buildDataColumn('PCP NPI', 'pcpNpi', fontSize),
                             _buildDataColumn('MCO', 'mco', fontSize),
-                            _buildDataColumn('LOB', 'lob', fontSize),
-                            _buildDataColumn('PATIENT', 'patient', fontSize),
+                            _buildDataColumn('IPA', 'ipa', fontSize),
+                            _buildDataColumn('PRODUCT', 'product', fontSize),
                             _buildDataColumn('MCO PRODUCT', 'mcoProduct', fontSize),
-                            _buildDataColumn('MCO MEMBER ID', 'mcoMemberId', fontSize),
+                            _buildDataColumn(
+                              'MCO MEMBER ID (was incorrectly MCP MEMBER ID)',
+                              'mcoMemberId',
+                              fontSize,
+                            ),
                             _buildDataColumn('MEMBER NAME', 'memberName', fontSize),
                             _buildDataColumn('MEMBER DOB', 'memberDob', fontSize),
                             _buildDataColumn('MEMBER ADDRESS 1', 'memberAddress1', fontSize),
                             _buildDataColumn('MEMBER ADDRESS 2', 'memberAddress2', fontSize),
                             _buildDataColumn('MEMBER CITY', 'memberCity', fontSize),
-                            _buildDataColumn('MEMBER STATE', 'memberState', fontSize),
                             _buildDataColumn('MEMBER ZIP', 'memberZip', fontSize),
                             _buildDataColumn('MEMBER PHONE 1', 'memberPhone1', fontSize),
                             _buildDataColumn('MEMBER PHONE 2', 'memberPhone2', fontSize),
-                            _buildDataColumn('PCP NAME', 'pcpName', fontSize),
+                            _buildDataColumn('EMR PHONE 3', 'emrPhone3', fontSize),
                             _buildDataColumn('MEASURE CODE', 'measureCode', fontSize),
                             _buildDataColumn('MEASURE', 'measure', fontSize),
-                            _buildDataColumn('DUE DATE', 'dueDate', fontSize),
-                            _buildDataColumn('DATE OF SERVICE', 'dateOfService', fontSize),
+                            _buildDataColumn('EVENT DATE', 'eventDate', fontSize),
+                            _buildDataColumn('ALERT DATE', 'alertDate', fontSize),
                             _buildDataColumn(
                               'DEADLINE CALCULATION',
                               'deadlineCalculation',
@@ -547,18 +536,17 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                               'diagnosisDescription',
                               fontSize,
                             ),
-                            _buildDataColumn('LAST VISIT', 'lastVisit', fontSize),
                             _buildDataColumn('ADMIT FACILITY', 'admitFacility', fontSize),
                           ],
                           rows: _paginatedRecords.map((record) {
                             return DataRow(
                               cells: [
-                                DataCell(Text(record.pcp)),
-                                DataCell(Text(record.pqPractice)),
-                                DataCell(Text(record.pqGrp)),
+                                DataCell(Text(record.pcpTin)),
+                                DataCell(Text(record.pcpPractice)),
+                                DataCell(Text(record.pcpNpi)),
                                 DataCell(Text(record.mco)),
-                                DataCell(Text(record.lob)),
-                                DataCell(Text(record.patient)),
+                                DataCell(Text(record.ipa)),
+                                DataCell(Text(record.product)),
                                 DataCell(Text(record.mcoProduct)),
                                 DataCell(Text(record.mcoMemberId)),
                                 DataCell(Text(record.memberName)),
@@ -566,19 +554,17 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                                 DataCell(Text(record.memberAddress1)),
                                 DataCell(Text(record.memberAddress2.isEmpty ? '-' : record.memberAddress2)),
                                 DataCell(Text(record.memberCity)),
-                                DataCell(Text(record.memberState)),
                                 DataCell(Text(record.memberZip)),
                                 DataCell(Text(record.memberPhone1)),
                                 DataCell(Text(record.memberPhone2.isEmpty ? '-' : record.memberPhone2)),
-                                DataCell(Text(record.pcpName)),
+                                DataCell(Text(record.emrPhone3)),
                                 DataCell(Text(record.measureCode)),
                                 DataCell(Text(record.measure)),
-                                DataCell(Text(record.dueDate)),
-                                DataCell(Text(record.dateOfService)),
+                                DataCell(Text(record.eventDate)),
+                                DataCell(Text(record.alertDate)),
                                 DataCell(Text(record.deadlineCalculation)),
                                 DataCell(Text(record.diagnosisCode)),
                                 DataCell(Text(record.diagnosisDescription)),
-                                DataCell(Text(record.lastVisit)),
                                 DataCell(Text(record.admitFacility)),
                               ],
                             );
@@ -856,12 +842,12 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
 }
 
 class TSMRecord {
-  final String pcp;
-  final String pqPractice;
-  final String pqGrp;
+  final String pcpTin;
+  final String pcpPractice;
+  final String pcpNpi;
   final String mco;
-  final String lob;
-  final String patient;
+  final String ipa;
+  final String product;
   final String mcoProduct;
   final String mcoMemberId;
   final String memberName;
@@ -869,28 +855,26 @@ class TSMRecord {
   final String memberAddress1;
   final String memberAddress2;
   final String memberCity;
-  final String memberState;
   final String memberZip;
   final String memberPhone1;
   final String memberPhone2;
-  final String pcpName;
+  final String emrPhone3;
   final String measureCode;
   final String measure;
-  final String dueDate;
-  final String dateOfService;
+  final String eventDate;
+  final String alertDate;
   final String deadlineCalculation;
   final String diagnosisCode;
   final String diagnosisDescription;
-  final String lastVisit;
   final String admitFacility;
 
   TSMRecord({
-    required this.pcp,
-    required this.pqPractice,
-    required this.pqGrp,
+    required this.pcpTin,
+    required this.pcpPractice,
+    required this.pcpNpi,
     required this.mco,
-    required this.lob,
-    required this.patient,
+    required this.ipa,
+    required this.product,
     required this.mcoProduct,
     required this.mcoMemberId,
     required this.memberName,
@@ -898,19 +882,17 @@ class TSMRecord {
     required this.memberAddress1,
     required this.memberAddress2,
     required this.memberCity,
-    required this.memberState,
     required this.memberZip,
     required this.memberPhone1,
     required this.memberPhone2,
-    required this.pcpName,
+    required this.emrPhone3,
     required this.measureCode,
     required this.measure,
-    required this.dueDate,
-    required this.dateOfService,
+    required this.eventDate,
+    required this.alertDate,
     required this.deadlineCalculation,
     required this.diagnosisCode,
     required this.diagnosisDescription,
-    required this.lastVisit,
     required this.admitFacility,
   });
 }
