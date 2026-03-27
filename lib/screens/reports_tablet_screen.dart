@@ -43,46 +43,47 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
       'timeframe': 'TODAY',
       'date': '02-03-2026',
       'hasNavigation': true,
-      // Macro KPIs for key TSM detail columns: MCO, MCO MEMBER ID, MEMBER NAME,
-      // MEMBER DOB, MEMBER PHONE 1, MEASURE CODE, DEADLINE CALCULATION
+      // Macro KPIs (card): MCO→mco, MEMBER NAME→memberName, MEMBER DOB→memberDob,
+      // MEMBER PHONE 1→memberPhone1, MEASURE CODE→measureCode,
+      // DEADLINE CALCULATION→deadlineCalculation, DIAGNOSIS CODE→diagnosisCode
       'timeframes': [
         {
           'name': 'TODAY',
           'date': '02-03-2026',
           'yellowMacro': [
-            {'label': 'MCO', 'value': '2'},
-            {'label': 'MCO MEMBER ID', 'value': '1,240'},
-            {'label': 'MEMBER NAME', 'value': '892'},
-            {'label': 'MEMBER DOB', 'value': '98%'},
-            {'label': 'MEMBER PHONE 1', 'value': '1,180'},
-            {'label': 'MEASURE CODE', 'value': '12'},
-            {'label': 'DEADLINE CALCULATION', 'value': '7 due'},
+            {'key': 'mco', 'label': 'MCO', 'value': '2'},
+            {'key': 'memberName', 'label': 'MEMBER NAME', 'value': '892'},
+            {'key': 'memberDob', 'label': 'MEMBER DOB', 'value': '98%'},
+            {'key': 'memberPhone1', 'label': 'MEMBER PHONE 1', 'value': '1,180'},
+            {'key': 'measureCode', 'label': 'MEASURE CODE', 'value': '12'},
+            {'key': 'deadlineCalculation', 'label': 'DEADLINE CALCULATION', 'value': '7 due'},
+            {'key': 'diagnosisCode', 'label': 'DIAGNOSIS CODE', 'value': '1,040'},
           ],
         },
         {
           'name': 'LAST 30 DAYS',
           'date': '01-03-2026 to 02-03-2026',
           'yellowMacro': [
-            {'label': 'MCO', 'value': '3'},
-            {'label': 'MCO MEMBER ID', 'value': '8,420'},
-            {'label': 'MEMBER NAME', 'value': '7,102'},
-            {'label': 'MEMBER DOB', 'value': '97%'},
-            {'label': 'MEMBER PHONE 1', 'value': '8,050'},
-            {'label': 'MEASURE CODE', 'value': '18'},
-            {'label': 'DEADLINE CALCULATION', 'value': '42 due'},
+            {'key': 'mco', 'label': 'MCO', 'value': '3'},
+            {'key': 'memberName', 'label': 'MEMBER NAME', 'value': '7,102'},
+            {'key': 'memberDob', 'label': 'MEMBER DOB', 'value': '97%'},
+            {'key': 'memberPhone1', 'label': 'MEMBER PHONE 1', 'value': '8,050'},
+            {'key': 'measureCode', 'label': 'MEASURE CODE', 'value': '18'},
+            {'key': 'deadlineCalculation', 'label': 'DEADLINE CALCULATION', 'value': '42 due'},
+            {'key': 'diagnosisCode', 'label': 'DIAGNOSIS CODE', 'value': '7,890'},
           ],
         },
         {
           'name': 'YTD',
           'date': '01-01-2026 to 02-03-2026',
           'yellowMacro': [
-            {'label': 'MCO', 'value': '3'},
-            {'label': 'MCO MEMBER ID', 'value': '24,600'},
-            {'label': 'MEMBER NAME', 'value': '21,340'},
-            {'label': 'MEMBER DOB', 'value': '96%'},
-            {'label': 'MEMBER PHONE 1', 'value': '23,100'},
-            {'label': 'MEASURE CODE', 'value': '22'},
-            {'label': 'DEADLINE CALCULATION', 'value': '128 due'},
+            {'key': 'mco', 'label': 'MCO', 'value': '3'},
+            {'key': 'memberName', 'label': 'MEMBER NAME', 'value': '21,340'},
+            {'key': 'memberDob', 'label': 'MEMBER DOB', 'value': '96%'},
+            {'key': 'memberPhone1', 'label': 'MEMBER PHONE 1', 'value': '23,100'},
+            {'key': 'measureCode', 'label': 'MEASURE CODE', 'value': '22'},
+            {'key': 'deadlineCalculation', 'label': 'DEADLINE CALCULATION', 'value': '128 due'},
+            {'key': 'diagnosisCode', 'label': 'DIAGNOSIS CODE', 'value': '20,400'},
           ],
         },
       ],
@@ -831,18 +832,18 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
     );
   }
 
-  /// Builds macro KPI rows for the seven TSM table columns shown on the card.
+  /// Builds macro KPI rows for the seven TSM fields shown on the card (fixed order).
   List<TsmMacroMetric> _tsmMacroMetricsFromTimeframe(Map<String, dynamic> tf) {
     final raw = tf['yellowMacro'] as List<dynamic>?;
     if (raw == null || raw.isEmpty) {
       return const [
         TsmMacroMetric('MCO', '—'),
-        TsmMacroMetric('MCO MEMBER ID', '—'),
         TsmMacroMetric('MEMBER NAME', '—'),
         TsmMacroMetric('MEMBER DOB', '—'),
         TsmMacroMetric('MEMBER PHONE 1', '—'),
         TsmMacroMetric('MEASURE CODE', '—'),
         TsmMacroMetric('DEADLINE CALCULATION', '—'),
+        TsmMacroMetric('DIAGNOSIS CODE', '—'),
       ];
     }
     return raw.map((e) {

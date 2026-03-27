@@ -27,8 +27,8 @@ class TsmReportsCard extends StatelessWidget {
 
   final String timeframeLabel;
   final String dateLine;
-  /// Macro-level values for: MCO, MCO MEMBER ID, MEMBER NAME, MEMBER DOB,
-  /// MEMBER PHONE 1, MEASURE CODE, DEADLINE CALCULATION (detail table columns).
+  /// Macro-level values for: MCO, MEMBER NAME, MEMBER DOB, MEMBER PHONE 1,
+  /// MEASURE CODE, DEADLINE CALCULATION, DIAGNOSIS CODE (keys: mco, memberName, …).
   final List<TsmMacroMetric> macroMetrics;
 
   final VoidCallback? onPrevious;
