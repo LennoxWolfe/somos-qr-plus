@@ -7,6 +7,7 @@ import '../widgets/appt_table_widget.dart';
 import '../widgets/mwov_table_widget.dart';
 import '../widgets/siip_table_widget.dart';
 import '../widgets/staff_login_table_widget.dart';
+import '../widgets/tsm_table_widget.dart';
 import '../widgets/app_header_widget.dart';
 import '../widgets/app_drawer_widget.dart';
 import '../widgets/provider_dropdown_widget.dart';
@@ -85,6 +86,54 @@ class _ReportsScreenState extends State<ReportsScreen> {
         {'name': 'TODAY', 'completed': 2, 'open': 3, 'total': 5, 'earnings': 20.00},
         {'name': 'LAST 30 DAYS', 'completed': 15, 'open': 8, 'total': 23, 'earnings': 150.00},
         {'name': 'YTD', 'completed': 89, 'open': 34, 'total': 123, 'earnings': 890.00},
+      ],
+      'currentTimeframeIndex': 0,
+    },
+    'TSM': {
+      'timeframe': 'TODAY',
+      'date': '02-03-2026',
+      'mco': '2',
+      'mcoMemberId': '1,240',
+      'memberName': '892',
+      'memberDob': '98%',
+      'memberPhone1': '1,180',
+      'measureCode': '12',
+      'deadlineCalculation': '7 due',
+      'hasNavigation': true,
+      'timeframes': [
+        {
+          'name': 'TODAY',
+          'date': '02-03-2026',
+          'mco': '2',
+          'mcoMemberId': '1,240',
+          'memberName': '892',
+          'memberDob': '98%',
+          'memberPhone1': '1,180',
+          'measureCode': '12',
+          'deadlineCalculation': '7 due',
+        },
+        {
+          'name': 'LAST 30 DAYS',
+          'date': '01-04-2026 to 02-03-2026',
+          'mco': '14',
+          'mcoMemberId': '9,852',
+          'memberName': '7,410',
+          'memberDob': '95%',
+          'memberPhone1': '8,915',
+          'measureCode': '88',
+          'deadlineCalculation': '32 due',
+        },
+        {
+          'name': 'YTD',
+          'date': '01-01-2026 to 02-03-2026',
+          'mco': '26',
+          'mcoMemberId': '18,402',
+          'memberName': '15,330',
+          'memberDob': '97%',
+          'memberPhone1': '16,885',
+          'measureCode': '136',
+          'deadlineCalculation': '55 due',
+        },
       ],
       'currentTimeframeIndex': 0,
     },
@@ -706,6 +755,78 @@ class _ReportsScreenState extends State<ReportsScreen> {
     );
   }
 
+  void _showTSMTableDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(6),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              double dialogWidth = constraints.maxWidth * 0.99;
+              double dialogHeight = constraints.maxHeight * 0.95;
+
+              if (constraints.maxWidth > 1200) {
+                dialogWidth = 1250;
+              }
+
+              return Container(
+                width: dialogWidth,
+                height: dialogHeight,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFf8f9fa),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'TSM Detailed Report',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            icon: const Icon(Icons.close, size: 24),
+                            tooltip: 'Close',
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: TSMTableWidget(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildKPIGrid() {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -745,6 +866,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
             _buildMWOVCard(),
             _buildSIIPCard(),
             _buildStaffLoginCard(),
+            _buildTSMCard(),
           ],
         );
       },
@@ -1080,6 +1202,64 @@ class _ReportsScreenState extends State<ReportsScreen> {
     );
   }
 
+  Widget _buildTSMCard() {
+    final data = _kpiData['TSM'];
+    if (data == null) return const SizedBox.shrink();
+
+    return _buildKPICard(
+      title: 'TSM',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildKPIHeader('TSM', data['timeframe'] as String?, data['date'] as String?, true),
+          const SizedBox(height: 4),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildKPIStringMetrics([
+                    {'label': 'MCO', 'value': data['mco'] ?? '0'},
+                    {'label': 'MCO MEMBER ID', 'value': data['mcoMemberId'] ?? '0'},
+                    {'label': 'MEMBER NAME', 'value': data['memberName'] ?? '0'},
+                    {'label': 'MEMBER DOB', 'value': data['memberDob'] ?? '0%'},
+                    {'label': 'MEMBER PHONE 1', 'value': data['memberPhone1'] ?? '0'},
+                    {'label': 'MEASURE CODE', 'value': data['measureCode'] ?? '0'},
+                    {'label': 'DEADLINE CALCULATION', 'value': data['deadlineCalculation'] ?? '0 due'},
+                  ]),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _showTSMTableDialog(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1976D2),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      child: const Text(
+                        'View Reports',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildKPICard({
     required String title,
     required Widget child,
@@ -1285,8 +1465,89 @@ class _ReportsScreenState extends State<ReportsScreen> {
         kpiData['open'] = timeframe['open'] ?? 0;
         kpiData['total'] = timeframe['total'] ?? 0;
         kpiData['earnings'] = timeframe['earnings'] ?? 0.0;
+      } else if (kpiType == 'TSM') {
+        kpiData['date'] = timeframe['date'] ?? '';
+        kpiData['mco'] = timeframe['mco'] ?? '0';
+        kpiData['mcoMemberId'] = timeframe['mcoMemberId'] ?? '0';
+        kpiData['memberName'] = timeframe['memberName'] ?? '0';
+        kpiData['memberDob'] = timeframe['memberDob'] ?? '0%';
+        kpiData['memberPhone1'] = timeframe['memberPhone1'] ?? '0';
+        kpiData['measureCode'] = timeframe['measureCode'] ?? '0';
+        kpiData['deadlineCalculation'] = timeframe['deadlineCalculation'] ?? '0 due';
       }
     });
+  }
+
+  Widget _buildKPIStringMetrics(List<Map<String, String>> metrics) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double horizontalPadding, verticalPadding, labelSize, valueSize, margin;
+        if (constraints.maxWidth < 300) {
+          horizontalPadding = 6;
+          verticalPadding = 4;
+          labelSize = 11;
+          valueSize = 14;
+          margin = 3;
+        } else if (constraints.maxWidth < 500) {
+          horizontalPadding = 8;
+          verticalPadding = 5;
+          labelSize = 12;
+          valueSize = 15;
+          margin = 4;
+        } else {
+          horizontalPadding = 10;
+          verticalPadding = 6;
+          labelSize = 13;
+          valueSize = 16;
+          margin = 5;
+        }
+
+        return Column(
+          children: metrics.map((metric) {
+            final label = metric['label'] ?? '';
+            final value = metric['value'] ?? '';
+
+            return Container(
+              margin: EdgeInsets.only(bottom: margin),
+              padding: EdgeInsets.symmetric(
+                horizontal: horizontalPadding,
+                vertical: verticalPadding,
+              ),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE3F2FD),
+                border: Border.all(color: const Color(0xFFBBDEFB)),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      label,
+                      style: TextStyle(
+                        fontSize: labelSize,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF333333),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: valueSize,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF333333),
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+        );
+      },
+    );
   }
 
   Widget _buildKPIMetrics(List<Map<String, dynamic>> metrics) {

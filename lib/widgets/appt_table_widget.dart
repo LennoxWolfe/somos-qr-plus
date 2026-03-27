@@ -702,7 +702,8 @@ class _APPTTableWidgetState extends State<APPTTableWidget> {
     return ConstrainedBox(
       constraints: const BoxConstraints(minWidth: 80), // Minimum width constraint
       child: DropdownButtonFormField<String>(
-        value: value!.isEmpty ? null : value,
+        initialValue: value!.isEmpty ? null : value,
+        isExpanded: true,
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(fontSize: 11, color: Colors.grey.shade500),
@@ -718,6 +719,7 @@ class _APPTTableWidgetState extends State<APPTTableWidget> {
             value: item.isEmpty ? null : item,
             child: Text(
               item.isEmpty ? hint : item,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 11,
                 color: item.isEmpty ? Colors.grey.shade500 : Colors.black,
@@ -725,6 +727,21 @@ class _APPTTableWidgetState extends State<APPTTableWidget> {
             ),
           );
         }).toList(),
+        selectedItemBuilder: (context) {
+          return items.map((item) {
+            return Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                item.isEmpty ? hint : item,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: item.isEmpty ? Colors.grey.shade500 : Colors.black,
+                ),
+              ),
+            );
+          }).toList();
+        },
         onChanged: onChanged,
       ),
     );
