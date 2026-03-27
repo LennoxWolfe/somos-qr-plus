@@ -93,46 +93,46 @@ class _ReportsScreenState extends State<ReportsScreen> {
       'timeframe': 'TODAY',
       'date': '02-03-2026',
       'mco': '2',
-      'mcoMemberId': '1,240',
       'memberName': '892',
       'memberDob': '98%',
       'memberPhone1': '1,180',
       'measureCode': '12',
       'deadlineCalculation': '7 due',
+      'diagnosisCode': '48',
       'hasNavigation': true,
       'timeframes': [
         {
           'name': 'TODAY',
           'date': '02-03-2026',
           'mco': '2',
-          'mcoMemberId': '1,240',
           'memberName': '892',
           'memberDob': '98%',
           'memberPhone1': '1,180',
           'measureCode': '12',
           'deadlineCalculation': '7 due',
+          'diagnosisCode': '48',
         },
         {
           'name': 'LAST 30 DAYS',
           'date': '01-04-2026 to 02-03-2026',
           'mco': '14',
-          'mcoMemberId': '9,852',
           'memberName': '7,410',
           'memberDob': '95%',
           'memberPhone1': '8,915',
           'measureCode': '88',
           'deadlineCalculation': '32 due',
+          'diagnosisCode': '412',
         },
         {
           'name': 'YTD',
           'date': '01-01-2026 to 02-03-2026',
           'mco': '26',
-          'mcoMemberId': '18,402',
           'memberName': '15,330',
           'memberDob': '97%',
           'memberPhone1': '16,885',
           'measureCode': '136',
           'deadlineCalculation': '55 due',
+          'diagnosisCode': '718',
         },
       ],
       'currentTimeframeIndex': 0,
@@ -1220,12 +1220,12 @@ class _ReportsScreenState extends State<ReportsScreen> {
                 children: [
                   _buildKPIStringMetrics([
                     {'label': 'MCO', 'value': data['mco'] ?? '0'},
-                    {'label': 'MCO MEMBER ID', 'value': data['mcoMemberId'] ?? '0'},
                     {'label': 'MEMBER NAME', 'value': data['memberName'] ?? '0'},
                     {'label': 'MEMBER DOB', 'value': data['memberDob'] ?? '0%'},
                     {'label': 'MEMBER PHONE 1', 'value': data['memberPhone1'] ?? '0'},
                     {'label': 'MEASURE CODE', 'value': data['measureCode'] ?? '0'},
                     {'label': 'DEADLINE CALCULATION', 'value': data['deadlineCalculation'] ?? '0 due'},
+                    {'label': 'DIAGNOSIS CODE', 'value': data['diagnosisCode'] ?? '0'},
                   ]),
                   const SizedBox(height: 8),
                   SizedBox(
@@ -1468,12 +1468,12 @@ class _ReportsScreenState extends State<ReportsScreen> {
       } else if (kpiType == 'TSM') {
         kpiData['date'] = timeframe['date'] ?? '';
         kpiData['mco'] = timeframe['mco'] ?? '0';
-        kpiData['mcoMemberId'] = timeframe['mcoMemberId'] ?? '0';
         kpiData['memberName'] = timeframe['memberName'] ?? '0';
         kpiData['memberDob'] = timeframe['memberDob'] ?? '0%';
         kpiData['memberPhone1'] = timeframe['memberPhone1'] ?? '0';
         kpiData['measureCode'] = timeframe['measureCode'] ?? '0';
         kpiData['deadlineCalculation'] = timeframe['deadlineCalculation'] ?? '0 due';
+        kpiData['diagnosisCode'] = timeframe['diagnosisCode'] ?? '0';
       }
     });
   }
