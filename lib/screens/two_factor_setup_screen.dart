@@ -18,110 +18,93 @@ class _TwoFactorSetupScreenState extends State<TwoFactorSetupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFF5F5F5),
       body: TabletLayoutWidget(
         activeRoute: 'settings',
         onNavigation: _handleNavigation,
-        child: Column(
-          children: [
-            // Navigation Header
-            TabletAppHeaderWidget(
-              onProfileAction: (value) {
-                switch (value) {
-                  case 'language':
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Language clicked')),
-                    );
-                    break;
-                  case 'invitations':
-                    context.go('/invitations');
-                    break;
-                  case 'logout':
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Logout clicked')),
-                    );
-                    break;
-                }
-              },
-            ),
-            
-            // Main Content
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        header: TabletAppHeaderWidget(
+          onProfileAction: (value) {
+            switch (value) {
+              case 'language':
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Language clicked')),
+                );
+                break;
+              case 'invitations':
+                context.go('/invitations');
+                break;
+              case 'logout':
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Logout clicked')),
+                );
+                break;
+            }
+          },
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Page Title with Back Button
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            '2-Step Verification Setup',
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF333333),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => context.go('/settings'),
-                            icon: const Icon(Icons.arrow_back, color: Color(0xFF333333)),
-                            style: IconButton.styleFrom(
-                              backgroundColor: Colors.grey.shade100,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    
-                    // Instructions
                     const Text(
-                      'Select your preferred 2-Step Verification method:',
+                      '2-Step Verification Setup',
                       style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFF666666),
+                        fontSize: 32,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF333333),
                       ),
                     ),
-                    const SizedBox(height: 24),
-                    
-                    // 2FA Options
-                    _buildTwoFactorOptions(),
-                    
-                    const SizedBox(height: 32),
-                    
-                    // Save Button
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: _saveSelection,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF1976D2),
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: const Text(
-                          'Save Selection',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
+                    IconButton(
+                      onPressed: () => context.go('/settings'),
+                      icon: const Icon(Icons.arrow_back, color: Color(0xFF333333)),
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.grey.shade100,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
+              const Text(
+                'Select your preferred 2-Step Verification method:',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Color(0xFF666666),
+                ),
+              ),
+              const SizedBox(height: 24),
+              _buildTwoFactorOptions(),
+              const SizedBox(height: 32),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _saveSelection,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1976D2),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    'Save Selection',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

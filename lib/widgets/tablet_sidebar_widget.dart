@@ -1,5 +1,17 @@
 import 'package:flutter/material.dart';
 
+/// Left sidebar: 280px expanded / 60px collapsed, 300ms ease-in-out.
+///
+/// **Visual**
+/// White panel, 1px right border `grey.shade300`, shadow blur ~8, offset (2,0), ~5% black.
+/// Top block: fixed height 120px, solid `#1976D2`. When expanded: white ~90×90 logo area
+/// (radius ~15), optional asset or medical icon fallback. Collapse control: top-right,
+/// 40×40 white rounded square (radius 8), chevron left/right, icon `#1976D2`.
+///
+/// **Nav** ([onNavigation] route keys): `dashboard`, `quality`, `schedule`, `patients`,
+/// `reports`, `resources`, divider, then `settings`, `logout`.
+///
+/// Active: `#E3F2FD` fill, 1px `#1976D2` border, radius 12, blue dot; inactive: grey tones.
 class TabletSidebarWidget extends StatefulWidget {
   final Function(String) onNavigation;
   final String activeRoute;

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/tablet_app_header_widget.dart';
 import '../widgets/tablet_layout_widget.dart';
-import '../core/constants/providers.dart';
 
 class ResourcesScreen extends StatefulWidget {
   const ResourcesScreen({super.key});
@@ -1667,23 +1665,17 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
           TabletLayoutWidget(
             activeRoute: 'resources',
             onNavigation: _handleNavigation,
-            child: Column(
-            children: [
-              // Header
-              TabletAppHeaderWidget(
-                onProfileAction: (action) {
-                  // Handle profile action
-                },
-              ),
-              
-              // Page content
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-                  child: Column(
-                    children: [
-                      // Page title
-                      const Align(
+            header: TabletAppHeaderWidget(
+              onProfileAction: (action) {
+                // Handle profile action
+              },
+            ),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+              child: Column(
+                children: [
+                  // Page title
+                  const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Resources',
@@ -1767,9 +1759,6 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                     ],
                   ),
                 ),
-              ),
-            ],
-          ),
           ),
           
           // Logout dialog

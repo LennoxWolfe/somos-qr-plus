@@ -100,50 +100,41 @@ class _InvitationScreenState extends State<InvitationScreen> with TickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFF5F5F5),
       body: TabletLayoutWidget(
         activeRoute: 'invitations',
         onNavigation: _handleNavigation,
-        child: Column(
-          children: [
-            // Navigation Header
-            TabletAppHeaderWidget(
-              onProfileAction: (value) {
-                switch (value) {
-                  case 'language':
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Language clicked')),
-                    );
-                    break;
-                  case 'invitations':
-                    // Already on invitations page
-                    break;
-                  case 'logout':
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Logout clicked')),
-                    );
-                    break;
-                }
-              },
-            ),
-            
-            // Main Content
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildPageHeader(),
-                    const SizedBox(height: 32),
-                    _buildTabBar(),
-                    const SizedBox(height: 24),
-                    _buildTabContent(),
-                  ],
-                ),
-              ),
-            ),
-          ],
+        header: TabletAppHeaderWidget(
+          onProfileAction: (value) {
+            switch (value) {
+              case 'language':
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Language clicked')),
+                );
+                break;
+              case 'invitations':
+                // Already on invitations page
+                break;
+              case 'logout':
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Logout clicked')),
+                );
+                break;
+            }
+          },
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildPageHeader(),
+              const SizedBox(height: 32),
+              _buildTabBar(),
+              const SizedBox(height: 24),
+              _buildTabContent(),
+            ],
+          ),
         ),
       ),
     );

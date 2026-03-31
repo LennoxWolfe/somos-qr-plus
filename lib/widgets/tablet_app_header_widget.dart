@@ -1,5 +1,17 @@
 import 'package:flutter/material.dart';
 
+/// Global top app bar: full width, white, bottom border `grey[200]`, light shadow.
+///
+/// **Layout**
+/// [Stack]: center — wordmark `SOMOS QR+` (20px, w900, black, letterSpacing 2.0);
+/// right ([Positioned] right 8) — notifications [PopupMenuButton] (outlined bell, badge `3`,
+/// sample items + “Mark all read”), 16px gap, profile [PopupMenuButton] (36×36 gradient
+/// avatar `#667eea` → `#764ba2`, white border, initials), menu: user row (disabled), Language
+/// + “English” chip, Invitations, Log Out.
+///
+/// **Callbacks**
+/// Profile menu [onSelected] values: `language`, `invitations`, `logout` — parent handles
+/// navigation/modals.
 class TabletAppHeaderWidget extends StatelessWidget {
   final Function(String) onProfileAction;
 
@@ -58,6 +70,7 @@ class TabletAppHeaderWidget extends StatelessWidget {
               children: [
                 // Notifications Button
                 PopupMenuButton<String>(
+                  tooltip: 'Notifications',
                   offset: const Offset(0, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -272,6 +285,7 @@ class TabletAppHeaderWidget extends StatelessWidget {
                 
                 // Avatar with Dropdown
                 PopupMenuButton<String>(
+                  tooltip: 'Account',
                   offset: const Offset(0, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
