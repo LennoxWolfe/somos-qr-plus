@@ -61,9 +61,9 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
       'pcp_tin': p,
       'pcp_practice': 'SAMPLE PRACTICE',
       'pcp_npi': '1234567890',
-      'mco': 'SAMPLE MCO',
+      'mco': ['SAMPLE MCO', 'Healthfirst', 'Anthem'][rowIndex % 3],
       'ipa': p,
-      'product': 'MCD',
+      'product': ['MCD', 'MAP', 'CHIP'][rowIndex % 3],
       'mco_product': 'SAMPLE PRODUCT',
       'mco_member_id': 'MEM-${100000 + rowIndex}',
       'member_name': 'SAMPLE MEMBER ${rowIndex + 1}',
@@ -75,12 +75,12 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
       'member_phone_1': '5550100',
       'member_phone_2': p,
       'emr_phone_3': p,
-      'measure_code': 'CBP',
+      'measure_code': ['CBP', 'AWV', 'COL'][rowIndex % 3],
       'measure': 'SAMPLE MEASURE',
       'event_date': '01-15-2026',
       'alert_date': '01-20-2026',
       'deadline_calculation': '02-01-2026',
-      'diagnosis_code': 'Z00.00',
+      'diagnosis_code': ['Z00.00', 'E11.9', 'I10'][rowIndex % 3],
       'diagnosis_description': 'SAMPLE DX',
       'admit_facility': 'SAMPLE FACILITY',
     };
@@ -139,7 +139,8 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
   late final int _idxMemberDob;
   late final int _idxMemberPhone1;
   late final int _idxMeasureCode;
-  late final int _idxDeadlineCalculation;
+  late final int _idxProduct;
+  late final int _idxDiagnosisCode;
 
   final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _verticalScrollController = ScrollController();
@@ -168,8 +169,9 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
         _columns.indexWhere((c) => c.key == 'member_phone_1');
     _idxMeasureCode =
         _columns.indexWhere((c) => c.key == 'measure_code');
-    _idxDeadlineCalculation =
-        _columns.indexWhere((c) => c.key == 'deadline_calculation');
+    _idxProduct = _columns.indexWhere((c) => c.key == 'product');
+    _idxDiagnosisCode =
+        _columns.indexWhere((c) => c.key == 'diagnosis_code');
 
     assert(_idxMco != -1);
     assert(_idxMcoMemberId != -1);
@@ -177,7 +179,8 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
     assert(_idxMemberDob != -1);
     assert(_idxMemberPhone1 != -1);
     assert(_idxMeasureCode != -1);
-    assert(_idxDeadlineCalculation != -1);
+    assert(_idxProduct != -1);
+    assert(_idxDiagnosisCode != -1);
   }
 
   @override
@@ -206,10 +209,31 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
     });
   }
 
+  /// Distinct non-empty values from loaded rows for dropdown options.
+  List<String> _distinctOptions(String columnKey) {
+    final set = <String>{};
+    for (final r in _allRows) {
+      final v = (r[columnKey] ?? '').trim();
+      if (v.isEmpty || v == '—') continue;
+      set.add(v);
+    }
+    final list = set.toList()..sort();
+    return list;
+  }
+
+  String _dropdownSelectedValue(
+    TextEditingController c,
+    List<String> options,
+  ) {
+    final t = c.text.trim();
+    if (t.isEmpty) return '';
+    if (options.contains(t)) return t;
+    return t;
+  }
+
   Widget _buildExternalFilters() {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Match the padding + typography behavior used across other report tables.
         double padding;
         if (constraints.maxWidth < 600) {
           padding = 6;
@@ -219,148 +243,138 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
           padding = 12;
         }
 
+        final mcoOptions = _distinctOptions('mco');
+        final measureOptions = _distinctOptions('measure_code');
+        final productOptions = _distinctOptions('product');
+
         return Container(
           padding: EdgeInsets.all(padding),
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
           ),
-          child: constraints.maxWidth < 600
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildFilterField(
-                            controller: _filterControllers[_idxMco],
-                            hint: 'MCO...',
-                          ),
-                        ),
-                        SizedBox(width: padding),
-                        Expanded(
-                          child: _buildFilterField(
-                            controller: _filterControllers[_idxMemberName],
-                            hint: 'Name...',
-                          ),
-                        ),
-                      ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Row 1: Name → MCO (matches vertical tablet order)
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildFilterField(
+                      controller: _filterControllers[_idxMemberName],
+                      hint: 'Name...',
                     ),
-                    SizedBox(height: padding),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildFilterField(
-                            controller:
-                                _filterControllers[_idxMcoMemberId],
-                            hint: 'Member ID...',
-                          ),
-                        ),
-                        SizedBox(width: padding),
-                        Expanded(
-                          child: _buildFilterField(
-                            controller: _filterControllers[_idxMemberDob],
-                            hint: 'DOB...',
-                          ),
-                        ),
-                      ],
+                  ),
+                  SizedBox(width: padding),
+                  Expanded(
+                    child: _buildFilterDropdown(
+                      controller: _filterControllers[_idxMco],
+                      hint: 'MCO',
+                      options: mcoOptions,
                     ),
-                    SizedBox(height: padding),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildFilterField(
-                            controller:
-                                _filterControllers[_idxMemberPhone1],
-                            hint: 'Phone...',
-                          ),
-                        ),
-                        SizedBox(width: padding),
-                        Expanded(
-                          child: _buildFilterField(
-                            controller: _filterControllers[_idxMeasureCode],
-                            hint: 'Measure...',
-                          ),
-                        ),
-                      ],
+                  ),
+                ],
+              ),
+              SizedBox(height: padding),
+              // Row 2: DOB → Measure code → Product
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildFilterField(
+                      controller: _filterControllers[_idxMemberDob],
+                      hint: 'DOB...',
                     ),
-                    SizedBox(height: padding),
-                    _buildFilterField(
-                      controller: _filterControllers[_idxDeadlineCalculation],
-                      hint: 'Deadline...',
+                  ),
+                  SizedBox(width: padding),
+                  Expanded(
+                    child: _buildFilterDropdown(
+                      controller: _filterControllers[_idxMeasureCode],
+                      hint: 'Measure code',
+                      options: measureOptions,
                     ),
-                  ],
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildFilterField(
-                            controller: _filterControllers[_idxMco],
-                            hint: 'MCO...',
-                          ),
-                        ),
-                        SizedBox(width: padding),
-                        Expanded(
-                          child: _buildFilterField(
-                            controller: _filterControllers[_idxMemberName],
-                            hint: 'Name...',
-                          ),
-                        ),
-                      ],
+                  ),
+                  SizedBox(width: padding),
+                  Expanded(
+                    child: _buildFilterDropdown(
+                      controller: _filterControllers[_idxProduct],
+                      hint: 'Product',
+                      options: productOptions,
                     ),
-                    SizedBox(height: padding),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildFilterField(
-                            controller:
-                                _filterControllers[_idxMcoMemberId],
-                            hint: 'Member ID...',
-                          ),
-                        ),
-                        SizedBox(width: padding),
-                        Expanded(
-                          child: _buildFilterField(
-                            controller: _filterControllers[_idxMemberDob],
-                            hint: 'DOB...',
-                          ),
-                        ),
-                        SizedBox(width: padding),
-                        Expanded(
-                          child: _buildFilterField(
-                            controller:
-                                _filterControllers[_idxMemberPhone1],
-                            hint: 'Phone...',
-                          ),
-                        ),
-                      ],
+                  ),
+                ],
+              ),
+              SizedBox(height: padding),
+              // Row 3: Member ID → Phone → Diagnosis code
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildFilterField(
+                      controller: _filterControllers[_idxMcoMemberId],
+                      hint: 'Member ID...',
                     ),
-                    SizedBox(height: padding),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildFilterField(
-                            controller: _filterControllers[_idxMeasureCode],
-                            hint: 'Measure...',
-                          ),
-                        ),
-                        SizedBox(width: padding),
-                        Expanded(
-                          child: _buildFilterField(
-                            controller:
-                                _filterControllers[_idxDeadlineCalculation],
-                            hint: 'Deadline...',
-                          ),
-                        ),
-                      ],
+                  ),
+                  SizedBox(width: padding),
+                  Expanded(
+                    child: _buildFilterField(
+                      controller: _filterControllers[_idxMemberPhone1],
+                      hint: 'Phone...',
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(width: padding),
+                  Expanded(
+                    child: _buildFilterField(
+                      controller: _filterControllers[_idxDiagnosisCode],
+                      hint: 'Diagnosis code...',
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         );
       },
+    );
+  }
+
+  Widget _buildFilterDropdown({
+    required TextEditingController controller,
+    required String hint,
+    required List<String> options,
+  }) {
+    final selected = controller.text.trim();
+    final orphan =
+        selected.isNotEmpty && !options.contains(selected) ? selected : null;
+    final items = <DropdownMenuItem<String>>[
+      const DropdownMenuItem<String>(
+        value: '',
+        child: Text('All', style: TextStyle(fontSize: 11)),
+      ),
+      ...options.map(
+        (v) => DropdownMenuItem<String>(
+          value: v,
+          child: Text(v, style: const TextStyle(fontSize: 11)),
+        ),
+      ),
+      if (orphan != null)
+        DropdownMenuItem<String>(
+          value: orphan,
+          child: Text(orphan, style: const TextStyle(fontSize: 11)),
+        ),
+    ];
+
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minWidth: 80),
+      child: DropdownButtonFormField<String>(
+        isDense: true,
+        isExpanded: true,
+        value: _dropdownSelectedValue(controller, options),
+        decoration: _filterDecoration(hint),
+        style: const TextStyle(fontSize: 11, color: Color(0xFF333333)),
+        items: items,
+        onChanged: (v) {
+          controller.text = v ?? '';
+        },
+      ),
     );
   }
 
