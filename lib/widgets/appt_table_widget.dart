@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'report_pagination_bar.dart';
+
 class APPTTableWidget extends StatefulWidget {
   const APPTTableWidget({super.key});
 
@@ -237,7 +239,11 @@ class _APPTTableWidgetState extends State<APPTTableWidget> {
     );
   }
 
-  int get _totalPages => (_filteredPatients.length / _rowsPerPage).ceil();
+  int get _totalPages {
+    final n = _filteredPatients.length;
+    if (n == 0) return 1;
+    return (n / _rowsPerPage).ceil();
+  }
 
   void _goToPage(int page) {
     if (page >= 1 && page <= _totalPages) {
@@ -512,159 +518,17 @@ class _APPTTableWidgetState extends State<APPTTableWidget> {
   }
 
   Widget _buildPaginationControls() {
-    final startIndex = (_currentPage - 1) * _rowsPerPage + 1;
-    final endIndex = (_currentPage * _rowsPerPage).clamp(0, _filteredPatients.length);
-    
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        border: Border(top: BorderSide(color: Colors.grey.shade200)),
-      ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          // If width is too small, stack vertically
-          if (constraints.maxWidth < 600) {
-            return Column(
-              children: [
-                // Rows per page selector
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Rows per page:',
-                      style: TextStyle(fontSize: 11, color: Color(0xFF666666)),
-                    ),
-                    const SizedBox(width: 6),
-                    DropdownButton<int>(
-                      value: _rowsPerPage,
-                      items: [10, 20, 50, 100].map((value) {
-                        return DropdownMenuItem<int>(
-                          value: value,
-                          child: Text('$value', style: const TextStyle(fontSize: 11)),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        if (value != null) {
-                          setState(() {
-                            _rowsPerPage = value;
-                            _currentPage = 1;
-                          });
-                        }
-                      },
-                      underline: Container(),
-                      style: const TextStyle(fontSize: 11),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                // Page info and navigation
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Showing $startIndex-$endIndex of ${_filteredPatients.length}',
-                      style: const TextStyle(fontSize: 11, color: Color(0xFF666666)),
-                    ),
-                    const SizedBox(width: 12),
-                    _buildCompactNavigation(),
-                  ],
-                ),
-              ],
-            );
-          } else {
-            // Horizontal layout for wider screens
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Rows per page selector
-                Row(
-                  children: [
-                    const Text(
-                      'Rows per page:',
-                      style: TextStyle(fontSize: 11, color: Color(0xFF666666)),
-                    ),
-                    const SizedBox(width: 6),
-                    DropdownButton<int>(
-                      value: _rowsPerPage,
-                      items: [10, 20, 50, 100].map((value) {
-                        return DropdownMenuItem<int>(
-                          value: value,
-                          child: Text('$value', style: const TextStyle(fontSize: 11)),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        if (value != null) {
-                          setState(() {
-                            _rowsPerPage = value;
-                            _currentPage = 1;
-                          });
-                        }
-                      },
-                      underline: Container(),
-                      style: const TextStyle(fontSize: 11),
-                    ),
-                  ],
-                ),
-                
-                // Page info and navigation
-                Row(
-                  children: [
-                    Text(
-                      'Showing $startIndex-$endIndex of ${_filteredPatients.length}',
-                      style: const TextStyle(fontSize: 11, color: Color(0xFF666666)),
-                    ),
-                    const SizedBox(width: 12),
-                    _buildCompactNavigation(),
-                  ],
-                ),
-              ],
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _buildCompactNavigation() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Previous button
-        IconButton(
-          onPressed: _currentPage > 1 ? () => _goToPage(_currentPage - 1) : null,
-          icon: const Icon(Icons.chevron_left),
-          iconSize: 18,
-          padding: const EdgeInsets.all(2),
-          constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
-        ),
-        
-        // Current page number only (to save space)
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: const Color(0xFF1976D2),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Text(
-            '$_currentPage',
-            style: const TextStyle(
-              fontSize: 11,
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-        
-        // Next button
-        IconButton(
-          onPressed: _currentPage < _totalPages ? () => _goToPage(_currentPage + 1) : null,
-          icon: const Icon(Icons.chevron_right),
-          iconSize: 18,
-          padding: const EdgeInsets.all(2),
-          constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
-        ),
-      ],
+    return ReportPaginationBar(
+      total: _filteredPatients.length,
+      currentPage: _currentPage,
+      rowsPerPage: _rowsPerPage,
+      onPageChanged: _goToPage,
+      onRowsPerPageChanged: (r) {
+        setState(() {
+          _rowsPerPage = r;
+          _currentPage = 1;
+        });
+      },
     );
   }
 

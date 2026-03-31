@@ -1,5 +1,9 @@
+import 'dart:math' show min;
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import 'report_pagination_bar.dart';
 
 /// Column spec: storage [key] (snake_case), display [header] (ALL CAPS, spaces).
 class _TsmColumn {
@@ -91,6 +95,45 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
   bool _sortAsc = true;
   bool _suppressFilterUpdates = false;
 
+  int _currentPage = 1;
+  int _rowsPerPage = 10;
+
+  int get _totalPages {
+    final n = _filtered.length;
+    if (n == 0) return 1;
+    return (n / _rowsPerPage).ceil();
+  }
+
+  List<Map<String, String>> get _paginatedRows {
+    final start = (_currentPage - 1) * _rowsPerPage;
+    if (start >= _filtered.length) return [];
+    final end = min(start + _rowsPerPage, _filtered.length);
+    return _filtered.sublist(start, end);
+  }
+
+  void _goToPage(int page) {
+    if (page >= 1 && page <= _totalPages) {
+      setState(() {
+        _currentPage = page;
+      });
+    }
+  }
+
+  Widget _buildPaginationControls() {
+    return ReportPaginationBar(
+      total: _filtered.length,
+      currentPage: _currentPage,
+      rowsPerPage: _rowsPerPage,
+      onPageChanged: _goToPage,
+      onRowsPerPageChanged: (r) {
+        setState(() {
+          _rowsPerPage = r;
+          _currentPage = 1;
+        });
+      },
+    );
+  }
+
   late final int _idxMco;
   late final int _idxMcoMemberId;
   late final int _idxMemberName;
@@ -105,7 +148,7 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
   @override
   void initState() {
     super.initState();
-    _allRows = List.generate(7, _placeholderRow);
+    _allRows = List.generate(35, _placeholderRow);
     _filtered = List.from(_allRows);
     _filterControllers = List.generate(
       _columns.length,
@@ -162,6 +205,7 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
         }
         return true;
       }).toList();
+      _currentPage = 1;
       _sortRows();
     });
   }
@@ -428,8 +472,10 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             _buildHeaderRow(),
-                            ..._filtered.asMap().entries.map((e) {
-                              return _buildDataRow(e.value, e.key);
+                            ..._paginatedRows.asMap().entries.map((e) {
+                              final globalIndex =
+                                  (_currentPage - 1) * _rowsPerPage + e.key;
+                              return _buildDataRow(e.value, globalIndex);
                             }),
                           ],
                         ),
@@ -440,6 +486,7 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
               ),
             ),
           ),
+          _buildPaginationControls(),
         ],
       ),
     );
