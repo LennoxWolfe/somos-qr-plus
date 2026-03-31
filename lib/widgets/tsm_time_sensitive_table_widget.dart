@@ -93,7 +93,6 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
 
   String? _sortKey;
   bool _sortAsc = true;
-  bool _suppressFilterUpdates = false;
 
   int _currentPage = 1;
   int _rowsPerPage = 10;
@@ -155,10 +154,7 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
       (_) => TextEditingController(),
     );
     for (final c in _filterControllers) {
-      c.addListener(() {
-        if (_suppressFilterUpdates) return;
-        _applyFilters();
-      });
+      c.addListener(_applyFilters);
     }
 
     _idxMco = _columns.indexWhere((c) => c.key == 'mco');
@@ -208,15 +204,6 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
       _currentPage = 1;
       _sortRows();
     });
-  }
-
-  void _clearAllFilters() {
-    _suppressFilterUpdates = true;
-    for (final c in _filterControllers) {
-      c.text = '';
-    }
-    _suppressFilterUpdates = false;
-    _applyFilters();
   }
 
   Widget _buildExternalFilters() {
@@ -521,16 +508,9 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
               PopupMenuButton<String>(
                 icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF333333)),
                 padding: EdgeInsets.zero,
-                onSelected: (v) {
-                  if (v == 'refresh') {
-                    _applyFilters();
-                  } else if (v == 'clear') {
-                    _clearAllFilters();
-                  }
-                },
+                onSelected: (_) => _applyFilters(),
                 itemBuilder: (context) => const [
                   PopupMenuItem(value: 'refresh', child: Text('Refresh')),
-                  PopupMenuItem(value: 'clear', child: Text('Clear filters')),
                 ],
               ),
               Expanded(
