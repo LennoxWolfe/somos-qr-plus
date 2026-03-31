@@ -544,14 +544,37 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Export (demo)')),
-                  );
-                },
-                icon: const Icon(Icons.file_download, size: 20),
-                tooltip: 'Export',
+              Tooltip(
+                message: 'Export',
+                child: TextButton.icon(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Export (demo)')),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.open_in_new,
+                    size: 20,
+                    color: Color(0xFF1976D2),
+                  ),
+                  label: const Text(
+                    'Export',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF1976D2),
+                    ),
+                  ),
+                  style: TextButton.styleFrom(
+                    foregroundColor: const Color(0xFF1976D2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                ),
               ),
             ],
           ),
