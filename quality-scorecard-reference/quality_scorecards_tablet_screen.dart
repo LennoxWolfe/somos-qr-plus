@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../widgets/tablet_layout_widget.dart';
-import '../widgets/tablet_app_header_widget.dart';
-import '../widgets/provider_dropdown_widget.dart';
-import '../core/constants/providers.dart';
-import '../widgets/perfect_table_widget.dart';
+import 'package:somos_qr_plus/widgets/app_header_widget.dart';
+import 'package:somos_qr_plus/widgets/app_drawer_widget.dart';
+import 'package:somos_qr_plus/core/constants/providers.dart';
+import 'package:somos_qr_plus/widgets/perfect_table_widget.dart';
 
 class QualityScorecardsTabletScreen extends StatefulWidget {
   const QualityScorecardsTabletScreen({super.key});
@@ -14,6 +13,7 @@ class QualityScorecardsTabletScreen extends StatefulWidget {
 }
 
 class _QualityScorecardsTabletScreenState extends State<QualityScorecardsTabletScreen> {
+  bool _isDrawerOpen = false;
   String _selectedProvider = 'All';
   String _selectedMCO = 'ANTHEM';
   String _selectedLOB = 'MCD';
@@ -332,84 +332,70 @@ class _QualityScorecardsTabletScreenState extends State<QualityScorecardsTabletS
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
-      body: Stack(
-        children: [
-          TabletLayoutWidget(
-            activeRoute: 'quality',
-            onNavigation: _handleNavigation,
-            header: Column(
-              children: [
-                TabletAppHeaderWidget(
-                  onProfileAction: (action) {
-                    _handleProfileAction(action);
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: const Color(0xFFF5F5F5),
+          body: Column(
+            children: [
+              AppHeaderWidget(
+                onMenuPressed: () {
+                  setState(() {
+                    _isDrawerOpen = true;
+                  });
+                },
+                onProfileAction: _handleProfileAction,
+              ),
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isMobile = constraints.maxWidth < 600;
+                    return SingleChildScrollView(
+                      padding: EdgeInsets.all(isMobile ? 16 : 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 24),
+                            child: Text(
+                              'Quality Score Cards',
+                              style: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                          ),
+                          _buildPracticeInfoSection(),
+                          const SizedBox(height: 16),
+                          _buildClearAllButton(),
+                          const SizedBox(height: 24),
+                          _buildPerfectTable(),
+                        ],
+                      ),
+                    );
                   },
                 ),
-                
-                // Provider Dropdown
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ProviderDropdownWidget(
-                          selectedProvider: _selectedProvider,
-                          providers: AppProviders.providers,
-                          onProviderChanged: (provider) {
-                            setState(() {
-                              _selectedProvider = provider;
-                            });
-                            _showSuccessMessage('Quality scorecards updated for $provider');
-                          },
-                          maxWidth: 300,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Page Title
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 24),
-                        child: Text(
-                          'Quality Score Cards',
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF333333),
-                          ),
-                        ),
-                      ),
-
-                      // Practice Information Section
-                      _buildPracticeInfoSection(),
-                      const SizedBox(height: 16),
-                      _buildClearAllButton(),
-                      const SizedBox(height: 24),
-                    
-                      // Perfect Table
-                      _buildPerfectTable(),
-                    ],
-                  ),
-                );
-              },
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+        AppDrawerWidget(
+          isOpen: _isDrawerOpen,
+          onClose: () {
+            setState(() {
+              _isDrawerOpen = false;
+            });
+          },
+          onNavigation: (route) {
+            setState(() {
+              _isDrawerOpen = false;
+            });
+            _handleNavigation(route);
+          },
+          activeRoute: 'quality',
+        ),
+      ],
     );
   }
 
@@ -450,7 +436,7 @@ class _QualityScorecardsTabletScreenState extends State<QualityScorecardsTabletS
         );
         break;
       case 'invitations':
-        context.go('/invitations');
+        context.go('/invitation');
         break;
       case 'logout':
         ScaffoldMessenger.of(context).showSnackBar(
