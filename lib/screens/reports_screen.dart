@@ -8,6 +8,9 @@ import '../widgets/mwov_table_widget.dart';
 import '../widgets/siip_table_widget.dart';
 import '../widgets/staff_login_table_widget.dart';
 import '../widgets/tsm_table_widget.dart';
+import '../widgets/tsm2_table_widget.dart';
+import '../widgets/tsm3_table_widget.dart';
+import '../widgets/tsm4_table_widget.dart';
 import '../widgets/app_header_widget.dart';
 import '../widgets/app_drawer_widget.dart';
 import '../widgets/provider_dropdown_widget.dart';
@@ -90,6 +93,150 @@ class _ReportsScreenState extends State<ReportsScreen> {
       'currentTimeframeIndex': 0,
     },
     'TSM': {
+      'timeframe': 'TODAY',
+      'date': '02-03-2026',
+      'mco': '2',
+      'memberName': '892',
+      'memberDob': '98%',
+      'memberPhone1': '1,180',
+      'measureCode': '12',
+      'deadlineCalculation': '7 due',
+      'diagnosisCode': '48',
+      'hasNavigation': true,
+      'timeframes': [
+        {
+          'name': 'TODAY',
+          'date': '02-03-2026',
+          'mco': '2',
+          'memberName': '892',
+          'memberDob': '98%',
+          'memberPhone1': '1,180',
+          'measureCode': '12',
+          'deadlineCalculation': '7 due',
+          'diagnosisCode': '48',
+        },
+        {
+          'name': 'LAST 30 DAYS',
+          'date': '01-04-2026 to 02-03-2026',
+          'mco': '14',
+          'memberName': '7,410',
+          'memberDob': '95%',
+          'memberPhone1': '8,915',
+          'measureCode': '88',
+          'deadlineCalculation': '32 due',
+          'diagnosisCode': '412',
+        },
+        {
+          'name': 'YTD',
+          'date': '01-01-2026 to 02-03-2026',
+          'mco': '26',
+          'memberName': '15,330',
+          'memberDob': '97%',
+          'memberPhone1': '16,885',
+          'measureCode': '136',
+          'deadlineCalculation': '55 due',
+          'diagnosisCode': '718',
+        },
+      ],
+      'currentTimeframeIndex': 0,
+    },
+    'TSM 2': {
+      'timeframe': 'TODAY',
+      'date': '02-03-2026',
+      'mco': '2',
+      'memberName': '892',
+      'memberDob': '98%',
+      'memberPhone1': '1,180',
+      'measureCode': '12',
+      'deadlineCalculation': '7 due',
+      'diagnosisCode': '48',
+      'hasNavigation': true,
+      'timeframes': [
+        {
+          'name': 'TODAY',
+          'date': '02-03-2026',
+          'mco': '2',
+          'memberName': '892',
+          'memberDob': '98%',
+          'memberPhone1': '1,180',
+          'measureCode': '12',
+          'deadlineCalculation': '7 due',
+          'diagnosisCode': '48',
+        },
+        {
+          'name': 'LAST 30 DAYS',
+          'date': '01-04-2026 to 02-03-2026',
+          'mco': '14',
+          'memberName': '7,410',
+          'memberDob': '95%',
+          'memberPhone1': '8,915',
+          'measureCode': '88',
+          'deadlineCalculation': '32 due',
+          'diagnosisCode': '412',
+        },
+        {
+          'name': 'YTD',
+          'date': '01-01-2026 to 02-03-2026',
+          'mco': '26',
+          'memberName': '15,330',
+          'memberDob': '97%',
+          'memberPhone1': '16,885',
+          'measureCode': '136',
+          'deadlineCalculation': '55 due',
+          'diagnosisCode': '718',
+        },
+      ],
+      'currentTimeframeIndex': 0,
+    },
+    'TSM 3': {
+      'timeframe': 'TODAY',
+      'date': '02-03-2026',
+      'mco': '2',
+      'memberName': '892',
+      'memberDob': '98%',
+      'memberPhone1': '1,180',
+      'measureCode': '12',
+      'deadlineCalculation': '7 due',
+      'diagnosisCode': '48',
+      'hasNavigation': true,
+      'timeframes': [
+        {
+          'name': 'TODAY',
+          'date': '02-03-2026',
+          'mco': '2',
+          'memberName': '892',
+          'memberDob': '98%',
+          'memberPhone1': '1,180',
+          'measureCode': '12',
+          'deadlineCalculation': '7 due',
+          'diagnosisCode': '48',
+        },
+        {
+          'name': 'LAST 30 DAYS',
+          'date': '01-04-2026 to 02-03-2026',
+          'mco': '14',
+          'memberName': '7,410',
+          'memberDob': '95%',
+          'memberPhone1': '8,915',
+          'measureCode': '88',
+          'deadlineCalculation': '32 due',
+          'diagnosisCode': '412',
+        },
+        {
+          'name': 'YTD',
+          'date': '01-01-2026 to 02-03-2026',
+          'mco': '26',
+          'memberName': '15,330',
+          'memberDob': '97%',
+          'memberPhone1': '16,885',
+          'measureCode': '136',
+          'deadlineCalculation': '55 due',
+          'diagnosisCode': '718',
+        },
+      ],
+      'currentTimeframeIndex': 0,
+    },
+    'TSM 4': {
       'timeframe': 'TODAY',
       'date': '02-03-2026',
       'mco': '2',
@@ -795,7 +942,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                         children: [
                           const Expanded(
                             child: Text(
-                              'TSM Detailed Report',
+                              'FUA,FUM and TRC Detailed Report',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
@@ -815,6 +962,222 @@ class _ReportsScreenState extends State<ReportsScreen> {
                       child: Padding(
                         padding: EdgeInsets.all(16),
                         child: TSMTableWidget(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _showTSM2TableDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(6),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              double dialogWidth = constraints.maxWidth * 0.99;
+              double dialogHeight = constraints.maxHeight * 0.95;
+
+              if (constraints.maxWidth > 1200) {
+                dialogWidth = 1250;
+              }
+
+              return Container(
+                width: dialogWidth,
+                height: dialogHeight,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFf8f9fa),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'CIS Detailed Report',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            icon: const Icon(Icons.close, size: 24),
+                            tooltip: 'Close',
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: TSM2TableWidget(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _showTSM3TableDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(6),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              double dialogWidth = constraints.maxWidth * 0.99;
+              double dialogHeight = constraints.maxHeight * 0.95;
+
+              if (constraints.maxWidth > 1200) {
+                dialogWidth = 1250;
+              }
+
+              return Container(
+                width: dialogWidth,
+                height: dialogHeight,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFf8f9fa),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'IMA Detailed Report',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            icon: const Icon(Icons.close, size: 24),
+                            tooltip: 'Close',
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: TSM3TableWidget(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _showTSM4TableDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(6),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              double dialogWidth = constraints.maxWidth * 0.99;
+              double dialogHeight = constraints.maxHeight * 0.95;
+
+              if (constraints.maxWidth > 1200) {
+                dialogWidth = 1250;
+              }
+
+              return Container(
+                width: dialogWidth,
+                height: dialogHeight,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFf8f9fa),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'W30 Detailed Report',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            icon: const Icon(Icons.close, size: 24),
+                            tooltip: 'Close',
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: TSM4TableWidget(),
                       ),
                     ),
                   ],
@@ -867,6 +1230,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
             _buildSIIPCard(),
             _buildStaffLoginCard(),
             _buildTSMCard(),
+            _buildTSM2Card(),
+            _buildTSM3Card(),
+            _buildTSM4Card(),
           ],
         );
       },
@@ -1211,7 +1577,13 @@ class _ReportsScreenState extends State<ReportsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildKPIHeader('TSM', data['timeframe'] as String?, data['date'] as String?, true),
+          _buildKPIHeader(
+            'FUA,FUM and TRC',
+            data['timeframe'] as String?,
+            data['date'] as String?,
+            true,
+            navigationKey: 'TSM',
+          ),
           const SizedBox(height: 4),
           Expanded(
             child: SingleChildScrollView(
@@ -1219,13 +1591,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildKPIStringMetrics([
-                    {'label': 'MCO', 'value': data['mco'] ?? '0'},
-                    {'label': 'MEMBER NAME', 'value': data['memberName'] ?? '0'},
-                    {'label': 'MEMBER DOB', 'value': data['memberDob'] ?? '0%'},
-                    {'label': 'MEMBER PHONE 1', 'value': data['memberPhone1'] ?? '0'},
-                    {'label': 'MEASURE CODE', 'value': data['measureCode'] ?? '0'},
-                    {'label': 'DEADLINE CALCULATION', 'value': data['deadlineCalculation'] ?? '0 due'},
-                    {'label': 'DIAGNOSIS CODE', 'value': data['diagnosisCode'] ?? '0'},
+                    {'label': 'GIC', 'value': '12'},
+                    {'label': 'RA', 'value': '9'},
+                    {'label': 'TSM', 'value': '16'},
                   ]),
                   const SizedBox(height: 8),
                   SizedBox(
@@ -1233,6 +1601,186 @@ class _ReportsScreenState extends State<ReportsScreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         _showTSMTableDialog(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1976D2),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      child: const Text(
+                        'View Reports',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTSM2Card() {
+    final data = _kpiData['TSM 2'];
+    if (data == null) return const SizedBox.shrink();
+
+    return _buildKPICard(
+      title: 'TSM 2',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildKPIHeader(
+            'CIS',
+            data['timeframe'] as String?,
+            data['date'] as String?,
+            true,
+            navigationKey: 'TSM 2',
+          ),
+          const SizedBox(height: 4),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildKPIStringMetrics([
+                    {'label': 'GIC', 'value': '7'},
+                    {'label': 'RA', 'value': '14'},
+                    {'label': 'TSM', 'value': '10'},
+                  ]),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _showTSM2TableDialog(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1976D2),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      child: const Text(
+                        'View Reports',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTSM3Card() {
+    final data = _kpiData['TSM 3'];
+    if (data == null) return const SizedBox.shrink();
+
+    return _buildKPICard(
+      title: 'TSM 3',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildKPIHeader(
+            'IMA',
+            data['timeframe'] as String?,
+            data['date'] as String?,
+            true,
+            navigationKey: 'TSM 3',
+          ),
+          const SizedBox(height: 4),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildKPIStringMetrics([
+                    {'label': 'GIC', 'value': '18'},
+                    {'label': 'RA', 'value': '6'},
+                    {'label': 'TSM', 'value': '11'},
+                  ]),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _showTSM3TableDialog(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1976D2),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      child: const Text(
+                        'View Reports',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTSM4Card() {
+    final data = _kpiData['TSM 4'];
+    if (data == null) return const SizedBox.shrink();
+
+    return _buildKPICard(
+      title: 'TSM 4',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildKPIHeader(
+            'W30',
+            data['timeframe'] as String?,
+            data['date'] as String?,
+            true,
+            navigationKey: 'TSM 4',
+          ),
+          const SizedBox(height: 4),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildKPIStringMetrics([
+                    {'label': 'GIC', 'value': '15'},
+                    {'label': 'RA', 'value': '8'},
+                    {'label': 'TSM', 'value': '20'},
+                  ]),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _showTSM4TableDialog(context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1976D2),
@@ -1300,7 +1848,13 @@ class _ReportsScreenState extends State<ReportsScreen> {
     );
   }
 
-  Widget _buildKPIHeader(String title, String? timeframe, String? date, bool hasNavigation) {
+  Widget _buildKPIHeader(
+    String title,
+    String? timeframe,
+    String? date,
+    bool hasNavigation, {
+    String? navigationKey,
+  }) {
     return LayoutBuilder(
       builder: (context, constraints) {
         // Responsive font sizes based on available width
@@ -1336,7 +1890,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                if (hasNavigation) _buildTimeframeNavigation(title),
+                if (hasNavigation) _buildTimeframeNavigation(navigationKey ?? title),
               ],
             ),
             if (timeframe != null) ...[
@@ -1465,7 +2019,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
         kpiData['open'] = timeframe['open'] ?? 0;
         kpiData['total'] = timeframe['total'] ?? 0;
         kpiData['earnings'] = timeframe['earnings'] ?? 0.0;
-      } else if (kpiType == 'TSM') {
+      } else if (kpiType == 'TSM' || kpiType == 'TSM 2' || kpiType == 'TSM 3' || kpiType == 'TSM 4') {
         kpiData['date'] = timeframe['date'] ?? '';
         kpiData['mco'] = timeframe['mco'] ?? '0';
         kpiData['memberName'] = timeframe['memberName'] ?? '0';

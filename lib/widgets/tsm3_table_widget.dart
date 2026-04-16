@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
-class TSMTableWidget extends StatefulWidget {
-  const TSMTableWidget({super.key});
+class TSM3TableWidget extends StatefulWidget {
+  const TSM3TableWidget({super.key});
 
   @override
-  State<TSMTableWidget> createState() => _TSMTableWidgetState();
+  State<TSM3TableWidget> createState() => _TSM3TableWidgetState();
 }
 
-class _TSMTableWidgetState extends State<TSMTableWidget> {
-  List<TSMRecord> _records = [];
-  List<TSMRecord> _filteredRecords = [];
-  String _sortColumn = 'mcoMemberId';
+class _TSM3TableWidgetState extends State<TSM3TableWidget> {
+  List<TSM3Record> _records = [];
+  List<TSM3Record> _filteredRecords = [];
+  String _sortColumn = 'plan_member_id';
   bool _sortAscending = true;
 
   // Pagination
   int _currentPage = 1;
   int _rowsPerPage = 10;
 
-  // Filter controllers (same style as GIC)
+  // Filter controllers (same style as TSM 1/2)
   final TextEditingController _memberNameFilterController =
       TextEditingController();
   final TextEditingController _memberIdFilterController =
@@ -41,166 +41,112 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
 
   void _loadSampleData() {
     _records = [
-      TSMRecord(
-        pcpTin: '12-3456789',
-        pcpPractice: 'Bronx Family Care',
-        pcpNpi: '1234567890',
-        mco: 'Healthfirst',
-        ipa: 'Metro IPA',
-        product: 'Medicaid',
-        mcoProduct: 'HF Gold',
-        mcoMemberId: '1240',
-        memberName: 'Maria Alvarez',
-        memberDob: '03-10-1972',
-        memberAddress1: '110 E 170th St',
-        memberAddress2: 'Apt 3B',
-        memberCity: 'Bronx',
-        memberZip: '10452',
-        memberPhone1: '7185550121',
-        memberPhone2: '3475551212',
-        emrPhone3: '2125550100',
-        measureCode: 'TSM-01',
-        measure: 'Medication Reconciliation',
-        eventDate: '04-10-2026',
-        alertDate: '03-20-2026',
-        deadlineCalculation: '7 due',
-        diagnosisCode: 'I10',
-        diagnosisDescription: 'Essential (primary) hypertension',
-        admitFacility: 'Lincoln Medical Center',
+      TSM3Record(
+        plan: 'Healthfirst',
+        tin: '12-3456789',
+        practice_name: 'Bronx Family Care',
+        npi: '1234567890',
+        pcp_name: 'Joel Cedano',
+        pcp_address: '110 E 170th St',
+        pcp_city: 'Bronx',
+        pcp_state: 'NY',
+        measure_code: 'IMA',
+        measure_description: 'Immunizations for Adolescents',
+        line_of_business: 'Medicaid',
+        plan_member_id: 'A10001',
+        first_name: 'Maria',
+        last_name: 'Alvarez',
+        date_of_birth: '03-10-2013',
+        member_city: 'Bronx',
+        member_state: 'NY',
+        member_zip: '10452',
+        member_phone: '7185550121',
+        member_13th_birthday: '03-10-2026',
+        ima_meningococcal_1: 'Y',
+        ima_tdap_1: 'Y',
+        ima_hpv_2: 'N',
+        daterun: '04-16-2026',
       ),
-      TSMRecord(
-        pcpTin: '98-7654321',
-        pcpPractice: 'Washington Heights Clinic',
-        pcpNpi: '9876543210',
-        mco: 'Anthem',
-        ipa: 'North IPA',
-        product: 'Medicare',
-        mcoProduct: 'Anthem Plus',
-        mcoMemberId: '1318',
-        memberName: 'Jose Martinez',
-        memberDob: '11-22-1968',
-        memberAddress1: '450 W 181st St',
-        memberAddress2: '',
-        memberCity: 'New York',
-        memberZip: '10033',
-        memberPhone1: '6465559182',
-        memberPhone2: '',
-        emrPhone3: '2125550200',
-        measureCode: 'TSM-03',
-        measure: 'Follow-up Call',
-        eventDate: '04-02-2026',
-        alertDate: '03-19-2026',
-        deadlineCalculation: '3 due',
-        diagnosisCode: 'E11.9',
-        diagnosisDescription: 'Type 2 diabetes mellitus without complications',
-        admitFacility: 'NewYork-Presbyterian',
+      TSM3Record(
+        plan: 'Anthem',
+        tin: '98-7654321',
+        practice_name: 'Washington Heights Clinic',
+        npi: '9876543210',
+        pcp_name: 'Maria Garcia',
+        pcp_address: '450 W 181st St',
+        pcp_city: 'New York',
+        pcp_state: 'NY',
+        measure_code: 'IMA',
+        measure_description: 'Immunizations for Adolescents',
+        line_of_business: 'Commercial',
+        plan_member_id: 'A10002',
+        first_name: 'Jose',
+        last_name: 'Martinez',
+        date_of_birth: '11-22-2013',
+        member_city: 'New York',
+        member_state: 'NY',
+        member_zip: '10033',
+        member_phone: '6465559182',
+        member_13th_birthday: '11-22-2026',
+        ima_meningococcal_1: 'Y',
+        ima_tdap_1: 'N',
+        ima_hpv_2: 'N',
+        daterun: '04-16-2026',
       ),
-      TSMRecord(
-        pcpTin: '11-2345678',
-        pcpPractice: 'Queens Community Health',
-        pcpNpi: '1122334455',
-        mco: 'Emblem',
-        ipa: 'East IPA',
-        product: 'Commercial',
-        mcoProduct: 'Emblem Core',
-        mcoMemberId: '1407',
-        memberName: 'Ana Gomez',
-        memberDob: '07-04-1980',
-        memberAddress1: '76-12 Roosevelt Ave',
-        memberAddress2: 'Floor 2',
-        memberCity: 'Jackson Heights',
-        memberZip: '11372',
-        memberPhone1: '9175552334',
-        memberPhone2: '7185552334',
-        emrPhone3: '7185550300',
-        measureCode: 'TSM-02',
-        measure: 'Transition of Care',
-        eventDate: '04-15-2026',
-        alertDate: '03-23-2026',
-        deadlineCalculation: '12 due',
-        diagnosisCode: 'J44.9',
-        diagnosisDescription: 'Chronic obstructive pulmonary disease, unspecified',
-        admitFacility: 'Elmhurst Hospital',
-      ),
-      TSMRecord(
-        pcpTin: '55-6677889',
-        pcpPractice: 'Brooklyn Medical Group',
-        pcpNpi: '5566778899',
-        mco: 'Molina',
-        ipa: 'South IPA',
-        product: 'Medicaid',
-        mcoProduct: 'Molina Basic',
-        mcoMemberId: '1529',
-        memberName: 'Carlos Torres',
-        memberDob: '01-29-1975',
-        memberAddress1: '204 Court St',
-        memberAddress2: '',
-        memberCity: 'Brooklyn',
-        memberZip: '11201',
-        memberPhone1: '7185559923',
-        memberPhone2: '',
-        emrPhone3: '7185550400',
-        measureCode: 'TSM-04',
-        measure: 'Medication Review',
-        eventDate: '04-05-2026',
-        alertDate: '03-18-2026',
-        deadlineCalculation: '5 due',
-        diagnosisCode: 'N18.3',
-        diagnosisDescription: 'Chronic kidney disease, stage 3',
-        admitFacility: 'Maimonides Medical Center',
-      ),
-      TSMRecord(
-        pcpTin: '44-3322110',
-        pcpPractice: 'Harlem Health Partners',
-        pcpNpi: '4433221100',
-        mco: 'Healthfirst',
-        ipa: 'Metro IPA',
-        product: 'Medicare',
-        mcoProduct: 'HF Silver',
-        mcoMemberId: '1642',
-        memberName: 'Elena Ruiz',
-        memberDob: '09-14-1963',
-        memberAddress1: '12 Lenox Ave',
-        memberAddress2: 'Unit 5A',
-        memberCity: 'New York',
-        memberZip: '10027',
-        memberPhone1: '2125554733',
-        memberPhone2: '6465554733',
-        emrPhone3: '2125550500',
-        measureCode: 'TSM-01',
-        measure: 'Medication Reconciliation',
-        eventDate: '03-28-2026',
-        alertDate: '03-15-2026',
-        deadlineCalculation: 'Completed',
-        diagnosisCode: 'I25.10',
-        diagnosisDescription: 'Atherosclerotic heart disease of native coronary artery',
-        admitFacility: 'Mount Sinai Hospital',
+      TSM3Record(
+        plan: 'Emblem',
+        tin: '11-2345678',
+        practice_name: 'Queens Community Health',
+        npi: '1122334455',
+        pcp_name: 'John Smith',
+        pcp_address: '76-12 Roosevelt Ave',
+        pcp_city: 'Jackson Heights',
+        pcp_state: 'NY',
+        measure_code: 'IMA',
+        measure_description: 'Immunizations for Adolescents',
+        line_of_business: 'Medicaid',
+        plan_member_id: 'A10003',
+        first_name: 'Ana',
+        last_name: 'Gomez',
+        date_of_birth: '07-04-2013',
+        member_city: 'Jackson Heights',
+        member_state: 'NY',
+        member_zip: '11372',
+        member_phone: '9175552334',
+        member_13th_birthday: '07-04-2026',
+        ima_meningococcal_1: 'N',
+        ima_tdap_1: 'Y',
+        ima_hpv_2: 'Y',
+        daterun: '04-16-2026',
       ),
     ];
+
     _filteredRecords = List.from(_records);
   }
 
   void _applyFilters() {
     setState(() {
       _filteredRecords = _records.where((record) {
-        final memberNameMatch = record.memberName
+        final memberNameMatch = ('${record.first_name} ${record.last_name}')
             .toLowerCase()
             .contains(_memberNameFilterController.text.toLowerCase());
         final memberIdMatch =
-            record.mcoMemberId.contains(_memberIdFilterController.text);
-        final dobMatch = record.memberDob.contains(_dobFilterController.text);
+            record.plan_member_id.contains(_memberIdFilterController.text);
+        final dobMatch =
+            record.date_of_birth.contains(_dobFilterController.text);
         final measureCodeMatch =
-            record.measureCode.contains(_measureCodeFilterController.text);
-        final phoneMatch = record.memberPhone1.contains(_phoneFilterController.text);
-        final deadlineMatch = record.deadlineCalculation
+            record.measure_code.contains(_measureCodeFilterController.text);
+        final phoneMatch =
+            record.member_phone.contains(_phoneFilterController.text);
+        final deadlineMatch = record.daterun
             .toLowerCase()
             .contains(_deadlineFilterController.text.toLowerCase());
 
-        final mcoMatch = _mcoFilter.isEmpty || record.mco == _mcoFilter;
-        final measureMatch =
-            _measureFilter.isEmpty || record.measure == _measureFilter;
+        final mcoMatch = _mcoFilter.isEmpty || record.plan == _mcoFilter;
+        final measureMatch = _measureFilter.isEmpty ||
+            record.measure_description == _measureFilter;
         final ipaMatch =
-            _ipaFilter.isEmpty || record.ipa == _ipaFilter;
+            _ipaFilter.isEmpty || record.line_of_business == _ipaFilter;
 
         return memberNameMatch &&
             memberIdMatch &&
@@ -216,7 +162,7 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
     });
   }
 
-  List<TSMRecord> get _paginatedRecords {
+  List<TSM3Record> get _paginatedRecords {
     final startIndex = (_currentPage - 1) * _rowsPerPage;
     final endIndex = startIndex + _rowsPerPage;
     return _filteredRecords.sublist(
@@ -256,60 +202,28 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
     });
   }
 
-  String _getValueForColumn(TSMRecord record, String column) {
+  String _getValueForColumn(TSM3Record record, String column) {
     switch (column) {
-      case 'pcpTin':
-        return record.pcpTin;
-      case 'pcpPractice':
-        return record.pcpPractice;
-      case 'pcpNpi':
-        return record.pcpNpi;
-      case 'mco':
-        return record.mco;
-      case 'ipa':
-        return record.ipa;
-      case 'product':
-        return record.product;
-      case 'mcoProduct':
-        return record.mcoProduct;
-      case 'mcoMemberId':
-        return record.mcoMemberId;
-      case 'memberName':
-        return record.memberName;
-      case 'memberDob':
-        return record.memberDob;
-      case 'memberAddress1':
-        return record.memberAddress1;
-      case 'memberAddress2':
-        return record.memberAddress2;
-      case 'memberCity':
-        return record.memberCity;
-      case 'memberZip':
-        return record.memberZip;
-      case 'memberPhone1':
-        return record.memberPhone1;
-      case 'memberPhone2':
-        return record.memberPhone2;
-      case 'emrPhone3':
-        return record.emrPhone3;
-      case 'measureCode':
-        return record.measureCode;
-      case 'measure':
-        return record.measure;
-      case 'eventDate':
-        return record.eventDate;
-      case 'alertDate':
-        return record.alertDate;
-      case 'deadlineCalculation':
-        return record.deadlineCalculation;
-      case 'diagnosisCode':
-        return record.diagnosisCode;
-      case 'diagnosisDescription':
-        return record.diagnosisDescription;
-      case 'admitFacility':
-        return record.admitFacility;
+      case 'member_city':
+        return record.member_city;
+      case 'member_state':
+        return record.member_state;
+      case 'member_zip':
+        return record.member_zip;
+      case 'member_phone':
+        return record.member_phone;
+      case 'member_13th_birthday':
+        return record.member_13th_birthday;
+      case 'ima_meningococcal_1':
+        return record.ima_meningococcal_1;
+      case 'ima_tdap_1':
+        return record.ima_tdap_1;
+      case 'ima_hpv_2':
+        return record.ima_hpv_2;
+      case 'daterun':
+        return record.daterun;
       default:
-        return record.mcoMemberId;
+        return record.plan_member_id;
     }
   }
 
@@ -345,7 +259,7 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                 children: [
                   Expanded(
                     child: Text(
-                      'FUA,FUM and TRC',
+                      'IMA',
                       style: TextStyle(
                         fontSize: fontSize + 2,
                         fontWeight: FontWeight.w600,
@@ -357,7 +271,7 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('TSM export coming soon'),
+                          content: Text('IMA export coming soon'),
                           behavior: SnackBarBehavior.floating,
                         ),
                       );
@@ -431,10 +345,7 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                           value: _measureFilter,
                           items: [
                             '',
-                            'Medication Reconciliation',
-                            'Transition of Care',
-                            'Follow-up Call',
-                            'Medication Review',
+                            'Immunizations for Adolescents',
                           ],
                           hint: 'Measure',
                           onChanged: (value) {
@@ -467,7 +378,7 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                       Expanded(
                         child: _buildFilterDropdown(
                           value: _ipaFilter,
-                          items: ['', 'Metro IPA', 'North IPA', 'East IPA', 'South IPA'],
+                          items: ['', 'Medicaid', 'Commercial', 'Medicare'],
                           hint: 'IPA',
                           onChanged: (value) {
                             _ipaFilter = value ?? '';
@@ -496,76 +407,36 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                             color: const Color(0xFF333333),
                           ),
                           columns: [
-                            _buildDataColumn('PCP TIN', 'pcpTin', fontSize),
-                            _buildDataColumn('PCP PRACTICE', 'pcpPractice', fontSize),
-                            _buildDataColumn('PCP NPI', 'pcpNpi', fontSize),
-                            _buildDataColumn('MCO', 'mco', fontSize),
-                            _buildDataColumn('IPA', 'ipa', fontSize),
-                            _buildDataColumn('PRODUCT', 'product', fontSize),
-                            _buildDataColumn('MCO PRODUCT', 'mcoProduct', fontSize),
+                            _buildDataColumn('MEMBER CITY', 'member_city', fontSize),
+                            _buildDataColumn('MEMBER STATE', 'member_state', fontSize),
+                            _buildDataColumn('MEMBER ZIP', 'member_zip', fontSize),
+                            _buildDataColumn('MEMBER PHONE', 'member_phone', fontSize),
                             _buildDataColumn(
-                              'MCO MEMBER ID (was incorrectly MCP MEMBER ID)',
-                              'mcoMemberId',
-                              fontSize,
-                            ),
-                            _buildDataColumn('MEMBER NAME', 'memberName', fontSize),
-                            _buildDataColumn('MEMBER DOB', 'memberDob', fontSize),
-                            _buildDataColumn('MEMBER ADDRESS 1', 'memberAddress1', fontSize),
-                            _buildDataColumn('MEMBER ADDRESS 2', 'memberAddress2', fontSize),
-                            _buildDataColumn('MEMBER CITY', 'memberCity', fontSize),
-                            _buildDataColumn('MEMBER ZIP', 'memberZip', fontSize),
-                            _buildDataColumn('MEMBER PHONE 1', 'memberPhone1', fontSize),
-                            _buildDataColumn('MEMBER PHONE 2', 'memberPhone2', fontSize),
-                            _buildDataColumn('EMR PHONE 3', 'emrPhone3', fontSize),
-                            _buildDataColumn('MEASURE CODE', 'measureCode', fontSize),
-                            _buildDataColumn('MEASURE', 'measure', fontSize),
-                            _buildDataColumn('EVENT DATE', 'eventDate', fontSize),
-                            _buildDataColumn('ALERT DATE', 'alertDate', fontSize),
-                            _buildDataColumn(
-                              'DEADLINE CALCULATION',
-                              'deadlineCalculation',
+                              'MEMBER 13TH BIRTHDAY',
+                              'member_13th_birthday',
                               fontSize,
                             ),
                             _buildDataColumn(
-                              'DIAGNOSIS CODE',
-                              'diagnosisCode',
+                              'IMA MENINGOCOCCAL 1',
+                              'ima_meningococcal_1',
                               fontSize,
                             ),
-                            _buildDataColumn(
-                              'DIAGNOSIS DESCRIPTION',
-                              'diagnosisDescription',
-                              fontSize,
-                            ),
-                            _buildDataColumn('ADMIT FACILITY', 'admitFacility', fontSize),
+                            _buildDataColumn('IMA TDAP 1', 'ima_tdap_1', fontSize),
+                            _buildDataColumn('IMA HPV 2', 'ima_hpv_2', fontSize),
+                            _buildDataColumn('DATERUN', 'daterun', fontSize),
                           ],
                           rows: _paginatedRecords.map((record) {
                             return DataRow(
                               cells: [
-                                DataCell(Text(record.pcpTin)),
-                                DataCell(Text(record.pcpPractice)),
-                                DataCell(Text(record.pcpNpi)),
-                                DataCell(Text(record.mco)),
-                                DataCell(Text(record.ipa)),
-                                DataCell(Text(record.product)),
-                                DataCell(Text(record.mcoProduct)),
-                                DataCell(Text(record.mcoMemberId)),
-                                DataCell(Text(record.memberName)),
-                                DataCell(Text(record.memberDob)),
-                                DataCell(Text(record.memberAddress1)),
-                                DataCell(Text(record.memberAddress2.isEmpty ? '-' : record.memberAddress2)),
-                                DataCell(Text(record.memberCity)),
-                                DataCell(Text(record.memberZip)),
-                                DataCell(Text(record.memberPhone1)),
-                                DataCell(Text(record.memberPhone2.isEmpty ? '-' : record.memberPhone2)),
-                                DataCell(Text(record.emrPhone3)),
-                                DataCell(Text(record.measureCode)),
-                                DataCell(Text(record.measure)),
-                                DataCell(Text(record.eventDate)),
-                                DataCell(Text(record.alertDate)),
-                                DataCell(Text(record.deadlineCalculation)),
-                                DataCell(Text(record.diagnosisCode)),
-                                DataCell(Text(record.diagnosisDescription)),
-                                DataCell(Text(record.admitFacility)),
+                                DataCell(Text(record.member_city)),
+                                DataCell(Text(record.member_state)),
+                                DataCell(Text(record.member_zip)),
+                                DataCell(Text(record.member_phone)),
+                                DataCell(Text(record.member_13th_birthday)),
+                                DataCell(Text(record.ima_meningococcal_1)),
+                                DataCell(Text(record.ima_tdap_1)),
+                                DataCell(Text(record.ima_hpv_2)),
+                                DataCell(Text(record.daterun)),
                               ],
                             );
                           }).toList(),
@@ -685,7 +556,8 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
 
   Widget _buildPaginationControls() {
     final totalRecords = _filteredRecords.length;
-    final startIndex = totalRecords == 0 ? 0 : (_currentPage - 1) * _rowsPerPage + 1;
+    final startIndex =
+        totalRecords == 0 ? 0 : (_currentPage - 1) * _rowsPerPage + 1;
     final endIndex = (_currentPage * _rowsPerPage).clamp(0, totalRecords);
 
     return Container(
@@ -712,7 +584,8 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                       items: [10, 20, 50, 100].map((value) {
                         return DropdownMenuItem<int>(
                           value: value,
-                          child: Text('$value', style: const TextStyle(fontSize: 11)),
+                          child: Text('$value',
+                              style: const TextStyle(fontSize: 11)),
                         );
                       }).toList(),
                       onChanged: (value) {
@@ -734,7 +607,8 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                   children: [
                     Text(
                       'Showing $startIndex-$endIndex of $totalRecords',
-                      style: const TextStyle(fontSize: 11, color: Color(0xFF666666)),
+                      style:
+                          const TextStyle(fontSize: 11, color: Color(0xFF666666)),
                     ),
                     const SizedBox(width: 12),
                     _buildCompactNavigation(),
@@ -759,7 +633,8 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                     items: [10, 20, 50, 100].map((value) {
                       return DropdownMenuItem<int>(
                         value: value,
-                        child: Text('$value', style: const TextStyle(fontSize: 11)),
+                        child:
+                            Text('$value', style: const TextStyle(fontSize: 11)),
                       );
                     }).toList(),
                     onChanged: (value) {
@@ -797,7 +672,8 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
-          onPressed: _currentPage > 1 ? () => _goToPage(_currentPage - 1) : null,
+          onPressed:
+              _currentPage > 1 ? () => _goToPage(_currentPage - 1) : null,
           icon: const Icon(Icons.chevron_left),
           iconSize: 18,
           padding: const EdgeInsets.all(2),
@@ -819,7 +695,9 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
           ),
         ),
         IconButton(
-          onPressed: _currentPage < _totalPages ? () => _goToPage(_currentPage + 1) : null,
+          onPressed: _currentPage < _totalPages
+              ? () => _goToPage(_currentPage + 1)
+              : null,
           icon: const Icon(Icons.chevron_right),
           iconSize: 18,
           padding: const EdgeInsets.all(2),
@@ -841,58 +719,60 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
   }
 }
 
-class TSMRecord {
-  final String pcpTin;
-  final String pcpPractice;
-  final String pcpNpi;
-  final String mco;
-  final String ipa;
-  final String product;
-  final String mcoProduct;
-  final String mcoMemberId;
-  final String memberName;
-  final String memberDob;
-  final String memberAddress1;
-  final String memberAddress2;
-  final String memberCity;
-  final String memberZip;
-  final String memberPhone1;
-  final String memberPhone2;
-  final String emrPhone3;
-  final String measureCode;
-  final String measure;
-  final String eventDate;
-  final String alertDate;
-  final String deadlineCalculation;
-  final String diagnosisCode;
-  final String diagnosisDescription;
-  final String admitFacility;
+class TSM3Record {
+  // Extra fields retained for consistent filtering UI behavior
+  final String plan;
+  final String tin;
+  final String practice_name;
+  final String npi;
+  final String pcp_name;
+  final String pcp_address;
+  final String pcp_city;
+  final String pcp_state;
+  final String measure_code;
+  final String measure_description;
+  final String line_of_business;
+  final String plan_member_id;
+  final String first_name;
+  final String last_name;
+  final String date_of_birth;
 
-  TSMRecord({
-    required this.pcpTin,
-    required this.pcpPractice,
-    required this.pcpNpi,
-    required this.mco,
-    required this.ipa,
-    required this.product,
-    required this.mcoProduct,
-    required this.mcoMemberId,
-    required this.memberName,
-    required this.memberDob,
-    required this.memberAddress1,
-    required this.memberAddress2,
-    required this.memberCity,
-    required this.memberZip,
-    required this.memberPhone1,
-    required this.memberPhone2,
-    required this.emrPhone3,
-    required this.measureCode,
-    required this.measure,
-    required this.eventDate,
-    required this.alertDate,
-    required this.deadlineCalculation,
-    required this.diagnosisCode,
-    required this.diagnosisDescription,
-    required this.admitFacility,
+  // IMA table columns
+  final String member_city;
+  final String member_state;
+  final String member_zip;
+  final String member_phone;
+  final String member_13th_birthday;
+  final String ima_meningococcal_1;
+  final String ima_tdap_1;
+  final String ima_hpv_2;
+  final String daterun;
+
+  TSM3Record({
+    required this.plan,
+    required this.tin,
+    required this.practice_name,
+    required this.npi,
+    required this.pcp_name,
+    required this.pcp_address,
+    required this.pcp_city,
+    required this.pcp_state,
+    required this.measure_code,
+    required this.measure_description,
+    required this.line_of_business,
+    required this.plan_member_id,
+    required this.first_name,
+    required this.last_name,
+    required this.date_of_birth,
+    required this.member_city,
+    required this.member_state,
+    required this.member_zip,
+    required this.member_phone,
+    required this.member_13th_birthday,
+    required this.ima_meningococcal_1,
+    required this.ima_tdap_1,
+    required this.ima_hpv_2,
+    required this.daterun,
   });
 }
+
