@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 /// One macro KPI row for the TSM table columns shown as macro metrics on the card.
-class TsmMacroMetric {
-  const TsmMacroMetric(this.label, this.value);
+class Tsm2MacroMetric {
+  const Tsm2MacroMetric(this.label, this.value);
   final String label;
   final String value;
 }
 
-/// Summary card for TSM reports: same header/time view as other Reports KPI cards
+/// Summary card for CIS reports: same header/time view as other Reports KPI cards
 /// (`_buildKPIHeader` + `_buildTimeframeNavigation`) plus macro metric rows.
-class TsmReportsCard extends StatelessWidget {
-  const TsmReportsCard({
+class Tsm2ReportsCard extends StatelessWidget {
+  const Tsm2ReportsCard({
     super.key,
     required this.timeframeLabel,
     required this.dateLine,
@@ -31,7 +31,7 @@ class TsmReportsCard extends StatelessWidget {
   final String dateLine;
   /// Macro-level values for: MCO, MEMBER NAME, MEMBER DOB, MEMBER PHONE 1,
   /// MEASURE CODE, DEADLINE CALCULATION, DIAGNOSIS CODE (keys: mco, memberName, …).
-  final List<TsmMacroMetric> macroMetrics;
+  final List<Tsm2MacroMetric> macroMetrics;
 
   final int completedCount;
   final int openCount;
@@ -103,7 +103,7 @@ class TsmReportsCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          'TSM',
+                          'CIS',
                           style: TextStyle(
                             fontSize: titleSize,
                             fontWeight: FontWeight.w600,
@@ -295,3 +295,4 @@ class TsmReportsCard extends StatelessWidget {
     );
   }
 }
+

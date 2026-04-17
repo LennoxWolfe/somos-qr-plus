@@ -12,6 +12,12 @@ import '../widgets/tablet_layout_widget.dart';
 import '../widgets/provider_dropdown_widget.dart';
 import '../widgets/tsm_reports_card_widget.dart';
 import '../widgets/tsm_time_sensitive_table_widget.dart';
+import '../widgets/tsm2_reports_card_widget.dart';
+import '../widgets/tsm2_time_sensitive_table_widget.dart';
+import '../widgets/tsm3_reports_card_widget.dart';
+import '../widgets/tsm3_time_sensitive_table_widget.dart';
+import '../widgets/tsm4_reports_card_widget.dart';
+import '../widgets/tsm4_time_sensitive_table_widget.dart';
 import '../core/constants/providers.dart';
 
 class ReportsTabletScreen extends StatefulWidget {
@@ -39,7 +45,7 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
       'networkRank': '9 of 2,118 providers',
       'hasNavigation': false,
     },
-    'TSM': {
+    'TSM #1': {
       'timeframe': 'TODAY',
       'date': '02-03-2026',
       'hasNavigation': true,
@@ -84,6 +90,150 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
             {'key': 'measureCode', 'label': 'MEASURE CODE', 'value': '22'},
             {'key': 'deadlineCalculation', 'label': 'DEADLINE CALCULATION', 'value': '128 due'},
             {'key': 'diagnosisCode', 'label': 'DIAGNOSIS CODE', 'value': '20,400'},
+          ],
+        },
+      ],
+      'currentTimeframeIndex': 0,
+    },
+    'TSM 2': {
+      'timeframe': 'TODAY',
+      'date': '02-03-2026',
+      'hasNavigation': true,
+      // Macro KPIs (card): MCO→mco, MEMBER NAME→memberName, MEMBER DOB→memberDob,
+      // MEMBER PHONE 1→memberPhone1, MEASURE CODE→measureCode,
+      // DEADLINE CALCULATION→deadlineCalculation, DIAGNOSIS CODE→diagnosisCode
+      'timeframes': [
+        {
+          'name': 'TODAY',
+          'date': '02-03-2026',
+          'yellowMacro': [
+            {'key': 'mco', 'label': 'MCO', 'value': '2'},
+            {'key': 'memberName', 'label': 'MEMBER NAME', 'value': '892'},
+            {'key': 'memberDob', 'label': 'MEMBER DOB', 'value': '98%'},
+            {'key': 'memberPhone1', 'label': 'MEMBER PHONE 1', 'value': '1,180'},
+            {'key': 'measureCode', 'label': 'MEASURE CODE', 'value': '12'},
+            {'key': 'deadlineCalculation', 'label': 'DEADLINE CALCULATION', 'value': '7 due'},
+            {'key': 'diagnosisCode', 'label': 'DIAGNOSIS CODE', 'value': '1,040'},
+          ],
+        },
+        {
+          'name': 'LAST 30 DAYS',
+          'date': '01-03-2026 to 02-03-2026',
+          'yellowMacro': [
+            {'key': 'mco', 'label': 'MCO', 'value': '3'},
+            {'key': 'memberName', 'label': 'MEMBER NAME', 'value': '7,102'},
+            {'key': 'memberDob', 'label': 'MEMBER DOB', 'value': '97%'},
+            {'key': 'memberPhone1', 'label': 'MEMBER PHONE 1', 'value': '8,050'},
+            {'key': 'measureCode', 'label': 'MEASURE CODE', 'value': '18'},
+            {'key': 'deadlineCalculation', 'label': 'DEADLINE CALCULATION', 'value': '42 due'},
+            {'key': 'diagnosisCode', 'label': 'DIAGNOSIS CODE', 'value': '7,890'},
+          ],
+        },
+        {
+          'name': 'YTD',
+          'date': '01-01-2026 to 02-03-2026',
+          'yellowMacro': [
+            {'key': 'mco', 'label': 'MCO', 'value': '3'},
+            {'key': 'memberName', 'label': 'MEMBER NAME', 'value': '21,340'},
+            {'key': 'memberDob', 'label': 'MEMBER DOB', 'value': '96%'},
+            {'key': 'memberPhone1', 'label': 'MEMBER PHONE 1', 'value': '23,100'},
+            {'key': 'measureCode', 'label': 'MEASURE CODE', 'value': '22'},
+            {'key': 'deadlineCalculation', 'label': 'DEADLINE CALCULATION', 'value': '128 due'},
+            {'key': 'diagnosisCode', 'label': 'DIAGNOSIS CODE', 'value': '20,400'},
+          ],
+        },
+      ],
+      'currentTimeframeIndex': 0,
+    },
+    'TSM 3': {
+      'timeframe': 'TODAY',
+      'date': '02-03-2026',
+      'hasNavigation': true,
+      'timeframes': [
+        {
+          'name': 'TODAY',
+          'date': '02-03-2026',
+          'yellowMacro': [
+            {'key': 'memberCity', 'label': 'MEMBER CITY', 'value': '—'},
+            {'key': 'memberState', 'label': 'MEMBER STATE', 'value': '—'},
+            {'key': 'memberZip', 'label': 'MEMBER ZIP', 'value': '—'},
+            {'key': 'memberPhone', 'label': 'MEMBER PHONE', 'value': '—'},
+            {'key': 'member13thBirthday', 'label': 'MEMBER 13TH BIRTHDAY', 'value': '—'},
+            {'key': 'imaMeningococcal1', 'label': 'IMA MENINGOCOCCAL 1', 'value': '—'},
+            {'key': 'imaTdap1', 'label': 'IMA TDAP 1', 'value': '—'},
+          ],
+        },
+        {
+          'name': 'LAST 30 DAYS',
+          'date': '01-03-2026 to 02-03-2026',
+          'yellowMacro': [
+            {'key': 'memberCity', 'label': 'MEMBER CITY', 'value': '—'},
+            {'key': 'memberState', 'label': 'MEMBER STATE', 'value': '—'},
+            {'key': 'memberZip', 'label': 'MEMBER ZIP', 'value': '—'},
+            {'key': 'memberPhone', 'label': 'MEMBER PHONE', 'value': '—'},
+            {'key': 'member13thBirthday', 'label': 'MEMBER 13TH BIRTHDAY', 'value': '—'},
+            {'key': 'imaMeningococcal1', 'label': 'IMA MENINGOCOCCAL 1', 'value': '—'},
+            {'key': 'imaTdap1', 'label': 'IMA TDAP 1', 'value': '—'},
+          ],
+        },
+        {
+          'name': 'YTD',
+          'date': '01-01-2026 to 02-03-2026',
+          'yellowMacro': [
+            {'key': 'memberCity', 'label': 'MEMBER CITY', 'value': '—'},
+            {'key': 'memberState', 'label': 'MEMBER STATE', 'value': '—'},
+            {'key': 'memberZip', 'label': 'MEMBER ZIP', 'value': '—'},
+            {'key': 'memberPhone', 'label': 'MEMBER PHONE', 'value': '—'},
+            {'key': 'member13thBirthday', 'label': 'MEMBER 13TH BIRTHDAY', 'value': '—'},
+            {'key': 'imaMeningococcal1', 'label': 'IMA MENINGOCOCCAL 1', 'value': '—'},
+            {'key': 'imaTdap1', 'label': 'IMA TDAP 1', 'value': '—'},
+          ],
+        },
+      ],
+      'currentTimeframeIndex': 0,
+    },
+    'TSM 4': {
+      'timeframe': 'TODAY',
+      'date': '02-03-2026',
+      'hasNavigation': true,
+      'timeframes': [
+        {
+          'name': 'TODAY',
+          'date': '02-03-2026',
+          'yellowMacro': [
+            {'key': 'plan', 'label': 'PLAN', 'value': '—'},
+            {'key': 'tin', 'label': 'TIN', 'value': '—'},
+            {'key': 'practiceName', 'label': 'PRACTICE NAME', 'value': '—'},
+            {'key': 'npi', 'label': 'NPI', 'value': '—'},
+            {'key': 'pcpName', 'label': 'PCP NAME', 'value': '—'},
+            {'key': 'memberCity', 'label': 'MEMBER CITY', 'value': '—'},
+            {'key': 'totalVisits', 'label': 'TOTAL VISITS', 'value': '—'},
+          ],
+        },
+        {
+          'name': 'LAST 30 DAYS',
+          'date': '01-03-2026 to 02-03-2026',
+          'yellowMacro': [
+            {'key': 'plan', 'label': 'PLAN', 'value': '—'},
+            {'key': 'tin', 'label': 'TIN', 'value': '—'},
+            {'key': 'practiceName', 'label': 'PRACTICE NAME', 'value': '—'},
+            {'key': 'npi', 'label': 'NPI', 'value': '—'},
+            {'key': 'pcpName', 'label': 'PCP NAME', 'value': '—'},
+            {'key': 'memberCity', 'label': 'MEMBER CITY', 'value': '—'},
+            {'key': 'totalVisits', 'label': 'TOTAL VISITS', 'value': '—'},
+          ],
+        },
+        {
+          'name': 'YTD',
+          'date': '01-01-2026 to 02-03-2026',
+          'yellowMacro': [
+            {'key': 'plan', 'label': 'PLAN', 'value': '—'},
+            {'key': 'tin', 'label': 'TIN', 'value': '—'},
+            {'key': 'practiceName', 'label': 'PRACTICE NAME', 'value': '—'},
+            {'key': 'npi', 'label': 'NPI', 'value': '—'},
+            {'key': 'pcpName', 'label': 'PCP NAME', 'value': '—'},
+            {'key': 'memberCity', 'label': 'MEMBER CITY', 'value': '—'},
+            {'key': 'totalVisits', 'label': 'TOTAL VISITS', 'value': '—'},
           ],
         },
       ],
@@ -387,7 +537,7 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
                         children: [
                           const Expanded(
                             child: Text(
-                              'Time Senstive Measures #1',
+                              'FUA,FUM and TRC',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
@@ -407,6 +557,216 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(16),
                         child: const TsmTimeSensitiveTableWidget(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _showTSM2TableDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(6),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              double dialogWidth = constraints.maxWidth * 0.99;
+              double dialogHeight = constraints.maxHeight * 0.95;
+              if (constraints.maxWidth > 1200) {
+                dialogWidth = 1250;
+              }
+              return Container(
+                width: dialogWidth,
+                height: dialogHeight,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFf8f9fa),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'CIS',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => Navigator.of(dialogContext).pop(),
+                            icon: const Icon(Icons.close, size: 24),
+                            tooltip: 'Close',
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: const Tsm2TimeSensitiveTableWidget(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _showTSM3TableDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(6),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              double dialogWidth = constraints.maxWidth * 0.99;
+              double dialogHeight = constraints.maxHeight * 0.95;
+              if (constraints.maxWidth > 1200) {
+                dialogWidth = 1250;
+              }
+              return Container(
+                width: dialogWidth,
+                height: dialogHeight,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFf8f9fa),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'IMA',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => Navigator.of(dialogContext).pop(),
+                            icon: const Icon(Icons.close, size: 24),
+                            tooltip: 'Close',
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: const ImaTableWidget(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _showTSM4TableDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(6),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              double dialogWidth = constraints.maxWidth * 0.99;
+              double dialogHeight = constraints.maxHeight * 0.95;
+              if (constraints.maxWidth > 1200) {
+                dialogWidth = 1250;
+              }
+              return Container(
+                width: dialogWidth,
+                height: dialogHeight,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFf8f9fa),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'W30',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => Navigator.of(dialogContext).pop(),
+                            icon: const Icon(Icons.close, size: 24),
+                            tooltip: 'Close',
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: const W30TableWidget(),
                       ),
                     ),
                   ],
@@ -826,6 +1186,9 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
             _buildSIIPCard(),
             _buildStaffLoginCard(),
             _buildTSMCard(),
+            _buildTSM2Card(),
+            _buildTSM3Card(),
+            _buildTSM4Card(),
           ],
         );
       },
@@ -855,8 +1218,75 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
     }).toList();
   }
 
+  /// Builds macro KPI rows for the seven TSM 2 fields shown on the card (fixed order).
+  List<Tsm2MacroMetric> _tsm2MacroMetricsFromTimeframe(Map<String, dynamic> tf) {
+    final raw = tf['yellowMacro'] as List<dynamic>?;
+    if (raw == null || raw.isEmpty) {
+      return const [
+        Tsm2MacroMetric('MCO', '—'),
+        Tsm2MacroMetric('MEMBER NAME', '—'),
+        Tsm2MacroMetric('MEMBER DOB', '—'),
+        Tsm2MacroMetric('MEMBER PHONE 1', '—'),
+        Tsm2MacroMetric('MEASURE CODE', '—'),
+        Tsm2MacroMetric('DEADLINE CALCULATION', '—'),
+        Tsm2MacroMetric('DIAGNOSIS CODE', '—'),
+      ];
+    }
+    return raw.map((e) {
+      final m = e as Map<String, dynamic>;
+      return Tsm2MacroMetric(
+        m['label'] as String? ?? '—',
+        m['value']?.toString() ?? '—',
+      );
+    }).toList();
+  }
+
+  List<ImaMacroMetric> _imaMacroMetricsFromTimeframe(Map<String, dynamic> tf) {
+    final raw = tf['yellowMacro'] as List<dynamic>?;
+    if (raw == null || raw.isEmpty) {
+      return const [
+        ImaMacroMetric('MEMBER CITY', '—'),
+        ImaMacroMetric('MEMBER STATE', '—'),
+        ImaMacroMetric('MEMBER ZIP', '—'),
+        ImaMacroMetric('MEMBER PHONE', '—'),
+        ImaMacroMetric('MEMBER 13TH BIRTHDAY', '—'),
+        ImaMacroMetric('IMA MENINGOCOCCAL 1', '—'),
+        ImaMacroMetric('IMA TDAP 1', '—'),
+      ];
+    }
+    return raw.map((e) {
+      final m = e as Map<String, dynamic>;
+      return ImaMacroMetric(
+        m['label'] as String? ?? '—',
+        m['value']?.toString() ?? '—',
+      );
+    }).toList();
+  }
+
+  List<W30MacroMetric> _w30MacroMetricsFromTimeframe(Map<String, dynamic> tf) {
+    final raw = tf['yellowMacro'] as List<dynamic>?;
+    if (raw == null || raw.isEmpty) {
+      return const [
+        W30MacroMetric('PLAN', '—'),
+        W30MacroMetric('TIN', '—'),
+        W30MacroMetric('PRACTICE NAME', '—'),
+        W30MacroMetric('NPI', '—'),
+        W30MacroMetric('PCP NAME', '—'),
+        W30MacroMetric('MEMBER CITY', '—'),
+        W30MacroMetric('TOTAL VISITS', '—'),
+      ];
+    }
+    return raw.map((e) {
+      final m = e as Map<String, dynamic>;
+      return W30MacroMetric(
+        m['label'] as String? ?? '—',
+        m['value']?.toString() ?? '—',
+      );
+    }).toList();
+  }
+
   Widget _buildTSMCard() {
-    final data = _kpiData['TSM'];
+    final data = _kpiData['TSM #1'];
     if (data == null) return const SizedBox.shrink();
 
     final currentIndex = data['currentTimeframeIndex'] as int? ?? 0;
@@ -869,19 +1299,128 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
     final name = (tf['name'] as String?) ?? data['timeframe'] as String? ?? 'TODAY';
     final dateLine = (tf['date'] as String?) ?? data['date'] as String? ?? '';
     final macroMetrics = _tsmMacroMetricsFromTimeframe(tf);
+    final completed = name == 'TODAY' ? 2 : (name == 'LAST 30 DAYS' ? 15 : 89);
+    final open = name == 'TODAY' ? 3 : (name == 'LAST 30 DAYS' ? 8 : 34);
 
     return TsmReportsCard(
       timeframeLabel: name,
       dateLine: dateLine,
       macroMetrics: macroMetrics,
+      completedCount: completed,
+      openCount: open,
       onViewReports: () => _showTSMTableDialog(context),
       canGoPrevious: currentIndex > 0,
       canGoNext: currentIndex < timeframes.length - 1,
       onPrevious: currentIndex > 0
-          ? () => _updateTimeframe('TSM', currentIndex - 1)
+          ? () => _updateTimeframe('TSM #1', currentIndex - 1)
           : null,
       onNext: currentIndex < timeframes.length - 1
-          ? () => _updateTimeframe('TSM', currentIndex + 1)
+          ? () => _updateTimeframe('TSM #1', currentIndex + 1)
+          : null,
+    );
+  }
+
+  Widget _buildTSM2Card() {
+    final data = _kpiData['TSM 2'];
+    if (data == null) return const SizedBox.shrink();
+
+    final currentIndex = data['currentTimeframeIndex'] as int? ?? 0;
+    final timeframes =
+        data['timeframes'] as List<Map<String, dynamic>>? ?? const [];
+    final tf = timeframes.isNotEmpty && currentIndex < timeframes.length
+        ? timeframes[currentIndex]
+        : <String, dynamic>{};
+
+    final name = (tf['name'] as String?) ?? data['timeframe'] as String? ?? 'TODAY';
+    final dateLine = (tf['date'] as String?) ?? data['date'] as String? ?? '';
+    final macroMetrics = _tsm2MacroMetricsFromTimeframe(tf);
+    final completed = name == 'TODAY' ? 2 : (name == 'LAST 30 DAYS' ? 15 : 89);
+    final open = name == 'TODAY' ? 3 : (name == 'LAST 30 DAYS' ? 8 : 34);
+
+    return Tsm2ReportsCard(
+      timeframeLabel: name,
+      dateLine: dateLine,
+      macroMetrics: macroMetrics,
+      completedCount: completed,
+      openCount: open,
+      onViewReports: () => _showTSM2TableDialog(context),
+      canGoPrevious: currentIndex > 0,
+      canGoNext: currentIndex < timeframes.length - 1,
+      onPrevious: currentIndex > 0
+          ? () => _updateTimeframe('TSM 2', currentIndex - 1)
+          : null,
+      onNext: currentIndex < timeframes.length - 1
+          ? () => _updateTimeframe('TSM 2', currentIndex + 1)
+          : null,
+    );
+  }
+
+  Widget _buildTSM3Card() {
+    final data = _kpiData['TSM 3'];
+    if (data == null) return const SizedBox.shrink();
+
+    final currentIndex = data['currentTimeframeIndex'] as int? ?? 0;
+    final timeframes =
+        data['timeframes'] as List<Map<String, dynamic>>? ?? const [];
+    final tf = timeframes.isNotEmpty && currentIndex < timeframes.length
+        ? timeframes[currentIndex]
+        : <String, dynamic>{};
+
+    final name = (tf['name'] as String?) ?? data['timeframe'] as String? ?? 'TODAY';
+    final dateLine = (tf['date'] as String?) ?? data['date'] as String? ?? '';
+    final macroMetrics = _imaMacroMetricsFromTimeframe(tf);
+    final completed = name == 'TODAY' ? 2 : (name == 'LAST 30 DAYS' ? 15 : 89);
+    final open = name == 'TODAY' ? 3 : (name == 'LAST 30 DAYS' ? 8 : 34);
+
+    return ImaReportsCard(
+      timeframeLabel: name,
+      dateLine: dateLine,
+      macroMetrics: macroMetrics,
+      completedCount: completed,
+      openCount: open,
+      onViewReports: () => _showTSM3TableDialog(context),
+      canGoPrevious: currentIndex > 0,
+      canGoNext: currentIndex < timeframes.length - 1,
+      onPrevious: currentIndex > 0
+          ? () => _updateTimeframe('TSM 3', currentIndex - 1)
+          : null,
+      onNext: currentIndex < timeframes.length - 1
+          ? () => _updateTimeframe('TSM 3', currentIndex + 1)
+          : null,
+    );
+  }
+
+  Widget _buildTSM4Card() {
+    final data = _kpiData['TSM 4'];
+    if (data == null) return const SizedBox.shrink();
+
+    final currentIndex = data['currentTimeframeIndex'] as int? ?? 0;
+    final timeframes =
+        data['timeframes'] as List<Map<String, dynamic>>? ?? const [];
+    final tf = timeframes.isNotEmpty && currentIndex < timeframes.length
+        ? timeframes[currentIndex]
+        : <String, dynamic>{};
+
+    final name = (tf['name'] as String?) ?? data['timeframe'] as String? ?? 'TODAY';
+    final dateLine = (tf['date'] as String?) ?? data['date'] as String? ?? '';
+    final macroMetrics = _w30MacroMetricsFromTimeframe(tf);
+    final completed = name == 'TODAY' ? 2 : (name == 'LAST 30 DAYS' ? 15 : 89);
+    final open = name == 'TODAY' ? 3 : (name == 'LAST 30 DAYS' ? 8 : 34);
+
+    return W30ReportsCard(
+      timeframeLabel: name,
+      dateLine: dateLine,
+      macroMetrics: macroMetrics,
+      completedCount: completed,
+      openCount: open,
+      onViewReports: () => _showTSM4TableDialog(context),
+      canGoPrevious: currentIndex > 0,
+      canGoNext: currentIndex < timeframes.length - 1,
+      onPrevious: currentIndex > 0
+          ? () => _updateTimeframe('TSM 4', currentIndex - 1)
+          : null,
+      onNext: currentIndex < timeframes.length - 1
+          ? () => _updateTimeframe('TSM 4', currentIndex + 1)
           : null,
     );
   }
@@ -903,8 +1442,8 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildKPIMetrics([
-                    {'label': 'Missed', 'value': data['missed'] ?? 0, 'type': 'missed'},
                     {'label': 'Completed', 'value': data['completed'] ?? 0, 'type': 'completed'},
+                    {'label': 'Open', 'value': data['missed'] ?? 0, 'type': 'missed'},
                   ]),
                   const SizedBox(height: 2),
                   _buildKPIRank(data['rank'] as String? ?? 'RANK 0/0', data['networkRank'] as String? ?? ''),
@@ -958,8 +1497,8 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildKPIMetrics([
-                    {'label': 'Missed', 'value': data['missed'] ?? 0, 'type': 'missed'},
                     {'label': 'Completed', 'value': data['completed'] ?? 0, 'type': 'completed'},
+                    {'label': 'Open', 'value': data['missed'] ?? 0, 'type': 'missed'},
                   ]),
                   const SizedBox(height: 2),
                   _buildKPIRank(data['rank'] as String? ?? 'RANK 0/0', data['networkRank'] as String? ?? ''),
@@ -1414,7 +1953,16 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
         kpiData['open'] = timeframe['open'] ?? 0;
         kpiData['total'] = timeframe['total'] ?? 0;
         kpiData['earnings'] = timeframe['earnings'] ?? 0.0;
-      } else if (kpiType == 'TSM') {
+      } else if (kpiType == 'TSM #1') {
+        kpiData['timeframe'] = timeframe['name'] ?? kpiData['timeframe'];
+        kpiData['date'] = timeframe['date'] ?? kpiData['date'];
+      } else if (kpiType == 'TSM 2') {
+        kpiData['timeframe'] = timeframe['name'] ?? kpiData['timeframe'];
+        kpiData['date'] = timeframe['date'] ?? kpiData['date'];
+      } else if (kpiType == 'TSM 3') {
+        kpiData['timeframe'] = timeframe['name'] ?? kpiData['timeframe'];
+        kpiData['date'] = timeframe['date'] ?? kpiData['date'];
+      } else if (kpiType == 'TSM 4') {
         kpiData['timeframe'] = timeframe['name'] ?? kpiData['timeframe'];
         kpiData['date'] = timeframe['date'] ?? kpiData['date'];
       }

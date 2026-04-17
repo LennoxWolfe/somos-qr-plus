@@ -5,84 +5,108 @@ import 'package:flutter/material.dart';
 
 import 'report_pagination_bar.dart';
 
-/// Column spec: storage [key] (snake_case), display [header] (ALL CAPS, spaces).
-class _TsmColumn {
-  const _TsmColumn(this.key, this.header, [this.width = 132]);
+class _W30Column {
+  const _W30Column(this.key, this.header, [this.width = 150]);
   final String key;
   final String header;
   final double width;
 }
 
-/// Time Sensitive Measure table: 25 columns, horizontal scroll, sortable headers, filters.
-class TsmTimeSensitiveTableWidget extends StatefulWidget {
-  const TsmTimeSensitiveTableWidget({super.key});
+class W30TableWidget extends StatefulWidget {
+  const W30TableWidget({super.key});
 
   @override
-  State<TsmTimeSensitiveTableWidget> createState() =>
-      _TsmTimeSensitiveTableWidgetState();
+  State<W30TableWidget> createState() => _W30TableWidgetState();
 }
 
-class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidget> {
-  static const List<_TsmColumn> _columns = [
-    _TsmColumn('pcp_tin', 'PCP TIN'),
-    _TsmColumn('pcp_practice', 'PCP PRACTICE', 148),
-    _TsmColumn('pcp_npi', 'PCP NPI'),
-    _TsmColumn('mco', 'MCO'),
-    _TsmColumn('ipa', 'IPA'),
-    _TsmColumn('product', 'PRODUCT'),
-    _TsmColumn('mco_product', 'MCO PRODUCT', 140),
-    _TsmColumn('mco_member_id', 'MCO MEMBER ID', 148),
-    _TsmColumn('member_name', 'MEMBER NAME', 148),
-    _TsmColumn('member_dob', 'MEMBER DOB'),
-    _TsmColumn('member_address_1', 'MEMBER ADDRESS 1', 160),
-    _TsmColumn('member_address_2', 'MEMBER ADDRESS 2', 160),
-    _TsmColumn('member_city', 'MEMBER CITY'),
-    _TsmColumn('member_zip', 'MEMBER ZIP'),
-    _TsmColumn('member_phone_1', 'MEMBER PHONE 1', 140),
-    _TsmColumn('member_phone_2', 'MEMBER PHONE 2', 140),
-    _TsmColumn('emr_phone_3', 'EMR PHONE 3', 132),
-    _TsmColumn('measure_code', 'MEASURE CODE', 132),
-    _TsmColumn('measure', 'MEASURE', 160),
-    _TsmColumn('event_date', 'EVENT DATE'),
-    _TsmColumn('alert_date', 'ALERT DATE'),
-    _TsmColumn('deadline_calculation', 'DEADLINE CALCULATION', 180),
-    _TsmColumn('diagnosis_code', 'DIAGNOSIS CODE', 148),
-    _TsmColumn('diagnosis_description', 'DIAGNOSIS DESCRIPTION', 200),
-    _TsmColumn('admit_facility', 'ADMIT FACILITY', 160),
+class _W30TableWidgetState extends State<W30TableWidget> {
+  static const List<_W30Column> _columns = [
+    _W30Column('plan', 'PLAN', 120),
+    _W30Column('tin', 'TIN', 120),
+    _W30Column('practice_name', 'PRACTICE NAME', 170),
+    _W30Column('npi', 'NPI', 120),
+    _W30Column('pcp_name', 'PCP NAME', 170),
+    _W30Column('pcp_address', 'PCP ADDRESS', 220),
+    _W30Column('pcp_city', 'PCP CITY', 150),
+    _W30Column('pcp_state', 'PCP STATE', 120),
+    _W30Column('pcp_zip', 'PCP ZIP', 120),
+    _W30Column('measure_code', 'MEASURE CODE', 150),
+    _W30Column('measure_description', 'MEASURE DESCRIPTION', 240),
+    _W30Column('denominator', 'DENOMINATOR', 140),
+    _W30Column('numerator', 'NUMERATOR', 140),
+    _W30Column('line_of_business', 'LINE OF BUSINESS', 180),
+    _W30Column('plan_member_id', 'PLAN MEMBER ID', 170),
+    _W30Column('first_name', 'FIRST NAME', 140),
+    _W30Column('last_name', 'LAST NAME', 140),
+    _W30Column('date_of_birth', 'DATE OF BIRTH', 150),
+    _W30Column('language', 'LANGUAGE', 140),
+    _W30Column('race_ethnicity', 'RACE ETHNICITY', 180),
+    _W30Column('gender', 'GENDER', 120),
+    _W30Column('member_address', 'MEMBER ADDRESS', 220),
+    _W30Column('member_city', 'MEMBER CITY', 150),
+    _W30Column('member_state', 'MEMBER STATE', 140),
+    _W30Column('member_zip', 'MEMBER ZIP', 130),
+    _W30Column('member_phone', 'MEMBER PHONE', 150),
+    _W30Column('member_emr_phone_number', 'MEMBER EMR PHONE NUMBER', 220),
+    _W30Column('month_15_as_of', 'MONTH 15 AS OF', 170),
+    _W30Column('month_30_as_of', 'MONTH 30 AS OF', 170),
+    _W30Column('visit_1', 'VISIT 1', 120),
+    _W30Column('visit_2', 'VISIT 2', 120),
+    _W30Column('visit_3', 'VISIT 3', 120),
+    _W30Column('visit_4', 'VISIT 4', 120),
+    _W30Column('visit_5', 'VISIT 5', 120),
+    _W30Column('visit_6', 'VISIT 6', 120),
+    _W30Column('visit_7', 'VISIT 7', 120),
+    _W30Column('visit_8', 'VISIT 8', 120),
+    _W30Column('total_visits', 'TOTAL VISITS', 140),
+    _W30Column('daterun', 'DATERUN', 140),
   ];
 
   static double get _tableWidth =>
       _columns.fold<double>(0, (s, c) => s + c.width);
 
-  /// Placeholder row values (demo data).
   static Map<String, String> _placeholderRow(int rowIndex) {
     const p = '—';
     return {
-      'pcp_tin': p,
-      'pcp_practice': 'SAMPLE PRACTICE',
-      'pcp_npi': '1234567890',
-      'mco': ['SAMPLE MCO', 'Healthfirst', 'Anthem'][rowIndex % 3],
-      'ipa': p,
-      'product': ['MCD', 'MAP', 'CHIP'][rowIndex % 3],
-      'mco_product': 'SAMPLE PRODUCT',
-      'mco_member_id': 'MEM-${100000 + rowIndex}',
-      'member_name': 'SAMPLE MEMBER ${rowIndex + 1}',
-      'member_dob': '01-01-1950',
-      'member_address_1': '123 MAIN ST',
-      'member_address_2': p,
-      'member_city': 'NEW YORK',
+      'plan': ['PLAN A', 'PLAN B', 'PLAN C'][rowIndex % 3],
+      'tin': p,
+      'practice_name': 'SAMPLE PRACTICE',
+      'npi': '1234567890',
+      'pcp_name': 'SAMPLE PCP',
+      'pcp_address': '123 MAIN ST',
+      'pcp_city': 'NEW YORK',
+      'pcp_state': 'NY',
+      'pcp_zip': '10001',
+      'measure_code': 'W30',
+      'measure_description': 'SAMPLE MEASURE DESCRIPTION',
+      'denominator': '${10 + rowIndex}',
+      'numerator': '${5 + (rowIndex % 5)}',
+      'line_of_business': ['MCD', 'MAP', 'CHIP'][rowIndex % 3],
+      'plan_member_id': 'MEM-${100000 + rowIndex}',
+      'first_name': 'FIRST${rowIndex + 1}',
+      'last_name': 'LAST${rowIndex + 1}',
+      'date_of_birth': '01-01-2018',
+      'language': ['EN', 'ES', 'ZH'][rowIndex % 3],
+      'race_ethnicity': ['UNKNOWN', 'HISPANIC', 'NON-HISPANIC'][rowIndex % 3],
+      'gender': ['M', 'F', 'U'][rowIndex % 3],
+      'member_address': '456 MEMBER ST',
+      'member_city': ['NEW YORK', 'BRONX', 'BROOKLYN'][rowIndex % 3],
+      'member_state': 'NY',
       'member_zip': '10001',
-      'member_phone_1': '5550100',
-      'member_phone_2': p,
-      'emr_phone_3': p,
-      'measure_code': ['CBP', 'AWV', 'COL'][rowIndex % 3],
-      'measure': 'SAMPLE MEASURE',
-      'event_date': '01-15-2026',
-      'alert_date': '01-20-2026',
-      'deadline_calculation': '02-01-2026',
-      'diagnosis_code': ['Z00.00', 'E11.9', 'I10'][rowIndex % 3],
-      'diagnosis_description': 'SAMPLE DX',
-      'admit_facility': 'SAMPLE FACILITY',
+      'member_phone': '5550100',
+      'member_emr_phone_number': p,
+      'month_15_as_of': p,
+      'month_30_as_of': p,
+      'visit_1': p,
+      'visit_2': p,
+      'visit_3': p,
+      'visit_4': p,
+      'visit_5': p,
+      'visit_6': p,
+      'visit_7': p,
+      'visit_8': p,
+      'total_visits': p,
+      'daterun': '02-03-2026',
     };
   }
 
@@ -133,14 +157,14 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
     );
   }
 
-  late final int _idxMco;
-  late final int _idxMcoMemberId;
-  late final int _idxMemberName;
-  late final int _idxMemberDob;
-  late final int _idxMemberPhone1;
+  late final int _idxPlan;
+  late final int _idxPlanMemberId;
+  late final int _idxLastName;
+  late final int _idxDateOfBirth;
+  late final int _idxMemberPhone;
   late final int _idxMeasureCode;
-  late final int _idxProduct;
-  late final int _idxDiagnosisCode;
+  late final int _idxLineOfBusiness;
+  late final int _idxGender;
 
   final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _verticalScrollController = ScrollController();
@@ -158,29 +182,24 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
       c.addListener(_applyFilters);
     }
 
-    _idxMco = _columns.indexWhere((c) => c.key == 'mco');
-    _idxMcoMemberId =
-        _columns.indexWhere((c) => c.key == 'mco_member_id');
-    _idxMemberName =
-        _columns.indexWhere((c) => c.key == 'member_name');
-    _idxMemberDob =
-        _columns.indexWhere((c) => c.key == 'member_dob');
-    _idxMemberPhone1 =
-        _columns.indexWhere((c) => c.key == 'member_phone_1');
-    _idxMeasureCode =
-        _columns.indexWhere((c) => c.key == 'measure_code');
-    _idxProduct = _columns.indexWhere((c) => c.key == 'product');
-    _idxDiagnosisCode =
-        _columns.indexWhere((c) => c.key == 'diagnosis_code');
+    _idxPlan = _columns.indexWhere((c) => c.key == 'plan');
+    _idxPlanMemberId = _columns.indexWhere((c) => c.key == 'plan_member_id');
+    _idxLastName = _columns.indexWhere((c) => c.key == 'last_name');
+    _idxDateOfBirth = _columns.indexWhere((c) => c.key == 'date_of_birth');
+    _idxMemberPhone = _columns.indexWhere((c) => c.key == 'member_phone');
+    _idxMeasureCode = _columns.indexWhere((c) => c.key == 'measure_code');
+    _idxLineOfBusiness =
+        _columns.indexWhere((c) => c.key == 'line_of_business');
+    _idxGender = _columns.indexWhere((c) => c.key == 'gender');
 
-    assert(_idxMco != -1);
-    assert(_idxMcoMemberId != -1);
-    assert(_idxMemberName != -1);
-    assert(_idxMemberDob != -1);
-    assert(_idxMemberPhone1 != -1);
+    assert(_idxPlan != -1);
+    assert(_idxPlanMemberId != -1);
+    assert(_idxLastName != -1);
+    assert(_idxDateOfBirth != -1);
+    assert(_idxMemberPhone != -1);
     assert(_idxMeasureCode != -1);
-    assert(_idxProduct != -1);
-    assert(_idxDiagnosisCode != -1);
+    assert(_idxLineOfBusiness != -1);
+    assert(_idxGender != -1);
   }
 
   @override
@@ -209,7 +228,6 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
     });
   }
 
-  /// Distinct non-empty values from loaded rows for dropdown options.
   List<String> _distinctOptions(String columnKey) {
     final set = <String>{};
     for (final r in _allRows) {
@@ -221,10 +239,7 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
     return list;
   }
 
-  String _dropdownSelectedValue(
-    TextEditingController c,
-    List<String> options,
-  ) {
+  String _dropdownSelectedValue(TextEditingController c, List<String> options) {
     final t = c.text.trim();
     if (t.isEmpty) return '';
     if (options.contains(t)) return t;
@@ -243,9 +258,10 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
           padding = 12;
         }
 
-        final mcoOptions = _distinctOptions('mco');
+        final planOptions = _distinctOptions('plan');
         final measureOptions = _distinctOptions('measure_code');
-        final productOptions = _distinctOptions('product');
+        final lobOptions = _distinctOptions('line_of_business');
+        final genderOptions = _distinctOptions('gender');
 
         return Container(
           padding: EdgeInsets.all(padding),
@@ -256,32 +272,30 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Row 1: Name → MCO (matches vertical tablet order)
               Row(
                 children: [
                   Expanded(
                     child: _buildFilterField(
-                      controller: _filterControllers[_idxMemberName],
-                      hint: 'Name...',
+                      controller: _filterControllers[_idxLastName],
+                      hint: 'Last name...',
                     ),
                   ),
                   SizedBox(width: padding),
                   Expanded(
                     child: _buildFilterDropdown(
-                      controller: _filterControllers[_idxMco],
-                      hint: 'MCO',
-                      options: mcoOptions,
+                      controller: _filterControllers[_idxPlan],
+                      hint: 'Plan',
+                      options: planOptions,
                     ),
                   ),
                 ],
               ),
               SizedBox(height: padding),
-              // Row 2: DOB → Measure code → Product
               Row(
                 children: [
                   Expanded(
                     child: _buildFilterField(
-                      controller: _filterControllers[_idxMemberDob],
+                      controller: _filterControllers[_idxDateOfBirth],
                       hint: 'DOB...',
                     ),
                   ),
@@ -296,35 +310,35 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
                   SizedBox(width: padding),
                   Expanded(
                     child: _buildFilterDropdown(
-                      controller: _filterControllers[_idxProduct],
-                      hint: 'Product',
-                      options: productOptions,
+                      controller: _filterControllers[_idxLineOfBusiness],
+                      hint: 'Line of business',
+                      options: lobOptions,
                     ),
                   ),
                 ],
               ),
               SizedBox(height: padding),
-              // Row 3: Member ID → Phone → Diagnosis code
               Row(
                 children: [
                   Expanded(
                     child: _buildFilterField(
-                      controller: _filterControllers[_idxMcoMemberId],
+                      controller: _filterControllers[_idxPlanMemberId],
                       hint: 'Member ID...',
                     ),
                   ),
                   SizedBox(width: padding),
                   Expanded(
                     child: _buildFilterField(
-                      controller: _filterControllers[_idxMemberPhone1],
+                      controller: _filterControllers[_idxMemberPhone],
                       hint: 'Phone...',
                     ),
                   ),
                   SizedBox(width: padding),
                   Expanded(
-                    child: _buildFilterField(
-                      controller: _filterControllers[_idxDiagnosisCode],
-                      hint: 'Diagnosis code...',
+                    child: _buildFilterDropdown(
+                      controller: _filterControllers[_idxGender],
+                      hint: 'Gender',
+                      options: genderOptions,
                     ),
                   ),
                 ],
@@ -371,9 +385,7 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
         decoration: _filterDecoration(hint),
         style: const TextStyle(fontSize: 11, color: Color(0xFF333333)),
         items: items,
-        onChanged: (v) {
-          controller.text = v ?? '';
-        },
+        onChanged: (v) => controller.text = v ?? '',
       ),
     );
   }
@@ -496,7 +508,6 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
   Widget _buildToolbar(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Match header sizing behavior used by the other report tables.
         double fontSize;
         double padding;
         if (constraints.maxWidth < 600) {
@@ -529,7 +540,7 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
               ),
               Expanded(
                 child: Text(
-                  'FUA,FUM and TRC',
+                  'W30',
                   style: TextStyle(
                     fontSize: fontSize + 2,
                     fontWeight: FontWeight.w600,
@@ -690,3 +701,4 @@ class _TsmTimeSensitiveTableWidgetState extends State<TsmTimeSensitiveTableWidge
     );
   }
 }
+

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-/// One macro KPI row for the TSM table columns shown as macro metrics on the card.
-class TsmMacroMetric {
-  const TsmMacroMetric(this.label, this.value);
+/// One macro KPI row for the IMA table columns shown as macro metrics on the card.
+class ImaMacroMetric {
+  const ImaMacroMetric(this.label, this.value);
   final String label;
   final String value;
 }
 
-/// Summary card for TSM reports: same header/time view as other Reports KPI cards
-/// (`_buildKPIHeader` + `_buildTimeframeNavigation`) plus macro metric rows.
-class TsmReportsCard extends StatelessWidget {
-  const TsmReportsCard({
+/// Summary card for IMA reports: same header/time view as other Reports KPI cards
+/// plus macro metric rows.
+class ImaReportsCard extends StatelessWidget {
+  const ImaReportsCard({
     super.key,
     required this.timeframeLabel,
     required this.dateLine,
@@ -24,14 +24,11 @@ class TsmReportsCard extends StatelessWidget {
     this.canGoNext = false,
   });
 
-  /// Opens the TSM table dialog (same pattern as other Reports KPI cards).
   final VoidCallback onViewReports;
 
   final String timeframeLabel;
   final String dateLine;
-  /// Macro-level values for: MCO, MEMBER NAME, MEMBER DOB, MEMBER PHONE 1,
-  /// MEASURE CODE, DEADLINE CALCULATION, DIAGNOSIS CODE (keys: mco, memberName, …).
-  final List<TsmMacroMetric> macroMetrics;
+  final List<ImaMacroMetric> macroMetrics;
 
   final int completedCount;
   final int openCount;
@@ -103,7 +100,7 @@ class TsmReportsCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          'TSM',
+                          'IMA',
                           style: TextStyle(
                             fontSize: titleSize,
                             fontWeight: FontWeight.w600,
@@ -155,7 +152,7 @@ class TsmReportsCard extends StatelessWidget {
                             constraints: BoxConstraints(
                               minWidth: iconSize + 8,
                               minHeight: iconSize + 8,
-                            ),
+                              ),
                           ),
                         ],
                       ),
@@ -295,3 +292,4 @@ class TsmReportsCard extends StatelessWidget {
     );
   }
 }
+
