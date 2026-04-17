@@ -1256,8 +1256,8 @@ class _ReportsScreenState extends State<ReportsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildKPIMetrics([
-                    {'label': 'Missed', 'value': data['missed'] ?? 0, 'type': 'missed'},
                     {'label': 'Completed', 'value': data['completed'] ?? 0, 'type': 'completed'},
+                    {'label': 'Open', 'value': data['missed'] ?? 0, 'type': 'missed'},
                   ]),
                   const SizedBox(height: 2),
                   _buildKPIRank(data['rank'] as String? ?? 'RANK 0/0', data['networkRank'] as String? ?? ''),
@@ -1311,8 +1311,8 @@ class _ReportsScreenState extends State<ReportsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildKPIMetrics([
-                    {'label': 'Missed', 'value': data['missed'] ?? 0, 'type': 'missed'},
                     {'label': 'Completed', 'value': data['completed'] ?? 0, 'type': 'completed'},
+                    {'label': 'Open', 'value': data['missed'] ?? 0, 'type': 'missed'},
                   ]),
                   const SizedBox(height: 2),
                   _buildKPIRank(data['rank'] as String? ?? 'RANK 0/0', data['networkRank'] as String? ?? ''),
@@ -1590,10 +1590,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildKPIStringMetrics([
-                    {'label': 'GIC', 'value': '12'},
-                    {'label': 'RA', 'value': '9'},
-                    {'label': 'TSM', 'value': '16'},
+                  _buildKPIMetrics([
+                    {'label': 'COMPLETED', 'value': 12, 'type': 'completed'},
+                    {'label': 'OPEN', 'value': 9, 'type': 'missed'},
                   ]),
                   const SizedBox(height: 8),
                   SizedBox(
@@ -1650,10 +1649,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildKPIStringMetrics([
-                    {'label': 'GIC', 'value': '7'},
-                    {'label': 'RA', 'value': '14'},
-                    {'label': 'TSM', 'value': '10'},
+                  _buildKPIMetrics([
+                    {'label': 'COMPLETED', 'value': 7, 'type': 'completed'},
+                    {'label': 'OPEN', 'value': 14, 'type': 'missed'},
                   ]),
                   const SizedBox(height: 8),
                   SizedBox(
@@ -1710,10 +1708,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildKPIStringMetrics([
-                    {'label': 'GIC', 'value': '18'},
-                    {'label': 'RA', 'value': '6'},
-                    {'label': 'TSM', 'value': '11'},
+                  _buildKPIMetrics([
+                    {'label': 'COMPLETED', 'value': 18, 'type': 'completed'},
+                    {'label': 'OPEN', 'value': 6, 'type': 'missed'},
                   ]),
                   const SizedBox(height: 8),
                   SizedBox(
@@ -1770,10 +1767,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildKPIStringMetrics([
-                    {'label': 'GIC', 'value': '15'},
-                    {'label': 'RA', 'value': '8'},
-                    {'label': 'TSM', 'value': '20'},
+                  _buildKPIMetrics([
+                    {'label': 'COMPLETED', 'value': 15, 'type': 'completed'},
+                    {'label': 'OPEN', 'value': 8, 'type': 'missed'},
                   ]),
                   const SizedBox(height: 8),
                   SizedBox(

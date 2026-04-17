@@ -50,6 +50,8 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
         pcp_address: '110 E 170th St',
         pcp_city: 'Bronx',
         pcp_state: 'NY',
+        pcp_zip: '10452',
+        pcp_phone: '7185550100',
         measure_code: 'IMA',
         measure_description: 'Immunizations for Adolescents',
         line_of_business: 'Medicaid',
@@ -57,6 +59,10 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
         first_name: 'Maria',
         last_name: 'Alvarez',
         date_of_birth: '03-10-2013',
+        language: 'Spanish',
+        race_ethnicity: 'Hispanic/Latino',
+        gender: 'F',
+        member_address: '225 Grand Concourse Apt 3B',
         member_city: 'Bronx',
         member_state: 'NY',
         member_zip: '10452',
@@ -76,6 +82,8 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
         pcp_address: '450 W 181st St',
         pcp_city: 'New York',
         pcp_state: 'NY',
+        pcp_zip: '10033',
+        pcp_phone: '6465551100',
         measure_code: 'IMA',
         measure_description: 'Immunizations for Adolescents',
         line_of_business: 'Commercial',
@@ -83,6 +91,10 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
         first_name: 'Jose',
         last_name: 'Martinez',
         date_of_birth: '11-22-2013',
+        language: 'English',
+        race_ethnicity: 'White (Non-Hispanic)',
+        gender: 'M',
+        member_address: '512 W 180th St Apt 12A',
         member_city: 'New York',
         member_state: 'NY',
         member_zip: '10033',
@@ -102,6 +114,8 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
         pcp_address: '76-12 Roosevelt Ave',
         pcp_city: 'Jackson Heights',
         pcp_state: 'NY',
+        pcp_zip: '11372',
+        pcp_phone: '9175552200',
         measure_code: 'IMA',
         measure_description: 'Immunizations for Adolescents',
         line_of_business: 'Medicaid',
@@ -109,6 +123,10 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
         first_name: 'Ana',
         last_name: 'Gomez',
         date_of_birth: '07-04-2013',
+        language: 'Spanish',
+        race_ethnicity: 'Hispanic/Latino',
+        gender: 'F',
+        member_address: '31-18 82nd St Apt 2F',
         member_city: 'Jackson Heights',
         member_state: 'NY',
         member_zip: '11372',
@@ -204,6 +222,32 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
 
   String _getValueForColumn(TSM3Record record, String column) {
     switch (column) {
+      case 'plan':
+        return record.plan;
+      case 'tin':
+        return record.tin;
+      case 'practice_name':
+        return record.practice_name;
+      case 'npi':
+        return record.npi;
+      case 'pcp_name':
+        return record.pcp_name;
+      case 'pcp_address':
+        return record.pcp_address;
+      case 'pcp_city':
+        return record.pcp_city;
+      case 'pcp_state':
+        return record.pcp_state;
+      case 'pcp_zip':
+        return record.pcp_zip;
+      case 'pcp_phone':
+        return record.pcp_phone;
+      case 'measure_code':
+        return record.measure_code;
+      case 'measure_description':
+        return record.measure_description;
+      case 'line_of_business':
+        return record.line_of_business;
       case 'member_city':
         return record.member_city;
       case 'member_state':
@@ -212,6 +256,14 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
         return record.member_zip;
       case 'member_phone':
         return record.member_phone;
+      case 'member_address':
+        return record.member_address;
+      case 'language':
+        return record.language;
+      case 'race_ethnicity':
+        return record.race_ethnicity;
+      case 'gender':
+        return record.gender;
       case 'member_13th_birthday':
         return record.member_13th_birthday;
       case 'ima_meningococcal_1':
@@ -407,6 +459,31 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
                             color: const Color(0xFF333333),
                           ),
                           columns: [
+                            _buildDataColumn('PLAN', 'plan', fontSize),
+                            _buildDataColumn('TIN', 'tin', fontSize),
+                            _buildDataColumn('PRACTICE NAME', 'practice_name', fontSize),
+                            _buildDataColumn('NPI', 'npi', fontSize),
+                            _buildDataColumn('PCP NAME', 'pcp_name', fontSize),
+                            _buildDataColumn('PCP ADDRESS', 'pcp_address', fontSize),
+                            _buildDataColumn('PCP CITY', 'pcp_city', fontSize),
+                            _buildDataColumn('PCP STATE', 'pcp_state', fontSize),
+                            _buildDataColumn('PCP ZIP', 'pcp_zip', fontSize),
+                            _buildDataColumn('PCP PHONE', 'pcp_phone', fontSize),
+                            _buildDataColumn('MEASURE CODE', 'measure_code', fontSize),
+                            _buildDataColumn(
+                              'MEASURE DESCRIPTION',
+                              'measure_description',
+                              fontSize,
+                            ),
+                            _buildDataColumn('LINE OF BUSINESS', 'line_of_business', fontSize),
+                            _buildDataColumn('PLAN MEMBER ID', 'plan_member_id', fontSize),
+                            _buildDataColumn('FIRST NAME', 'first_name', fontSize),
+                            _buildDataColumn('LAST NAME', 'last_name', fontSize),
+                            _buildDataColumn('DATE OF BIRTH', 'date_of_birth', fontSize),
+                            _buildDataColumn('LANGUAGE', 'language', fontSize),
+                            _buildDataColumn('RACE ETHNICITY', 'race_ethnicity', fontSize),
+                            _buildDataColumn('GENDER', 'gender', fontSize),
+                            _buildDataColumn('MEMBER ADDRESS', 'member_address', fontSize),
                             _buildDataColumn('MEMBER CITY', 'member_city', fontSize),
                             _buildDataColumn('MEMBER STATE', 'member_state', fontSize),
                             _buildDataColumn('MEMBER ZIP', 'member_zip', fontSize),
@@ -428,6 +505,27 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
                           rows: _paginatedRecords.map((record) {
                             return DataRow(
                               cells: [
+                                DataCell(Text(record.plan)),
+                                DataCell(Text(record.tin)),
+                                DataCell(Text(record.practice_name)),
+                                DataCell(Text(record.npi)),
+                                DataCell(Text(record.pcp_name)),
+                                DataCell(Text(record.pcp_address)),
+                                DataCell(Text(record.pcp_city)),
+                                DataCell(Text(record.pcp_state)),
+                                DataCell(Text(record.pcp_zip)),
+                                DataCell(Text(record.pcp_phone)),
+                                DataCell(Text(record.measure_code)),
+                                DataCell(Text(record.measure_description)),
+                                DataCell(Text(record.line_of_business)),
+                                DataCell(Text(record.plan_member_id)),
+                                DataCell(Text(record.first_name)),
+                                DataCell(Text(record.last_name)),
+                                DataCell(Text(record.date_of_birth)),
+                                DataCell(Text(record.language)),
+                                DataCell(Text(record.race_ethnicity)),
+                                DataCell(Text(record.gender)),
+                                DataCell(Text(record.member_address)),
                                 DataCell(Text(record.member_city)),
                                 DataCell(Text(record.member_state)),
                                 DataCell(Text(record.member_zip)),
@@ -729,6 +827,8 @@ class TSM3Record {
   final String pcp_address;
   final String pcp_city;
   final String pcp_state;
+  final String pcp_zip;
+  final String pcp_phone;
   final String measure_code;
   final String measure_description;
   final String line_of_business;
@@ -736,6 +836,10 @@ class TSM3Record {
   final String first_name;
   final String last_name;
   final String date_of_birth;
+  final String language;
+  final String race_ethnicity;
+  final String gender;
+  final String member_address;
 
   // IMA table columns
   final String member_city;
@@ -757,6 +861,8 @@ class TSM3Record {
     required this.pcp_address,
     required this.pcp_city,
     required this.pcp_state,
+    required this.pcp_zip,
+    required this.pcp_phone,
     required this.measure_code,
     required this.measure_description,
     required this.line_of_business,
@@ -764,6 +870,10 @@ class TSM3Record {
     required this.first_name,
     required this.last_name,
     required this.date_of_birth,
+    required this.language,
+    required this.race_ethnicity,
+    required this.gender,
+    required this.member_address,
     required this.member_city,
     required this.member_state,
     required this.member_zip,
