@@ -48,26 +48,16 @@ class W30ReportsCard extends StatelessWidget {
         final maxW = constraints.maxWidth;
         final padding = maxW < 300 ? 16.0 : 20.0;
 
-        double titleSize, timeframeSize, dateSize;
-        double iconSize, navFontSize;
+        double titleSize, dateSize;
         if (maxW < 300) {
           titleSize = 16;
-          timeframeSize = 11;
           dateSize = 11;
-          iconSize = 16;
-          navFontSize = 10;
         } else if (maxW < 500) {
           titleSize = 18;
-          timeframeSize = 12;
           dateSize = 12;
-          iconSize = 18;
-          navFontSize = 11;
         } else {
           titleSize = 18;
-          timeframeSize = 12;
           dateSize = 12;
-          iconSize = 20;
-          navFontSize = 12;
         }
 
         return Container(
@@ -106,66 +96,20 @@ class W30ReportsCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: canGoPrevious ? onPrevious : null,
-                            icon: Icon(
-                              Icons.chevron_left,
-                              color: canGoPrevious
-                                  ? Colors.grey.shade600
-                                  : Colors.grey.shade300,
-                            ),
-                            iconSize: iconSize,
-                            padding: EdgeInsets.zero,
-                            constraints: BoxConstraints(
-                              minWidth: iconSize + 8,
-                              minHeight: iconSize + 8,
-                            ),
-                          ),
-                          Flexible(
-                            child: Text(
-                              timeframeLabel,
-                              style: TextStyle(
-                                fontSize: navFontSize,
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF666666),
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: canGoNext ? onNext : null,
-                            icon: Icon(
-                              Icons.chevron_right,
-                              color: canGoNext
-                                  ? Colors.grey.shade600
-                                  : Colors.grey.shade300,
-                            ),
-                            iconSize: iconSize,
-                            padding: EdgeInsets.zero,
-                            constraints: BoxConstraints(
-                              minWidth: iconSize + 8,
-                              minHeight: iconSize + 8,
-                            ),
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    timeframeLabel,
-                    style: TextStyle(
-                      fontSize: timeframeSize,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF666666),
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
                   if (dateLine.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      'Report Date',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF666666),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     const SizedBox(height: 2),
                     Text(
                       dateLine,

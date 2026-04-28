@@ -1598,7 +1598,8 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildKPIHeader('MWOV\'s', data['timeframe'] as String?, null, true),
+            // MWOV's card doesn't show the "Report Date" label.
+            _buildKPIHeader('MWOV\'s', null, null, false),
             const SizedBox(height: 4),
             Expanded(
               child: SingleChildScrollView(
@@ -1824,13 +1825,12 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                if (hasNavigation) _buildTimeframeNavigation(title),
               ],
             ),
             if (timeframe != null) ...[
               const SizedBox(height: 4),
               Text(
-                timeframe,
+                'Report Date',
                 style: TextStyle(
                   fontSize: timeframeSize,
                   fontWeight: FontWeight.w500,
