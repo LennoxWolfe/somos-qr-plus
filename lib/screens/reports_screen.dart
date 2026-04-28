@@ -1586,40 +1586,46 @@ class _ReportsScreenState extends State<ReportsScreen> {
           ),
           const SizedBox(height: 4),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildKPIMetrics([
-                    {'label': 'COMPLETED', 'value': 12, 'type': 'completed'},
-                    {'label': 'OPEN', 'value': 9, 'type': 'missed'},
-                  ]),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _showTSMTableDialog(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1976D2),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
-                        ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildKPIMetrics([
+                          {'label': 'COMPLETED', 'value': 12, 'type': 'completed'},
+                          {'label': 'OPEN', 'value': 9, 'type': 'missed'},
+                        ]),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _showTSMTableDialog(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1976D2),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                      child: const Text(
-                        'View Reports',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
+                    ),
+                    child: const Text(
+                      'View Reports',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -1645,40 +1651,46 @@ class _ReportsScreenState extends State<ReportsScreen> {
           ),
           const SizedBox(height: 4),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildKPIMetrics([
-                    {'label': 'COMPLETED', 'value': 7, 'type': 'completed'},
-                    {'label': 'OPEN', 'value': 14, 'type': 'missed'},
-                  ]),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _showTSM2TableDialog(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1976D2),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
-                        ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildKPIMetrics([
+                          {'label': 'COMPLETED', 'value': 7, 'type': 'completed'},
+                          {'label': 'OPEN', 'value': 14, 'type': 'missed'},
+                        ]),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _showTSM2TableDialog(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1976D2),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                      child: const Text(
-                        'View Reports',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
+                    ),
+                    child: const Text(
+                      'View Reports',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -1704,40 +1716,46 @@ class _ReportsScreenState extends State<ReportsScreen> {
           ),
           const SizedBox(height: 4),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildKPIMetrics([
-                    {'label': 'COMPLETED', 'value': 18, 'type': 'completed'},
-                    {'label': 'OPEN', 'value': 6, 'type': 'missed'},
-                  ]),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _showTSM3TableDialog(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1976D2),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
-                        ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildKPIMetrics([
+                          {'label': 'COMPLETED', 'value': 18, 'type': 'completed'},
+                          {'label': 'OPEN', 'value': 6, 'type': 'missed'},
+                        ]),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _showTSM3TableDialog(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1976D2),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                      child: const Text(
-                        'View Reports',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
+                    ),
+                    child: const Text(
+                      'View Reports',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -1763,40 +1781,46 @@ class _ReportsScreenState extends State<ReportsScreen> {
           ),
           const SizedBox(height: 4),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildKPIMetrics([
-                    {'label': 'COMPLETED', 'value': 15, 'type': 'completed'},
-                    {'label': 'OPEN', 'value': 8, 'type': 'missed'},
-                  ]),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _showTSM4TableDialog(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1976D2),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
-                        ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildKPIMetrics([
+                          {'label': 'COMPLETED', 'value': 15, 'type': 'completed'},
+                          {'label': 'OPEN', 'value': 8, 'type': 'missed'},
+                        ]),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _showTSM4TableDialog(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1976D2),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                      child: const Text(
-                        'View Reports',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
+                    ),
+                    child: const Text(
+                      'View Reports',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -1869,6 +1893,11 @@ class _ReportsScreenState extends State<ReportsScreen> {
           dateSize = 12;
         }
         
+        // Design: any card that shows a date should label it "Report Date"
+        // (replaces the old "TODAY/LAST 30 DAYS" timeframe UI).
+        final showReportDateLabel = date != null;
+        const reportDateText = 'Report Date';
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1886,13 +1915,12 @@ class _ReportsScreenState extends State<ReportsScreen> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                if (hasNavigation) _buildTimeframeNavigation(navigationKey ?? title),
               ],
             ),
-            if (timeframe != null) ...[
+            if (showReportDateLabel) ...[
               const SizedBox(height: 4),
               Text(
-                timeframe,
+                reportDateText,
                 style: TextStyle(
                   fontSize: timeframeSize,
                   fontWeight: FontWeight.w500,
@@ -1916,116 +1944,6 @@ class _ReportsScreenState extends State<ReportsScreen> {
         );
       },
     );
-  }
-
-  Widget _buildTimeframeNavigation(String kpiType) {
-    final data = _kpiData[kpiType];
-    if (data == null) return const SizedBox.shrink();
-    
-    final currentIndex = data['currentTimeframeIndex'] ?? 0;
-    final timeframes = data['timeframes'] as List<Map<String, dynamic>>? ?? [];
-    
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        // Responsive sizing based on available width
-        double iconSize, fontSize;
-        if (constraints.maxWidth < 300) {
-          iconSize = 16;
-          fontSize = 10;
-        } else if (constraints.maxWidth < 500) {
-          iconSize = 18;
-          fontSize = 11;
-        } else {
-          iconSize = 20;
-          fontSize = 12;
-        }
-        
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              onPressed: currentIndex > 0 
-                ? () => _updateTimeframe(kpiType, currentIndex - 1)
-                : null,
-              icon: Icon(
-                Icons.chevron_left,
-                color: currentIndex > 0 ? Colors.grey.shade600 : Colors.grey.shade300,
-              ),
-              iconSize: iconSize,
-              padding: EdgeInsets.zero,
-              constraints: BoxConstraints(
-                minWidth: iconSize + 8,
-                minHeight: iconSize + 8,
-              ),
-            ),
-            Flexible(
-              child: Text(
-                timeframes.isNotEmpty ? timeframes[currentIndex]['name'] : '',
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFF666666),
-                ),
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            IconButton(
-              onPressed: currentIndex < timeframes.length - 1
-                ? () => _updateTimeframe(kpiType, currentIndex + 1)
-                : null,
-              icon: Icon(
-                Icons.chevron_right,
-                color: currentIndex < timeframes.length - 1 ? Colors.grey.shade600 : Colors.grey.shade300,
-              ),
-              iconSize: iconSize,
-              padding: EdgeInsets.zero,
-              constraints: BoxConstraints(
-                minWidth: iconSize + 8,
-                minHeight: iconSize + 8,
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _updateTimeframe(String kpiType, int newIndex) {
-    setState(() {
-      final kpiData = _kpiData[kpiType];
-      if (kpiData == null) return;
-      
-      kpiData['currentTimeframeIndex'] = newIndex;
-      final timeframes = kpiData['timeframes'] as List<Map<String, dynamic>>?;
-      if (timeframes == null || newIndex >= timeframes.length) return;
-      
-      final timeframe = timeframes[newIndex];
-      
-      // Update the displayed data
-      if (kpiType == 'RA') {
-        kpiData['missed'] = timeframe['missed'] ?? 0;
-        kpiData['completed'] = timeframe['completed'] ?? 0;
-        kpiData['rank'] = timeframe['rank'] ?? 'RANK 0/0';
-      } else if (kpiType == 'MWOV') {
-        kpiData['noVisits'] = timeframe['noVisits'] ?? 0;
-        kpiData['withVisits'] = timeframe['withVisits'] ?? 0;
-      } else if (kpiType == 'SIIP') {
-        kpiData['completed'] = timeframe['completed'] ?? 0;
-        kpiData['open'] = timeframe['open'] ?? 0;
-        kpiData['total'] = timeframe['total'] ?? 0;
-        kpiData['earnings'] = timeframe['earnings'] ?? 0.0;
-      } else if (kpiType == 'TSM' || kpiType == 'TSM 2' || kpiType == 'TSM 3' || kpiType == 'TSM 4') {
-        kpiData['date'] = timeframe['date'] ?? '';
-        kpiData['mco'] = timeframe['mco'] ?? '0';
-        kpiData['memberName'] = timeframe['memberName'] ?? '0';
-        kpiData['memberDob'] = timeframe['memberDob'] ?? '0%';
-        kpiData['memberPhone1'] = timeframe['memberPhone1'] ?? '0';
-        kpiData['measureCode'] = timeframe['measureCode'] ?? '0';
-        kpiData['deadlineCalculation'] = timeframe['deadlineCalculation'] ?? '0 due';
-        kpiData['diagnosisCode'] = timeframe['diagnosisCode'] ?? '0';
-      }
-    });
   }
 
   Widget _buildKPIStringMetrics(List<Map<String, String>> metrics) {
