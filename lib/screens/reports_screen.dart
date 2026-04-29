@@ -1259,8 +1259,6 @@ class _ReportsScreenState extends State<ReportsScreen> {
                     {'label': 'Completed', 'value': data['completed'] ?? 0, 'type': 'completed'},
                     {'label': 'Open', 'value': data['missed'] ?? 0, 'type': 'missed'},
                   ]),
-                  const SizedBox(height: 2),
-                  _buildKPIRank(data['rank'] as String? ?? 'RANK 0/0', data['networkRank'] as String? ?? ''),
                   const SizedBox(height: 8),
                   SizedBox(
                     width: double.infinity,
@@ -1314,8 +1312,6 @@ class _ReportsScreenState extends State<ReportsScreen> {
                     {'label': 'Completed', 'value': data['completed'] ?? 0, 'type': 'completed'},
                     {'label': 'Open', 'value': data['missed'] ?? 0, 'type': 'missed'},
                   ]),
-                  const SizedBox(height: 2),
-                  _buildKPIRank(data['rank'] as String? ?? 'RANK 0/0', data['networkRank'] as String? ?? ''),
                   const SizedBox(height: 8),
                   SizedBox(
                     width: double.infinity,
@@ -2107,64 +2103,6 @@ class _ReportsScreenState extends State<ReportsScreen> {
               ),
             );
           }).toList(),
-        );
-      },
-    );
-  }
-
-  Widget _buildKPIRank(String rank, String networkRank) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double rankSize, starSize, networkSize, spacing;
-        if (constraints.maxWidth < 300) {
-          rankSize = 9;
-          starSize = 8;
-          networkSize = 8;
-          spacing = 1;
-        } else if (constraints.maxWidth < 500) {
-          rankSize = 10;
-          starSize = 9;
-          networkSize = 9;
-          spacing = 2;
-        } else {
-          rankSize = 11;
-          starSize = 10;
-          networkSize = 10;
-          spacing = 3;
-        }
-        
-        return Column(
-          children: [
-            Text(
-              rank,
-              style: TextStyle(
-                fontSize: rankSize,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xFF666666),
-              ),
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: spacing),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(5, (index) => Icon(
-                Icons.star,
-                color: const Color(0xFFFFD700),
-                size: starSize,
-              )),
-            ),
-            SizedBox(height: spacing),
-            Text(
-              networkRank,
-              style: TextStyle(
-                fontSize: networkSize,
-                color: const Color(0xFF999999),
-              ),
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
         );
       },
     );
