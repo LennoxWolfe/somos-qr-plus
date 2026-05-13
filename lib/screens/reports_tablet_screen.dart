@@ -201,7 +201,7 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
           'name': 'TODAY',
           'date': '02-03-2026',
           'yellowMacro': [
-            {'key': 'plan', 'label': 'PLAN', 'value': '—'},
+            {'key': 'mco', 'label': 'MCO', 'value': '—'},
             {'key': 'tin', 'label': 'TIN', 'value': '—'},
             {'key': 'practiceName', 'label': 'PRACTICE NAME', 'value': '—'},
             {'key': 'npi', 'label': 'NPI', 'value': '—'},
@@ -214,7 +214,7 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
           'name': 'LAST 30 DAYS',
           'date': '01-03-2026 to 02-03-2026',
           'yellowMacro': [
-            {'key': 'plan', 'label': 'PLAN', 'value': '—'},
+            {'key': 'mco', 'label': 'MCO', 'value': '—'},
             {'key': 'tin', 'label': 'TIN', 'value': '—'},
             {'key': 'practiceName', 'label': 'PRACTICE NAME', 'value': '—'},
             {'key': 'npi', 'label': 'NPI', 'value': '—'},
@@ -227,7 +227,7 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
           'name': 'YTD',
           'date': '01-01-2026 to 02-03-2026',
           'yellowMacro': [
-            {'key': 'plan', 'label': 'PLAN', 'value': '—'},
+            {'key': 'mco', 'label': 'MCO', 'value': '—'},
             {'key': 'tin', 'label': 'TIN', 'value': '—'},
             {'key': 'practiceName', 'label': 'PRACTICE NAME', 'value': '—'},
             {'key': 'npi', 'label': 'NPI', 'value': '—'},
@@ -1267,7 +1267,7 @@ class _ReportsTabletScreenState extends State<ReportsTabletScreen> {
     final raw = tf['yellowMacro'] as List<dynamic>?;
     if (raw == null || raw.isEmpty) {
       return const [
-        W30MacroMetric('PLAN', '—'),
+        W30MacroMetric('MCO', '—'),
         W30MacroMetric('TIN', '—'),
         W30MacroMetric('PRACTICE NAME', '—'),
         W30MacroMetric('NPI', '—'),

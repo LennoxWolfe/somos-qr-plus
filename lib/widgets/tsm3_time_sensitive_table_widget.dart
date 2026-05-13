@@ -21,7 +21,7 @@ class ImaTableWidget extends StatefulWidget {
 
 class _ImaTableWidgetState extends State<ImaTableWidget> {
   static const List<_ImaColumn> _columns = [
-    _ImaColumn('plan', 'PLAN', 120),
+    _ImaColumn('mco', 'MCO', 120),
     _ImaColumn('tin', 'TIN', 120),
     _ImaColumn('practice_name', 'PRACTICE NAME', 200),
     _ImaColumn('npi', 'NPI', 120),
@@ -34,7 +34,7 @@ class _ImaTableWidgetState extends State<ImaTableWidget> {
     _ImaColumn('measure_code', 'MEASURE CODE', 160),
     _ImaColumn('measure_description', 'MEASURE DESCRIPTION', 240),
     _ImaColumn('line_of_business', 'LINE OF BUSINESS', 200),
-    _ImaColumn('plan_member_id', 'PLAN MEMBER ID', 180),
+    _ImaColumn('mco_member_id', 'MCO MEMBER ID', 180),
     _ImaColumn('first_name', 'FIRST NAME', 160),
     _ImaColumn('last_name', 'LAST NAME', 160),
     _ImaColumn('date_of_birth', 'DATE OF BIRTH', 160),
@@ -59,7 +59,7 @@ class _ImaTableWidgetState extends State<ImaTableWidget> {
   static Map<String, String> _placeholderRow(int rowIndex) {
     final i = rowIndex + 1;
     return {
-      'plan': ['SOMOS', 'FIDELIS', 'METROPLUS', 'HIP', 'EMBLEM'][rowIndex % 5],
+      'mco': ['SOMOS', 'FIDELIS', 'METROPLUS', 'HIP', 'EMBLEM'][rowIndex % 5],
       'tin': '11111111$i',
       'practice_name': 'SOMOS FAMILY CARE $i',
       'npi': '19999999${10 + i}',
@@ -73,7 +73,7 @@ class _ImaTableWidgetState extends State<ImaTableWidget> {
       'measure_code': 'IMA',
       'measure_description': 'IMMUNIZATIONS FOR ADOLESCENTS',
       'line_of_business': ['MEDICAID', 'COMMERCIAL', 'ESSENTIAL'][rowIndex % 3],
-      'plan_member_id': 'PMID-0000$i',
+      'mco_member_id': 'PMID-0000$i',
       'first_name': ['ALEX', 'JORDAN', 'TAYLOR', 'MORGAN', 'CASEY'][rowIndex % 5],
       'last_name': ['RIVERA', 'SMITH', 'JOHNSON', 'BROWN', 'DAVIS'][rowIndex % 5],
       'date_of_birth': '01-0$i-2013',

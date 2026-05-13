@@ -24,7 +24,7 @@ class Tsm2TimeSensitiveTableWidget extends StatefulWidget {
 
 class _Tsm2TimeSensitiveTableWidgetState extends State<Tsm2TimeSensitiveTableWidget> {
   static const List<_Tsm2Column> _columns = [
-    _Tsm2Column('plan', 'PLAN', 120),
+    _Tsm2Column('mco', 'MCO', 120),
     _Tsm2Column('tin', 'TIN', 120),
     _Tsm2Column('practice_name', 'PRACTICE NAME', 160),
     _Tsm2Column('npi', 'NPI', 120),
@@ -37,7 +37,7 @@ class _Tsm2TimeSensitiveTableWidgetState extends State<Tsm2TimeSensitiveTableWid
     _Tsm2Column('denominator', 'DENOMINATOR', 140),
     _Tsm2Column('numerator', 'NUMERATOR', 140),
     _Tsm2Column('line_of_business', 'LINE OF BUSINESS', 170),
-    _Tsm2Column('plan_member_id', 'PLAN MEMBER ID', 160),
+    _Tsm2Column('mco_member_id', 'MCO MEMBER ID', 160),
     _Tsm2Column('first_name', 'FIRST NAME', 140),
     _Tsm2Column('last_name', 'LAST NAME', 140),
     _Tsm2Column('date_of_birth', 'DATE OF BIRTH', 140),
@@ -71,7 +71,7 @@ class _Tsm2TimeSensitiveTableWidgetState extends State<Tsm2TimeSensitiveTableWid
   static Map<String, String> _placeholderRow(int rowIndex) {
     const p = '—';
     return {
-      'plan': ['PLAN A', 'PLAN B', 'PLAN C'][rowIndex % 3],
+      'mco': ['SOMOS', 'FIDELIS', 'METROPLUS'][rowIndex % 3],
       'tin': p,
       'practice_name': 'SAMPLE PRACTICE',
       'npi': '1234567890',
@@ -84,7 +84,7 @@ class _Tsm2TimeSensitiveTableWidgetState extends State<Tsm2TimeSensitiveTableWid
       'denominator': '${10 + rowIndex}',
       'numerator': '${5 + (rowIndex % 5)}',
       'line_of_business': ['MCD', 'MAP', 'CHIP'][rowIndex % 3],
-      'plan_member_id': 'MEM-${100000 + rowIndex}',
+      'mco_member_id': 'MEM-${100000 + rowIndex}',
       'first_name': 'FIRST${rowIndex + 1}',
       'last_name': 'LAST${rowIndex + 1}',
       'date_of_birth': '01-01-2018',
@@ -159,8 +159,8 @@ class _Tsm2TimeSensitiveTableWidgetState extends State<Tsm2TimeSensitiveTableWid
     );
   }
 
-  late final int _idxPlan;
-  late final int _idxPlanMemberId;
+  late final int _idxMco;
+  late final int _idxMcoMemberId;
   late final int _idxLastName;
   late final int _idxDateOfBirth;
   late final int _idxMemberPhone;
@@ -184,9 +184,9 @@ class _Tsm2TimeSensitiveTableWidgetState extends State<Tsm2TimeSensitiveTableWid
       c.addListener(_applyFilters);
     }
 
-    _idxPlan = _columns.indexWhere((c) => c.key == 'plan');
-    _idxPlanMemberId =
-        _columns.indexWhere((c) => c.key == 'plan_member_id');
+    _idxMco = _columns.indexWhere((c) => c.key == 'mco');
+    _idxMcoMemberId =
+        _columns.indexWhere((c) => c.key == 'mco_member_id');
     _idxLastName =
         _columns.indexWhere((c) => c.key == 'last_name');
     _idxDateOfBirth =
@@ -200,8 +200,8 @@ class _Tsm2TimeSensitiveTableWidgetState extends State<Tsm2TimeSensitiveTableWid
     _idxGender =
         _columns.indexWhere((c) => c.key == 'gender');
 
-    assert(_idxPlan != -1);
-    assert(_idxPlanMemberId != -1);
+    assert(_idxMco != -1);
+    assert(_idxMcoMemberId != -1);
     assert(_idxLastName != -1);
     assert(_idxDateOfBirth != -1);
     assert(_idxMemberPhone != -1);
@@ -271,7 +271,7 @@ class _Tsm2TimeSensitiveTableWidgetState extends State<Tsm2TimeSensitiveTableWid
         }
 
         final measureOptions = _distinctOptions('measure_code');
-        final planOptions = _distinctOptions('plan');
+        final mcoOptions = _distinctOptions('mco');
         final lobOptions = _distinctOptions('line_of_business');
 
         return Container(
@@ -283,7 +283,7 @@ class _Tsm2TimeSensitiveTableWidgetState extends State<Tsm2TimeSensitiveTableWid
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Row 1: Last name → Plan
+              // Row 1: Last name → MCO
               Row(
                 children: [
                   Expanded(
@@ -295,9 +295,9 @@ class _Tsm2TimeSensitiveTableWidgetState extends State<Tsm2TimeSensitiveTableWid
                   SizedBox(width: padding),
                   Expanded(
                     child: _buildFilterDropdown(
-                      controller: _filterControllers[_idxPlan],
-                      hint: 'Plan',
-                      options: planOptions,
+                      controller: _filterControllers[_idxMco],
+                      hint: 'MCO',
+                      options: mcoOptions,
                     ),
                   ),
                 ],
@@ -336,7 +336,7 @@ class _Tsm2TimeSensitiveTableWidgetState extends State<Tsm2TimeSensitiveTableWid
                 children: [
                   Expanded(
                     child: _buildFilterField(
-                      controller: _filterControllers[_idxPlanMemberId],
+                      controller: _filterControllers[_idxMcoMemberId],
                       hint: 'Member ID...',
                     ),
                   ),
