@@ -17,20 +17,12 @@ class _TSM4TableWidgetState extends State<TSM4TableWidget> {
   int _currentPage = 1;
   int _rowsPerPage = 10;
 
-  // Filter controllers (same style as TSM 1/2/3)
-  final TextEditingController _memberNameFilterController =
+  // Filters: MCO (dropdown), MEASURE CODE (text), MCO MEMBER ID (text)
+  final TextEditingController _measureCodeFilterController =
       TextEditingController();
   final TextEditingController _memberIdFilterController =
       TextEditingController();
-  final TextEditingController _dobFilterController = TextEditingController();
-  final TextEditingController _measureCodeFilterController =
-      TextEditingController();
-  final TextEditingController _phoneFilterController = TextEditingController();
-  final TextEditingController _deadlineFilterController =
-      TextEditingController();
   String _mcoFilter = '';
-  String _measureFilter = '';
-  String _ipaFilter = '';
 
   @override
   void initState() {
@@ -172,36 +164,12 @@ class _TSM4TableWidgetState extends State<TSM4TableWidget> {
   void _applyFilters() {
     setState(() {
       _filteredRecords = _records.where((record) {
-        final memberNameMatch = ('${record.first_name} ${record.last_name}')
-            .toLowerCase()
-            .contains(_memberNameFilterController.text.toLowerCase());
+        final mcoMatch = _mcoFilter.isEmpty || record.plan == _mcoFilter;
+        final measureCodeMatch = record.measure_code
+            .contains(_measureCodeFilterController.text);
         final memberIdMatch =
             record.plan_member_id.contains(_memberIdFilterController.text);
-        final dobMatch =
-            record.date_of_birth.contains(_dobFilterController.text);
-        final measureCodeMatch =
-            record.measure_code.contains(_measureCodeFilterController.text);
-        final phoneMatch =
-            record.member_phone.contains(_phoneFilterController.text);
-        final deadlineMatch = record.daterun
-            .toLowerCase()
-            .contains(_deadlineFilterController.text.toLowerCase());
-
-        final mcoMatch = _mcoFilter.isEmpty || record.plan == _mcoFilter;
-        final measureMatch = _measureFilter.isEmpty ||
-            record.measure_description == _measureFilter;
-        final ipaMatch =
-            _ipaFilter.isEmpty || record.line_of_business == _ipaFilter;
-
-        return memberNameMatch &&
-            memberIdMatch &&
-            dobMatch &&
-            measureCodeMatch &&
-            phoneMatch &&
-            deadlineMatch &&
-            mcoMatch &&
-            measureMatch &&
-            ipaMatch;
+        return mcoMatch && measureCodeMatch && memberIdMatch;
       }).toList();
       _currentPage = 1;
     });
@@ -393,105 +361,34 @@ class _TSM4TableWidgetState extends State<TSM4TableWidget> {
                 color: Colors.white,
                 border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
               ),
-              child: Column(
+              child: Row(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildFilterField(
-                          controller: _memberNameFilterController,
-                          hint: 'Member name...',
-                          onChanged: (_) => _applyFilters(),
-                        ),
-                      ),
-                      SizedBox(width: padding),
-                      Expanded(
-                        child: _buildFilterField(
-                          controller: _memberIdFilterController,
-                          hint: 'MCO member ID...',
-                          onChanged: (_) => _applyFilters(),
-                        ),
-                      ),
-                      SizedBox(width: padding),
-                      Expanded(
-                        child: _buildFilterDropdown(
-                          value: _mcoFilter,
-                          items: ['', 'Healthfirst', 'Anthem', 'Emblem', 'Molina'],
-                          hint: 'MCO',
-                          onChanged: (value) {
-                            _mcoFilter = value ?? '';
-                            _applyFilters();
-                          },
-                        ),
-                      ),
-                    ],
+                  Expanded(
+                    child: _buildFilterDropdown(
+                      value: _mcoFilter,
+                      items: ['', 'Healthfirst', 'Anthem', 'Emblem', 'Molina'],
+                      hint: 'MCO',
+                      onChanged: (value) {
+                        _mcoFilter = value ?? '';
+                        _applyFilters();
+                      },
+                    ),
                   ),
-                  SizedBox(height: padding),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildFilterField(
-                          controller: _dobFilterController,
-                          hint: 'DOB...',
-                          onChanged: (_) => _applyFilters(),
-                        ),
-                      ),
-                      SizedBox(width: padding),
-                      Expanded(
-                        child: _buildFilterField(
-                          controller: _measureCodeFilterController,
-                          hint: 'Measure code...',
-                          onChanged: (_) => _applyFilters(),
-                        ),
-                      ),
-                      SizedBox(width: padding),
-                      Expanded(
-                        child: _buildFilterDropdown(
-                          value: _measureFilter,
-                          items: [
-                            '',
-                            'Well-Child Visits in the Third, Fourth, Fifth and Sixth Years of Life',
-                          ],
-                          hint: 'Measure',
-                          onChanged: (value) {
-                            _measureFilter = value ?? '';
-                            _applyFilters();
-                          },
-                        ),
-                      ),
-                    ],
+                  SizedBox(width: padding),
+                  Expanded(
+                    child: _buildFilterField(
+                      controller: _measureCodeFilterController,
+                      hint: 'Measure code...',
+                      onChanged: (_) => _applyFilters(),
+                    ),
                   ),
-                  SizedBox(height: padding),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildFilterField(
-                          controller: _phoneFilterController,
-                          hint: 'Phone...',
-                          onChanged: (_) => _applyFilters(),
-                        ),
-                      ),
-                      SizedBox(width: padding),
-                      Expanded(
-                        child: _buildFilterField(
-                          controller: _deadlineFilterController,
-                          hint: 'Deadline...',
-                          onChanged: (_) => _applyFilters(),
-                        ),
-                      ),
-                      SizedBox(width: padding),
-                      Expanded(
-                        child: _buildFilterDropdown(
-                          value: _ipaFilter,
-                          items: ['', 'Medicaid', 'Commercial', 'Medicare'],
-                          hint: 'IPA',
-                          onChanged: (value) {
-                            _ipaFilter = value ?? '';
-                            _applyFilters();
-                          },
-                        ),
-                      ),
-                    ],
+                  SizedBox(width: padding),
+                  Expanded(
+                    child: _buildFilterField(
+                      controller: _memberIdFilterController,
+                      hint: 'MCO member ID...',
+                      onChanged: (_) => _applyFilters(),
+                    ),
                   ),
                 ],
               ),
@@ -874,12 +771,8 @@ class _TSM4TableWidgetState extends State<TSM4TableWidget> {
 
   @override
   void dispose() {
-    _memberNameFilterController.dispose();
-    _memberIdFilterController.dispose();
-    _dobFilterController.dispose();
     _measureCodeFilterController.dispose();
-    _phoneFilterController.dispose();
-    _deadlineFilterController.dispose();
+    _memberIdFilterController.dispose();
     super.dispose();
   }
 }
