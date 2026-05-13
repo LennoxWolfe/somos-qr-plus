@@ -389,7 +389,7 @@ class _TSMTableWidgetState extends State<TSMTableWidget> {
                       Expanded(
                         child: _buildFilterField(
                           controller: _memberIdFilterController,
-                          hint: 'Member ID...',
+                          hint: 'MCO member ID...',
                           onChanged: (_) => _applyFilters(),
                         ),
                       ),

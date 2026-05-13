@@ -355,7 +355,7 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
                       Expanded(
                         child: _buildFilterField(
                           controller: _memberIdFilterController,
-                          hint: 'Member ID...',
+                          hint: 'MCO member ID...',
                           onChanged: (_) => _applyFilters(),
                         ),
                       ),
@@ -459,7 +459,7 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
                             color: const Color(0xFF333333),
                           ),
                           columns: [
-                            _buildDataColumn('PLAN', 'plan', fontSize),
+                            _buildDataColumn('MCO', 'plan', fontSize),
                             _buildDataColumn('TIN', 'tin', fontSize),
                             _buildDataColumn('PRACTICE NAME', 'practice_name', fontSize),
                             _buildDataColumn('NPI', 'npi', fontSize),
@@ -476,7 +476,7 @@ class _TSM3TableWidgetState extends State<TSM3TableWidget> {
                               fontSize,
                             ),
                             _buildDataColumn('LINE OF BUSINESS', 'line_of_business', fontSize),
-                            _buildDataColumn('PLAN MEMBER ID', 'plan_member_id', fontSize),
+                            _buildDataColumn('MCO MEMBER ID', 'plan_member_id', fontSize),
                             _buildDataColumn('FIRST NAME', 'first_name', fontSize),
                             _buildDataColumn('LAST NAME', 'last_name', fontSize),
                             _buildDataColumn('DATE OF BIRTH', 'date_of_birth', fontSize),
