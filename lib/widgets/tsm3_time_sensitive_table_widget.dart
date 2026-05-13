@@ -147,10 +147,9 @@ class _ImaTableWidgetState extends State<ImaTableWidget> {
     );
   }
 
-  late final int _idxMemberCity;
-  late final int _idxMemberState;
-  late final int _idxMemberZip;
-  late final int _idxMemberPhone;
+  late final int _idxMco;
+  late final int _idxMcoMemberId;
+  late final int _idxMeasureCode;
 
   final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _verticalScrollController = ScrollController();
@@ -168,15 +167,15 @@ class _ImaTableWidgetState extends State<ImaTableWidget> {
       c.addListener(_applyFilters);
     }
 
-    _idxMemberCity = _columns.indexWhere((c) => c.key == 'member_city');
-    _idxMemberState = _columns.indexWhere((c) => c.key == 'member_state');
-    _idxMemberZip = _columns.indexWhere((c) => c.key == 'member_zip');
-    _idxMemberPhone = _columns.indexWhere((c) => c.key == 'member_phone');
+    _idxMco = _columns.indexWhere((c) => c.key == 'mco');
+    _idxMcoMemberId =
+        _columns.indexWhere((c) => c.key == 'mco_member_id');
+    _idxMeasureCode =
+        _columns.indexWhere((c) => c.key == 'measure_code');
 
-    assert(_idxMemberCity != -1);
-    assert(_idxMemberState != -1);
-    assert(_idxMemberZip != -1);
-    assert(_idxMemberPhone != -1);
+    assert(_idxMco != -1);
+    assert(_idxMcoMemberId != -1);
+    assert(_idxMeasureCode != -1);
   }
 
   @override
@@ -235,8 +234,8 @@ class _ImaTableWidgetState extends State<ImaTableWidget> {
           padding = 12;
         }
 
-        final cityOptions = _distinctOptions('member_city');
-        final stateOptions = _distinctOptions('member_state');
+        final mcoOptions = _distinctOptions('mco');
+        final measureOptions = _distinctOptions('measure_code');
 
         return Container(
           padding: EdgeInsets.all(padding),
@@ -244,45 +243,29 @@ class _ImaTableWidgetState extends State<ImaTableWidget> {
             color: Colors.white,
             border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Row(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildFilterDropdown(
-                      controller: _filterControllers[_idxMemberCity],
-                      hint: 'Member city',
-                      options: cityOptions,
-                    ),
-                  ),
-                  SizedBox(width: padding),
-                  Expanded(
-                    child: _buildFilterDropdown(
-                      controller: _filterControllers[_idxMemberState],
-                      hint: 'Member state',
-                      options: stateOptions,
-                    ),
-                  ),
-                ],
+              Expanded(
+                child: _buildFilterDropdown(
+                  controller: _filterControllers[_idxMco],
+                  hint: 'MCO',
+                  options: mcoOptions,
+                ),
               ),
-              SizedBox(height: padding),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildFilterField(
-                      controller: _filterControllers[_idxMemberZip],
-                      hint: 'Member zip...',
-                    ),
-                  ),
-                  SizedBox(width: padding),
-                  Expanded(
-                    child: _buildFilterField(
-                      controller: _filterControllers[_idxMemberPhone],
-                      hint: 'Member phone...',
-                    ),
-                  ),
-                ],
+              SizedBox(width: padding),
+              Expanded(
+                child: _buildFilterDropdown(
+                  controller: _filterControllers[_idxMeasureCode],
+                  hint: 'Measure code',
+                  options: measureOptions,
+                ),
+              ),
+              SizedBox(width: padding),
+              Expanded(
+                child: _buildFilterField(
+                  controller: _filterControllers[_idxMcoMemberId],
+                  hint: 'MCO member ID...',
+                ),
               ),
             ],
           ),

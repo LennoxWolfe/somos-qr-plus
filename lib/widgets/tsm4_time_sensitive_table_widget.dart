@@ -159,12 +159,7 @@ class _W30TableWidgetState extends State<W30TableWidget> {
 
   late final int _idxMco;
   late final int _idxMcoMemberId;
-  late final int _idxLastName;
-  late final int _idxDateOfBirth;
-  late final int _idxMemberPhone;
   late final int _idxMeasureCode;
-  late final int _idxLineOfBusiness;
-  late final int _idxGender;
 
   final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _verticalScrollController = ScrollController();
@@ -184,22 +179,11 @@ class _W30TableWidgetState extends State<W30TableWidget> {
 
     _idxMco = _columns.indexWhere((c) => c.key == 'mco');
     _idxMcoMemberId = _columns.indexWhere((c) => c.key == 'mco_member_id');
-    _idxLastName = _columns.indexWhere((c) => c.key == 'last_name');
-    _idxDateOfBirth = _columns.indexWhere((c) => c.key == 'date_of_birth');
-    _idxMemberPhone = _columns.indexWhere((c) => c.key == 'member_phone');
     _idxMeasureCode = _columns.indexWhere((c) => c.key == 'measure_code');
-    _idxLineOfBusiness =
-        _columns.indexWhere((c) => c.key == 'line_of_business');
-    _idxGender = _columns.indexWhere((c) => c.key == 'gender');
 
     assert(_idxMco != -1);
     assert(_idxMcoMemberId != -1);
-    assert(_idxLastName != -1);
-    assert(_idxDateOfBirth != -1);
-    assert(_idxMemberPhone != -1);
     assert(_idxMeasureCode != -1);
-    assert(_idxLineOfBusiness != -1);
-    assert(_idxGender != -1);
   }
 
   @override
@@ -260,8 +244,6 @@ class _W30TableWidgetState extends State<W30TableWidget> {
 
         final mcoOptions = _distinctOptions('mco');
         final measureOptions = _distinctOptions('measure_code');
-        final lobOptions = _distinctOptions('line_of_business');
-        final genderOptions = _distinctOptions('gender');
 
         return Container(
           padding: EdgeInsets.all(padding),
@@ -269,79 +251,29 @@ class _W30TableWidgetState extends State<W30TableWidget> {
             color: Colors.white,
             border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Row(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildFilterField(
-                      controller: _filterControllers[_idxLastName],
-                      hint: 'Last name...',
-                    ),
-                  ),
-                  SizedBox(width: padding),
-                  Expanded(
-                    child: _buildFilterDropdown(
-                      controller: _filterControllers[_idxMco],
-                      hint: 'MCO',
-                      options: mcoOptions,
-                    ),
-                  ),
-                ],
+              Expanded(
+                child: _buildFilterDropdown(
+                  controller: _filterControllers[_idxMco],
+                  hint: 'MCO',
+                  options: mcoOptions,
+                ),
               ),
-              SizedBox(height: padding),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildFilterField(
-                      controller: _filterControllers[_idxDateOfBirth],
-                      hint: 'DOB...',
-                    ),
-                  ),
-                  SizedBox(width: padding),
-                  Expanded(
-                    child: _buildFilterDropdown(
-                      controller: _filterControllers[_idxMeasureCode],
-                      hint: 'Measure code',
-                      options: measureOptions,
-                    ),
-                  ),
-                  SizedBox(width: padding),
-                  Expanded(
-                    child: _buildFilterDropdown(
-                      controller: _filterControllers[_idxLineOfBusiness],
-                      hint: 'Line of business',
-                      options: lobOptions,
-                    ),
-                  ),
-                ],
+              SizedBox(width: padding),
+              Expanded(
+                child: _buildFilterDropdown(
+                  controller: _filterControllers[_idxMeasureCode],
+                  hint: 'Measure code',
+                  options: measureOptions,
+                ),
               ),
-              SizedBox(height: padding),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildFilterField(
-                      controller: _filterControllers[_idxMcoMemberId],
-                      hint: 'Member ID...',
-                    ),
-                  ),
-                  SizedBox(width: padding),
-                  Expanded(
-                    child: _buildFilterField(
-                      controller: _filterControllers[_idxMemberPhone],
-                      hint: 'Phone...',
-                    ),
-                  ),
-                  SizedBox(width: padding),
-                  Expanded(
-                    child: _buildFilterDropdown(
-                      controller: _filterControllers[_idxGender],
-                      hint: 'Gender',
-                      options: genderOptions,
-                    ),
-                  ),
-                ],
+              SizedBox(width: padding),
+              Expanded(
+                child: _buildFilterField(
+                  controller: _filterControllers[_idxMcoMemberId],
+                  hint: 'MCO member ID...',
+                ),
               ),
             ],
           ),
