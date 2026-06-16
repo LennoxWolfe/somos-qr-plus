@@ -1037,6 +1037,10 @@ class _RiskAdjustmentScorecardsScreenState
         child: ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 1100),
           child: DataTable(
+            headingRowHeight: 48,
+            dataRowMinHeight: 48,
+            dataRowMaxHeight: double.infinity,
+            columnSpacing: 16,
             headingRowColor: WidgetStateProperty.all(_primaryBlue),
             headingTextStyle: const TextStyle(
               color: Colors.white,
@@ -1052,15 +1056,39 @@ class _RiskAdjustmentScorecardsScreenState
               DataColumn(label: Text('Provider Feedback')),
             ],
             rows: _feedbackData.map((item) {
+              const cellStyle = TextStyle(fontSize: 12, height: 1.4);
               return DataRow(
                 cells: [
-                  DataCell(Text(item.patient)),
-                  DataCell(Text(item.dob)),
-                  DataCell(Text(item.insurance)),
-                  DataCell(SizedBox(width: 200, child: Text(item.diagnosis))),
-                  DataCell(SizedBox(width: 240, child: Text(item.evidence))),
-                  DataCell(
-                    Container(
+                  DataCell(Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(item.patient, style: cellStyle),
+                  )),
+                  DataCell(Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(item.dob, style: cellStyle),
+                  )),
+                  DataCell(Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(item.insurance, style: cellStyle),
+                  )),
+                  DataCell(Align(
+                    alignment: Alignment.topLeft,
+                    child: SizedBox(
+                      width: 200,
+                      child: Text(item.diagnosis, style: cellStyle),
+                    ),
+                  )),
+                  DataCell(Align(
+                    alignment: Alignment.topLeft,
+                    child: SizedBox(
+                      width: 280,
+                      child: Text(item.evidence, style: cellStyle),
+                    ),
+                  )),
+                  DataCell(Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: 220,
                       padding: const EdgeInsets.symmetric(vertical: 4),
                       decoration: BoxDecoration(
                         color: item.feedback.isNotEmpty
@@ -1078,10 +1106,7 @@ class _RiskAdjustmentScorecardsScreenState
                           value: item.feedback.isEmpty ? '' : item.feedback,
                           isExpanded: true,
                           padding: const EdgeInsets.symmetric(horizontal: 8),
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Color(0xFF333333),
-                          ),
+                          style: cellStyle,
                           items: feedbackOptions
                               .map(
                                 (option) => DropdownMenuItem<String>(
@@ -1101,7 +1126,7 @@ class _RiskAdjustmentScorecardsScreenState
                         ),
                       ),
                     ),
-                  ),
+                  )),
                 ],
               );
             }).toList(),
