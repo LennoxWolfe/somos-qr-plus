@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAddProfileModal();
     initializeEditProfileModal();
     initializeViewDetailsModal();
+    initializePasswordResetFlow();
 });
 
 // Navigation functionality
@@ -1684,4 +1685,138 @@ function initializeViewDetailsPagination() {
     
     // Initialize pagination state
     updatePaginationState();
+}
+
+// Password Reset flow
+let pendingPasswordResetUser = null;
+
+function initializePasswordResetFlow() {
+    document.querySelectorAll('.users-table .action-menu-dropdown').forEach(menu => {
+        const match = menu.id.match(/^actionMenu(\d+)$/);
+        if (!match || menu.querySelector('.password-reset-item')) return;
+
+        const userId = match[1];
+        const btn = document.createElement('button');
+        btn.className = 'action-menu-item password-reset-item';
+        btn.innerHTML = `
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            Send Password Reset
+        `;
+        btn.addEventListener('click', () => openPasswordResetDialog(userId));
+        menu.appendChild(btn);
+    });
+
+    const cancelBtn = document.getElementById('passwordResetCancelBtn');
+    const confirmBtn = document.getElementById('passwordResetConfirmBtn');
+    const doneBtn = document.getElementById('passwordResetDoneBtn');
+    const dialog = document.getElementById('passwordResetDialog');
+
+    if (cancelBtn) cancelBtn.addEventListener('click', closePasswordResetDialog);
+    if (confirmBtn) confirmBtn.addEventListener('click', confirmPasswordReset);
+    if (doneBtn) doneBtn.addEventListener('click', closePasswordResetDialog);
+
+    if (dialog) {
+        dialog.addEventListener('click', (e) => {
+            if (e.target === dialog) closePasswordResetDialog();
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && dialog?.classList.contains('show')) {
+            closePasswordResetDialog();
+        }
+    });
+}
+
+function getUserDataFromId(userId) {
+    const menu = document.getElementById(`actionMenu${userId}`);
+    if (!menu) return null;
+
+    const row = menu.closest('tr');
+    if (!row) return null;
+
+    const firstName = row.querySelector('.first-name-cell')?.textContent.trim() || '';
+    const lastName = row.querySelector('.last-name-cell')?.textContent.trim() || '';
+    const email = row.querySelector('.email-cell')?.textContent.trim() || '';
+    const activeToggle = row.querySelector('.toggle-switch input');
+
+    return {
+        userId,
+        firstName,
+        lastName,
+        fullName: `${firstName} ${lastName}`.trim(),
+        email,
+        isActive: activeToggle ? activeToggle.checked : true
+    };
+}
+
+function closeAllActionMenus() {
+    document.querySelectorAll('.action-menu-dropdown').forEach(menu => {
+        menu.classList.remove('show');
+    });
+}
+
+function openPasswordResetDialog(userId) {
+    const user = getUserDataFromId(userId);
+    if (!user) return;
+
+    closeAllActionMenus();
+    pendingPasswordResetUser = user;
+
+    const confirmView = document.getElementById('passwordResetConfirmView');
+    const successView = document.getElementById('passwordResetSuccessView');
+    const nameEl = document.getElementById('passwordResetUserName');
+    const emailEl = document.getElementById('passwordResetUserEmail');
+    const inactiveNote = document.getElementById('passwordResetInactiveNote');
+    const confirmBtn = document.getElementById('passwordResetConfirmBtn');
+    const dialog = document.getElementById('passwordResetDialog');
+
+    if (nameEl) nameEl.textContent = user.fullName;
+    if (emailEl) emailEl.textContent = user.email;
+    if (inactiveNote) inactiveNote.hidden = user.isActive;
+    if (confirmBtn) confirmBtn.disabled = !user.isActive;
+
+    if (confirmView) confirmView.hidden = false;
+    if (successView) successView.hidden = true;
+    if (dialog) {
+        dialog.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closePasswordResetDialog() {
+    const dialog = document.getElementById('passwordResetDialog');
+    if (dialog) {
+        dialog.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+    pendingPasswordResetUser = null;
+}
+
+function confirmPasswordReset() {
+    if (!pendingPasswordResetUser || !pendingPasswordResetUser.isActive) return;
+
+    const user = pendingPasswordResetUser;
+    const confirmBtn = document.getElementById('passwordResetConfirmBtn');
+    if (confirmBtn) confirmBtn.disabled = true;
+
+    showLoading();
+
+    setTimeout(() => {
+        hideLoading();
+
+        const confirmView = document.getElementById('passwordResetConfirmView');
+        const successView = document.getElementById('passwordResetSuccessView');
+        const successEmail = document.getElementById('passwordResetSuccessEmail');
+
+        if (successEmail) successEmail.textContent = user.email;
+        if (confirmView) confirmView.hidden = true;
+        if (successView) successView.hidden = false;
+        if (confirmBtn) confirmBtn.disabled = false;
+
+        console.log('Password reset sent for user:', user);
+    }, 1200);
 }

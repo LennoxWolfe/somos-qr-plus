@@ -259,6 +259,53 @@
         </div>
     </div>
 
+    <!-- Password Reset Dialog -->
+    <div class="logout-dialog password-reset-dialog" id="passwordResetDialog">
+        <div class="logout-dialog-content">
+            <div id="passwordResetConfirmView">
+                <div class="logout-dialog-header">
+                    <div class="password-reset-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <h3>Send Password Reset</h3>
+                </div>
+                <div class="logout-dialog-body password-reset-body">
+                    <div class="password-reset-user-info">
+                        <span class="password-reset-user-name" id="passwordResetUserName"></span>
+                        <span class="password-reset-user-email" id="passwordResetUserEmail"></span>
+                    </div>
+                    <p>A password reset link will be sent to this user's email. They will need to create a new password to sign in.</p>
+                    <p class="logout-subtitle password-reset-inactive-note" id="passwordResetInactiveNote" hidden>This user account is inactive. Activate the account before sending a reset link.</p>
+                </div>
+                <div class="logout-dialog-footer">
+                    <button class="logout-btn-cancel" id="passwordResetCancelBtn">Cancel</button>
+                    <button class="logout-btn-confirm password-reset-btn-confirm" id="passwordResetConfirmBtn">Send Reset Link</button>
+                </div>
+            </div>
+            <div id="passwordResetSuccessView" hidden>
+                <div class="logout-dialog-header">
+                    <div class="password-reset-success-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22,4 12,14.01 9,11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Email Sent</h3>
+                </div>
+                <div class="logout-dialog-body password-reset-body">
+                    <p>We've sent a password reset link to <strong id="passwordResetSuccessEmail"></strong></p>
+                    <p class="logout-subtitle">The user will receive instructions to create a new password.</p>
+                </div>
+                <div class="logout-dialog-footer">
+                    <button class="logout-btn-confirm password-reset-btn-confirm" id="passwordResetDoneBtn">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="security-container">
         <!-- Page Header -->
         <div class="page-header">
