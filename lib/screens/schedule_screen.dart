@@ -1722,6 +1722,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       case 'quality':
         context.go('/quality-scorecards');
         break;
+      case 'risk-adjustment':
+        context.go('/risk-adjustment-scorecards');
+        break;
       case 'schedule':
         // Already on schedule page
         break;

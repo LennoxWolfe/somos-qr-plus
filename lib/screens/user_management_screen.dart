@@ -453,6 +453,9 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       case 'quality':
         context.go('/quality-scorecards');
         break;
+      case 'risk-adjustment':
+        context.go('/risk-adjustment-scorecards');
+        break;
       case 'schedule':
         context.go('/schedule');
         break;

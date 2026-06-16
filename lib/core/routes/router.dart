@@ -15,6 +15,7 @@ import '../../screens/patients_screen.dart';
 import '../../screens/schedule_screen.dart';
 import '../../screens/resources_screen.dart';
 import '../../screens/my_invitations_screen.dart';
+import '../../screens/risk_adjustment_scorecards_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/login',
@@ -74,6 +75,10 @@ final appRouter = GoRouter(
       builder: (context, state) => const QualityScorecardsScreen(),
     ),
     GoRoute(
+      path: '/risk-adjustment-scorecards',
+      builder: (context, state) => const RiskAdjustmentScorecardsScreen(),
+    ),
+    GoRoute(
       path: '/reports',
       builder: (context, state) => const ReportsScreen(),
     ),
@@ -90,4 +95,4 @@ final appRouter = GoRouter(
       builder: (context, state) => const ResourcesScreen(),
     ),
   ],
-); 
+);

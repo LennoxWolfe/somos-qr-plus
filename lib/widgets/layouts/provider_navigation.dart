@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 class ProviderNavigation extends StatelessWidget {
   final Widget child;
-  
+
   const ProviderNavigation({
     super.key,
     required this.child,
@@ -33,10 +33,22 @@ class ProviderNavigation extends StatelessWidget {
                 fontFamily: 'Helvetica Black',
                 height: 1,
                 shadows: [
-                  Shadow(color: Colors.black, offset: Offset(0.5, 0), blurRadius: 0),
-                  Shadow(color: Colors.black, offset: Offset(-0.5, 0), blurRadius: 0),
-                  Shadow(color: Colors.black, offset: Offset(0, 0.5), blurRadius: 0),
-                  Shadow(color: Colors.black, offset: Offset(0, -0.5), blurRadius: 0),
+                  Shadow(
+                      color: Colors.black,
+                      offset: Offset(0.5, 0),
+                      blurRadius: 0),
+                  Shadow(
+                      color: Colors.black,
+                      offset: Offset(-0.5, 0),
+                      blurRadius: 0),
+                  Shadow(
+                      color: Colors.black,
+                      offset: Offset(0, 0.5),
+                      blurRadius: 0),
+                  Shadow(
+                      color: Colors.black,
+                      offset: Offset(0, -0.5),
+                      blurRadius: 0),
                 ],
               ),
             ),
@@ -95,8 +107,14 @@ class ProviderNavigation extends StatelessWidget {
                         fontFamily: 'Helvetica',
                         height: 1,
                         shadows: [
-                          Shadow(color: Colors.white.withOpacity(0.3), offset: Offset(0.5, 0), blurRadius: 0),
-                          Shadow(color: Colors.white.withOpacity(0.3), offset: Offset(-0.5, 0), blurRadius: 0),
+                          Shadow(
+                              color: Colors.white.withOpacity(0.3),
+                              offset: Offset(0.5, 0),
+                              blurRadius: 0),
+                          Shadow(
+                              color: Colors.white.withOpacity(0.3),
+                              offset: Offset(-0.5, 0),
+                              blurRadius: 0),
                         ],
                       ),
                     ),
@@ -135,6 +153,14 @@ class ProviderNavigation extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.medical_information),
+            title: const Text('Risk Adjustment Score Cards'),
+            onTap: () {
+              Navigator.pop(context);
+              context.go('/risk-adjustment-scorecards');
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.assessment),
             title: const Text('Reports'),
             onTap: () {
@@ -164,4 +190,4 @@ class ProviderNavigation extends StatelessWidget {
       body: child,
     );
   }
-} 
+}

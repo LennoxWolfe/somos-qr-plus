@@ -424,6 +424,9 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
       case 'quality':
         // Already on quality page
         break;
+      case 'risk-adjustment':
+        context.go('/risk-adjustment-scorecards');
+        break;
       case 'schedule':
         context.go('/schedule');
         break;

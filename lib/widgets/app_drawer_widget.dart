@@ -26,7 +26,7 @@ class AppDrawerWidget extends StatelessWidget {
               color: Colors.black.withOpacity(0.5),
             ),
           ),
-        
+
         // Navigation Drawer
         AnimatedPositioned(
           duration: const Duration(milliseconds: 300),
@@ -80,7 +80,7 @@ class AppDrawerWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  
+
                   // Drawer Content
                   Expanded(
                     child: Container(
@@ -88,22 +88,56 @@ class AppDrawerWidget extends StatelessWidget {
                       child: ListView(
                         padding: EdgeInsets.zero,
                         children: [
-                          _buildDrawerItem('Dashboard', Icons.dashboard, activeRoute == 'dashboard', () => onNavigation('dashboard')),
-                          _buildDrawerItem('Quality Score Cards', Icons.assessment, activeRoute == 'quality', () => onNavigation('quality')),
-                          _buildDrawerItem('My Schedule', Icons.schedule, activeRoute == 'schedule', () => onNavigation('schedule')),
-                          _buildDrawerItem('My Patients', Icons.people, activeRoute == 'patients', () => onNavigation('patients')),
-                          _buildDrawerItem('Reports', Icons.bar_chart, activeRoute == 'reports', () => onNavigation('reports')),
-                          _buildDrawerItem('Resources', Icons.folder, activeRoute == 'resources', () => onNavigation('resources')),
-                          
+                          _buildDrawerItem(
+                              'Dashboard',
+                              Icons.dashboard,
+                              activeRoute == 'dashboard',
+                              () => onNavigation('dashboard')),
+                          _buildDrawerItem(
+                              'Quality Score Cards',
+                              Icons.assessment,
+                              activeRoute == 'quality',
+                              () => onNavigation('quality')),
+                          _buildDrawerItem(
+                              'Risk Adjustment Score Cards',
+                              Icons.medical_information,
+                              activeRoute == 'risk-adjustment',
+                              () => onNavigation('risk-adjustment')),
+                          _buildDrawerItem(
+                              'My Schedule',
+                              Icons.schedule,
+                              activeRoute == 'schedule',
+                              () => onNavigation('schedule')),
+                          _buildDrawerItem(
+                              'My Patients',
+                              Icons.people,
+                              activeRoute == 'patients',
+                              () => onNavigation('patients')),
+                          _buildDrawerItem(
+                              'Reports',
+                              Icons.bar_chart,
+                              activeRoute == 'reports',
+                              () => onNavigation('reports')),
+                          _buildDrawerItem(
+                              'Resources',
+                              Icons.folder,
+                              activeRoute == 'resources',
+                              () => onNavigation('resources')),
+
                           // Divider
                           Container(
                             height: 1,
                             color: const Color(0xFFE0E0E0),
                             margin: const EdgeInsets.symmetric(vertical: 8),
                           ),
-                          
-                          _buildDrawerItem('Settings', Icons.settings, activeRoute == 'settings', () => onNavigation('settings')),
-                          _buildDrawerItem('Log Out', Icons.logout, false, () => onNavigation('logout')),
+
+                          _buildDrawerItem(
+                              'Settings',
+                              Icons.settings,
+                              activeRoute == 'settings',
+                              () => onNavigation('settings')),
+                          _buildDrawerItem('Log Out', Icons.logout, false,
+                              () => onNavigation('logout')),
                         ],
                       ),
                     ),
@@ -117,7 +151,8 @@ class AppDrawerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildDrawerItem(String title, IconData icon, bool isActive, VoidCallback onTap) {
+  Widget _buildDrawerItem(
+      String title, IconData icon, bool isActive, VoidCallback onTap) {
     return Container(
       decoration: BoxDecoration(
         color: isActive ? const Color(0xFFE3F2FD) : Colors.transparent,
