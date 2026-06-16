@@ -1617,6 +1617,9 @@ class _ScheduleTabletScreenState extends State<ScheduleTabletScreen> {
       case 'quality':
         context.go('/quality-scorecards');
         break;
+      case 'risk-adjustment':
+        context.go('/risk-adjustment-scorecards');
+        break;
       case 'schedule':
         // Already on schedule page
         break;

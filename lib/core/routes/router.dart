@@ -7,6 +7,7 @@ import '../../screens/auth/reset_password_screen.dart';
 import '../../screens/auth/two_factor_screen.dart';
 import '../../screens/settings_screen.dart';
 import '../../screens/quality_scorecards_tablet_screen.dart';
+import '../../screens/risk_adjustment_scorecards_screen.dart';
 import '../../screens/dashboard_screen.dart';
 import '../../screens/reports_tablet_screen.dart';
 import '../../screens/patients_tablet_screen.dart';
@@ -76,6 +77,19 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
         child: const QualityScorecardsTabletScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/risk-adjustment-scorecards',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const RiskAdjustmentScorecardsScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,

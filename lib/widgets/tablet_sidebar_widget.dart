@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 /// (radius ~15), optional asset or medical icon fallback. Collapse control: top-right,
 /// 40×40 white rounded square (radius 8), chevron left/right, icon `#1976D2`.
 ///
-/// **Nav** ([onNavigation] route keys): `dashboard`, `quality`, `schedule`, `patients`,
-/// `reports`, `resources`, divider, then `settings`, `logout`.
+/// **Nav** ([onNavigation] route keys): `dashboard`, `quality`, `risk-adjustment`,
+/// `schedule`, `patients`, `reports`, `resources`, divider, then `settings`, `logout`.
 ///
 /// Active: `#E3F2FD` fill, 1px `#1976D2` border, radius 12, blue dot; inactive: grey tones.
 class TabletSidebarWidget extends StatefulWidget {
@@ -154,6 +154,13 @@ class _TabletSidebarWidgetState extends State<TabletSidebarWidget> {
                     Icons.assessment, 
                     widget.activeRoute == 'quality', 
                     () => widget.onNavigation('quality')
+                  ),
+                  _buildSidebarItem(
+                    'Risk Adjustment Score Cards',
+                    Icons.trending_up_outlined,
+                    Icons.trending_up,
+                    widget.activeRoute == 'risk-adjustment',
+                    () => widget.onNavigation('risk-adjustment')
                   ),
                   _buildSidebarItem(
                     'My Schedule', 
