@@ -205,6 +205,8 @@ class _RATableWidgetState extends State<RATableWidget> {
         return patient.hccIcd10;
       case 'status':
         return patient.status;
+      case 'completedInApp':
+        return patient.completedInApp;
       case 'lastDos':
         return patient.lastDos;
       case 'phone':
@@ -381,6 +383,8 @@ class _RATableWidgetState extends State<RATableWidget> {
                             _buildDataColumn('DOB', 'dob', fontSize),
                             _buildDataColumn('HCC/ICD10', 'hccIcd10', fontSize),
                             _buildDataColumn('STATUS', 'status', fontSize),
+                            _buildDataColumn(
+                                'COMPLETED IN APP', 'completedInApp', fontSize),
                             _buildDataColumn('LAST DOS', 'lastDos', fontSize),
                             _buildDataColumn('PHONE', 'phone', fontSize),
                           ],
@@ -392,6 +396,7 @@ class _RATableWidgetState extends State<RATableWidget> {
                                 DataCell(Text(patient.dob)),
                                 DataCell(Text(patient.hccIcd10.isEmpty ? '-' : patient.hccIcd10)),
                                 DataCell(Text(patient.status)),
+                                DataCell(Text(patient.completedInApp)),
                                 DataCell(Text(patient.lastDos.isEmpty ? '-' : patient.lastDos)),
                                 DataCell(Text(patient.phone)),
                               ],
@@ -686,6 +691,7 @@ class RAPatient {
   final String dob;
   final String hccIcd10;
   final String status;
+  final String completedInApp;
   final String lastDos;
   final String phone;
 
@@ -697,5 +703,6 @@ class RAPatient {
     required this.status,
     required this.lastDos,
     required this.phone,
-  });
+    String? completedInApp,
+  }) : completedInApp = completedInApp ?? (status == 'Completed' ? 'Y' : 'N');
 }

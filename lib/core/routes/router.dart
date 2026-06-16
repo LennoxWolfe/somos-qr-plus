@@ -80,7 +80,9 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/reports',
-      builder: (context, state) => const ReportsScreen(),
+      builder: (context, state) => ReportsScreen(
+        initialOpenReport: state.uri.queryParameters['open'],
+      ),
     ),
     GoRoute(
       path: '/patients',

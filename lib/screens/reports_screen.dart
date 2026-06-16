@@ -17,7 +17,9 @@ import '../widgets/provider_dropdown_widget.dart';
 import '../core/constants/providers.dart';
 
 class ReportsScreen extends StatefulWidget {
-  const ReportsScreen({super.key});
+  final String? initialOpenReport;
+
+  const ReportsScreen({super.key, this.initialOpenReport});
 
   @override
   State<ReportsScreen> createState() => _ReportsScreenState();
@@ -27,6 +29,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
   bool _isDrawerOpen = false;
   bool _showLogoutDialog = false;
   String _selectedProvider = 'All';
+  String? _activeReportCard;
+  final GlobalKey _raCardKey = GlobalKey();
+  final ScrollController _scrollController = ScrollController();
 
 
 
@@ -294,6 +299,44 @@ class _ReportsScreenState extends State<ReportsScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.initialOpenReport?.toLowerCase() == 'ra') {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _openRaReport();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _openRaReport({bool scrollToCard = true}) {
+    setState(() => _activeReportCard = 'RA');
+    if (scrollToCard) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final cardContext = _raCardKey.currentContext;
+        if (cardContext != null) {
+          Scrollable.ensureVisible(
+            cardContext,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            alignment: 0.1,
+          );
+        }
+      });
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _showRATableDialog(context);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
@@ -341,6 +384,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
               
               Expanded(
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   physics: const BouncingScrollPhysics(), // Smooth scrolling for mobile
                   padding: EdgeInsets.all(MediaQuery.of(context).size.width < 600 ? 12 : 16),
                   child: Column(
@@ -606,7 +650,11 @@ class _ReportsScreenState extends State<ReportsScreen> {
           ),
         );
       },
-    );
+    ).then((_) {
+      if (mounted) {
+        setState(() => _activeReportCard = null);
+      }
+    });
   }
 
   void _showAPPTTableDialog(BuildContext context) {
@@ -1298,10 +1346,13 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Widget _buildRACard() {
     final data = _kpiData['RA'];
     if (data == null) return const SizedBox.shrink();
-    
-    return _buildKPICard(
-      title: 'RA',
-      child: Column(
+
+    return KeyedSubtree(
+      key: _raCardKey,
+      child: _buildKPICard(
+        title: 'RA',
+        isActive: _activeReportCard == 'RA',
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildKPIHeader('RA', data['timeframe'] as String?, data['date'] as String?, true),
@@ -1320,6 +1371,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
+                        setState(() => _activeReportCard = 'RA');
                         _showRATableDialog(context);
                       },
                       style: ElevatedButton.styleFrom(
@@ -1344,6 +1396,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
             ),
           ),
         ],
+        ),
       ),
     );
   }
@@ -1830,6 +1883,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Widget _buildKPICard({
     required String title,
     required Widget child,
+    bool isActive = false,
   }) {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -1848,7 +1902,8 @@ class _ReportsScreenState extends State<ReportsScreen> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: Colors.grey.shade300,
+              color: isActive ? const Color(0xFF1976D2) : Colors.grey.shade300,
+              width: isActive ? 2 : 1,
             ),
             boxShadow: [
               BoxShadow(

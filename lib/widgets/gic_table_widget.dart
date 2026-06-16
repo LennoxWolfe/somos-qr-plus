@@ -34,6 +34,7 @@ class _GICTableWidgetState extends State<GICTableWidget> {
     'Appointment Date': true,
     'Measure Code': true,
     'Status': true,
+    'Completed in App': true,
     'Phone Number': true,
     'Measure Description': false,
     'Line Of Business': false,
@@ -298,6 +299,8 @@ class _GICTableWidgetState extends State<GICTableWidget> {
         return patient.measure;
       case 'status':
         return patient.status;
+      case 'completedInApp':
+        return patient.completedInApp;
       case 'phone':
         return patient.phone;
       default:
@@ -485,6 +488,8 @@ class _GICTableWidgetState extends State<GICTableWidget> {
                             _buildDataColumn('APPT', 'appointment', fontSize),
                             _buildDataColumn('MEASURE', 'measure', fontSize),
                             _buildDataColumn('STATUS', 'status', fontSize),
+                            _buildDataColumn(
+                                'COMPLETED IN APP', 'completedInApp', fontSize),
                             _buildDataColumn('PHONE', 'phone', fontSize),
                           ],
                           rows: _paginatedPatients.map((patient) {
@@ -496,6 +501,7 @@ class _GICTableWidgetState extends State<GICTableWidget> {
                                 DataCell(Text(patient.appointment)),
                                 DataCell(Text(patient.measure)),
                                 DataCell(Text(patient.status)),
+                                DataCell(Text(patient.completedInApp)),
                                 DataCell(Text(patient.phone)),
                               ],
                             );
@@ -828,6 +834,7 @@ class GICPatient {
   final String appointment;
   final String measure;
   final String status;
+  final String completedInApp;
   final String phone;
 
   GICPatient({
@@ -838,7 +845,8 @@ class GICPatient {
     required this.measure,
     required this.status,
     required this.phone,
-  });
+    String? completedInApp,
+  }) : completedInApp = completedInApp ?? (status == 'Completed' ? 'Y' : 'N');
 }
 
 class SelectFieldsDialog extends StatefulWidget {
