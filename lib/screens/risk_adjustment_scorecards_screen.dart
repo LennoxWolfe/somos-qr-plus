@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../models/risk_adjustment_scorecard_data.dart';
 import '../widgets/app_header_widget.dart';
 import '../widgets/app_drawer_widget.dart';
+import '../widgets/gic_table_widget.dart';
 
 class RiskAdjustmentScorecardsScreen extends StatefulWidget {
   final bool useProviderShell;
@@ -27,10 +28,57 @@ class _RiskAdjustmentScorecardsScreenState
 
   bool _isDrawerOpen = false;
   String _selectedMco = 'all';
+  bool _mcoSortAscending = true;
+  int _currentPage = 1;
+  int _rowsPerPage = 10;
+
+  final Map<String, bool> _exportFields = {
+    'MCOs': true,
+    'Total Membership': true,
+    'Members w Outstanding Codes': true,
+    'Potential PMPM (\$)': true,
+    '% Members w Outstanding Codes': true,
+    'Current MCO Risk Score': true,
+    'Recapture Rate': true,
+  };
 
   List<ScorecardRow> get _filteredScorecardRows {
     if (_selectedMco == 'all') return scorecardData;
     return scorecardData.where((row) => row.mco == _selectedMco).toList();
+  }
+
+  List<ScorecardRow> get _sortedScorecardRows {
+    final rows = List<ScorecardRow>.from(_filteredScorecardRows);
+    rows.sort((a, b) {
+      final comparison =
+          a.mco.toLowerCase().compareTo(b.mco.toLowerCase());
+      return _mcoSortAscending ? comparison : -comparison;
+    });
+    return rows;
+  }
+
+  List<ScorecardRow> get _paginatedScorecardRows {
+    final rows = _sortedScorecardRows;
+    if (rows.isEmpty) return rows;
+
+    final startIndex = (_currentPage - 1) * _rowsPerPage;
+    final endIndex = startIndex + _rowsPerPage;
+    return rows.sublist(
+      startIndex,
+      endIndex > rows.length ? rows.length : endIndex,
+    );
+  }
+
+  int get _totalPages {
+    final count = _sortedScorecardRows.length;
+    if (count == 0) return 0;
+    return (count / _rowsPerPage).ceil();
+  }
+
+  void _goToPage(int page) {
+    if (page >= 1 && page <= _totalPages) {
+      setState(() => _currentPage = page);
+    }
   }
 
   @override
@@ -287,8 +335,9 @@ class _RiskAdjustmentScorecardsScreenState
   }
 
   Widget _buildScorecardTab() {
-    final rows = _filteredScorecardRows;
-    final totals = computeScorecardTotals(rows);
+    final rows = _paginatedScorecardRows;
+    final totalRows = _sortedScorecardRows.length;
+    final totals = computeScorecardTotals(_filteredScorecardRows);
     final showGrandTotal = _selectedMco == 'all';
 
     return Column(
@@ -296,7 +345,7 @@ class _RiskAdjustmentScorecardsScreenState
       children: [
         _buildScorecardToolbar(),
         const SizedBox(height: 16),
-        _buildScorecardTable(rows, totals, showGrandTotal),
+        _buildScorecardTable(rows, totals, showGrandTotal, totalRows),
       ],
     );
   }
@@ -341,7 +390,10 @@ class _RiskAdjustmentScorecardsScreenState
               ],
               onChanged: (value) {
                 if (value != null) {
-                  setState(() => _selectedMco = value);
+                  setState(() {
+                    _selectedMco = value;
+                    _currentPage = 1;
+                  });
                 }
               },
             ),
@@ -355,6 +407,7 @@ class _RiskAdjustmentScorecardsScreenState
     List<ScorecardRow> rows,
     ScorecardTotals totals,
     bool showGrandTotal,
+    int totalRows,
   ) {
     return Container(
       decoration: BoxDecoration(
@@ -370,31 +423,63 @@ class _RiskAdjustmentScorecardsScreenState
         ],
       ),
       clipBehavior: Clip.antiAlias,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minWidth: 900),
-          child: Table(
-            columnWidths: const {
-              0: FixedColumnWidth(180),
-              1: FixedColumnWidth(120),
-              2: FixedColumnWidth(150),
-              3: FixedColumnWidth(120),
-              4: FixedColumnWidth(150),
-              5: FixedColumnWidth(140),
-              6: FixedColumnWidth(110),
-              7: FixedColumnWidth(110),
-            },
-            border: TableBorder(
-              horizontalInside: BorderSide(color: Colors.grey.shade200),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: const Color(0xFFf8f9fa),
+              border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
             ),
-            children: [
-              _buildScorecardHeaderRow(),
-              ...rows.map(_buildScorecardDataRow),
-              if (showGrandTotal) _buildGrandTotalRow(totals),
-            ],
+            child: Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'Risk Adjustment Scorecard',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF333333),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: _showExportDialog,
+                  icon: const Icon(Icons.file_download, size: 20),
+                  tooltip: 'Export',
+                ),
+              ],
+            ),
           ),
-        ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minWidth: 900),
+              child: Table(
+                columnWidths: const {
+                  0: FixedColumnWidth(180),
+                  1: FixedColumnWidth(120),
+                  2: FixedColumnWidth(150),
+                  3: FixedColumnWidth(120),
+                  4: FixedColumnWidth(150),
+                  5: FixedColumnWidth(140),
+                  6: FixedColumnWidth(110),
+                  7: FixedColumnWidth(110),
+                },
+                border: TableBorder(
+                  horizontalInside: BorderSide(color: Colors.grey.shade200),
+                ),
+                children: [
+                  _buildScorecardHeaderRow(),
+                  ...rows.map(_buildScorecardDataRow),
+                  if (showGrandTotal) _buildGrandTotalRow(totals),
+                ],
+              ),
+            ),
+          ),
+          _buildPaginationControls(totalRows),
+        ],
       ),
     );
   }
@@ -409,7 +494,7 @@ class _RiskAdjustmentScorecardsScreenState
     return TableRow(
       decoration: const BoxDecoration(color: _primaryBlue),
       children: [
-        _tableHeaderCell('MCOs', headerStyle, alignLeft: true),
+        _buildMcoHeaderCell(headerStyle),
         _tableHeaderCell('Total Membership', headerStyle),
         _tableHeaderCell('Members w Outstanding Codes', headerStyle),
         _tableHeaderCell('Potential PMPM (\$)', headerStyle),
@@ -455,7 +540,9 @@ class _RiskAdjustmentScorecardsScreenState
         ),
         _tableDataCell(
           TextButton(
-            onPressed: () => context.go('/reports?open=ra'),
+            onPressed: () => context.go(
+              '/reports?open=ra&mco=${Uri.encodeQueryComponent(row.mco)}',
+            ),
             child: const Text(
               'View Codes',
               style: TextStyle(
@@ -491,6 +578,30 @@ class _RiskAdjustmentScorecardsScreenState
     );
   }
 
+  Widget _buildMcoHeaderCell(TextStyle style) {
+    return InkWell(
+      onTap: () => setState(() {
+        _mcoSortAscending = !_mcoSortAscending;
+        _currentPage = 1;
+      }),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('MCOs', style: style),
+            const SizedBox(width: 4),
+            Icon(
+              _mcoSortAscending ? Icons.arrow_upward : Icons.arrow_downward,
+              size: 14,
+              color: Colors.white,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _tableHeaderCell(String text, TextStyle style,
       {bool alignLeft = false}) {
     return Padding(
@@ -507,6 +618,175 @@ class _RiskAdjustmentScorecardsScreenState
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Center(child: child),
+    );
+  }
+
+  void _showExportDialog() {
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        return SelectFieldsDialog(
+          exportFields: _exportFields,
+          onApply: (selectedFields) {
+            setState(() {
+              _exportFields
+                ..clear()
+                ..addAll(selectedFields);
+            });
+            _exportReport();
+          },
+        );
+      },
+    );
+  }
+
+  void _exportReport() {
+    final selectedFields = _exportFields.entries
+        .where((entry) => entry.value)
+        .map((entry) => entry.key)
+        .toList();
+
+    if (selectedFields.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Select at least one field to export')),
+      );
+      return;
+    }
+
+    final rowCount = _sortedScorecardRows.length +
+        (_selectedMco == 'all' && _sortedScorecardRows.isNotEmpty ? 1 : 0);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Exporting $rowCount row(s) with fields: ${selectedFields.join(', ')}',
+        ),
+        backgroundColor: const Color(0xFF4CAF50),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(16),
+      ),
+    );
+
+    // TODO: Implement actual export functionality (CSV, PDF, etc.)
+  }
+
+  Widget _buildPaginationControls(int totalRows) {
+    final startIndex =
+        totalRows == 0 ? 0 : (_currentPage - 1) * _rowsPerPage + 1;
+    final endIndex = (_currentPage * _rowsPerPage).clamp(0, totalRows);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        border: Border(top: BorderSide(color: Colors.grey.shade200)),
+      ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final rowsPerPageControl = Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Rows per page:',
+                style: TextStyle(fontSize: 11, color: Color(0xFF666666)),
+              ),
+              const SizedBox(width: 6),
+              DropdownButton<int>(
+                value: _rowsPerPage,
+                items: [10, 20, 50, 100].map((value) {
+                  return DropdownMenuItem<int>(
+                    value: value,
+                    child: Text('$value', style: const TextStyle(fontSize: 11)),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() {
+                      _rowsPerPage = value;
+                      _currentPage = 1;
+                    });
+                  }
+                },
+                underline: Container(),
+                style: const TextStyle(fontSize: 11),
+              ),
+            ],
+          );
+
+          final pageInfo = Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Showing $startIndex-$endIndex of $totalRows',
+                style: const TextStyle(fontSize: 11, color: Color(0xFF666666)),
+              ),
+              const SizedBox(width: 12),
+              _buildCompactNavigation(),
+            ],
+          );
+
+          if (constraints.maxWidth < 600) {
+            return Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [rowsPerPageControl],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [pageInfo],
+                ),
+              ],
+            );
+          }
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [rowsPerPageControl, pageInfo],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildCompactNavigation() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          onPressed:
+              _currentPage > 1 ? () => _goToPage(_currentPage - 1) : null,
+          icon: const Icon(Icons.chevron_left),
+          iconSize: 18,
+          padding: const EdgeInsets.all(2),
+          constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: const Color(0xFF1976D2),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            '$_currentPage',
+            style: const TextStyle(
+              fontSize: 11,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        IconButton(
+          onPressed: _currentPage < _totalPages
+              ? () => _goToPage(_currentPage + 1)
+              : null,
+          icon: const Icon(Icons.chevron_right),
+          iconSize: 18,
+          padding: const EdgeInsets.all(2),
+          constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+        ),
+      ],
     );
   }
 }

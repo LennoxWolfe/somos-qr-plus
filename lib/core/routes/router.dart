@@ -82,6 +82,7 @@ final appRouter = GoRouter(
       path: '/reports',
       builder: (context, state) => ReportsScreen(
         initialOpenReport: state.uri.queryParameters['open'],
+        initialRaMcoFilter: state.uri.queryParameters['mco'],
       ),
     ),
     GoRoute(

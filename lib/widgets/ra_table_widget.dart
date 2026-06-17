@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class RATableWidget extends StatefulWidget {
-  const RATableWidget({super.key});
+  final String? initialMcoFilter;
+
+  const RATableWidget({super.key, this.initialMcoFilter});
 
   @override
   State<RATableWidget> createState() => _RATableWidgetState();
@@ -29,8 +31,21 @@ class _RATableWidgetState extends State<RATableWidget> {
   @override
   void initState() {
     super.initState();
+    if (widget.initialMcoFilter != null &&
+        widget.initialMcoFilter!.isNotEmpty) {
+      _mcoFilter = widget.initialMcoFilter!;
+    }
     _loadSampleData();
     _applyFilters();
+  }
+
+  List<String> get _mcoDropdownItems {
+    const defaults = ['Healthfirst', 'Anthem', 'Emblem', 'Molina'];
+    final items = <String>['', ...defaults];
+    if (_mcoFilter.isNotEmpty && !items.contains(_mcoFilter)) {
+      items.add(_mcoFilter);
+    }
+    return items;
   }
 
   void _loadSampleData() {
@@ -292,7 +307,7 @@ class _RATableWidgetState extends State<RATableWidget> {
                       Expanded(
                         child: _buildFilterDropdown(
                           value: _mcoFilter,
-                          items: ['', 'Healthfirst', 'Anthem', 'Emblem', 'Molina'],
+                          items: _mcoDropdownItems,
                           hint: 'MCO',
                           onChanged: (value) {
                             _mcoFilter = value ?? '';

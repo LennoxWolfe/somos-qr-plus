@@ -18,8 +18,13 @@ import '../core/constants/providers.dart';
 
 class ReportsScreen extends StatefulWidget {
   final String? initialOpenReport;
+  final String? initialRaMcoFilter;
 
-  const ReportsScreen({super.key, this.initialOpenReport});
+  const ReportsScreen({
+    super.key,
+    this.initialOpenReport,
+    this.initialRaMcoFilter,
+  });
 
   @override
   State<ReportsScreen> createState() => _ReportsScreenState();
@@ -640,7 +645,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(16), // Reduced padding
-                        child: const RATableWidget(),
+                        child: RATableWidget(
+                          initialMcoFilter: widget.initialRaMcoFilter,
+                        ),
                       ),
                     ),
                   ],
