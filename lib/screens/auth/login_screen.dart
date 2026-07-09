@@ -17,7 +17,6 @@ class _LoginScreenState extends State<LoginScreen>
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _secondEmailController = TextEditingController();
   final LocalAuthentication _localAuth = LocalAuthentication();
   bool _obscurePassword = true;
   bool _rememberMe = false;
@@ -65,7 +64,6 @@ class _LoginScreenState extends State<LoginScreen>
     _animationController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _secondEmailController.dispose();
     super.dispose();
   }
 
@@ -222,7 +220,7 @@ class _LoginScreenState extends State<LoginScreen>
           const SizedBox(height: 24),
           _buildOrDivider(),
           const SizedBox(height: 24),
-          _buildCreateAccountSection(),
+          _buildCreateNewAccountButton(),
         ],
       ),
     );
@@ -390,91 +388,32 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  Widget _buildCreateAccountSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Create new account',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.grey[800],
-          ),
-        ),
-        const SizedBox(height: 16),
-        _buildCreateAccountEmailField(),
-        const SizedBox(height: 16),
-        _buildSignUpButton(),
-      ],
-    );
-  }
-
-  Widget _buildCreateAccountEmailField() {
-    return TextFormField(
-      controller: _secondEmailController,
-      keyboardType: TextInputType.emailAddress,
-      textInputAction: TextInputAction.done,
-      decoration: InputDecoration(
-        hintText: 'Enter your email',
-        hintStyle: TextStyle(color: Colors.grey[400]),
-        prefixIcon: Icon(
-          Icons.email_outlined,
-          color: Colors.grey[600],
-          size: 20,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(0xFF1976D2), width: 2),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 12,
-        ),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Email address is required';
-        }
-        if (!RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(value)) {
-          return 'Please enter a valid email address';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _buildSignUpButton() {
+  Widget _buildCreateNewAccountButton() {
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton(
-        onPressed: _handleSignUp,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey[100],
-          foregroundColor: Colors.grey[800],
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFF0F0F0), Color(0xFFE0E0E0)],
           ),
-          elevation: 0,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: const Color(0xFFCFCFCF)),
         ),
-        child: Text(
-          'Sign up with email',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+        child: ElevatedButton(
+          onPressed: () => context.go('/create-account'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            foregroundColor: const Color(0xFF424242),
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            elevation: 0,
+          ),
+          child: const Text(
+            'Create New Account',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
       ),
@@ -563,34 +502,6 @@ class _LoginScreenState extends State<LoginScreen>
   Widget _buildFooter() {
     return Column(
       children: [
-        Text.rich(
-          TextSpan(
-            text: "Don't have an account? ",
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Colors.grey[600],
-            ),
-            children: [
-              WidgetSpan(
-                child: GestureDetector(
-                  onTap: () {
-                    context.go('/create-account');
-                  },
-                  child: Text(
-                    'Create an account',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF1976D2),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
         Text.rich(
           TextSpan(
             text: 'By clicking Sign In, you agree to our ',
@@ -727,31 +638,6 @@ class _LoginScreenState extends State<LoginScreen>
         });
       }
     }
-  }
-
-  Future<void> _handleSignUp() async {
-    if (_secondEmailController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter your email address'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    if (!RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(_secondEmailController.text)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter a valid email address'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    // Navigate to create account page with pre-filled email
-    context.go('/create-account?email=${Uri.encodeComponent(_secondEmailController.text)}');
   }
 
   // Biometric Authentication Methods

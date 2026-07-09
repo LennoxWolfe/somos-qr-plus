@@ -31,7 +31,9 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/create-account',
-      builder: (context, state) => const CreateAccountScreen(),
+      builder: (context, state) => CreateAccountScreen(
+        initialEmail: state.uri.queryParameters['email'],
+      ),
     ),
     GoRoute(
       path: '/forgot-password',
