@@ -21,12 +21,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
   final _phoneController = TextEditingController();
   final _npiController = TextEditingController();
   final _tinController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+  final _notesController = TextEditingController();
+
+  static const int _maxNotesWords = 400;
 
   String? _selectedUserType;
-  bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
   bool _agreeToTerms = false;
   bool _isLoading = false;
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
@@ -78,19 +77,16 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
     _phoneController.dispose();
     _npiController.dispose();
     _tinController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
+    _notesController.dispose();
     super.dispose();
   }
 
   String _digitsOnly(String value) => value.replaceAll(RegExp(r'\D'), '');
 
-  bool _isValidPassword(String value) {
-    if (value.length < 8) return false;
-    if (!RegExp(r'[A-Z]').hasMatch(value)) return false;
-    if (!RegExp(r'[a-z]').hasMatch(value)) return false;
-    if (!RegExp(r'[0-9]').hasMatch(value)) return false;
-    return true;
+  int _wordCount(String value) {
+    final trimmed = value.trim();
+    if (trimmed.isEmpty) return 0;
+    return trimmed.split(RegExp(r'\s+')).where((w) => w.isNotEmpty).length;
   }
 
   @override
@@ -353,71 +349,86 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
             },
           ),
           const SizedBox(height: 16),
-          AuthTextField(
-            label: 'Password',
-            controller: _passwordController,
-            prefixIcon: Icons.lock_outline,
-            hintText: 'Create a password',
-            obscureText: _obscurePassword,
-            textInputAction: TextInputAction.next,
-            suffixIcon: IconButton(
-              icon: Icon(
-                _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                color: const Color(0xFF757575),
-                size: 20,
-              ),
-              onPressed: () {
-                setState(() => _obscurePassword = !_obscurePassword);
-              },
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Password is required';
-              }
-              if (!_isValidPassword(value)) {
-                return 'Min 8 chars with upper, lower, and number';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 16),
-          AuthTextField(
-            label: 'Confirm Password',
-            controller: _confirmPasswordController,
-            prefixIcon: Icons.lock_outline,
-            hintText: 'Confirm your password',
-            obscureText: _obscureConfirmPassword,
-            textInputAction: TextInputAction.done,
-            suffixIcon: IconButton(
-              icon: Icon(
-                _obscureConfirmPassword
-                    ? Icons.visibility
-                    : Icons.visibility_off,
-                color: const Color(0xFF757575),
-                size: 20,
-              ),
-              onPressed: () {
-                setState(
-                  () => _obscureConfirmPassword = !_obscureConfirmPassword,
-                );
-              },
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please confirm your password';
-              }
-              if (value != _passwordController.text) {
-                return 'Passwords do not match';
-              }
-              return null;
-            },
-          ),
+          _buildNotesField(),
           const SizedBox(height: 16),
           _buildTermsCheckbox(),
           const SizedBox(height: 16),
           _buildCreateAccountButton(),
         ],
       ),
+    );
+  }
+
+  Widget _buildNotesField() {
+    final wordCount = _wordCount(_notesController.text);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Notes / Comments',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF424242),
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: _notesController,
+          maxLines: 5,
+          minLines: 4,
+          textInputAction: TextInputAction.newline,
+          keyboardType: TextInputType.multiline,
+          onChanged: (_) => setState(() {}),
+          validator: (value) {
+            if (_wordCount(value ?? '') > _maxNotesWords) {
+              return 'Notes must be $_maxNotesWords words or fewer';
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            hintText: 'Add any comments or notes (optional)',
+            hintStyle: const TextStyle(color: Color(0xFFBDBDBD)),
+            alignLabelWithHint: true,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Color(0xFFE0E0E0), width: 2),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Color(0xFFE0E0E0), width: 2),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Color(0xFF1976D2), width: 2),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Color(0xFFD32F2F), width: 2),
+            ),
+            contentPadding: const EdgeInsets.all(16),
+            errorStyle: const TextStyle(color: Color(0xFFD32F2F), fontSize: 12),
+          ),
+        ),
+        const SizedBox(height: 6),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            '$wordCount / $_maxNotesWords words',
+            style: TextStyle(
+              fontSize: 12,
+              color: wordCount > _maxNotesWords
+                  ? const Color(0xFFD32F2F)
+                  : const Color(0xFF757575),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
