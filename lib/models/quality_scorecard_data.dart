@@ -6,6 +6,7 @@
 ///
 /// Expected query params:
 /// - `month` — YYYYMM (e.g. `202512`)
+/// - `mco` — omit or `all` for every MCO
 /// - `product` — omit or `all` for every product
 /// - `measure_code` — omit or `all` for every measure
 
@@ -13,11 +14,13 @@ const String qualityScorecardPlaceholder = '-';
 
 class QualityScorecardFilters {
   final String month;
+  final String mco;
   final String product;
   final String measureCode;
 
   const QualityScorecardFilters({
     required this.month,
+    this.mco = 'all',
     this.product = 'all',
     this.measureCode = 'all',
   });
@@ -26,11 +29,13 @@ class QualityScorecardFilters {
 
   QualityScorecardFilters copyWith({
     String? month,
+    String? mco,
     String? product,
     String? measureCode,
   }) {
     return QualityScorecardFilters(
       month: month ?? this.month,
+      mco: mco ?? this.mco,
       product: product ?? this.product,
       measureCode: measureCode ?? this.measureCode,
     );
@@ -40,6 +45,7 @@ class QualityScorecardFilters {
   Map<String, String> toQueryParameters() {
     return {
       'month': month,
+      if (mco != 'all') 'mco': mco,
       if (product != 'all') 'product': product,
       if (measureCode != 'all') 'measure_code': measureCode,
     };
@@ -184,6 +190,7 @@ class QualityScorecardRepository {
   Future<QualityScorecardResponse> fetch(QualityScorecardFilters filters) async {
     final rows = placeholderQualityScorecardRows.where((row) {
       if (row.month != filters.month) return false;
+      if (filters.mco != 'all' && row.mco != filters.mco) return false;
       if (filters.product != 'all' && row.product != filters.product) {
         return false;
       }
@@ -199,6 +206,13 @@ class QualityScorecardRepository {
 }
 
 const List<String> qualityScorecardMonths = ['202512', '202511'];
+
+const List<String> qualityScorecardMcos = [
+  'all',
+  'ANTHEM',
+  'EMBLEM',
+  'FIDELIS',
+];
 
 const List<String> qualityScorecardProducts = [
   'all',

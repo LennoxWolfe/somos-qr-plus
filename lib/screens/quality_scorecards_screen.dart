@@ -135,7 +135,7 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
 
   Widget _buildPageHeader(bool isMobile) {
     const title = Text(
-      'Internal Provider Scorecard by MCO',
+      'Quality Score Card',
       style: TextStyle(
         fontSize: 26,
         fontWeight: FontWeight.w500,
@@ -175,6 +175,17 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
             .map((month) => _FilterOption(month, month))
             .toList(),
         onChanged: (value) => _applyFilters(_filters.copyWith(month: value)),
+      ),
+      _buildFilterDropdown(
+        label: 'MCO',
+        value: _filters.mco,
+        items: qualityScorecardMcos
+            .map((mco) => _FilterOption(
+                  mco,
+                  mco == 'all' ? '(All)' : mco,
+                ))
+            .toList(),
+        onChanged: (value) => _applyFilters(_filters.copyWith(mco: value)),
       ),
       _buildFilterDropdown(
         label: 'Product',
