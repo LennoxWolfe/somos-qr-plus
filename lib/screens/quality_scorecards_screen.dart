@@ -16,7 +16,6 @@ class QualityScorecardsScreen extends StatefulWidget {
 class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
   bool _isDrawerOpen = false;
   String _selectedMCO = 'ANTHEM';
-  String _selectedLOB = 'MCD';
   String _selectedProduct = 'All';
   String _selectedMeasure = 'All';
   
@@ -516,7 +515,7 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
       ),
       child: Column(
         children: [
-          // Top row - MCO and LOB
+          // Top row - MCO and Product
           Row(
             children: [
               Expanded(
@@ -524,21 +523,19 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: _buildLOBDropdown(),
+                child: _buildProductDropdown(),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          // Bottom row - Product and Measure
+          // Bottom row - Measure
           Row(
             children: [
               Expanded(
-                child: _buildProductDropdown(),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
                 child: _buildMeasureDropdown(),
               ),
+              const SizedBox(width: 16),
+              const Expanded(child: SizedBox()),
             ],
           ),
         ],
@@ -597,61 +594,6 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
                 if (newValue != null) {
                   setState(() {
                     _selectedMCO = newValue;
-                  });
-                  _showSuccessMessage('Quality scorecards updated for $newValue');
-                }
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLOBDropdown() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'LOB:',
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF666666),
-            letterSpacing: 0.5,
-          ),
-        ),
-        const SizedBox(height: 8),
-          Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: const Color(0xFFE0E0E0)),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: _selectedLOB,
-              isExpanded: true,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Color(0xFF333333),
-              ),
-              items: const [
-                'MCD',
-                'MCR',
-              ].map((String lob) {
-                return DropdownMenuItem<String>(
-                  value: lob,
-                  child: Text(lob),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                if (newValue != null) {
-                  setState(() {
-                    _selectedLOB = newValue;
                   });
                   _showSuccessMessage('Quality scorecards updated for $newValue');
                 }
@@ -816,7 +758,6 @@ class _QualityScorecardsScreenState extends State<QualityScorecardsScreen> {
   void _clearAllFields() {
     setState(() {
       _selectedMCO = 'ANTHEM';
-      _selectedLOB = 'MCD';
       _selectedProduct = 'All';
       _selectedMeasure = 'All';
     });
