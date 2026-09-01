@@ -154,7 +154,7 @@ String qualityScorecardMcoCellValue(String mco) {
 String qualityScorecardTotalScoreSubtitle(String mco) {
   if (mco == qualityScorecardMcoAll) return 'All';
   final label = qualityScorecardMcoTableLabels[mco];
-  return label == null ? mco : '$label MC';
+  return label == null ? mco : '$label MCO';
 }
 
 List<double> qualityScorecardPointsForMco(String mco) {
